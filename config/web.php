@@ -4,6 +4,9 @@ $config = [
     'id' => 'app',
     'layout' => 'frontend',
     'components' => [
+        'request' => [
+            'baseUrl'=> '',
+        ],
         'user' => [
             'identityClass' => 'app\models\User',
             'enableAutoLogin' => true,
