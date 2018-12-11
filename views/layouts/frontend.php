@@ -1,25 +1,42 @@
+<?php
+
+use app\assets\AppAsset;
+use app\widgets\Alert;
+use yii\bootstrap\Nav;
+use yii\bootstrap\NavBar;
+use yii\helpers\Html;
+
+AppAsset::register($this);
+?>
+
+<?php $this->beginPage() ?>
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="<?= Yii::$app->language ?>">
 <head>
     <title>Сижу-Вяжу - Главная</title>
-    <meta charset="UTF-8">
+    <meta charset="<?= Yii::$app->charset ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <?= Html::csrfMetaTags() ?>
     <link href="https://fonts.googleapis.com/css?family=PT+Sans:400,700&amp;subset=cyrillic" rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css"/>
+    <title><?= Html::encode($this->title) ?></title>
+    <?php $this->head() ?>
 
 </head>
 <body>
+<?php $this->beginBody() ?>
 <header class="page-header">
     <div class="page-header__user-menu">
         <ul class="page-header__user-list">
-            <li><a class="link page-header__user-item" href="login.html">Войти</a> | </li>
+            <li><a class="link page-header__user-item" href="login.html">Войти</a> |</li>
             <li><a class="link page-header__user-item" href="sign.html">Регистрация</a></li>
         </ul>
     </div>
     <div class="page-header__wrapper">
         <ul class="page-header__social">
-            <li class="page-header__social-item"><a href="https://ok.ru/"><img src="/img/ok.svg" width="30" alt="Группа в Однокласниках"></a></li>
-            <li class="page-header__social-item"><a href="https://vk.com"><img src="/img/vk.svg" width="30" alt="Группа во Вконтакте"></a></li>
+            <li class="page-header__social-item"><a href="https://ok.ru/"><img src="/img/ok.svg" width="30"
+                                                                               alt="Группа в Однокласниках"></a></li>
+            <li class="page-header__social-item"><a href="https://vk.com"><img src="/img/vk.svg" width="30"
+                                                                               alt="Группа во Вконтакте"></a></li>
         </ul>
         <div class="page-header__logo-wrapper">
             <img class="page-header__ravels" src="/img/logo-second.png" width="466" height="160">
@@ -35,16 +52,44 @@
             <a href="#" class="page-header__cart-btn btn">Оформить заказ</a>
         </div>
     </div>
+
+    <?php
+    NavBar::begin([
+        'brandLabel' => Yii::$app->name,
+        'brandUrl' => Yii::$app->homeUrl,
+        'options' => [
+            'class' => 'navbar-inverse navbar-fixed-top',
+        ],
+    ]);
+    echo Nav::widget([
+        'options' => ['class' => 'navbar-nav navbar-right'],
+        'items'   => array_filter([
+            ['label' => 'Home', 'url' => ['/main/default/index']],
+            ['label' => 'Contact', 'url' => ['main/contact/index']],
+            Yii::$app->user->isGuest ?
+                ['label' => 'Sign Up', 'url' => ['/user/default/signup']] :
+                false,
+            Yii::$app->user->isGuest ?
+                ['label' => 'Login', 'url' => ['/user/default/login']] :
+                ['label' => 'Logout (' . Yii::$app->user->identity->username . ')',
+                 'url' => ['/user/default/logout'],
+                 'linkOptions' => ['data-method' => 'post']],
+        ]),
+    ]);
+    NavBar::end();
+    ?>
     <nav class="main-nav main-nav--closed main-nav--nojs">
         <button class="main-nav__toggle">Открыть меню</button>
         <h2 class="main-nav__title">Главная</h2>
         <div class="main-nav__wrapper">
             <ul class="main-nav__list">
-                <li class="main-nav__item main-nav__item--active"><a class="main-nav__link" href="/index.html">Главная</a></li>
+                <li class="main-nav__item main-nav__item--active"><a class="main-nav__link"
+                                                                     href="/index.html">Главная</a></li>
                 <li class="main-nav__item main-nav__item--dropdown">
                     <a class="main-nav__link" href="#">Каталог</a>
                     <ul class="main-nav__list-sub main-nav__list-sub--closed">
-                        <li class="main-nav__item main-nav__item--all"><a class="main-nav__link" href="/catalog.html">Весь каталог</a>
+                        <li class="main-nav__item main-nav__item--all"><a class="main-nav__link" href="/catalog.html">Весь
+                                каталог</a>
                         <li class="main-nav__item"><a class="main-nav__link" href="/catalog.html">Пряжа</a>
                             <!--   <ul class="main-nav__list-sub">
                                    <li><a class="link main-nav__item" href="#">Акриловая пряжа</a></li>
@@ -56,7 +101,8 @@
                                </ul> -->
                         </li>
                         <li class="main-nav__item"><a class="main-nav__link" href="#">Наборы для вязания</a></li>
-                        <li class="main-nav__item"><a class="main-nav__link" href="#">Спицы, крючки, инструменты для вязания</a></li>
+                        <li class="main-nav__item"><a class="main-nav__link" href="#">Спицы, крючки, инструменты для
+                                вязания</a></li>
                         <li class="main-nav__item"><a class="main-nav__link" href="#">Фурнитура</a></li>
                         <li class="main-nav__item"><a class="main-nav__link" href="#">Товары для рукоделия</a></li>
                         <li class="main-nav__item"><a class="main-nav__link" href="#">Литература</a></li>
@@ -74,7 +120,7 @@
                 <form action="" class="search__form">
                     <div class="search__wrapper">
                         <input type="text" class="search__input" placeholder="Поиск...">
-                        <button type="submit" class="search__button" >Поиск</button>
+                        <button type="submit" class="search__button">Поиск</button>
                     </div>
                 </form>
             </div>
@@ -82,6 +128,7 @@
     </nav>
 </header>
 <main class="main__body">
+    <?= Alert::widget() ?>
     <?= $content ?>
     <div class="filter__button-wrapper">
         <button class="filter__button filter__button--closed">Фильтр <span class="filter__arrow"></span></button>
@@ -106,12 +153,16 @@
                 <ul class="aside-catalog__list">
                     <li class="aside-catalog__item"><a class="link aside-catalog__link" href="#">Пряжа (1025)</a>
                     </li>
-                    <li class="aside-catalog__item"><a class="link aside-catalog__link" href="#">Наборы для вязания (259)</a>
+                    <li class="aside-catalog__item"><a class="link aside-catalog__link" href="#">Наборы для вязания
+                            (259)</a>
                     </li>
-                    <li class="aside-catalog__item"><a class="link aside-catalog__link" href="#">Спицы, крючки, инструменты для вязания (687)</a></li>
+                    <li class="aside-catalog__item"><a class="link aside-catalog__link" href="#">Спицы, крючки,
+                            инструменты для вязания (687)</a></li>
                     <li class="aside-catalog__item"><a class="link aside-catalog__link" href="#">Фурнитура (54)</a></li>
-                    <li class="aside-catalog__item"><a class="link aside-catalog__link" href="#">Товары для рукоделия (524)</a></li>
-                    <li class="aside-catalog__item"><a class="link aside-catalog__link" href="#">Литература (89)</a></li>
+                    <li class="aside-catalog__item"><a class="link aside-catalog__link" href="#">Товары для рукоделия
+                            (524)</a></li>
+                    <li class="aside-catalog__item"><a class="link aside-catalog__link" href="#">Литература (89)</a>
+                    </li>
                 </ul>
             </div>
             <div class="filter filter--closed">
@@ -119,22 +170,32 @@
                     <a class="filter__selected">Показать <b>256</b> позиций</a>
                     <fieldset class="filter__group">
                         <legend class="filter__group-title">Тип пряжи</legend>
-                        <label><input type="checkbox" name="filter-type" checked><span class="filter__item-span"></span>Пряжа классическая однотонной окраски</label><br>
-                        <label><input type="checkbox" name="filter-type"><span class="filter__item-span"></span>Пряжа классическая фантазийной окраски</label><br>
-                        <label><input type="checkbox" name="filter-type"><span class="filter__item-span"></span>Пряжа фасонная однотонной окраски</label><br>
-                        <label><input type="checkbox" name="filter-type"><span class="filter__item-span"></span>Пряжа фасонная фантазийной окраски</label><br>
-                        <label><input type="checkbox" name="filter-type"><span class="filter__item-span"></span>Пряжа пушистая (мохеры, акрилы и пр.) однотонной окраски</label><br>
-                        <label><input type="checkbox" name="filter-type"><span class="filter__item-span"></span>Пряжа пушистая (мохеры, акрилы и пр.) фантазийная окраска</label><br>
-                        <label><input type="checkbox" name="filter-type"><span class="filter__item-span"></span>Пряжа, на основе хлопка, вискозы, бамбука</label>
+                        <label><input type="checkbox" name="filter-type" checked><span class="filter__item-span"></span>Пряжа
+                            классическая однотонной окраски</label><br>
+                        <label><input type="checkbox" name="filter-type"><span class="filter__item-span"></span>Пряжа
+                            классическая фантазийной окраски</label><br>
+                        <label><input type="checkbox" name="filter-type"><span class="filter__item-span"></span>Пряжа
+                            фасонная однотонной окраски</label><br>
+                        <label><input type="checkbox" name="filter-type"><span class="filter__item-span"></span>Пряжа
+                            фасонная фантазийной окраски</label><br>
+                        <label><input type="checkbox" name="filter-type"><span class="filter__item-span"></span>Пряжа
+                            пушистая (мохеры, акрилы и пр.) однотонной окраски</label><br>
+                        <label><input type="checkbox" name="filter-type"><span class="filter__item-span"></span>Пряжа
+                            пушистая (мохеры, акрилы и пр.) фантазийная окраска</label><br>
+                        <label><input type="checkbox" name="filter-type"><span class="filter__item-span"></span>Пряжа,
+                            на основе хлопка, вискозы, бамбука</label>
                     </fieldset>
                     <fieldset class="filter__group">
                         <legend class="filter__group-title">Торговые марки</legend>
                         <label><input type="checkbox" name="filter-manufacturer"><span class="filter__item-span"></span>Adelia</label><br>
-                        <label><input type="checkbox" name="filter-manufacturer" checked><span class="filter__item-span"></span>Alize</label><br>
+                        <label><input type="checkbox" name="filter-manufacturer" checked><span
+                                    class="filter__item-span"></span>Alize</label><br>
                         <label><input type="checkbox" name="filter-manufacturer"><span class="filter__item-span"></span>Alpina</label><br>
                         <label><input type="checkbox" name="filter-manufacturer"><span class="filter__item-span"></span>CANAN</label><br>
-                        <label><input type="checkbox" name="filter-manufacturer"><span class="filter__item-span"></span>CHEVAL BLANC</label><br>
-                        <label><input type="checkbox" name="filter-manufacturer"><span class="filter__item-span"></span>Color City</label><br>
+                        <label><input type="checkbox" name="filter-manufacturer"><span class="filter__item-span"></span>CHEVAL
+                            BLANC</label><br>
+                        <label><input type="checkbox" name="filter-manufacturer"><span class="filter__item-span"></span>Color
+                            City</label><br>
                         <label><input type="checkbox" name="filter-manufacturer"><span class="filter__item-span"></span>HOOOKED</label>
                     </fieldset>
                 </form>
@@ -156,7 +217,8 @@
                         </div>
                         <span class="product__color">Зелено-коричневый (9045)</span>
                         <ul class="product__characteristic-list">
-                            <li class="product__characteristics-item"><b>Состав:</b> 75% шерсть суперуош 25% полиамид</li>
+                            <li class="product__characteristics-item"><b>Состав:</b> 75% шерсть суперуош 25% полиамид
+                            </li>
                             <li class="product__characteristics-item"><b>Вес:</b> 100 гр.</li>
                             <li class="product__characteristics-item"><b>Длина:</b> 425 м.</li>
                         </ul>
@@ -204,7 +266,8 @@
                     <button class="slider-product__next"></button>
                     <button class="slider-product__prev"></button>
                     <ul class="slider-product__indicator-list">
-                        <li><a class="slider-product__indicator-item slider-product__indicator-item--active" href="#"></a></li>
+                        <li><a class="slider-product__indicator-item slider-product__indicator-item--active"
+                               href="#"></a></li>
                         <li><a class="slider-product__indicator-item" href="#"></a></li>
                         <li><a class="slider-product__indicator-item" href="#"></a></li>
                     </ul>
@@ -221,7 +284,8 @@
                         <img src="img/yarn-small-1.png" width="144" height="74">
                         <span class="product__color">Зелено-коричневый (9045)</span>
                         <ul class="product__characteristic-list">
-                            <li class="product__characteristics-item"><b>Состав:</b>75% шерсть суперуош 25% полиамид</li>
+                            <li class="product__characteristics-item"><b>Состав:</b>75% шерсть суперуош 25% полиамид
+                            </li>
                             <li class="product__characteristics-item"><b>Вес:</b>100 гр.</li>
                             <li class="product__characteristics-item"><b>Длина:</b>425 м.</li>
                         </ul>
@@ -261,7 +325,8 @@
                     <button class="slider-product__next"></button>
                     <button class="slider-product__prev"></button>
                     <ul class="slider-product__indicator-list">
-                        <li><a class="slider-product__indicator-item slider-product__indicator-item--active" href="#"></a></li>
+                        <li><a class="slider-product__indicator-item slider-product__indicator-item--active"
+                               href="#"></a></li>
                         <li><a class="slider-product__indicator-item" href="#"></a></li>
                         <li><a class="slider-product__indicator-item" href="#"></a></li>
                     </ul>
@@ -278,7 +343,8 @@
                         <img src="img/yarn-small-1.png" width="144" height="74">
                         <span class="product__color">Зелено-коричневый (9045)</span>
                         <ul class="product__characteristic-list">
-                            <li class="product__characteristics-item"><b>Состав:</b>75% шерсть суперуош 25% полиамид</li>
+                            <li class="product__characteristics-item"><b>Состав:</b>75% шерсть суперуош 25% полиамид
+                            </li>
                             <li class="product__characteristics-item"><b>Вес:</b>100 гр.</li>
                             <li class="product__characteristics-item"><b>Длина:</b>425 м.</li>
                         </ul>
@@ -318,7 +384,8 @@
                     <button class="slider-product__next"></button>
                     <button class="slider-product__prev"></button>
                     <ul class="slider-product__indicator-list">
-                        <li><a class="slider-product__indicator-item slider-product__indicator-item--active" href="#"></a></li>
+                        <li><a class="slider-product__indicator-item slider-product__indicator-item--active"
+                               href="#"></a></li>
                         <li><a class="slider-product__indicator-item" href="#"></a></li>
                         <li><a class="slider-product__indicator-item" href="#"></a></li>
                     </ul>
@@ -359,7 +426,7 @@
         <p class="page-footer__copyright">© Сижу вяжу, 2016. Все права защищены.</p>
 
         <div class="page-footer__logo-wrapper">
-            <img src="img/logo-footer.png" />
+            <img src="img/logo-footer.png"/>
         </div>
 
         <ul class="page-footer__card-payment-list">
@@ -369,6 +436,7 @@
     </div>
 
 </footer>
-<script type="text/javascript" src="js/common.js"></script>
+<?php $this->endBody() ?>
 </body>
 </html>
+<?php $this->endPage() ?>
