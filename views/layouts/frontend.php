@@ -74,6 +74,9 @@ AppAsset::register($this);
                 ['label' => 'Logout (' . Yii::$app->user->identity->username . ')',
                  'url' => ['/user/default/logout'],
                  'linkOptions' => ['data-method' => 'post']],
+            !Yii::$app->user->isGuest ?
+                ['label' => 'Личный кабинет', 'url' => ['/user/profile/index']] :
+                false,
         ]),
     ]);
     NavBar::end();
@@ -128,8 +131,10 @@ AppAsset::register($this);
     </nav>
 </header>
 <main class="main__body">
-    <?= Alert::widget() ?>
-    <?= $content ?>
+    <div class="container">
+        <?= Alert::widget() ?>
+        <?= $content ?>
+    </div>
     <div class="filter__button-wrapper">
         <button class="filter__button filter__button--closed">Фильтр <span class="filter__arrow"></span></button>
     </div>
