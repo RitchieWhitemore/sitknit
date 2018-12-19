@@ -3,5 +3,5 @@
 return [
     'adminEmail' => '',
     'supportEmail' => '',
-    'user.passwordResetTokenExpire' => 3600,
+    'users.passwordResetTokenExpire' => 3600,
 ];

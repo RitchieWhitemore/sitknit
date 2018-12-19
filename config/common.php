@@ -8,6 +8,7 @@ $params = ArrayHelper::merge(
 );
 
 return [
+    'name' => 'Сижу-Вяжу.рф',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'aliases' => [
@@ -26,16 +27,13 @@ return [
             'rules' => [
                 '' => 'main/default/index',
                 'contact' => 'main/contact/index',
-                '<_a:(about|error)>' => 'main/default/<_a>',
-                '<_a:(login|logout)>' => 'user/default/<_a>',
+                '<_a:error>' => 'main/default/<_a>',
+                '<_a:(login|logout|signup|confirm-email|request-password-reset|reset-password)>' => 'user/default/<_a>',
 
-                '<_m:[\w\-]+>' => '<_m>/default/index',
-                '<_m:[\w\-]+>/<id:\d+>' => '<_m>/default/view',
-                '<_m:[\w\-]+>/<id:\d+>/<_a:[\w-]+>' => '<_m>/default/<_a>',
-                '<_m:[\w\-]+>/<_c:[\w\-]+>' => '<_m>/<_c>/index',
                 '<_m:[\w\-]+>/<_c:[\w\-]+>/<id:\d+>' => '<_m>/<_c>/view',
                 '<_m:[\w\-]+>/<_c:[\w\-]+>/<id:\d+>/<_a:[\w\-]+>' => '<_m>/<_c>/<_a>',
-                '<_m:[\w\-]+>/<_c:[\w\-]+>/<_a:[\w-]+>' => '<_m>/<_c>/<_a>',
+                '<_m:[\w\-]+>' => '<_m>/default/index',
+                '<_m:[\w\-]+>/<_c:[\w\-]+>' => '<_m>/<_c>/index',
             ],
         ],
         'mailer' => [
