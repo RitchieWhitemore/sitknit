@@ -40,8 +40,8 @@ class Brand extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'title' => 'Title',
-            'description' => 'Description',
+            'title' => 'Название',
+            'description' => 'Описание',
         ];
     }
 }

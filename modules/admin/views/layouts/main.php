@@ -43,6 +43,7 @@ AdminAsset::register($this);
             ['label' => 'Главная', 'url' => ['/main/default/index']],
             ['label' => 'Администрирование пользователей', 'url' => ['/admin/users/index']],
             ['label' => 'Брэнды', 'url' => ['/admin/brands/index']],
+            ['label' => 'Категории', 'url' => ['/admin/categories/index']],
         ]),
     ]);
     NavBar::end();
