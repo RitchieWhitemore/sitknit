@@ -10,6 +10,8 @@ namespace app\commands;
 
 use app\models\Brand;
 use app\models\Category;
+use app\models\Country;
+use app\models\Good;
 use yii\console\Controller;
 
 class ParseExcelController extends Controller
@@ -52,6 +54,50 @@ class ParseExcelController extends Controller
                     $Brand = new Brand();
                     $Brand->title = $brandTitle;
                     $Brand->save();
+                }
+
+            }
+
+        }
+
+        return true;
+    }
+
+    public function actionLoadGood()
+    {
+        if(!$excelFile = $this->existExcelFile()) return false;
+
+        $list = $excelFile->getSheetByName('Goods list table')->toArray();
+
+        foreach ($list as $key => $row) {
+            $goodTitle = $row[4];
+            if ($key > 0) {
+                if (!Good::findOne(['article' => $row[1]])) {
+                    $Good = new Good();
+                    $Good->title = $goodTitle;
+                    $Good->article = $row[1];
+                    $Good->characteristic = $row[5];
+                    $Good->packaged = $row[9];
+
+                    if ($category = Category::findOne(['title' => $row[2]])) {
+                        $Good->categoryId = $category->id;
+                    } else {
+                        $Good->categoryId = 1;
+                    }
+
+                    if ($brand = Brand::findOne(['title' => $row[3]])) {
+                        $Good->brandId = $brand->id;
+                    } else {
+                        $Good->brandId = 1;
+                    }
+
+                    $Good->countryId = 1;
+
+                    if($Good->save()) {
+                        echo "Товар {$Good->title} с артикулом {$Good->article} успешно добавлен" . PHP_EOL;
+                    };
+                } else {
+                    echo "Товар с артикулом {$row[1]} уже есть в базе" . PHP_EOL;
                 }
 
             }
