@@ -4,6 +4,7 @@
 
 /* @var $content string */
 
+use app\assets\AdminLtePluginAsset;
 use app\widgets\Alert;
 use yii\helpers\Html;
 use yii\bootstrap\Nav;
@@ -11,7 +12,9 @@ use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
 use app\assets\AdminAsset;
 
-\app\assets\AdminLtePluginAsset::register($this);
+AdminLtePluginAsset::register($this);
+AdminAsset::register($this);
+
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
