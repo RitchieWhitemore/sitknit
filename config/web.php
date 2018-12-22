@@ -5,6 +5,13 @@ $config = [
     'layout' => 'frontend',
     'defaultRoute' => 'main/default/index',
     'components' => [
+        'assetManager' => [
+            'bundles' => [
+                'dmstr\web\AdminLteAsset' => [
+                    'skin' => 'skin-black',
+                ],
+            ],
+        ],
         'request' => [
             'baseUrl'=> '',
         ],
@@ -18,6 +25,13 @@ $config = [
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
+        ],
+        'view' => [
+            'theme' => [
+                'pathMap' => [
+                    '@app/views' => '@vendor/dmstr/yii2-adminlte-asset/example-views/yiisoft/yii2-app'
+                ],
+            ],
         ],
     ],
     'modules' => [

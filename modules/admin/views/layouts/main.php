@@ -11,7 +11,7 @@ use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
 use app\assets\AdminAsset;
 
-AdminAsset::register($this);
+\app\assets\AdminLtePluginAsset::register($this);
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
@@ -24,7 +24,7 @@ AdminAsset::register($this);
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
 </head>
-<body>
+<body class="<?= \dmstr\helpers\AdminLteHelper::skinClass() ?>">
 <?php $this->beginBody() ?>
 
 <div class="wrap">
