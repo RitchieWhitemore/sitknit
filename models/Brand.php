@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "brand".
@@ -43,5 +44,11 @@ class Brand extends \yii\db\ActiveRecord
             'title' => 'Название',
             'description' => 'Описание',
         ];
+    }
+
+    public static function getBrandsArray()
+    {
+        $arrayCategory = ArrayHelper::toArray(self::find()->all());
+        return ArrayHelper::getColumn($arrayCategory, 'title');
     }
 }

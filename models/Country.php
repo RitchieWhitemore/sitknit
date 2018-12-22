@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "country".
@@ -43,5 +44,11 @@ class Country extends \yii\db\ActiveRecord
             'title' => 'Название',
             'description' => 'Описание',
         ];
+    }
+
+    public static function getCountryArray()
+    {
+        $arrayCategory = ArrayHelper::toArray(self::find()->all());
+        return ArrayHelper::getColumn($arrayCategory, 'title');
     }
 }

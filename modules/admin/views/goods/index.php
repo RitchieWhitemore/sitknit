@@ -2,6 +2,8 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use app\models\Category;
+use app\models\Brand;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\modules\admin\models\GoodSearch */
@@ -21,17 +23,29 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
-        'columns' => [
+        'filterModel'  => $searchModel,
+        'columns'      => [
             ['class' => 'yii\grid\SerialColumn'],
 
             'id',
+            [
+                'filter'    => Category::getCategoriesArray(),
+                'attribute' => 'categoryId',
+                'value'     => function ($value) {
+                    return $value->category->title;
+                },
+            ],
+            [
+                'filter'    => Brand::getBrandsArray(),
+                'attribute' => 'brandId',
+                'value'     => function ($value) {
+                    return $value->brand->title;
+                },
+            ],
             'article',
             'title',
-            'description',
+            //'description',
             'characteristic',
-            //'categoryId',
-            //'brandId',
             //'countryId',
             //'packaged',
 

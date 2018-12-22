@@ -2,6 +2,9 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use app\models\Category;
+use app\models\Brand;
+use app\models\Country;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Good */
@@ -20,11 +23,11 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'characteristic')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'categoryId')->textInput() ?>
+    <?= $form->field($model, 'categoryId')->dropDownList(Category::getCategoriesArray()) ?>
 
-    <?= $form->field($model, 'brandId')->textInput() ?>
+    <?= $form->field($model, 'brandId')->dropDownList(Brand::getBrandsArray()) ?>
 
-    <?= $form->field($model, 'countryId')->textInput() ?>
+    <?= $form->field($model, 'countryId')->dropDownList(Country::getCountryArray()) ?>
 
     <?= $form->field($model, 'packaged')->textInput() ?>
 
