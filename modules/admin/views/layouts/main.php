@@ -49,6 +49,7 @@ AdminAsset::register($this);
             ['label' => 'Категории', 'url' => ['/admin/categories/index']],
             ['label' => 'Страны', 'url' => ['/admin/country/index']],
             ['label' => 'Товары', 'url' => ['/admin/goods/index']],
+            ['label' => 'Изображения', 'url' => ['/admin/images/index']],
         ]),
     ]);
     NavBar::end();
