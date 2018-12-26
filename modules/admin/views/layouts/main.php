@@ -15,6 +15,11 @@ use app\assets\AdminAsset;
 AdminLtePluginAsset::register($this);
 AdminAsset::register($this);
 
+$webCompsUrl = $this->assetBundles['app\assets\WebComponentsAsset']->baseUrl;
+$this->registerLinkTag(['rel' => 'import', 'href' => "$webCompsUrl/page-tabs.html"]);
+
+$this->registerLinkTag(['rel' => 'import', 'href' => '/bower_components/polymer/polymer.html']);
+
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
