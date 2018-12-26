@@ -48,7 +48,6 @@ class Country extends \yii\db\ActiveRecord
 
     public static function getCountryArray()
     {
-        $arrayCategory = ArrayHelper::toArray(self::find()->all());
-        return ArrayHelper::getColumn($arrayCategory, 'title');
+        return self::find()->select(['title','id'])->indexBy('id')->column();
     }
 }
