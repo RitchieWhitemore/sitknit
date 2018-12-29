@@ -1,0 +1,66 @@
+<dom-module id="upload-button">
+    <template>
+        <style>
+            :host {
+                margin-bottom: 40px;
+                display: inline-block;
+                position: relative;
+                box-sizing: border-box;
+            }
+
+            :host input {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                z-index: 1;
+                opacity: 0;
+                cursor: pointer;
+            }
+        </style>
+        <button type="button" class="btn btn-primary" id="add-image">Добавить</button>
+        <input type="file" name="Image[imageFile]" on-change="addImage" accept=".jpg, .jpeg, .png" multiple>
+        <content></content>
+    </template>
+    <script>
+        Polymer({
+            is: 'upload-button',
+            properties: {},
+            addImage: function(e) {
+                var imageList = document.querySelector('image-list');
+
+                if (imageList) {
+                    var fileList = e.target.files;
+
+                    var tempArray = [];
+
+                    for (var i = 0; i < fileList.length; i++) {
+                        if (this.searchInArray(imageList.images, fileList[i])) {
+                              tempArray.push(fileList[i]);
+                           /* imageList.images.push(fileList[i]);
+                            var arr = imageList.images;
+                            imageList.images = [];
+                            imageList.images = arr;*/
+                        }
+                    }
+
+                    if (tempArray.length > 0) {
+                        imageList.images = imageList.images.concat(tempArray);
+
+                   /*     imageList.images = []
+                        imageList.images = tempArray;*/
+                    }
+                }
+            },
+            searchInArray: function(arr, item) {
+                for (var j = 0; j < arr.length; j++) {
+                   if (arr[j].name == item.name) {
+                       return false;
+                   }
+                }
+                return true;
+            }
+        })
+    </script>
+</dom-module>

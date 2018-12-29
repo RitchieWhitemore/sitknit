@@ -6,7 +6,7 @@ use yii\helpers\Html;
 /* @var $model app\models\Good */
 
 $this->title = 'Редактировать товар: ' . $model->title;
-$this->params['breadcrumbs'][] = ['label' => 'Goods', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Товары', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->title, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = 'Редактировать';
 ?>
@@ -16,6 +16,7 @@ $this->params['breadcrumbs'][] = 'Редактировать';
 
     <?= $this->render('_form', [
         'model' => $model,
+        'imagesProvider' => $imagesProvider,
     ]) ?>
 
 </div>

@@ -25,6 +25,18 @@ return [
             'enablePrettyUrl' => true,
             'showScriptName'  => false,
             'rules'           => [
+
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'api/image',
+                    'extraPatterns' => [
+                        'POST upload' => 'upload',
+                        'DELETE delete-image' => 'delete-image',
+                    ]
+                ],
+
+                ['class' => 'yii\rest\UrlRule', 'controller' => 'api/good',],
+
                 ''                                                                               => 'main/default/index',
                 'contact'                                                                        => 'main/contact/index',
                 '<_a:error>'                                                                     => 'main/default/<_a>',

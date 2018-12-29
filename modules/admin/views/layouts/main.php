@@ -17,8 +17,7 @@ AdminAsset::register($this);
 
 $webCompsUrl = $this->assetBundles['app\assets\WebComponentsAsset']->baseUrl;
 $this->registerLinkTag(['rel' => 'import', 'href' => "$webCompsUrl/page-tabs.html"]);
-
-$this->registerLinkTag(['rel' => 'import', 'href' => '/bower_components/polymer/polymer.html']);
+$this->registerLinkTag(['rel' => 'import', 'href' => "$webCompsUrl/image-list.html"]);
 
 ?>
 <?php $this->beginPage() ?>

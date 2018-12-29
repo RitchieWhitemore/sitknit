@@ -2,9 +2,11 @@
 
 namespace app\modules\admin\controllers;
 
+use app\models\Image;
 use Yii;
 use app\models\Good;
 use app\modules\admin\models\GoodSearch;
+use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -86,12 +88,17 @@ class GoodsController extends Controller
     {
         $model = $this->findModel($id);
 
+        $imagesProvider = new ActiveDataProvider([
+            'query' => $model->getImages()
+        ]);
+
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
         return $this->render('update', [
             'model' => $model,
+            'imagesProvider' => $imagesProvider,
         ]);
     }
 

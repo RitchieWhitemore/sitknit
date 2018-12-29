@@ -117,11 +117,20 @@ class ImagesController extends Controller
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionDelete($id)
+    public function actionDelete($id, $ajax = false)
     {
-        $this->findModel($id)->delete();
+        $model = $this->findModel($id);
+        $currentImageFile = $model->fileName;
+        $goodId = $model->goodId;
+        $model->removeOldImage($currentImageFile);
+        if ($model->delete()) {
+            if (!$ajax) {
+                return $this->redirect(['index']);
+            } else {
+                return $this->redirect('/admin/goods/' . $goodId . '/update');
+            }
+        };
 
-        return $this->redirect(['index']);
     }
 
     /**

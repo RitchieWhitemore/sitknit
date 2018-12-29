@@ -1,0 +1,120 @@
+<link rel="import" href="image-item.html">
+<link rel="import" href="upload-button.html">
+<link rel="import" href="/bower_components/iron-ajax/iron-ajax.html">
+
+<dom-module id="image-list">
+    <template>
+        <style>
+            :host .list {
+                margin: 0;
+                list-style: none;
+                display: flex;
+                flex-wrap: wrap;
+            }
+
+            :host h2 {
+                margin-bottom: 25px;
+            }
+        </style>
+        <iron-ajax id="ajax"
+                   auto
+                   url="/api/goods/{{goodId}}?expand=images"
+                   handle-as="json"
+                   on-response="handleResponse"
+                   last-response="{{response}}"></iron-ajax>
+        <h2>Уже загруженые изображения</h2>
+        <div id="old-images" class="list">
+            <template is="dom-repeat" items="{{response.images}}">
+                <image-item data-id$="{{item.id}}" good-id="{{item.goodId}}" file-name="{{item.fileName}}"
+                            image-id="{{item.id}}">
+
+                </image-item>
+            </template>
+        </div>
+        <hr>
+        <upload-button></upload-button>
+        <div id="new-list" class="list">
+            <template is="dom-repeat" items="{{newImages}}">
+                <image-item good-id="{{item.goodId}}" src="{{item.src}}" index="{{item.index}}" file-name="{{item.fileName}}">
+
+                </image-item>
+            </template>
+        </div>
+        <button id="button-save" type="submit" on-tap="upload" class="btn btn-success hidden">Сохранить картинки</button>
+        <content></content>
+
+
+        <!--<iron-ajax id="ajax"
+                   method="POST"
+                   content-type="application/json"
+                   url="/api/images/upload"
+                   on-response="handleResponse"></iron-ajax>-->
+
+    </template>
+    <script>
+        Polymer({
+            is: 'image-list',
+            properties: {
+                goodId: Number,
+                images: {value: [], type: Array, observer: 'renderList'},
+                files: {value: [], type: Array},
+                _newImages: {value: [], type: Array},
+                newImages: {value: [], type: Array},
+                index: {value: 0, type: Number},
+            },
+            handleResponse: function(event, response) {
+
+            },
+            renderList: function() {
+
+                this._newImages = [];
+
+                var postLoad = function(item, key, event) {
+                    this._newImages.push({
+                        'index': key,
+                        'goodId': this.goodId,
+                        'src': event.currentTarget.result,
+                        'fileName': item.name,
+                    });
+                    this.newImages = this._newImages.slice();
+                };
+
+                if (this.images.length > 0) {
+                    this.$$('#button-save').classList.remove('hidden');
+                    this.images.forEach(function(item, key) {
+                        var reader = new FileReader();
+                        reader.addEventListener('load', postLoad.bind(this, item, key));
+                        reader.readAsDataURL(item);
+                    }.bind(this))
+                } else {
+                    this.$$('#button-save').classList.add('hidden');
+                }
+            },
+            upload: function(e) {
+                e.preventDefault();
+
+                if (this.images.length > 0) {
+                    this.images.forEach(function(item) {
+                        var formData = new FormData();
+                        formData.append("goodId", this.goodId);
+                        formData.append("Image[imageFile]", item);
+
+                        var xhr = new XMLHttpRequest();
+
+                        xhr.onloadend = function() {
+                            this.newImages = [];
+                            this.images = [];
+                            setTimeout(function() {
+                                this.$.ajax.generateRequest();
+                            }.bind(this), 1000);
+                        }.bind(this);
+
+                        xhr.open("POST", "/api/images/upload");
+                        xhr.send(formData);
+
+                    }.bind(this))
+                }
+            }
+        })
+    </script>
+</dom-module>

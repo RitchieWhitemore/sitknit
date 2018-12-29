@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "good".
@@ -65,6 +66,11 @@ class Good extends \yii\db\ActiveRecord
         ];
     }
 
+    public function extraFields()
+    {
+        return ['images'];
+    }
+
     /**
      * @return \yii\db\ActiveQuery
      */
@@ -87,5 +93,15 @@ class Good extends \yii\db\ActiveRecord
     public function getCountry()
     {
         return $this->hasOne(Country::className(), ['id' => 'countryId']);
+    }
+
+    public function getImages()
+    {
+        return $this->hasMany(Image::className(), ['goodId' => 'id']);
+    }
+
+    public static function getGoodArray()
+    {
+        return self::find()->select(['title','id'])->indexBy('id')->column();
     }
 }

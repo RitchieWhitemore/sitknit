@@ -25,6 +25,8 @@ class Image extends \yii\db\ActiveRecord
     public $imageFile;
     protected $_goodId;
 
+    const SCENARIO_REST = 'rest';
+
     /**
      * {@inheritdoc}
      */
@@ -40,9 +42,12 @@ class Image extends \yii\db\ActiveRecord
     {
         return [
             [['fileName', 'goodId'], 'required'],
+            [['goodId'], 'filter', 'filter' => function ($value) {
+                return (int)$value;
+            }],
             [['goodId', 'main'], 'integer'],
             [['fileName'], 'string', 'max' => 255],
-            [['imageFile'], 'file', 'skipOnEmpty' => false, 'extensions' => 'png, jpg'],
+            [['imageFile'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg'],
             [['goodId'], 'exist', 'skipOnError' => true, 'targetClass' => Good::className(), 'targetAttribute' => ['goodId' => 'id']],
         ];
     }
@@ -70,7 +75,7 @@ class Image extends \yii\db\ActiveRecord
 
     public function upload()
     {
-        $fileName = md5($this->imageFile->baseName);
+        $fileName = md5($this->imageFile->baseName) . time();
         $this->fileName = $fileName . '.' . $this->imageFile->extension;
 
         $this->_goodId = $this->goodId;
@@ -89,6 +94,9 @@ class Image extends \yii\db\ActiveRecord
 
     protected function getDirGoodImg()
     {
+        if ($this->_goodId == null) {
+            $this->_goodId = $this->goodId;
+        }
         return Yii::$app->basePath . '/web/img/product/' . $this->_goodId . '/';
     }
 

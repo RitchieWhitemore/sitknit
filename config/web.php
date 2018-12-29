@@ -14,6 +14,9 @@ $config = [
         ],
         'request' => [
             'baseUrl'=> '',
+            'parsers' => [
+                'application/json' => 'yii\web\JsonParser',
+            ],
         ],
         'user' => [
             'identityClass' => 'app\modules\user\models\User',
@@ -37,6 +40,9 @@ $config = [
     'modules' => [
         'admin' => [
             'class' => 'app\modules\admin\Module',
+        ],
+        'api' => [
+            'class' => 'app\modules\api\Module',
         ],
         'main' => [
             'class' => 'app\modules\main\Module',

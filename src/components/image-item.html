@@ -1,0 +1,119 @@
+<dom-module id="image-item">
+    <template>
+        <style>
+            :host {
+                margin-right: 25px;
+                margin-bottom: 25px;
+                padding: 15px;
+                padding-bottom: 30px;
+                position: relative;
+                display: inline-block;
+                width: 190px;
+                border: 1px solid lightgrey;
+                border-radius: 5px;
+            }
+
+            :host img {
+                margin-bottom: 10px;
+                width: 100%;
+            }
+
+            :host .remove {
+                width: 25px;
+                height: 25px;
+                position: absolute;
+                right: -10px;
+                top: -10px;
+                background: white;
+                border: 1px solid #ededed;
+                border-radius: 50%;
+                padding: 0;
+                margin: 0;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+                box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
+                outline: none;
+                font-size: 0;
+            }
+
+            :host .remove::after,
+            :host .remove::before {
+                content: "";
+                position: absolute;
+                display: block;
+                width: 10px;
+                height: 2px;
+                background: grey;
+            }
+
+            :host .remove::before {
+                transform: rotate(45deg);
+            }
+
+            :host .remove::after {
+                transform: rotate(-45deg);
+            }
+
+            :host .file-name {
+                margin: 0;
+                font-size: 12px;
+                word-wrap: break-word;
+                text-align: center;
+            }
+        </style>
+        <img src="{{src}}">
+        <button type="button" on-tap="remove" class="remove" data-name="{{fileName}}">Удалить</button>
+        <p class="file-name">{{fileName}}</p>
+        <content></content>
+        <iron-ajax id="ajax" url="/api/images/delete-image?id={{imageId}}">
+
+        </iron-ajax>
+    </template>
+    <script>
+        Polymer({
+            is: 'image-item',
+            properties: {
+                index: Number,
+                goodId: Number,
+                fileName: String,
+                src: String,
+                imageId: Number,
+            },
+            ready: function() {
+                if (!this.src) {
+                    this.src = "/img/product/" + this.goodId + "/" + this.fileName;
+                }
+            },
+            remove: function(event) {
+                if (this.parentNode.id == 'old-images') {
+                    if (confirm('Вы действительно хотите удалить эту картинку с сайта?')) {
+                        this.$.ajax.method = 'DELETE';
+                        this.$.ajax.generateRequest();
+                        this.parentNode.removeChild(this);
+                    }
+                } else {
+                    var imageList = document.querySelector('image-list');
+                    if (imageList) {
+                        imageList.images.splice(this.index,1);
+                        if (imageList.images.length == 0) {
+                            imageList.newImages = [];
+                            imageList.querySelector('#button-save').classList.add('hidden');
+                        }
+                    }
+                    this.parentNode.removeChild(this);
+                }
+            },
+            searchInArray: function(arr, item) {
+                for (var j = 0; j < arr.length; j++) {
+                    if (arr[j].name == item.name) {
+                        return j;
+                    }
+                }
+                return -1;
+            }
+
+        })
+    </script>
+</dom-module>
