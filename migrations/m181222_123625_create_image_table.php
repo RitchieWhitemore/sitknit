@@ -16,7 +16,7 @@ class m181222_123625_create_image_table extends Migration
             'id' => $this->primaryKey(),
             'fileName' => $this->string()->notNull(),
             'goodId' => $this->integer()->notNull(),
-            'main' => $this->integer(1),
+            'main' => $this->tinyInteger(1)->defaultValue(0),
         ]);
 
         $this->createIndex(
