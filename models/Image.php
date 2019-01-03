@@ -45,6 +45,9 @@ class Image extends \yii\db\ActiveRecord
             [['goodId'], 'filter', 'filter' => function ($value) {
                 return (int)$value;
             }],
+            [['main'], 'filter', 'filter' => function ($value) {
+                return (int)$value;
+            }],
             [['goodId', 'main'], 'integer'],
             [['fileName'], 'string', 'max' => 255],
             [['imageFile'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg'],

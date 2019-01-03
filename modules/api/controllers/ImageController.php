@@ -10,7 +10,8 @@ use yii\web\UploadedFile;
 class ImageController extends ActiveController
 {
     public $modelClass = 'app\models\Image';
-   // public $scenario = 'REST';
+
+    // public $scenario = 'REST';
 
     public function actionUpload()
     {
@@ -35,6 +36,15 @@ class ImageController extends ActiveController
         if ($model->delete()) {
             return "Удалено успешно";
         };
+    }
+
+    public function actionToggleMain($id)
+    {
+        $model = Image::findOne($id);
+
+        if ($model->load(Yii::$app->getRequest()->getBodyParams(), '')) {
+            $model->save();
+        }
     }
 
 }

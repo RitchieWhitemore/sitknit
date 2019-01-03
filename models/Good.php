@@ -66,6 +66,14 @@ class Good extends \yii\db\ActiveRecord
         ];
     }
 
+    public function fields()
+    {
+        return [
+            'images' => 'images',
+        ];
+
+    }
+
     public function extraFields()
     {
         return ['images'];

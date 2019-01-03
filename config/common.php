@@ -32,6 +32,7 @@ return [
                     'extraPatterns' => [
                         'POST upload' => 'upload',
                         'DELETE delete-image' => 'delete-image',
+                        'POST toggle-main' => 'toggle-main',
                     ]
                 ],
 

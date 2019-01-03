@@ -33,24 +33,7 @@
                 if (imageList) {
                     var fileList = e.target.files;
 
-                    var tempArray = [];
-
-                    for (var i = 0; i < fileList.length; i++) {
-                        if (this.searchInArray(imageList.images, fileList[i])) {
-                              tempArray.push(fileList[i]);
-                           /* imageList.images.push(fileList[i]);
-                            var arr = imageList.images;
-                            imageList.images = [];
-                            imageList.images = arr;*/
-                        }
-                    }
-
-                    if (tempArray.length > 0) {
-                        imageList.images = imageList.images.concat(tempArray);
-
-                   /*     imageList.images = []
-                        imageList.images = tempArray;*/
-                    }
+                    imageList.addItems(fileList);
                 }
             },
             searchInArray: function(arr, item) {

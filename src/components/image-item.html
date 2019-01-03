@@ -1,3 +1,5 @@
+<link rel="import" href="/bower_components/paper-toggle-button/paper-toggle-button.html">;
+
 <dom-module id="image-item">
     <template>
         <style>
@@ -66,10 +68,19 @@
         <img src="{{src}}">
         <button type="button" on-tap="remove" class="remove" data-name="{{fileName}}">Удалить</button>
         <p class="file-name">{{fileName}}</p>
+        <paper-toggle-button on-tap="changeMain">Основная
+        </paper-toggle-button>
         <content></content>
         <iron-ajax id="ajax" url="/api/images/delete-image?id={{imageId}}">
 
         </iron-ajax>
+        <!--<iron-ajax
+                id="get-ajax"
+                url="/api/images/{{imageId}}"
+                handle-as="json"
+                on-response="handleResponse">
+
+        </iron-ajax>-->
     </template>
     <script>
         Polymer({
@@ -80,40 +91,64 @@
                 fileName: String,
                 src: String,
                 imageId: Number,
+                main: Number,
+            },
+            changeMain: function(event) {
+
+                var formData = new FormData();
+                if (event.currentTarget.checked) {
+                    formData.append("main", 1);
+                } else {
+                    formData.append("main", 0);
+                }
+
+
+                var xhr = new XMLHttpRequest();
+
+                xhr.open("POST", "/api/images/toggle-main?id=" + this.imageId);
+
+                xhr.send(formData);
             },
             ready: function() {
+
                 if (!this.src) {
+                    //this.$$('#get-ajax').generateRequest();
+
                     this.src = "/img/product/" + this.goodId + "/" + this.fileName;
+
+                    if (this.main) {
+                        this.$$('paper-toggle-button').checked = true;
+                    }
+
+
+
+                } else {
+
                 }
+            },
+            handleResponse: function(event) {
+                var resp = event.detail.response;
+                this.src = "/img/product/" + resp.goodId + "/" + resp.fileName;
+                this.fileName = resp.fileName;
+                this.main = resp.main;
             },
             remove: function(event) {
-                if (this.parentNode.id == 'old-images') {
-                    if (confirm('Вы действительно хотите удалить эту картинку с сайта?')) {
-                        this.$.ajax.method = 'DELETE';
-                        this.$.ajax.generateRequest();
+                var imageList = document.querySelector('image-list');
+
+                if (imageList) {
+                    if (this.parentNode.id == 'old-images') {
+                        if (confirm('Вы действительно хотите удалить эту картинку с сайта?')) {
+                            this.$.ajax.method = 'DELETE';
+                            this.$.ajax.generateRequest();
+                            this.parentNode.removeChild(this);
+                            //imageList.querySelector('#ajax').generateRequest();
+                        }
+                    } else {
+                        imageList.removeNewItem(this.index);
                         this.parentNode.removeChild(this);
                     }
-                } else {
-                    var imageList = document.querySelector('image-list');
-                    if (imageList) {
-                        imageList.images.splice(this.index,1);
-                        if (imageList.images.length == 0) {
-                            imageList.newImages = [];
-                            imageList.querySelector('#button-save').classList.add('hidden');
-                        }
-                    }
-                    this.parentNode.removeChild(this);
                 }
-            },
-            searchInArray: function(arr, item) {
-                for (var j = 0; j < arr.length; j++) {
-                    if (arr[j].name == item.name) {
-                        return j;
-                    }
-                }
-                return -1;
             }
-
         })
     </script>
 </dom-module>

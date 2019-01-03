@@ -15,32 +15,41 @@
             :host h2 {
                 margin-bottom: 25px;
             }
+
+            :host .btn__wrapper {
+                margin-bottom: 25px;
+            }
         </style>
         <iron-ajax id="ajax"
                    auto
-                   url="/api/goods/{{goodId}}?expand=images"
+                   url="/api/goods/{{goodId}}?fields=images"
                    handle-as="json"
                    on-response="handleResponse"
-                   last-response="{{response}}"></iron-ajax>
+                   last-response="{{response}}"
+                   debounce-duration="300"></iron-ajax>
         <h2>Уже загруженые изображения</h2>
         <div id="old-images" class="list">
-            <template is="dom-repeat" items="{{response.images}}">
-                <image-item data-id$="{{item.id}}" good-id="{{item.goodId}}" file-name="{{item.fileName}}"
-                            image-id="{{item.id}}">
+
+            <template is="dom-repeat" items="{{resp}}">
+                <image-item good-id="{{item.goodId}}" index="{{index}}"
+                            file-name="{{item.fileName}}" image-id="{{item.id}}" main="{{item.main}}">
 
                 </image-item>
             </template>
+
         </div>
         <hr>
         <upload-button></upload-button>
         <div id="new-list" class="list">
-            <template is="dom-repeat" items="{{newImages}}">
-                <image-item good-id="{{item.goodId}}" src="{{item.src}}" index="{{item.index}}" file-name="{{item.fileName}}">
+            <template id="domRepeat" is="dom-repeat" items="{{images}}">
+                <image-item good-id="{{item.goodId}}" src="{{item.src}}" index="{{index}}"
+                            file-name="{{item.name}}">
 
                 </image-item>
             </template>
         </div>
-        <button id="button-save" type="submit" on-tap="upload" class="btn btn-success hidden">Сохранить картинки</button>
+        <button id="button-save" type="submit" on-tap="upload" class="btn btn-success hidden">Сохранить картинки
+        </button>
         <content></content>
 
 
@@ -56,37 +65,41 @@
             is: 'image-list',
             properties: {
                 goodId: Number,
-                images: {value: [], type: Array, observer: 'renderList'},
-                files: {value: [], type: Array},
-                _newImages: {value: [], type: Array},
-                newImages: {value: [], type: Array},
-                index: {value: 0, type: Number},
+                images: {value: [], type: Array},
+                resp: Array,
             },
             handleResponse: function(event, response) {
+                this.resp = [];
+                this.$.domRepeat.render();
+                this.resp = event.detail.response.images;
 
             },
-            renderList: function() {
+            addItems: function(files) {
 
-                this._newImages = [];
+                var postLoad = function(item, event) {
+                    item.goodId = this.goodId;
+                    item.src = event.currentTarget.result;
 
-                var postLoad = function(item, key, event) {
-                    this._newImages.push({
-                        'index': key,
-                        'goodId': this.goodId,
-                        'src': event.currentTarget.result,
-                        'fileName': item.name,
-                    });
-                    this.newImages = this._newImages.slice();
+                    this.push('images', item);
+
+                    if (this.images.length > 0) {
+                        this.$$('#button-save').classList.remove('hidden');
+                    }
+
                 };
 
-                if (this.images.length > 0) {
-                    this.$$('#button-save').classList.remove('hidden');
-                    this.images.forEach(function(item, key) {
+                Array.from(files).forEach(function(item) {
+                    if (!this.searchInArray(this.images, item)) {
                         var reader = new FileReader();
-                        reader.addEventListener('load', postLoad.bind(this, item, key));
+                        reader.addEventListener('load', postLoad.bind(this, item));
                         reader.readAsDataURL(item);
-                    }.bind(this))
-                } else {
+                    }
+                }.bind(this));
+
+            },
+            removeNewItem: function(index) {
+                this.splice('images', index, 1);
+                if (this.images.length == 0) {
                     this.$$('#button-save').classList.add('hidden');
                 }
             },
@@ -102,8 +115,9 @@
                         var xhr = new XMLHttpRequest();
 
                         xhr.onloadend = function() {
-                            this.newImages = [];
                             this.images = [];
+                            this.$$('#button-save').classList.add('hidden');
+
                             setTimeout(function() {
                                 this.$.ajax.generateRequest();
                             }.bind(this), 1000);
@@ -114,6 +128,14 @@
 
                     }.bind(this))
                 }
+            },
+            searchInArray: function(arr, item) {
+                for (var j = 0; j < arr.length; j++) {
+                    if (arr[j].name == item.name) {
+                        return true;
+                    }
+                }
+                return false;
             }
         })
     </script>
