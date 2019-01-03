@@ -1,0 +1,42 @@
+.breadcrumb {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    margin-bottom: 30px;
+
+    & li a {
+        color: black;
+        text-decoration: none;
+    }
+
+    & a:hover {
+        color: @bg-orange;
+    }
+}
+
+.breadcrumb li {
+    display: inline-block;
+
+    &:last-child {
+        font-weight: bold;
+    }
+
+    &::after {
+        content: " /";
+
+    }
+
+    &:last-child::after {
+        content: '';
+    }
+}
+
+.breadcrumb .fa-home {
+    display: inline-block;
+    vertical-align: bottom;
+    background: url("/img/home.svg") no-repeat;
+    background-position: center;
+    background-size: 15px;
+    width: 15px;
+    height: 15px;
+}

@@ -1,0 +1,134 @@
+.product {
+    display: flex;
+    box-sizing: border-box;
+    flex-direction: column;
+    align-items: center;
+    flex-wrap: wrap;
+    padding: 15px 10px;
+    padding-top: 20px;
+    background-color: rgba(255, 218, 160, 60%);
+    border: 1px dashed @bg-brown;
+    border-radius: 10px;
+    color: #53370a;
+    
+    &:hover {
+        background-color: #ffdaa0;
+    }
+}
+
+.product--stock {
+    position: relative;
+
+    &::before {
+        content: "";
+        width: 148px;
+        height: 32px;
+        position: absolute;
+        top: -16px;
+        left: 50%;
+        transform: translateX(-50%);
+        background-image: url("/img/stock.png");
+    }
+}
+
+.product--new {
+    position: relative;
+
+    &::before {
+        content: "";
+        width: 182px;
+        height: 28px;
+        position: absolute;
+        top: -11px;
+        left: 50%;
+        transform: translateX(-50%);
+        background-image: url("/img/new.png");
+    }
+}
+
+.product__title {
+    margin: 0;
+    margin-bottom: 12px;
+    width: 100%;
+    min-height: 50px;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.product__title a {
+    color: #593700;
+}
+
+.product__manufacturer,
+.product__color {
+    display: block;
+    font-size: 14px;
+
+    text-align: center;
+    width: 100%;
+}
+
+.product__manufacturer {
+    margin-bottom: 15px;
+}
+
+.product__color {
+    margin-top: auto;
+    margin-bottom: 13px;
+}
+
+.product__image-wrapper {
+    margin-bottom: 15px;
+    display: flex;
+    min-height: 150px;
+
+    & a {
+        margin: auto;
+    }
+}
+
+.product__characteristic-list {
+    display: flex;
+    justify-content: space-between;
+    align-content: space-between;
+    flex-wrap: wrap;
+    margin: 0;
+    margin-bottom: 10px;
+    padding: 5px 0;
+    padding-bottom: 0;
+    min-height: 50px;
+    list-style: none;
+    border-bottom: 1px dashed @bg-brown;
+    border-top: 1px dashed @bg-brown;
+}
+
+.product__characteristics-item {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 12px;
+    line-height: 14px;    
+}
+
+.product__characteristics-item:first-child {
+    width: 100%;
+}
+
+.product__price {
+    font-size: 18px;
+    font-weight: bold;
+    color: @bg-green;
+    text-shadow: 1px 1px 0 darken(@bg-green, 10%);
+}
+
+.product__price-old {
+    font-size: 14px;
+    font-weight: bold;
+    text-decoration: line-through;
+}
+
+.product__descr {
+    margin: 0 10px;
+    font-size: 12px;
+    line-height: 16px;
+}

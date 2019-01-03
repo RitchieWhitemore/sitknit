@@ -1,46 +1,31 @@
-<?php
-
-use app\assets\AppAsset;
-use app\widgets\Alert;
-use yii\bootstrap\Nav;
-use yii\bootstrap\NavBar;
-use yii\helpers\Html;
-
-AppAsset::register($this);
-?>
-
-<?php $this->beginPage() ?>
 <!DOCTYPE html>
-<html lang="<?= Yii::$app->language ?>">
+<html lang="ru">
 <head>
     <title>Сижу-Вяжу - Главная</title>
-    <meta charset="<?= Yii::$app->charset ?>">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <?= Html::csrfMetaTags() ?>
     <link href="https://fonts.googleapis.com/css?family=PT+Sans:400,700&amp;subset=cyrillic" rel="stylesheet">
-    <title><?= Html::encode($this->title) ?></title>
-    <?php $this->head() ?>
+    <link rel="stylesheet" href="css/style.css"/>
 
 </head>
 <body>
-<?php $this->beginBody() ?>
 <header class="page-header">
     <div class="page-header__user-menu">
         <ul class="page-header__user-list">
-            <li><a class="link page-header__user-item" href="login.html">Войти</a> |</li>
-            <li><a class="link page-header__user-item" href="sign.html">Регистрация</a></li>
+            <li><a class="link page-header__user-item" href="#">Войти</a> |</li>
+            <li><a class="link page-header__user-item" href="#">Регистрация</a></li>
         </ul>
     </div>
-    <div class="page-header__wrapper">
+    <div class="page-header__wrapper container">
         <ul class="page-header__social">
-            <li class="page-header__social-item"><a href="https://ok.ru/"><img src="/img/ok.svg" width="30"
+            <li class="page-header__social-item"><a href="https://ok.ru/"><img src="img/ok.svg" width="30"
                                                                                alt="Группа в Однокласниках"></a></li>
-            <li class="page-header__social-item"><a href="https://vk.com"><img src="/img/vk.svg" width="30"
+            <li class="page-header__social-item"><a href="https://vk.com"><img src="img/vk.svg" width="30"
                                                                                alt="Группа во Вконтакте"></a></li>
         </ul>
         <div class="page-header__logo-wrapper">
-            <img class="page-header__ravels" src="/img/logo-second.png" width="466" height="160">
-            <img class="page-header__logo" src="/img/logo-first.png" width="349" height="99">
+            <img class="page-header__ravels" src="img/logo-second.png" width="466" height="160">
+            <img class="page-header__logo" src="img/logo-first.png" width="349" height="99">
             <span class="page-header__phone">8-800-000-00-00</span>
         </div>
         <div class="page-header__cart-wrapper">
@@ -52,48 +37,17 @@ AppAsset::register($this);
             <a href="#" class="page-header__cart-btn btn">Оформить заказ</a>
         </div>
     </div>
-
-    <?php
-    NavBar::begin([
-        'brandLabel' => Yii::$app->name,
-        'brandUrl' => Yii::$app->homeUrl,
-        'options' => [
-            'class' => 'navbar-inverse navbar-fixed-top',
-        ],
-    ]);
-    echo Nav::widget([
-        'options' => ['class' => 'navbar-nav navbar-right'],
-        'items'   => array_filter([
-            ['label' => 'Home', 'url' => ['/main/default/index']],
-            ['label' => 'Contact', 'url' => ['main/contact/index']],
-            Yii::$app->user->isGuest ?
-                ['label' => 'Sign Up', 'url' => ['/users/default/signup']] :
-                false,
-            Yii::$app->user->isGuest ?
-                ['label' => 'Login', 'url' => ['/users/default/login']] :
-                ['label' => 'Logout (' . Yii::$app->user->identity->username . ')',
-                 'url' => ['/users/default/logout'],
-                 'linkOptions' => ['data-method' => 'post']],
-            !Yii::$app->user->isGuest ?
-                ['label' => 'Личный кабинет', 'url' => ['/users/profile/index']] :
-                false,
-        ]),
-    ]);
-    NavBar::end();
-    ?>
     <nav class="main-nav main-nav--closed main-nav--nojs">
         <button class="main-nav__toggle">Открыть меню</button>
-        <h2 class="main-nav__title">Главная</h2>
+        <h2 class="main-nav__title">Акриловая пряжа</h2>
         <div class="main-nav__wrapper">
             <ul class="main-nav__list">
-                <li class="main-nav__item main-nav__item--active"><a class="main-nav__link"
-                                                                     href="/index.html">Главная</a></li>
-                <li class="main-nav__item main-nav__item--dropdown">
+                <li class="main-nav__item"><a class="main-nav__link" href="/index.html">Главная</a></li>
+                <li class="main-nav__item main-nav__item--active main-nav__item--dropdown">
                     <a class="main-nav__link" href="#">Каталог</a>
                     <ul class="main-nav__list-sub main-nav__list-sub--closed">
-                        <li class="main-nav__item main-nav__item--all"><a class="main-nav__link" href="/catalog.html">Весь
-                                каталог</a>
-                        <li class="main-nav__item"><a class="main-nav__link" href="/catalog.html">Пряжа</a>
+                        <li class="main-nav__item"><a class="main-nav__link main-nav__link--active"
+                                                      href="/catalog.html">Пряжа</a>
                             <!--   <ul class="main-nav__list-sub">
                                    <li><a class="link main-nav__item" href="#">Акриловая пряжа</a></li>
                                    <li><a class="link main-nav__item" href="#">Бамбуковая пряжа</a></li>
@@ -105,7 +59,7 @@ AppAsset::register($this);
                         </li>
                         <li class="main-nav__item"><a class="main-nav__link" href="#">Наборы для вязания</a></li>
                         <li class="main-nav__item"><a class="main-nav__link" href="#">Спицы, крючки, инструменты для
-                                вязания</a></li>
+                            вязания</a></li>
                         <li class="main-nav__item"><a class="main-nav__link" href="#">Фурнитура</a></li>
                         <li class="main-nav__item"><a class="main-nav__link" href="#">Товары для рукоделия</a></li>
                         <li class="main-nav__item"><a class="main-nav__link" href="#">Литература</a></li>
@@ -131,10 +85,44 @@ AppAsset::register($this);
     </nav>
 </header>
 <main class="main__body">
-    <div class="container">
-        <?= Alert::widget() ?>
-        <?= $content ?>
+    <div class="filter__button-wrapper">
+        <button class="filter__button filter__button--closed">Фильтр <span class="filter__arrow"></span></button>
     </div>
+    <section class="main__content">
+        <div class="main__page-content">
+            <div class="breadcrumb">
+                <ul class="breadcrumb__list">
+                    <li class="breadcrumb__item"><a href="" class="link breadcrumb__link">Главная</a> /</li>
+                    <li class="breadcrumb__item">Вход</li>
+                </ul>
+            </div>
+
+            <div class="content">
+                <div class="content__title-wrapper">
+                    <h1 class="content__title">Вход</h1>
+                </div>
+
+                <p>введите Ваш логин и пароль</p>
+
+                <form method="post" action="" class="content__form">
+                    <div class="content__fields">
+                        <input type="text" name="login" placeholder="Ваш логин">
+                        <input type="password" name="password" placeholder="Ваш пароль">
+                    </div>
+                    <button type="submit" class="btn btn--auth">Войти</button>
+                </form>
+                <p>или авторизуйтесь через соцсети</p>
+                <ul class="content__auth-social-list">
+                    <li class="content__auth-social-item"><a href="https://ok.ru/"><img src="/img/ok.svg" width="40"
+                                                                                        alt="Авторизоваться через Одноклассники"></a>
+                    </li>
+                    <li class="content__auth-social-item"><a href="https://vk.com"><img src="/img/vk.svg" width="40"
+                                                                                        alt="Авторизоваться через Вконтакте"></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
 </main>
 <footer class="page-footer">
     <div class="container-fluid">
@@ -178,7 +166,6 @@ AppAsset::register($this);
     </div>
 
 </footer>
-<?php $this->endBody() ?>
+<script type="text/javascript" src="js/common.js"></script>
 </body>
 </html>
-<?php $this->endPage() ?>

@@ -1,0 +1,45 @@
+.aside-catalog {
+    display: none;
+}
+
+.aside-catalog__title {
+    .title-module();
+    margin-left: 10px;
+}
+
+.aside-catalog__list {
+    margin: 0;
+    margin-left: 10px;
+    padding: 0;
+    padding-right: 25px;
+    list-style: none;
+}
+
+.aside-catalog__item {
+    position: relative;
+    margin-bottom: 12px;
+}
+
+.aside-catalog__link {
+    display: block;
+    margin-bottom: 12px;
+
+    &--active {
+        color: @bg-brown;
+    }
+
+    &:hover {
+        font-weight: bold;
+    }
+
+    &:active {
+        color: @bg-brown;
+    }
+}
+
+@media @desktop-widths {
+    .aside-catalog {
+        display: block;
+        margin-bottom: 25px;
+    }    
+}

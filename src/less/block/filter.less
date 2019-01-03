@@ -1,0 +1,236 @@
+.filter {
+    position: absolute;
+    top: 50px;
+    left: 0;
+    z-index: 9;
+    padding: 25px 15px;
+    background-color: #ffe39b;
+    
+    &--open {
+        display: block;
+    }
+    
+    &--closed {
+        display: none;
+    }
+}
+
+.filter__button {
+    display: block;
+    padding: 20px 15px;
+    padding-bottom: 17px;
+    width: 100%;
+
+    font-size: 12px;
+    font-weight: bold;
+    color: #fff;
+    text-align: left;
+    text-transform: uppercase;
+    background: #fc9937;
+    border: 0;
+    outline: none;
+    cursor: pointer;
+}
+
+.filter__button--closed .filter__arrow {
+    position: relative;
+    margin-bottom: 3px;
+    margin-left: 5px;    
+    display: inline-block;
+    height: 2px;
+    width: 14px;
+    background-color: @bg-green;
+
+    &::before,
+    &::after {
+        content: "";
+        position: absolute;
+        width: 8px;
+        height: 2px;
+        background-color: @bg-green;
+    }
+
+    &::before {
+        top: -2px;
+        right: -1px;
+        transform: rotate(45deg);
+    }
+
+    &::after {
+        top: 2px;
+        right: -1px;
+        transform: rotate(-45deg);
+    }
+}
+
+.filter__button--opened{
+    padding-right: 35px;
+    text-align: right;
+}
+
+.filter__button--opened .filter__arrow {
+    position: relative;
+
+    &::before,
+    &::after {
+        content: "";
+        position: absolute;
+        top: 6px;
+        left: 5px;
+        width: 15px;
+        height: 2px;
+        background-color: @bg-red;
+    }
+
+    &::before {
+        transform: rotate(45deg);
+    }
+
+    &::after {
+        transform: rotate(-45deg);
+    }
+}
+
+.filter__group {
+    padding: 0;
+    padding-right: 30%;
+    padding-bottom: 30px;
+    margin: 0;
+    border: none;
+    
+    &:last-child {
+        padding-bottom: 0;
+    }
+}
+
+.filter__group-title {
+    .title-module();
+}
+
+.filter__group label {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.filter__group input[type="checkbox"] {
+    display: none;
+}
+
+.filter__group input[type="checkbox"] + .filter__item-span {
+    display: inline-block;
+    flex-shrink: 0;
+    margin-right: 10px;
+    width: 15px;
+    height: 15px;
+    border: 1px solid @bg-brown;
+    border-radius: 3px;
+}
+
+.filter__group input[type="checkbox"]:checked + .filter__item-span {
+
+    position: relative;
+
+    &::after {
+        content: ''; 
+        position: absolute;
+        top: -9px;
+        left: 5px;
+        border-right: 3px solid;
+        border-bottom: 3px solid;
+        color: @bg-brown;
+        transform: scale(.85) rotate(47deg) skewX(12deg);       
+        width: 7px;
+        height: 17px;
+    }
+}
+
+.filter__selected {
+    position: absolute;
+    top: -44px;
+    display: inline-block;
+    padding: 12px;
+    padding-right: 30px;
+    font-size: 14px;
+    color: #fff;
+    background-color: #3C6CB1;
+    border: 1px solid #2C4F82;
+    border-radius: 10px;
+    cursor: pointer;
+    
+    &::before,
+    &::after {
+        content: "";
+        position: absolute;
+        top: 20px;
+        right: 10px;
+        width: 15px;
+        height: 2px;
+        background-color: @bg-red;
+    }
+
+    &::before {
+        transform: rotate(45deg);
+    }
+
+    &::after {
+        transform: rotate(-45deg);
+    }
+}
+
+.filter--opened .filter__selected {
+    display: block;
+}
+
+.filter--closed .filter__selected {
+    display: none;
+}
+
+@media @tablet-widths {
+    .filter {
+        left: 0;
+    }
+    
+    .filter__button-wrapper {
+        margin-bottom: 25px;
+        background-color: #fc9937;
+    }
+    
+    .filter__button {
+        .container-fluid();
+    }
+}
+
+@media @desktop-widths {    
+    .filter {
+        position: static;
+        padding: 0;
+        margin-left: 10px;
+        display: block;
+        background-color: transparent;
+    }
+    
+    .filter__button-wrapper {
+        margin: 0;
+    }
+    
+    .filter__form {
+        position: relative;
+    }
+    
+    .filter__button {
+        display: none;
+    }
+    
+    .filter--opened .filter__selected,
+    .filter--closed .filter__selected {
+        display: none;
+        top: 0;
+        right: -60%;   
+        z-index: 9;
+    }
+}
+
+
+
