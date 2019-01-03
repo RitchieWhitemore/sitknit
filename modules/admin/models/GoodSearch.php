@@ -18,7 +18,7 @@ class GoodSearch extends Good
     public function rules()
     {
         return [
-            [['id', 'categoryId', 'brandId', 'countryId', 'packaged'], 'integer'],
+            [['id', 'categoryId', 'brandId', 'countryId', 'packaged', 'active'], 'integer'],
             [['article', 'title', 'description', 'characteristic'], 'safe'],
         ];
     }
@@ -64,6 +64,7 @@ class GoodSearch extends Good
             'brandId' => $this->brandId,
             'countryId' => $this->countryId,
             'packaged' => $this->packaged,
+            'active' => $this->active,
         ]);
 
         $query->andFilterWhere(['like', 'article', $this->article])

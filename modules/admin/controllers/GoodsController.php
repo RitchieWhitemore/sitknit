@@ -131,4 +131,26 @@ class GoodsController extends Controller
 
         throw new NotFoundHttpException('The requested page does not exist.');
     }
+
+    /**
+     * Переключает активность товара
+     *
+     * @param $id
+     *
+     * @var $Good \app\models\Good
+     */
+    public function actionToggleActive($id)
+    {
+        $Good = $this->findModel($id);
+
+        if ($Good->active == 0) {
+            $Good->active = 1;
+        } else {
+            $Good->active = 0;
+        }
+
+        if ($Good->save()) {
+            return $this->redirect('/admin/goods');
+        };
+    }
 }

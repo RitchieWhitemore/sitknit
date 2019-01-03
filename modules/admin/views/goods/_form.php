@@ -42,6 +42,8 @@ use app\models\Country;
 
                 <?= $form->field($model, 'packaged')->textInput() ?>
 
+                <?= $form->field($model, 'active')->dropDownList([0 => 'Нет', 1 => 'Да'], ['prompt' => 'активируйте товар']) ?>
+
                 <div class="form-group">
                     <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success']) ?>
                 </div>

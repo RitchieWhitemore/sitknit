@@ -39,7 +39,7 @@ class Good extends \yii\db\ActiveRecord
     {
         return [
             [['title'], 'required'],
-            [['categoryId', 'brandId', 'countryId', 'packaged'], 'integer'],
+            [['categoryId', 'brandId', 'countryId', 'packaged', 'active'], 'integer'],
             [['article'], 'string', 'max' => 50],
             [['title', 'description', 'characteristic'], 'string', 'max' => 255],
             [['brandId'], 'exist', 'skipOnError' => true, 'targetClass' => Brand::className(), 'targetAttribute' => ['brandId' => 'id']],
@@ -63,6 +63,7 @@ class Good extends \yii\db\ActiveRecord
             'brandId' => 'Брэнд',
             'countryId' => 'Страна',
             'packaged' => 'В упаковке',
+            'active' => 'Активен'
         ];
     }
 

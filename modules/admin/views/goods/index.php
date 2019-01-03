@@ -22,8 +22,11 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::a('Создать товар', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
-    <?php Pjax::begin() ?>
-    <?= GridView::widget([
+    <?php Pjax::begin([
+            'id' => 'goods-list',
+            'timeout' => 10000,
+            'enablePushState' => false]);
+    echo GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel'  => $searchModel,
         'columns'      => [
@@ -50,9 +53,25 @@ $this->params['breadcrumbs'][] = $this->title;
             'characteristic',
             //'countryId',
             //'packaged',
+            [
+                'attribute'      => 'active',
+                'label'          => 'Активен',
+                'format'         => 'html',
+                'filter'         => [0 => 'нет', 1 => 'да'],
+                'contentOptions' => ['class' => 'text-center'],
+                'value'          => function ($value) {
+                    if ($value->active == 1) {
+                        $label = '<span class="glyphicon glyphicon-eye-open text-success"></span>';
+                    } else {
+                        $label = '<span class="glyphicon glyphicon-eye-close text-success"></span>';
+                    }
+
+                    return Html::a($label, ["/admin/goods/toggle-active", "id" => $value->id], ['class' => 'btn-ajax btn-in-view']);
+                },
+            ],
 
             ['class' => 'yii\grid\ActionColumn'],
         ],
-    ]); ?>
-    <?php Pjax::end() ?>
+    ]);
+     Pjax::end(); ?>
 </div>
