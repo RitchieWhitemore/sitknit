@@ -44,7 +44,7 @@ AppAsset::register($this);
             <span class="page-header__phone">8-800-000-00-00</span>
         </div>
         <div class="page-header__cart-wrapper">
-            <img class="page-header__cart" src="img/header-cart.svg" width="37">
+            <img class="page-header__cart" src="/img/header-cart.svg" width="37">
             <div class="page-header__cart-text-wrapper">
                 <span class="page-header__cart-quantity"><b>товаров: </b>3</span>
                 <span class="page-header__cart-summ"><b>на сумму: </b>524 руб.</span>
