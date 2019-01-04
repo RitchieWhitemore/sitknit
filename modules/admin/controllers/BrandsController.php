@@ -124,4 +124,19 @@ class BrandsController extends Controller
 
         throw new NotFoundHttpException('The requested page does not exist.');
     }
+
+    public function actionToggleActive($id)
+    {
+        $Model = $this->findModel($id);
+
+        if ($Model->active == 0) {
+            $Model->active = 1;
+        } else {
+            $Model->active = 0;
+        }
+
+        if ($Model->save()) {
+            return $this->redirect('/admin/brands');
+        };
+    }
 }

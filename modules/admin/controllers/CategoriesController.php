@@ -124,4 +124,19 @@ class CategoriesController extends Controller
 
         throw new NotFoundHttpException('The requested page does not exist.');
     }
+
+    public function actionToggleActive($id)
+    {
+        $Category = $this->findModel($id);
+
+        if ($Category->active == 0) {
+            $Category->active = 1;
+        } else {
+            $Category->active = 0;
+        }
+
+        if ($Category->save()) {
+            return $this->redirect('/admin/categories');
+        };
+    }
 }

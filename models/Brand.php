@@ -31,6 +31,7 @@ class Brand extends \yii\db\ActiveRecord
             [['title'], 'required'],
             [['title'], 'string', 'max' => 50],
             [['description'], 'string', 'max' => 100],
+            [['active'], 'integer'],
         ];
     }
 
@@ -43,6 +44,7 @@ class Brand extends \yii\db\ActiveRecord
             'id' => 'ID',
             'title' => 'Название',
             'description' => 'Описание',
+            'active' => 'Активен',
         ];
     }
 
