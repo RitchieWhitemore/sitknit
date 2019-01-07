@@ -2,9 +2,7 @@
 
 namespace app\models;
 
-use Yii;
-use yii\helpers\FileHelper;
-use yii\web\UploadedFile;
+use app\components\behaviors\UploadImageBehavior;
 
 /**
  * This is the model class for table "image".
@@ -19,12 +17,6 @@ use yii\web\UploadedFile;
 class Image extends \yii\db\ActiveRecord
 {
 
-    /**
-     * @var UploadedFile
-     */
-    public $imageFile;
-    protected $_goodId;
-
     const SCENARIO_REST = 'rest';
 
     /**
@@ -33,6 +25,13 @@ class Image extends \yii\db\ActiveRecord
     public static function tableName()
     {
         return 'image';
+    }
+
+    public function behaviors()
+    {
+        return [
+            UploadImageBehavior::className(),
+        ];
     }
 
     /**
@@ -50,8 +49,8 @@ class Image extends \yii\db\ActiveRecord
             }],
             [['goodId', 'main'], 'integer'],
             [['fileName'], 'string', 'max' => 255],
-            [['imageFile'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg'],
             [['goodId'], 'exist', 'skipOnError' => true, 'targetClass' => Good::className(), 'targetAttribute' => ['goodId' => 'id']],
+            [['imageFile'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg'],
         ];
     }
 
@@ -74,44 +73,5 @@ class Image extends \yii\db\ActiveRecord
     public function getGood()
     {
         return $this->hasOne(Good::className(), ['id' => 'goodId']);
-    }
-
-    public function upload()
-    {
-        $fileName = md5($this->imageFile->baseName) . time();
-        $this->fileName = $fileName . '.' . $this->imageFile->extension;
-
-        $this->_goodId = $this->goodId;
-        if ($this->validate()) {
-            if ($this->save()) {
-                FileHelper::createDirectory($this->getDirGoodImg());
-                $this->imageFile->saveAs($this->getDirGoodImg() . $fileName . '.' . $this->imageFile->extension);
-                return true;
-            };
-            return false;
-
-        }
-
-        return false;
-    }
-
-    protected function getDirGoodImg()
-    {
-        if ($this->_goodId == null) {
-            $this->_goodId = $this->goodId;
-        }
-        return Yii::$app->basePath . '/web/img/product/' . $this->_goodId . '/';
-    }
-
-    public function getUrl()
-    {
-        return Yii::$app->params['dirImageProduct'] . $this->goodId . '/' . $this->fileName;
-    }
-
-    public function removeOldImage($fileName)
-    {
-        if (file_exists($this->getDirGoodImg() . $fileName)) {
-            unlink($this->getDirGoodImg() . $fileName);
-        }
     }
 }
