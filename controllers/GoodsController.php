@@ -9,8 +9,10 @@
 namespace app\controllers;
 
 use app\models\Category;
+use app\models\Good;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
+use yii\web\NotFoundHttpException;
 
 class GoodsController extends Controller
 {
@@ -23,6 +25,29 @@ class GoodsController extends Controller
         );
         return $this->render('catalog', [
             'dataProvider' => $dataProvider,
+        ]);
+    }
+
+    public function actionCategory($id)
+    {
+        $Category = Category::findOne($id);
+
+        if (!isset($Category)) {
+            throw new NotFoundHttpException();
+        }
+
+        $dataProvider = new ActiveDataProvider(
+            [
+                'query'      => Good::find()->where(['categoryId' => $id, 'active' => 1]),
+                'pagination' => [
+                    'pageSize' => 15,
+                ],
+            ]
+        );
+
+        return $this->render('category', [
+            'dataProvider' => $dataProvider,
+            'model' => $Category,
         ]);
     }
 }

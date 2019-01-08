@@ -1238,6 +1238,7 @@ img {
   margin-bottom: 15px;
   display: flex;
   min-height: 150px;
+  max-height: 150px;
 }
 .product__image-wrapper a {
   margin: auto;

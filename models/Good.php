@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use app\components\behaviors\UploadImageBehavior;
 use Yii;
 use yii\helpers\ArrayHelper;
 
@@ -24,7 +25,7 @@ use yii\helpers\ArrayHelper;
  */
 class Good extends \yii\db\ActiveRecord
 {
-    /**
+     /**
      * {@inheritdoc}
      */
     public static function tableName()
@@ -112,5 +113,20 @@ class Good extends \yii\db\ActiveRecord
     public static function getGoodArray()
     {
         return self::find()->select(['title','id'])->indexBy('id')->column();
+    }
+
+    public function getMainImageUrl()
+    {
+        $Image = Image::find()->where(['goodId' => $this->id])->andWhere(['main' => 1])->one();
+
+        if (!isset($Image)) {
+            $Image = Image::find()->where(['goodId' => $this->id])->one();
+        }
+
+        if (isset($Image)) {
+            return '/img/goods/'. $this->id . '/' . $Image->fileName;
+        } else {
+            return '/img/no-image.svg';
+        }
     }
 }

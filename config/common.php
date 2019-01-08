@@ -24,6 +24,7 @@ return [
             'class'           => 'yii\web\UrlManager',
             'enablePrettyUrl' => true,
             'showScriptName'  => false,
+            'enableStrictParsing' => true,
             'rules'           => [
 
                 [
@@ -40,6 +41,8 @@ return [
                 'contact'                                                                        => 'main/contact/index',
                 '<_a:error>'                                                                     => 'main/default/<_a>',
                 '<_a:(login|logout|signup|confirm-email|request-password-reset|reset-password)>' => 'user/default/<_a>',
+
+                'goods/category/<id:\d+>' => 'goods/category',
 
                 /*'<_m:[\w\-]+>/<_c:[\w\-]+>/<id:\d+>'              => '<_m>/<_c>/view',
                 '<_m:[\w\-]+>/<_c:[\w\-]+>/<id:\d+>/<_a:[\w\-]+>' => '<_m>/<_c>/<_a>',

@@ -33,6 +33,7 @@ class UploadImageBehavior extends \yii\base\Behavior
     protected $_currentImageFile;
     protected $_path;
     protected $_new = false;
+    protected $_delete = true;
 
     public function events()
     {
@@ -75,13 +76,16 @@ class UploadImageBehavior extends \yii\base\Behavior
     public function afterUpdate()
     {
         if (!$this->_new) {
+
             if ($this->typeSave === 'multiple') {
                 $this->removeOldImage();
             }
 
-            if ($this->upload()) {
+            if ( $this->_delete && $this->upload()) {
                 $this->owner->save(false);
             };
+
+
         }
     }
 
@@ -138,6 +142,10 @@ class UploadImageBehavior extends \yii\base\Behavior
 
     public function removeOldImage()
     {
+        if (!$this->_delete) {
+            return false;
+        }
+
         $currentImageFile = $this->owner->getOldAttribute($this->fileNameField);
 
         if ($currentImageFile === null) {
@@ -155,8 +163,14 @@ class UploadImageBehavior extends \yii\base\Behavior
     {
         if ($this->owner->{$this->fileNameField}) {
             return $this->_path . '/' . $this->owner->{$this->fileNameField};
-        } else {
+        }
+        else {
             return '/img/no-image.svg';
         }
+    }
+
+    public function setDeleteFlag($flag = true)
+    {
+        $this->_delete = $flag;
     }
 }

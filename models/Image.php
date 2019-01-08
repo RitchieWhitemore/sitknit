@@ -16,9 +16,6 @@ use app\components\behaviors\UploadImageBehavior;
  */
 class Image extends \yii\db\ActiveRecord
 {
-
-    const SCENARIO_REST = 'rest';
-
     /**
      * {@inheritdoc}
      */
