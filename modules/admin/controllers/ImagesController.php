@@ -67,15 +67,8 @@ class ImagesController extends Controller
     {
         $model = new Image();
 
-        if ($model->load(Yii::$app->request->post())) {
-
-            $model->imageFile = UploadedFile::getInstance($model, 'imageFile');
-
-            if ($model->upload()) {
-                return $this->redirect(['view', 'id' => $model->id]);
-            }
-
-
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['view', 'id' => $model->id]);
         }
 
         return $this->render('create', [
@@ -94,15 +87,8 @@ class ImagesController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post())) {
-
-            $model->imageFile = UploadedFile::getInstance($model, 'imageFile');
-            $currentImageFile = $model->fileName;
-
-            if ($model->upload()) {
-                $model->removeOldImage($currentImageFile);
-                return $this->redirect(['view', 'id' => $model->id]);
-            }
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['view', 'id' => $model->id]);
         }
 
         return $this->render('update', [
@@ -120,13 +106,15 @@ class ImagesController extends Controller
     public function actionDelete($id, $ajax = false)
     {
         $model = $this->findModel($id);
-        $currentImageFile = $model->fileName;
         $goodId = $model->goodId;
-        $model->removeOldImage($currentImageFile);
+/*        $currentImageFile = $model->fileName;
+
+        $model->removeOldImage($currentImageFile);*/
         if ($model->delete()) {
             if (!$ajax) {
                 return $this->redirect(['index']);
-            } else {
+            }
+            else {
                 return $this->redirect('/admin/goods/' . $goodId . '/update');
             }
         };

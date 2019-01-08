@@ -12,7 +12,13 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
 
-    <?= $form->field($model, 'imageFile')->fileInput() ?>
+    <?php
+    if (isset($model->fileName)) {
+        echo Html::img($model->url, ['width' => 200, 'style' => 'margin-bottom: 25px']);
+    }
+    ?>
+
+    <?= $form->field($model, 'imageFile')->fileInput(['accept' => '.jpg, .jpeg, .png']) ?>
 
     <?= $form->field($model, 'goodId')->textInput() ?>
 

@@ -30,7 +30,12 @@ class Image extends \yii\db\ActiveRecord
     public function behaviors()
     {
         return [
-            UploadImageBehavior::className(),
+            [
+                'class' => UploadImageBehavior::className(),
+                'fileNameField' => 'fileName',
+                'typeSave' => 'multiple',
+                'catalog' => 'goods'
+            ],
         ];
     }
 
@@ -40,7 +45,7 @@ class Image extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['fileName', 'goodId'], 'required'],
+            [['goodId'], 'required'],
             [['goodId'], 'filter', 'filter' => function ($value) {
                 return (int)$value;
             }],
@@ -62,8 +67,9 @@ class Image extends \yii\db\ActiveRecord
         return [
             'id'       => 'ID',
             'fileName' => 'Имя файла',
-            'goodId'   => 'Товар',
+            'goodId'   => 'ID товара',
             'main'     => 'Главная картинка товара',
+            'imageFile' => 'Загрузка изображения'
         ];
     }
 

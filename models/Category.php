@@ -2,8 +2,10 @@
 
 namespace app\models;
 
+use app\components\behaviors\UploadImageBehavior;
 use Yii;
 use yii\helpers\ArrayHelper;
+use yii\web\UploadedFile;
 
 /**
  * This is the model class for table "category".
@@ -22,6 +24,19 @@ class Category extends \yii\db\ActiveRecord
         return 'category';
     }
 
+    public function behaviors()
+    {
+        return [
+            [
+                'class' => UploadImageBehavior::className(),
+                'fileNameField' => 'image',
+                'goodIdField' => 'id',
+                'typeSave' => 'single',
+                'catalog' => 'category'
+            ],
+        ];
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -32,6 +47,8 @@ class Category extends \yii\db\ActiveRecord
             [['title'], 'string', 'max' => 50],
             [['description'], 'string', 'max' => 100],
             [['active'], 'integer'],
+            [['image'], 'string'],
+            [['imageFile'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg'],
         ];
     }
 
@@ -45,6 +62,8 @@ class Category extends \yii\db\ActiveRecord
             'title' => 'Название',
             'description' => 'Описание',
             'active' => 'Активен',
+            'imageFile' => 'Изображение',
+            'image' => 'Загруженое изображение'
         ];
     }
 

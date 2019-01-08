@@ -168,12 +168,12 @@ AppAsset::register($this);
         <p class="page-footer__copyright">© Сижу вяжу, 2016. Все права защищены.</p>
 
         <div class="page-footer__logo-wrapper">
-            <img src="img/logo-footer.png"/>
+            <img src="/img/logo-footer.png"/>
         </div>
 
         <ul class="page-footer__card-payment-list">
-            <li><img src="img/mastercard.svg" width="40" height="27" alt="MasterCard"></li>
-            <li><img src="img/visa.svg" width="40" height="27" alt="Visa"></li>
+            <li><img src="/img/mastercard.svg" width="40" height="27" alt="MasterCard"></li>
+            <li><img src="/img/visa.svg" width="40" height="27" alt="Visa"></li>
         </ul>
     </div>
 

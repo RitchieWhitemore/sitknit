@@ -8,6 +8,7 @@ use app\modules\admin\models\CategorySearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\UploadedFile;
 
 /**
  * CategoriesController implements the CRUD actions for Category model.
@@ -21,7 +22,7 @@ class CategoriesController extends Controller
     {
         return [
             'verbs' => [
-                'class' => VerbFilter::className(),
+                'class'   => VerbFilter::className(),
                 'actions' => [
                     'delete' => ['POST'],
                 ],
@@ -39,7 +40,7 @@ class CategoriesController extends Controller
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
-            'searchModel' => $searchModel,
+            'searchModel'  => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
     }
@@ -131,7 +132,8 @@ class CategoriesController extends Controller
 
         if ($Category->active == 0) {
             $Category->active = 1;
-        } else {
+        }
+        else {
             $Category->active = 0;
         }
 

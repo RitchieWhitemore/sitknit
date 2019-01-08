@@ -71,7 +71,7 @@
         <paper-toggle-button on-tap="changeMain">Основная
         </paper-toggle-button>
         <content></content>
-        <iron-ajax id="ajax" url="/api/images/delete-image?id={{imageId}}">
+        <iron-ajax id="ajax" url="/api/images/{{imageId}}">
 
         </iron-ajax>
         <!--<iron-ajax
@@ -114,7 +114,7 @@
                 if (!this.src) {
                     //this.$$('#get-ajax').generateRequest();
 
-                    this.src = "/img/product/" + this.goodId + "/" + this.fileName;
+                    this.src = "/img/goods/" + this.goodId + "/" + this.fileName;
 
                     if (this.main) {
                         this.$$('paper-toggle-button').checked = true;

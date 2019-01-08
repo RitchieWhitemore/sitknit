@@ -12,6 +12,11 @@ use app\models\Image;
  */
 class ImageSearch extends Image
 {
+    public function behaviors()
+    {
+        return [];
+    }
+
     /**
      * {@inheritdoc}
      */

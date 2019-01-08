@@ -1152,6 +1152,10 @@ img {
 .catalog__list {
   margin-top: 30px;
 }
+.catalog__list .summary {
+  margin-bottom: 25px;
+  width: 100%;
+}
 .catalog__item {
   margin: 0 auto;
   margin-bottom: 30px;

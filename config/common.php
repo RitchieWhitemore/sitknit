@@ -30,15 +30,13 @@ return [
                     'class' => 'yii\rest\UrlRule',
                     'controller' => 'api/image',
                     'extraPatterns' => [
-                        'POST upload' => 'upload',
-                        'DELETE delete-image' => 'delete-image',
                         'POST toggle-main' => 'toggle-main',
                     ]
                 ],
 
                 ['class' => 'yii\rest\UrlRule', 'controller' => 'api/good',],
 
-                ''                                                                               => 'main/default/index',
+                ''                                                                               => 'goods/catalog',
                 'contact'                                                                        => 'main/contact/index',
                 '<_a:error>'                                                                     => 'main/default/<_a>',
                 '<_a:(login|logout|signup|confirm-email|request-password-reset|reset-password)>' => 'user/default/<_a>',

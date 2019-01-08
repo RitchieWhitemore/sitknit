@@ -8,12 +8,21 @@
 
 namespace app\controllers;
 
+use app\models\Category;
+use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 
 class GoodsController extends Controller
 {
     public function actionCatalog()
     {
-        return $this->render('catalog');
+        $dataProvider = new ActiveDataProvider(
+            [
+                'query' => Category::find()->where(['active' => 1]),
+            ]
+        );
+        return $this->render('catalog', [
+            'dataProvider' => $dataProvider,
+        ]);
     }
 }

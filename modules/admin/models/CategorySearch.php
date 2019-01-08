@@ -12,6 +12,11 @@ use app\models\Category;
  */
 class CategorySearch extends Category
 {
+    public function behaviors()
+    {
+        return [];
+    }
+
     /**
      * {@inheritdoc}
      */
