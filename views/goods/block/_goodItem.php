@@ -1,9 +1,11 @@
 <?php
 
+use yii\helpers\Url;
+
 ?>
 
 
-<h2 class="product__title"><a href="#" class="link">Пряжа <?= $model->title ?></a></h2>
+<h2 class="product__title"><a href="<?= Url::to(['goods/view', 'id' => $model->id])?>" class="link">Пряжа <?= $model->title ?></a></h2>
 <span class="product__manufacturer"><?= $model->brand->title ?></span>
 <div class="product__image-wrapper">
     <img src="<?= $model->getMainImageUrl() ?>">

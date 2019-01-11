@@ -50,4 +50,17 @@ class GoodsController extends Controller
             'model' => $Category,
         ]);
     }
+
+    public function actionView($id)
+    {
+        $model = Good::findOne(['id' => $id, 'active' => 1]);
+
+        if (!$model) {
+            throw new NotFoundHttpException();
+        }
+
+        return $this->render('good', [
+            'model' => $model
+        ]);
+    }
 }

@@ -21,18 +21,18 @@ return [
             'charset' => 'utf8',
         ],
         'urlManager' => [
-            'class'           => 'yii\web\UrlManager',
-            'enablePrettyUrl' => true,
-            'showScriptName'  => false,
+            'class'               => 'yii\web\UrlManager',
+            'enablePrettyUrl'     => true,
+            'showScriptName'      => false,
             'enableStrictParsing' => true,
-            'rules'           => [
+            'rules'               => [
 
                 [
-                    'class' => 'yii\rest\UrlRule',
-                    'controller' => 'api/image',
+                    'class'         => 'yii\rest\UrlRule',
+                    'controller'    => 'api/image',
                     'extraPatterns' => [
                         'POST toggle-main' => 'toggle-main',
-                    ]
+                    ],
                 ],
 
                 ['class' => 'yii\rest\UrlRule', 'controller' => 'api/good',],
@@ -43,6 +43,7 @@ return [
                 '<_a:(login|logout|signup|confirm-email|request-password-reset|reset-password)>' => 'user/default/<_a>',
 
                 'goods/category/<id:\d+>' => 'goods/category',
+                'goods/category/good/<id:\d+>'          => 'goods/view',
 
                 /*'<_m:[\w\-]+>/<_c:[\w\-]+>/<id:\d+>'              => '<_m>/<_c>/view',
                 '<_m:[\w\-]+>/<_c:[\w\-]+>/<id:\d+>/<_a:[\w\-]+>' => '<_m>/<_c>/<_a>',

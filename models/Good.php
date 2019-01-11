@@ -129,4 +129,9 @@ class Good extends \yii\db\ActiveRecord
             return '/img/no-image.svg';
         }
     }
+
+    public function getFullTitle()
+    {
+        return $this->category->title . ' ' . $this->title;
+    }
 }

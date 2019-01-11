@@ -7,7 +7,7 @@
     margin-bottom: 10px;
     display: flex;
     align-items: center;
-    
+
     &::after {
         content: "";
         display: block;
@@ -23,7 +23,7 @@
     margin-right: 10px;
     font-size: 18px;
     font-weight: bold;
-    color: #000;    
+    color: #000;
     white-space: nowrap;
 }
 
@@ -34,7 +34,7 @@
 .page-product__feature-title {
     margin: 0;
     margin-bottom: 15px;
-    
+
     font-size: 16px;
     font-weight: bold;
 }
@@ -48,7 +48,7 @@
     margin-bottom: 15px;
     padding: 7px 0;
     list-style: none;
-    
+
     border-top: 1px dashed @bg-orange;
     border-bottom: 1px dashed @bg-orange;
 }
@@ -64,10 +64,10 @@
     font-size: 14px;
     line-height: 18px;
     font-weight: bold;
-    
+
     & span {
         color: @bg-green;
-    }    
+    }
 }
 
 .page-product__price-text {
@@ -114,9 +114,9 @@
     width: 45px;
     height: 30px;
     box-sizing: border-box;
-    
+
     font-size: 14px;
-    
+
     border: 1px solid @bg-brown;
     border-top-left-radius: 5px;
     border-bottom-left-radius: 5px;
@@ -132,10 +132,10 @@
     box-sizing: border-box;
     font-size: 14px;
     outline-color: @bg-brown;
-    
+
     border: 1px solid @bg-brown;
     background: #f4aa34;
-    
+
     &:active {
         background: lighten(#f4aa34, 10%);
     }
@@ -156,7 +156,7 @@
     margin-left: auto;
     padding: 6px 10px;
     padding-left: 40px;
-    
+
     background-color: @bg-green;
     background-image: url("/img/cart.svg");
     background-repeat: no-repeat;
@@ -164,8 +164,8 @@
     background-position: 10% center;
     border: 1px solid darken(@bg-green, 10%);
     border-radius: 5px;
-    
-    
+
+
     text-transform: lowercase;
     color: #fff;
 }
@@ -182,9 +182,9 @@
 
 .page-product__descr h2 {
     position: absolute;
-    top: -12px;
+    top: -21px;
     left: 14px;
-    
+
     margin: 0;
     font-size: 16px;
     font-weight: bold;
@@ -202,19 +202,19 @@
         flex-wrap: wrap;
         justify-content: space-between;
     }
-    
+
     .page-product__title-wrapper {
         width: 100%;
     }
-    
+
     .page-product__slider-image {
         width: 45%;
     }
-    
+
     .page-product__feature {
         width: 50%;
     }
-        
+
 }
 
 @media @desktop-widths {
@@ -222,7 +222,7 @@
         display: flex;
         flex-wrap: wrap;
     }
-    
+
     .page-product__cart {
         margin: 0;
         margin-top: 15px;
