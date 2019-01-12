@@ -24,7 +24,7 @@ return [
             'class'               => 'yii\web\UrlManager',
             'enablePrettyUrl'     => true,
             'showScriptName'      => false,
-            'enableStrictParsing' => true,
+            //'enableStrictParsing' => true,
             'rules'               => [
 
                 [

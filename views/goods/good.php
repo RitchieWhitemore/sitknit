@@ -22,7 +22,16 @@ use yii\helpers\Url;
     <div class="page-product__slider-image slider-image">
         <div class="slider-image__main-image-wrapper">
             <a href="<?= $model->getMainImageUrl()?>" target="_blank" class="slider-image__link slider-image__link--active">
-                <img class="slider-image__main-image" src="<?= $model->getMainImageUrl()?>">
+                <?= Yii::$app->thumbnail->img($model->getMainImageUrl(), [
+                    'thumbnail' => [
+                        'width' => 320,
+                        'height' => 230,
+                    ],
+                    'placeholder' => [
+                        'width' => 320,
+                        'height' => 230
+                    ]
+                ], ['class' => 'slider-image__main-image']); ?>
             </a>
         </div>
         <div class="slider-image__small-image-wrapper">
@@ -30,8 +39,16 @@ use yii\helpers\Url;
                 <?php foreach ($model->images as $image) : ?>
                 <li class="slider-image__item">
                     <a href="<?= $image->url ?>" class="slider-image__link">
-                        <img class="slider-image__small-image"
-                             src="<?= $image->url ?>">
+                        <?= Yii::$app->thumbnail->img($image->url, [
+                            'thumbnail' => [
+                                'width' => 70,
+                                'height' => 50,
+                            ],
+                            'placeholder' => [
+                                'width' => 70,
+                                'height' => 50
+                            ]
+                        ], ['class' => 'slider-image__small-image']); ?>
                     </a>
                 </li>
                 <?php endforeach; ?>

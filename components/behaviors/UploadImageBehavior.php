@@ -14,6 +14,7 @@ use yii\web\UploadedFile;
  */
 class UploadImageBehavior extends \yii\base\Behavior
 {
+    const IMG_PATH = 'img';
     /**
      * @var UploadedFile
      */
@@ -50,7 +51,7 @@ class UploadImageBehavior extends \yii\base\Behavior
     {
         parent::init();
 
-        $this->_path = '/web/img/' . $this->catalog;
+        $this->_path = '/' . self::IMG_PATH . '/' . $this->catalog;
     }
 
     public function beforeValidate()

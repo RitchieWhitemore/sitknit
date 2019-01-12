@@ -29,6 +29,11 @@ $config = [
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
         ],
+        'thumbnail' => [
+            'class' => 'sadovojav\image\Thumbnail',
+            'basePath' => '@app/web',
+            'cachePath' => '@app/web/img/thumbnails',
+        ],
         'view' => [
             'theme' => [
                 'pathMap' => [
