@@ -1,6 +1,8 @@
 <?php
 use yii\helpers\ArrayHelper;
 
+require ('auth.php');
+
 require __DIR__ . '/../vendor/autoload.php';
 require __DIR__ . '/../vendor/yiisoft/yii2/Yii.php';
 
