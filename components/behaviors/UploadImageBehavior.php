@@ -61,9 +61,11 @@ class UploadImageBehavior extends \yii\base\Behavior
 
     public function afterInsert()
     {
-        if ($this->upload()) {
-            $this->_new = true;
-            $this->owner->save(false);
+        if ($this->imageFile != null) {
+            if ($this->upload()) {
+                $this->_new = true;
+                $this->owner->save(false);
+            }
         }
     }
 
