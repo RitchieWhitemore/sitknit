@@ -2,9 +2,8 @@
 
 namespace app\models;
 
-use app\components\behaviors\UploadImageBehavior;
-use Yii;
-use yii\helpers\ArrayHelper;
+
+use app\models\query\GoodQuery;
 
 /**
  * This is the model class for table "good".
@@ -110,6 +109,16 @@ class Good extends \yii\db\ActiveRecord
         return $this->hasMany(Image::className(), ['goodId' => 'id']);
     }
 
+    public function getAttributeValues()
+    {
+        return $this->hasMany(AttributeValue::className(), ['good_id' => 'id']);
+    }
+
+    public function getGoodAttributes()
+    {
+        return $this->hasMany(Attribute::className(), ['id' => 'attribute_id'])->viaTable('attribute_value', ['good_id' => 'id']);
+    }
+
     public static function getGoodArray()
     {
         return self::find()->select(['title','id'])->indexBy('id')->column();
@@ -133,5 +142,10 @@ class Good extends \yii\db\ActiveRecord
     public function getFullTitle()
     {
         return $this->category->title . ' ' . $this->title;
+    }
+
+    public static function find()
+    {
+        return new GoodQuery(get_called_class());
     }
 }

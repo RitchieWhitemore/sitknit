@@ -13,6 +13,9 @@ use yii\web\UploadedFile;
  * @property int $id
  * @property string $title
  * @property string $description
+ *
+ * @property Good[] $goods
+ * @property Category $parent
  */
 class Category extends \yii\db\ActiveRecord
 {
@@ -46,9 +49,11 @@ class Category extends \yii\db\ActiveRecord
             [['title'], 'required'],
             [['title'], 'string', 'max' => 50],
             [['description'], 'string', 'max' => 100],
+            [['content'], 'string'],
             [['active'], 'integer'],
             [['image'], 'string'],
             [['imageFile'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg'],
+            [['parent_id'], 'exist', 'skipOnError' => true, 'targetClass' => Category::className(), 'targetAttribute' => ['parent_id' => 'id']],
         ];
     }
 
@@ -59,6 +64,7 @@ class Category extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
+            'parent_id' => 'Родительская категория',
             'title' => 'Название',
             'description' => 'Описание',
             'active' => 'Активен',
@@ -75,5 +81,10 @@ class Category extends \yii\db\ActiveRecord
     public function getGoods()
     {
         return $this->hasMany(Good::className(), ['categoryId' => 'id']);
+    }
+
+    public function getParent()
+    {
+        return $this->hasOne(Category::className(), ['id' => 'parent_id']);
     }
 }
