@@ -352,6 +352,10 @@ img {
   width: auto;
   box-sizing: border-box;
 }
+.user-default-login,
+.user-default-signup {
+  width: 100%;
+}
 .page-header {
   margin: 0;
   padding: 0;
