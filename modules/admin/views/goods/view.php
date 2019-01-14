@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use yii\helpers\ArrayHelper;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Good */
@@ -33,9 +34,18 @@ $this->params['breadcrumbs'][] = $this->title;
             'title',
             'description',
             'characteristic',
-            'categoryId',
-            'brandId',
-            'countryId',
+            [
+                    'attribute' => 'categoryId',
+                'value' => ArrayHelper::getValue($model, 'category.title')
+            ],
+            [
+                'attribute' => 'brandId',
+                'value' => ArrayHelper::getValue($model, 'brand.title')
+            ],
+            [
+                'attribute' => 'countryId',
+                'value' => ArrayHelper::getValue($model, 'country.title')
+            ],
             'packaged',
         ],
     ]) ?>
