@@ -34,18 +34,15 @@ $this->params['breadcrumbs'][] = $this->title;
 
             'id',
             [
-                'filter'    => Category::getCategoriesArray(),
                 'attribute' => 'categoryId',
-                'value'     => function ($value) {
-                    return $value->category->title;
-                },
+                'filter'    => Category::getCategoriesArray(),
+                'value'     => 'category.title',
             ],
             [
-                'filter'    => Brand::getBrandsArray(),
+
                 'attribute' => 'brandId',
-                'value'     => function ($value) {
-                    return $value->brand->title;
-                },
+                'filter'    => Brand::getBrandsArray(),
+                'value'     => 'brand.title',
             ],
             'article',
             'title',

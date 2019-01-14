@@ -41,6 +41,7 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute' => 'parent_id',
                 'filter'    => Category::find()->select(['title', 'id'])->indexBy('id')->column(),
+                'value'     => 'parent.title',
             ],
             'description',
             [
