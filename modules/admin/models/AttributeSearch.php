@@ -2,29 +2,23 @@
 
 namespace app\modules\admin\models;
 
-use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\Category;
+use app\models\Attribute;
 
 /**
- * CategorySearch represents the model behind the search form of `app\models\Category`.
+ * AttributeSearch represents the model behind the search form of `app\models\Attribute`.
  */
-class CategorySearch extends Category
+class AttributeSearch extends Attribute
 {
-    public function behaviors()
-    {
-        return [];
-    }
-
     /**
      * {@inheritdoc}
      */
     public function rules()
     {
         return [
-            [['id', 'parent_id', 'active'], 'integer'],
-            [['title', 'description'], 'safe'],
+            [['id'], 'integer'],
+            [['name'], 'safe'],
         ];
     }
 
@@ -46,7 +40,7 @@ class CategorySearch extends Category
      */
     public function search($params)
     {
-        $query = Category::find();
+        $query = Attribute::find();
 
         // add conditions that should always apply here
 
@@ -65,12 +59,9 @@ class CategorySearch extends Category
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'parent_id' => $this->parent_id,
-            'active' => $this->active,
         ]);
 
-        $query->andFilterWhere(['like', 'title', $this->title])
-            ->andFilterWhere(['like', 'description', $this->description]);
+        $query->andFilterWhere(['like', 'name', $this->name]);
 
         return $dataProvider;
     }
