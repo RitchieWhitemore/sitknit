@@ -3,6 +3,8 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
+use app\models\Attribute;
+
 /* @var $this yii\web\View */
 /* @var $searchModel app\modules\admin\models\AttributeValueSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -27,7 +29,10 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
             'good_id',
-            'attribute_id',
+            [
+                    'attribute' => 'attribute_id',
+                'filter' => Attribute::find()->select(['name', 'id'])->indexBy('id')->column()
+            ],
             'value',
 
             ['class' => 'yii\grid\ActionColumn'],

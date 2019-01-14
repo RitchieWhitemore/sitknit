@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use app\models\Attribute;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\AttributeValue */
@@ -14,7 +15,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'good_id')->textInput() ?>
 
-    <?= $form->field($model, 'attribute_id')->textInput() ?>
+    <?= $form->field($model, 'attribute_id')->dropDownList(Attribute::find()->select(['name', 'id'])->indexBy('id')->column(), ['prompt' => 'Выберите атрибут'] ) ?>
 
     <?= $form->field($model, 'value')->textInput(['maxlength' => true]) ?>
 

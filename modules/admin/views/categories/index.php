@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
+use app\models\Category;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\modules\admin\models\CategorySearch */
@@ -21,25 +22,26 @@ $this->params['breadcrumbs'][] = $this->title;
     </p>
 
     <?php Pjax::begin([
-            'id' => 'category-list',
-            'timeout' => 10000,
-            'enablePushState' => false]); ?>
+        'id'              => 'category-list',
+        'timeout'         => 10000,
+        'enablePushState' => false]); ?>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-
+        'filterModel'  => $searchModel,
+        'columns'      => [
             'id',
             [
                 'attribute' => 'image',
-                'format' => 'raw',
-                'value' => function ($value) {
+                'format'    => 'raw',
+                'value'     => function ($value) {
                     return Html::img($value->getMainImageUrl(), ['width' => 100]);
-                }
+                },
             ],
             'title',
-            'parent_id',
+            [
+                'attribute' => 'parent_id',
+                'filter'    => Category::find()->select(['title', 'id'])->indexBy('id')->column(),
+            ],
             'description',
             [
                 'attribute'      => 'active',
@@ -50,7 +52,8 @@ $this->params['breadcrumbs'][] = $this->title;
                 'value'          => function ($value) {
                     if ($value->active == 1) {
                         $label = '<span class="glyphicon glyphicon-eye-open text-success"></span>';
-                    } else {
+                    }
+                    else {
                         $label = '<span class="glyphicon glyphicon-eye-close text-success"></span>';
                     }
 
@@ -61,5 +64,5 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
-    <?php Pjax::end();?>
+    <?php Pjax::end(); ?>
 </div>

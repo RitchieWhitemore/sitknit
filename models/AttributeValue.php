@@ -46,8 +46,8 @@ class AttributeValue extends \yii\db\ActiveRecord
     {
         return [
             'good_id' => 'Good ID',
-            'attribute_id' => 'Attribute ID',
-            'value' => 'Value',
+            'attribute_id' => 'Атрибут',
+            'value' => 'Значение',
         ];
     }
 
