@@ -67,15 +67,15 @@ AppAsset::register($this);
             ['label' => 'Home', 'url' => ['/main/default/index']],
             ['label' => 'Contact', 'url' => ['main/contact/index']],
             Yii::$app->user->isGuest ?
-                ['label' => 'Sign Up', 'url' => ['/users/default/signup']] :
+                ['label' => 'Sign Up', 'url' => ['/user/default/signup']] :
                 false,
             Yii::$app->user->isGuest ?
-                ['label' => 'Login', 'url' => ['/users/default/login']] :
+                ['label' => 'Login', 'url' => ['/user/default/login']] :
                 ['label' => 'Logout (' . Yii::$app->user->identity->username . ')',
-                 'url' => ['/users/default/logout'],
+                 'url' => ['/user/default/logout'],
                  'linkOptions' => ['data-method' => 'post']],
             !Yii::$app->user->isGuest ?
-                ['label' => 'Личный кабинет', 'url' => ['/users/profile/index']] :
+                ['label' => 'Личный кабинет', 'url' => ['/user/profile/index']] :
                 false,
         ]),
     ]);
