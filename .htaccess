@@ -1,3 +1,13 @@
+#AuthType Basic
+#AuthUserFile /var/www/vhosts/4/159779/webspace/httpdocs/.htpasswd
+#AuthName "developer"
+#require valid-user
+#
+#<IfModule mod_rewrite.c>
+#   RewriteEngine on
+#   SetEnvIfNoCase Authorization "Basic ([a-z0-9=]+)" QUERY_STRING=$1
+#</IfModule>
+
 Options +FollowSymLinks
 IndexIgnore */*
 RewriteEngine on
