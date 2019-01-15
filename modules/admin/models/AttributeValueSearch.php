@@ -40,7 +40,7 @@ class AttributeValueSearch extends AttributeValue
      */
     public function search($params)
     {
-        $query = AttributeValue::find();
+        $query = AttributeValue::find()->with(['good', 'goodAttribute']);
 
         // add conditions that should always apply here
 

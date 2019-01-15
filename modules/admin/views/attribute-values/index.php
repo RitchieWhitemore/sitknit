@@ -24,14 +24,15 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
-        'columns' => [
+        'filterModel'  => $searchModel,
+        'columns'      => [
             ['class' => 'yii\grid\SerialColumn'],
 
             'good_id',
             [
-                    'attribute' => 'attribute_id',
-                'filter' => Attribute::find()->select(['name', 'id'])->indexBy('id')->column()
+                'attribute' => 'attribute_id',
+                'filter'    => Attribute::find()->select(['name', 'id'])->indexBy('id')->column(),
+                'value'     => 'goodAttribute.name',
             ],
             'value',
 

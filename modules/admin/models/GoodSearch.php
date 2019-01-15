@@ -41,7 +41,7 @@ class GoodSearch extends Good
      */
     public function search($params)
     {
-        $query = Good::find();
+        $query = Good::find()->with(['category']);
 
         // add conditions that should always apply here
 
