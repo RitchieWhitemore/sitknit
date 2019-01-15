@@ -19,6 +19,7 @@ return [
         'db'         => [
             'class'   => 'yii\db\Connection',
             'charset' => 'utf8',
+            'enableSchemaCache' => true,
         ],
         'urlManager' => [
             'class'               => 'yii\web\UrlManager',
@@ -55,7 +56,7 @@ return [
             'class' => 'yii\swiftmailer\Mailer',
         ],
         'cache'      => [
-            'class' => 'yii\caching\DummyCache',
+            'class' => 'yii\caching\FileCache',
         ],
         'log'        => [
             'class' => 'yii\log\Dispatcher',
