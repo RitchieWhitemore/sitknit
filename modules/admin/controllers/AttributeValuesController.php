@@ -63,12 +63,13 @@ class AttributeValuesController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
+    public function actionCreate($good_id = null)
     {
         $model = new AttributeValue();
+        $model->good_id = $good_id;
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'good_id' => $model->good_id, 'attribute_id' => $model->attribute_id]);
+            return $this->redirect(['goods/view', 'id' => $model->good_id]);
         }
 
         return $this->render('create', [
@@ -89,7 +90,7 @@ class AttributeValuesController extends Controller
         $model = $this->findModel($good_id, $attribute_id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'good_id' => $model->good_id, 'attribute_id' => $model->attribute_id]);
+            return $this->redirect(['goods/view', 'id' => $model->good_id]);
         }
 
         return $this->render('update', [
@@ -109,7 +110,7 @@ class AttributeValuesController extends Controller
     {
         $this->findModel($good_id, $attribute_id)->delete();
 
-        return $this->redirect(['index']);
+        return $this->redirect(['goods/view', 'id' => $good_id]);
     }
 
     /**
