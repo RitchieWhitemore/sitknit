@@ -41,12 +41,23 @@ class GoodSearch extends Good
      */
     public function search($params)
     {
-        $query = Good::find()->with(['category']);
+        $query = Good::find()->joinWith(['category']);
 
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort' => [
+                'defaultOrder' => ['id' => SORT_ASC],
+                'attributes' => [
+                    'id',
+                    'title',
+                    'categoryId' => [
+                        'asc' => ['category.title' => SORT_ASC],
+                        'desc' => ['category.title' => SORT_DESC],
+                    ]
+                ]
+            ]
         ]);
 
         $this->load($params);

@@ -12,6 +12,8 @@ use yii\db\Expression;
  */
 class CategorySearch extends Category
 {
+    public $goods_count;
+
     public function behaviors()
     {
         return [];
@@ -23,7 +25,7 @@ class CategorySearch extends Category
     public function rules()
     {
         return [
-            [['id', 'parent_id', 'active'], 'integer'],
+            [['id', 'parent_id', 'goods_count', 'active'], 'integer'],
             [['title', 'description'], 'safe'],
         ];
     }
@@ -56,6 +58,13 @@ class CategorySearch extends Category
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort' => [
+                'attributes' => [
+                    'id',
+                    'title',
+                    'goods_count'
+                ]
+            ]
         ]);
 
         $this->load($params);
@@ -72,6 +81,10 @@ class CategorySearch extends Category
             'parent_id' => $this->parent_id,
             'active' => $this->active,
         ]);
+
+        if (isset($this->goods_count)) {
+            $query->andHaving(['goods_count' => $this->goods_count]);
+        }
 
         $query->andFilterWhere(['like', 'title', $this->title])
             ->andFilterWhere(['like', 'description', $this->description]);
