@@ -19,6 +19,7 @@ use yii\web\UploadedFile;
  */
 class Category extends \yii\db\ActiveRecord
 {
+    public $goods_count;
     /**
      * {@inheritdoc}
      */

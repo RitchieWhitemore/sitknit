@@ -43,7 +43,10 @@ $this->params['breadcrumbs'][] = $this->title;
                 'filter'    => Category::find()->select(['title', 'id'])->indexBy('id')->column(),
                 'value'     => 'parent.title',
             ],
-            'description',
+            [
+                'label'     => 'Кол-во товаров',
+                'attribute' => 'goods_count',
+            ],
             [
                 'attribute'      => 'active',
                 'label'          => 'Активен',
