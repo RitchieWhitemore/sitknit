@@ -2,10 +2,13 @@
 
 namespace app\modules\admin\controllers;
 
+use app\models\Attribute;
+use app\models\AttributeValue;
 use app\models\Image;
 use Yii;
 use app\models\Good;
 use app\modules\admin\models\GoodSearch;
+use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -98,13 +101,34 @@ class GoodsController extends Controller
             'query' => $model->getImages()
         ]);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        /** @var AttributeValue[] $values */
+        $values = $model->getAttributeValues()->with('goodAttribute')->indexBy('attribute_id')->all();
+        $attributes = Attribute::find()->indexBy('id')->all();
+        foreach (array_diff_key($attributes, $values) as $attribute) {
+            $values[] = new AttributeValue(['attribute_id' => $attribute->id]);
+        }
+        foreach ($values as $value) {
+            $value->setScenario(AttributeValue::SCENARIO_TABULAR);
+        }
+        $post = Yii::$app->request->post();
+        if ($model->load($post) && $model->save() && Model::loadMultiple($values, $post)) {
+            foreach ($values as $value) {
+                $value->good_id = $model->id;
+                if ($value->validate()) {
+                    if (!empty($value->value)) {
+                        $value->save(false);
+                    } else {
+                        $value->delete();
+                    }
+                }
+            }
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
         return $this->render('update', [
             'model' => $model,
             'imagesProvider' => $imagesProvider,
+            'values' => $values,
         ]);
     }
 

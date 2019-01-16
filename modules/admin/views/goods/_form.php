@@ -6,9 +6,14 @@ use app\models\Category;
 use app\models\Brand;
 use app\models\Country;
 
-/* @var $this yii\web\View */
-/* @var $model app\models\Good */
-/* @var $form yii\widgets\ActiveForm */
+/**
+ * @var $this yii\web\View
+ * @var $model app\models\Good
+ * @var $form yii\widgets\ActiveForm
+ *
+ * @var $values app\models\Attribute
+ *
+ */
 ?>
 
 <div class="good-form">
@@ -43,14 +48,12 @@ use app\models\Country;
                 <?= $form->field($model, 'packaged')->textInput() ?>
 
                 <?= $form->field($model, 'active')->dropDownList([0 => 'Нет', 1 => 'Да'], ['prompt' => 'активируйте товар']) ?>
-
-                <div class="form-group">
-                    <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success']) ?>
-                </div>
-
-                <?php ActiveForm::end(); ?>
             </div>
-            <div>Page 2</div>
+            <div>
+                <?php foreach ($values as $value): ?>
+                    <?= $form->field($value, '[' . $value->goodAttribute->id . ']value')->label($value->goodAttribute->name); ?>
+                <?php endforeach; ?>
+            </div>
             <?php
             if ($this->context->action->id == "update") {
                 echo " <div><image-list good-id={$model->id}></image-list></div>";
@@ -58,4 +61,9 @@ use app\models\Country;
             ?>
         </iron-pages>
     </page-tabs>
+    <div class="form-group">
+        <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success']) ?>
+    </div>
+
+    <?php ActiveForm::end(); ?>
 </div>
