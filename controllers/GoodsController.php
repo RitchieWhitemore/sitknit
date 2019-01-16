@@ -8,9 +8,12 @@
 
 namespace app\controllers;
 
+use app\models\Attribute;
+use app\models\AttributeValue;
 use app\models\Category;
 use app\models\Good;
 use yii\data\ActiveDataProvider;
+use yii\helpers\ArrayHelper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 
@@ -38,7 +41,7 @@ class GoodsController extends Controller
 
         $dataProvider = new ActiveDataProvider(
             [
-                'query'      => Good::find()->where(['categoryId' => $id, 'active' => 1]),
+                'query'      => Good::find()->where(['categoryId' => $id, 'active' => 1])->with(['attributeValues']),
                 'pagination' => [
                     'pageSize' => 15,
                 ],
@@ -53,14 +56,17 @@ class GoodsController extends Controller
 
     public function actionView($id)
     {
-        $model = Good::findOne(['id' => $id, 'active' => 1]);
+        $model = Good::find()->where(['id' => $id, 'active' => 1])->with(['attributeValues'])->one();
 
         if (!$model) {
             throw new NotFoundHttpException();
         }
 
+        $values = $model->getAttributeValues()->with('goodAttribute')->indexBy('goodAttribute.name')->all();
+
         return $this->render('good', [
-            'model' => $model
+            'model' => $model,
+            'values' => $values,
         ]);
     }
 }

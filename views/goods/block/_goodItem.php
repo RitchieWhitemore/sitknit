@@ -2,6 +2,13 @@
 
 use yii\helpers\Url;
 
+/**
+ *
+ * @var $model app\models\Good
+ */
+
+$values = $model->getAttributeValues()->with('goodAttribute')->indexBy('goodAttribute.name')->all();
+
 ?>
 
 
@@ -10,11 +17,11 @@ use yii\helpers\Url;
 <div class="product__image-wrapper">
     <img src="<?= $model->getMainImageUrl() ?>">
 </div>
-<span class="product__color">Розовый (185)</span>
+<span class="product__color"><?= isset($values['Цвет']) ? $values['Цвет']->value : ''?></span>
 <ul class="product__characteristic-list">
-    <li class="product__characteristics-item"><b>Состав:</b>100% полиэстер</li>
-    <li class="product__characteristics-item"><b>Вес:</b>100 гр.</li>
-    <li class="product__characteristics-item"><b>Длина:</b>95 м.</li>
+    <li class="product__characteristics-item"><b>Состав:</b> <?= isset($values['Состав']) ? $values['Состав']->value : ''?></li>
+    <li class="product__characteristics-item"><b>Вес:</b> <?= isset($values['Вес']) ? $values['Вес']->value : ''?></li>
+    <li class="product__characteristics-item"><b>Длина:</b> <?= isset($values['Длина']) ? $values['Длина']->value : ''?></li>
 </ul>
 <div class="product__price-wrapper">
     <span class="product__price">151 руб.</span>

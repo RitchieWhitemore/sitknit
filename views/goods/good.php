@@ -1,10 +1,9 @@
 <?php
 
-use yii\helpers\Url;
-
 /**
  *
  * @var $model app\models\Good
+ * @var $values app\models\AttributeValue
  *
  */
 
@@ -61,10 +60,10 @@ use yii\helpers\Url;
         <h2 class="page-product__feature-title">Характеристики:</h2>
         <ul class="page-product__feature-list">
             <li class="page-product__feature-item"><b>Производитель: </b><?= $model->brand->title ?> (<?= $model->country->title ?>)</li>
-            <li class="page-product__feature-item"><b>Цвет:</b> Зелено-коричневый (9045)</li>
-            <li class="page-product__feature-item"><b>Состав:</b> 75% шерсть супероуш, 25% полиамид</li>
-            <li class="page-product__feature-item"><b>Вес:</b> 100 гр.</li>
-            <li class="page-product__feature-item"><b>Длина:</b> 425 м.</li>
+            <?php foreach ($values as $attr => $value) {
+                echo '<li class="page-product__feature-item"><b>' . $attr . ':</b> ' . $value->value . '</li>';
+            }
+            ?>
             <li class="page-product__feature-item"><b>Товара в упаковке:</b> <?= $model->packaged ?> шт.</li>
         </ul>
         <p class="page-product__existence"><span>в наличии</span> 10 упак.</p>
