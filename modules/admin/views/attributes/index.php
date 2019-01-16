@@ -7,7 +7,7 @@ use yii\widgets\Pjax;
 /* @var $searchModel app\modules\admin\models\AttributeSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Attributes';
+$this->title = 'Атрибуты';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="attribute-index">
@@ -17,7 +17,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Create Attribute', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Создать атрибут', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?= GridView::widget([

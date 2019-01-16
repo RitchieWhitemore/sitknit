@@ -5,8 +5,8 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\AttributeValue */
 
-$this->title = 'Create Attribute Value';
-$this->params['breadcrumbs'][] = ['label' => 'Attribute Values', 'url' => ['index']];
+$this->title = 'Создать значение атрибута';
+$this->params['breadcrumbs'][] = ['label' => 'Значения атрибутов', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="attribute-value-create">
