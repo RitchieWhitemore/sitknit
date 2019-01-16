@@ -79,16 +79,15 @@ class UploadImageBehavior extends \yii\base\Behavior
     public function afterUpdate()
     {
         if (!$this->_new) {
+            if ($this->imageFile != null) {
+                if ($this->typeSave === 'multiple') {
+                    $this->removeOldImage();
+                }
 
-            if ($this->typeSave === 'multiple') {
-                $this->removeOldImage();
+                if ( $this->_delete && $this->upload()) {
+                    $this->owner->save(false);
+                };
             }
-
-            if ( $this->_delete && $this->upload()) {
-                $this->owner->save(false);
-            };
-
-
         }
     }
 

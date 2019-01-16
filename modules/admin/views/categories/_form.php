@@ -19,6 +19,8 @@ use app\models\Category;
 
     <?= $form->field($model, 'description')->textarea(['maxlength' => true]) ?>
 
+    <?= $form->field($model, 'content')->textarea() ?>
+
     <?= $form->field($model, 'active')->dropDownList([0 => 'Нет', 1 => 'Да'], ['prompt' => 'активируйте категорию']) ?>
 
     <?php

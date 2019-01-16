@@ -20,6 +20,7 @@ use yii\web\UploadedFile;
 class Category extends \yii\db\ActiveRecord
 {
     public $goods_count;
+
     /**
      * {@inheritdoc}
      */
@@ -32,11 +33,11 @@ class Category extends \yii\db\ActiveRecord
     {
         return [
             [
-                'class' => UploadImageBehavior::className(),
+                'class'         => UploadImageBehavior::className(),
                 'fileNameField' => 'image',
-                'goodIdField' => 'id',
-                'typeSave' => 'single',
-                'catalog' => 'category'
+                'goodIdField'   => 'id',
+                'typeSave'      => 'single',
+                'catalog'       => 'category',
             ],
         ];
     }
@@ -64,19 +65,20 @@ class Category extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'parent_id' => 'Родительская категория',
-            'title' => 'Название',
-            'description' => 'Описание',
-            'active' => 'Активен',
-            'imageFile' => 'Изображение',
-            'image' => 'Загруженое изображение'
+            'id'          => 'ID',
+            'parent_id'   => 'Родительская категория',
+            'title'       => 'Название',
+            'description' => 'Краткое описание',
+            'content'     => 'Полное описание',
+            'active'      => 'Активен',
+            'imageFile'   => 'Изображение',
+            'image'       => 'Загруженое изображение',
         ];
     }
 
     public static function getCategoriesArray()
     {
-        return self::find()->select(['title','id'])->indexBy('id')->column();
+        return self::find()->select(['title', 'id'])->indexBy('id')->column();
     }
 
     public function getGoods()
