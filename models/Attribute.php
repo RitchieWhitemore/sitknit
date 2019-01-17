@@ -31,6 +31,7 @@ class Attribute extends \yii\db\ActiveRecord
         return [
             [['name'], 'required'],
             [['name'], 'string', 'max' => 255],
+            [['unit_id'], 'integer'],
         ];
     }
 
@@ -41,7 +42,8 @@ class Attribute extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'name' => 'Name',
+            'name' => 'Имя',
+            'unit_id' => 'Единица измерения'
         ];
     }
 
@@ -59,5 +61,13 @@ class Attribute extends \yii\db\ActiveRecord
     public function getGoods()
     {
         return $this->hasMany(Good::className(), ['id' => 'good_id'])->viaTable('attribute_value', ['attribute_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUnit()
+    {
+        return $this->hasOne(Unit::className(), ['id' => 'unit_id']);
     }
 }
