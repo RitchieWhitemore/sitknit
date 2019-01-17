@@ -56,6 +56,7 @@ $this->registerLinkTag(['rel' => 'import', 'href' => "$webCompsUrl/image-list.ht
                 ['label' => 'Товары', 'url' => ['/admin/goods/index']],
                 ['label' => 'Атрибуты', 'url' => ['/admin/attributes/index']],
                 ['label' => 'Значения атрибута', 'url' => ['/admin/attribute-values/index']],
+                ['label' => 'Единицы измерения', 'url' => ['/admin/units/index']],
                 ['label' => 'Изображения', 'url' => ['/admin/images/index']],
             ]],
 
