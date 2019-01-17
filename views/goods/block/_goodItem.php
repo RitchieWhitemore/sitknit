@@ -15,7 +15,16 @@ $values = $model->getAttributeValues()->with('goodAttribute.unit')->indexBy('goo
 <h2 class="product__title"><a href="<?= Url::to(['goods/view', 'id' => $model->id])?>" class="link">Пряжа <?= $model->title ?></a></h2>
 <span class="product__manufacturer"><?= $model->brand->title ?></span>
 <div class="product__image-wrapper">
-    <img src="<?= $model->getMainImageUrl() ?>">
+    <?= Yii::$app->thumbnail->img($model->mainImageUrl, [
+        'thumbnail'   => [
+            'width'  => 220,
+            'height' => 150,
+        ],
+        'placeholder' => [
+            'width'  => 220,
+            'height' => 150,
+        ],
+    ])?>
 </div>
 <span class="product__color"><?= isset($values['Цвет']) ? $values['Цвет']->value : ''?></span>
 <ul class="product__characteristic-list">

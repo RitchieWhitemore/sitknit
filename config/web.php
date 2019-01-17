@@ -6,6 +6,7 @@ $config = [
     'defaultRoute' => 'main/default/index',
     'components' => [
         'assetManager' => [
+            'appendTimestamp' => true,
             'bundles' => [
                 'dmstr\web\AdminLteAsset' => [
                     'skin' => 'skin-black',
