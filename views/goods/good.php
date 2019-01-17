@@ -61,7 +61,7 @@
         <ul class="page-product__feature-list">
             <li class="page-product__feature-item"><b>Производитель: </b><?= $model->brand->title ?> (<?= $model->country->title ?>)</li>
             <?php foreach ($values as $attr => $value) {
-                echo '<li class="page-product__feature-item"><b>' . $attr . ':</b> ' . $value->value . '</li>';
+                echo '<li class="page-product__feature-item"><b>' . $attr . ':</b> ' . $value->value . ' ' . $value->goodAttribute->unit->name . '</li>';
             }
             ?>
             <li class="page-product__feature-item"><b>Товара в упаковке:</b> <?= $model->packaged ?> шт.</li>

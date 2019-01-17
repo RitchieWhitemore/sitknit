@@ -62,7 +62,7 @@ class GoodsController extends Controller
             throw new NotFoundHttpException();
         }
 
-        $values = $model->getAttributeValues()->with('goodAttribute')->indexBy('goodAttribute.name')->all();
+        $values = $model->getAttributeValues()->with('goodAttribute.unit')->indexBy('goodAttribute.name')->all();
 
         return $this->render('good', [
             'model' => $model,
