@@ -134,8 +134,6 @@ class Good extends \yii\db\ActiveRecord
 
         if (isset($Image)) {
             return '/img/goods/'. $this->id . '/' . $Image->fileName;
-        } else {
-            return '/img/no-image.svg';
         }
     }
 
