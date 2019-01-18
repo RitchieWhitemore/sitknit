@@ -343,6 +343,14 @@ img {
   text-decoration: none;
   color: #000;
 }
+a.disabled {
+  pointer-events: none;
+  /* делаем элемент неактивным для взаимодействия */
+  cursor: default;
+  /*  курсор в виде стрелки */
+  color: #888;
+  /* цвет текста серый */
+}
 .container {
   width: 320px;
   margin: 0 auto;

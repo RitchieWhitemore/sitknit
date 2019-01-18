@@ -26,7 +26,7 @@ class GoodsController extends Controller
     {
         return [
             'verbs' => [
-                'class' => VerbFilter::className(),
+                'class'   => VerbFilter::className(),
                 'actions' => [
                     'delete' => ['POST'],
                 ],
@@ -44,7 +44,7 @@ class GoodsController extends Controller
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
-            'searchModel' => $searchModel,
+            'searchModel'  => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
     }
@@ -59,12 +59,22 @@ class GoodsController extends Controller
     {
         $model = $this->findModel($id);
 
+        $index = Good::nextOrPrev($id, $model->categoryId);
+        $nextId = $index['next'];
+        $disableNext = ($nextId === null) ? 'disabled' : null;
+        $prevId = $index['prev'];
+        $disablePrev = ($prevId === null) ? 'disabled' : null;
+
         $dataProvider = new ActiveDataProvider([
             'query' => $model->getAttributeValues()->with('goodAttribute'),
         ]);
         return $this->render('view', [
-            'model' => $model,
+            'model'        => $model,
             'dataProvider' => $dataProvider,
+            'nextId'=>$nextId,
+            'prevId'=>$prevId,
+            'disableNext'=>$disableNext,
+            'disablePrev'=>$disablePrev,
         ]);
     }
 
@@ -98,7 +108,7 @@ class GoodsController extends Controller
         $model = $this->findModel($id);
 
         $imagesProvider = new ActiveDataProvider([
-            'query' => $model->getImages()
+            'query' => $model->getImages(),
         ]);
 
         /** @var AttributeValue[] $values */
@@ -117,7 +127,8 @@ class GoodsController extends Controller
                 if ($value->validate()) {
                     if (!empty($value->value)) {
                         $value->save(false);
-                    } else {
+                    }
+                    else {
                         $value->delete();
                     }
                 }
@@ -126,9 +137,9 @@ class GoodsController extends Controller
         }
 
         return $this->render('update', [
-            'model' => $model,
+            'model'          => $model,
             'imagesProvider' => $imagesProvider,
-            'values' => $values,
+            'values'         => $values,
         ]);
     }
 
@@ -175,7 +186,8 @@ class GoodsController extends Controller
 
         if ($Good->active == 0) {
             $Good->active = 1;
-        } else {
+        }
+        else {
             $Good->active = 0;
         }
 

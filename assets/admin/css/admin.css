@@ -30,10 +30,19 @@ a.asc:after, a.desc:after {
     font-style: normal;
     font-weight: normal;
     line-height: 1;
-    padding-left: 5px; }
+    padding-left: 5px;
+}
 
 a.asc:after {
-    content: "\e151"; }
+    content: "\e151";
+}
 
 a.desc:after {
-    content: "\e152"; }
+    content: "\e152";
+}
+
+a.disabled {
+    pointer-events: none; /* делаем элемент неактивным для взаимодействия */
+    cursor: default; /*  курсор в виде стрелки */
+    color: #888;/* цвет текста серый */
+}

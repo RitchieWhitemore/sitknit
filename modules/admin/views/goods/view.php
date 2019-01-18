@@ -15,6 +15,15 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="good-view">
 
+    <ul class="pager">
+        <li class="previous">
+            <?= Html::a('&larr; Предыдущий', ['view', 'id' => $prevId], ['class' => $disablePrev]) ?>
+        </li>
+        <li class="next">
+            <?= Html::a('Следующий &rarr;', ['view', 'id' => $nextId], ['class' => $disableNext]) ?>
+        </li>
+    </ul>
+
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
@@ -53,8 +62,6 @@ $this->params['breadcrumbs'][] = $this->title;
     ]) ?>
 
 
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
     <p>
         <?= Html::a('Добавить характеристику', ['attribute-values/create', 'good_id' => $model->id], ['class' => 'btn btn-success']) ?>
     </p>
@@ -70,8 +77,8 @@ $this->params['breadcrumbs'][] = $this->title;
             'value',
 
             [
-                'class' => 'yii\grid\ActionColumn',
-                'controller' => 'attribute-values'
+                'class'      => 'yii\grid\ActionColumn',
+                'controller' => 'attribute-values',
             ],
         ],
     ]); ?>

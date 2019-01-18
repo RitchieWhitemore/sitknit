@@ -24,7 +24,7 @@ use app\models\query\GoodQuery;
  */
 class Good extends \yii\db\ActiveRecord
 {
-     /**
+    /**
      * {@inheritdoc}
      */
     public static function tableName()
@@ -54,16 +54,16 @@ class Good extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'article' => 'Артикул',
-            'title' => 'Наименование',
-            'description' => 'Описание',
+            'id'             => 'ID',
+            'article'        => 'Артикул',
+            'title'          => 'Наименование',
+            'description'    => 'Описание',
             'characteristic' => 'Дополнительная характеристика',
-            'categoryId' => 'Категория',
-            'brandId' => 'Брэнд',
-            'countryId' => 'Страна',
-            'packaged' => 'В упаковке',
-            'active' => 'Активен'
+            'categoryId'     => 'Категория',
+            'brandId'        => 'Брэнд',
+            'countryId'      => 'Страна',
+            'packaged'       => 'В упаковке',
+            'active'         => 'Активен',
         ];
     }
 
@@ -121,7 +121,7 @@ class Good extends \yii\db\ActiveRecord
 
     public static function getGoodArray()
     {
-        return self::find()->select(['title','id'])->indexBy('id')->column();
+        return self::find()->select(['title', 'id'])->indexBy('id')->column();
     }
 
     public function getMainImageUrl()
@@ -133,13 +133,27 @@ class Good extends \yii\db\ActiveRecord
         }
 
         if (isset($Image)) {
-            return '/img/goods/'. $this->id . '/' . $Image->fileName;
+            return '/img/goods/' . $this->id . '/' . $Image->fileName;
         }
     }
 
     public function getFullTitle()
     {
         return $this->category->title . ' ' . $this->title;
+    }
+
+    public static function NextOrPrev($currentId, $categoryId)
+    {
+        $records = self::find()->where(['categoryId' => $categoryId])->orderBy('id DESC')->all();
+
+        foreach ($records as $i => $record) {
+            if ($record->id == $currentId) {
+                $next = isset($records[$i - 1]->id) ? $records[$i - 1]->id : null;
+                $prev = isset($records[$i + 1]->id) ? $records[$i + 1]->id : null;
+                break;
+            }
+        }
+        return ['next' => $next, 'prev' => $prev];
     }
 
     public static function find()
