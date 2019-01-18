@@ -31,10 +31,9 @@ class UploadImageBehavior extends \yii\base\Behavior
     public $typeSave;
 
     protected $_goodId;
-    protected $_currentImageFile;
     protected $_path;
-    protected $_new = false;
-    protected $_delete = true;
+    protected $_serverPath;
+    protected $_oldFileName;
 
     public function events()
     {
@@ -52,6 +51,7 @@ class UploadImageBehavior extends \yii\base\Behavior
         parent::init();
 
         $this->_path = '/' . self::IMG_PATH . '/' . $this->catalog;
+        $this->_serverPath = Yii::getAlias('@app/web');
     }
 
     public function beforeValidate()
@@ -63,7 +63,6 @@ class UploadImageBehavior extends \yii\base\Behavior
     {
         if ($this->imageFile != null) {
             if ($this->upload()) {
-                $this->_new = true;
                 $this->owner->save(false);
             }
         }
@@ -71,23 +70,19 @@ class UploadImageBehavior extends \yii\base\Behavior
 
     public function beforeUpdate()
     {
-        if (!$this->_new) {
-
-        }
+        $this->_oldFileName = $this->owner->getOldAttribute($this->fileNameField);
     }
 
     public function afterUpdate()
     {
-        if (!$this->_new) {
-            if ($this->imageFile != null) {
-                if ($this->typeSave === 'multiple') {
-                    $this->removeOldImage();
-                }
-
-                if ( $this->_delete && $this->upload()) {
-                    $this->owner->save(false);
-                };
+        if ($this->imageFile != null) {
+            if ($this->typeSave === 'single') {
+                $this->removeOldImage();
             }
+
+            if ($this->upload()) {
+                $this->owner->save(false);
+            };
         }
     }
 
@@ -98,21 +93,21 @@ class UploadImageBehavior extends \yii\base\Behavior
 
     protected function createFileName()
     {
-        $fileName = mb_strtolower($this->catalog . '_' . $this->owner->id);
+        $id = $this->owner->id;
+        if ($this->typeSave == 'multiple') {
+            $id = $this->_goodId;
+        }
+
+        $fileName = mb_strtolower($this->catalog . '_' . $id . '_' . time());
 
         $this->owner->{$this->fileNameField} = $fileName . '.' . $this->imageFile->extension;
-
-        if ($this->typeSave == 'multiple') {
-            $fileName = md5($this->imageFile->baseName) . time();
-            $this->owner->{$this->fileNameField} = $fileName . '.' . $this->imageFile->extension;
-        }
 
         return $this->owner->{$this->fileNameField};
     }
 
     protected function createPathImg()
     {
-        $pathBeforeImage = Yii::$app->basePath . $this->getPathImg();
+        $pathBeforeImage = $this->_serverPath . $this->getPathImg();
 
         FileHelper::createDirectory($pathBeforeImage);
 
@@ -144,18 +139,12 @@ class UploadImageBehavior extends \yii\base\Behavior
 
     public function removeOldImage()
     {
-        if (!$this->_delete) {
-            return false;
+        if ($this->_oldFileName === null) {
+            $this->_oldFileName = $this->owner->{$this->fileNameField};
         }
 
-        $currentImageFile = $this->owner->getOldAttribute($this->fileNameField);
-
-        if ($currentImageFile === null) {
-            return false;
-        }
-
-        if (file_exists(Yii::$app->basePath . $this->getPathImg() . $currentImageFile)) {
-            return unlink(Yii::$app->basePath . $this->getPathImg() . $currentImageFile);
+        if (file_exists($this->_serverPath . $this->getPathImg() . $this->_oldFileName)) {
+            return unlink($this->_serverPath . $this->getPathImg() . $this->_oldFileName);
         }
 
         return false;
@@ -166,13 +155,6 @@ class UploadImageBehavior extends \yii\base\Behavior
         if ($this->owner->{$this->fileNameField}) {
             return $this->_path . '/' . $this->owner->{$this->fileNameField};
         }
-        else {
-            return '/img/no-image.svg';
-        }
     }
 
-    public function setDeleteFlag($flag = true)
-    {
-        $this->_delete = $flag;
-    }
 }

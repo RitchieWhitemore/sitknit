@@ -16,7 +16,6 @@ class ImageController extends ActiveController
         $model = Image::findOne($id);
 
         if ($model->load(Yii::$app->getRequest()->getBodyParams(), '')) {
-            $model->setDeleteFlag(false);
             $model->save();
         }
     }

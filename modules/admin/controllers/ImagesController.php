@@ -107,9 +107,7 @@ class ImagesController extends Controller
     {
         $model = $this->findModel($id);
         $goodId = $model->goodId;
-/*        $currentImageFile = $model->fileName;
 
-        $model->removeOldImage($currentImageFile);*/
         if ($model->delete()) {
             if (!$ajax) {
                 return $this->redirect(['index']);
