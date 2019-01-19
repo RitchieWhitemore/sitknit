@@ -65,23 +65,40 @@ $this->params['breadcrumbs'][] = $this->title;
     <p>
         <?= Html::a('Добавить характеристику', ['attribute-values/create', 'good_id' => $model->id], ['class' => 'btn btn-success']) ?>
     </p>
-    <?php Pjax::begin(); ?>
+
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'columns'      => [
             ['class' => 'yii\grid\SerialColumn'],
             [
                 'attribute' => 'attribute_id',
-                'value'     => 'goodAttribute.name',
+                'value'     => 'name',
+                'label'     => 'Атрибут',
             ],
-            'value',
-
+            [
+                'attribute' => 'attributeValues',
+                'value'     => function ($value) {
+                    return $value->attributeValues[0]->value;
+                },
+                'label'     => 'Значение',
+            ],
             [
                 'class'      => 'yii\grid\ActionColumn',
                 'controller' => 'attribute-values',
+                'buttons'    => [
+                    'view' => function ($url, $model, $key) {
+                        return Html::a('', ['/admin/attribute-values/view', 'good_id' => $model->attributeValues[0]->good_id, 'attribute_id' => $model->attributeValues[0]->attribute_id], ['class' => 'glyphicon glyphicon-eye-open']);
+                    },
+                    'update' => function ($url, $model, $key) {
+                        return Html::a('', ['/admin/attribute-values/update', 'good_id' => $model->attributeValues[0]->good_id, 'attribute_id' => $model->attributeValues[0]->attribute_id], ['class' => 'glyphicon glyphicon-pencil']);
+                    },
+                    'delete' => function ($url, $model, $key) {
+                        return Html::a('', ['/admin/attribute-values/delete', 'good_id' => $model->attributeValues[0]->good_id, 'attribute_id' => $model->attributeValues[0]->attribute_id], ['class' => 'glyphicon glyphicon-trash']);
+                    },
+                ],
             ],
         ],
     ]); ?>
-    <?php Pjax::end(); ?>
+
 
 </div>

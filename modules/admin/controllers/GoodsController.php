@@ -66,15 +66,20 @@ class GoodsController extends Controller
         $disablePrev = ($prevId === null) ? 'disabled' : null;
 
         $dataProvider = new ActiveDataProvider([
-            'query' => $model->getAttributeValues()->with('goodAttribute'),
+            'query' => $model->getGoodAttributes()->joinWith([
+                'attributeValues attr' => function ($query) use ($id) {
+                    $query->andWhere(['=', 'attr.good_id', $id]);
+                }
+            ])->orderBy(['name' => SORT_ASC])
         ]);
+
         return $this->render('view', [
             'model'        => $model,
             'dataProvider' => $dataProvider,
-            'nextId'=>$nextId,
-            'prevId'=>$prevId,
-            'disableNext'=>$disableNext,
-            'disablePrev'=>$disablePrev,
+            'nextId'       => $nextId,
+            'prevId'       => $prevId,
+            'disableNext'  => $disableNext,
+            'disablePrev'  => $disablePrev,
         ]);
     }
 
