@@ -90,4 +90,9 @@ class Category extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Category::className(), ['id' => 'parent_id']);
     }
+
+    public static function find()
+    {
+        return new query\CategoryQuery(get_called_class());
+    }
 }
