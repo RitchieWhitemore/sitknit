@@ -41,6 +41,12 @@ $this->params['breadcrumbs'][] = $this->title;
         'model'      => $model,
         'attributes' => [
             'id',
+            [
+                'attribute' => 'main_good_id',
+                'value'     =>  ArrayHelper::getValue($model, 'mainGood.article'),
+                'label'     => 'Артикул товара с которого беруться характеристики',
+            ],
+
             'article',
             'title',
             'description',
@@ -86,7 +92,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'class'      => 'yii\grid\ActionColumn',
                 'controller' => 'attribute-values',
                 'buttons'    => [
-                    'view' => function ($url, $model, $key) {
+                    'view'   => function ($url, $model, $key) {
                         return Html::a('', ['/admin/attribute-values/view', 'good_id' => $model->attributeValues[0]->good_id, 'attribute_id' => $model->attributeValues[0]->attribute_id], ['class' => 'glyphicon glyphicon-eye-open']);
                     },
                     'update' => function ($url, $model, $key) {

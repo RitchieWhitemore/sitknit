@@ -45,6 +45,7 @@ class Good extends \yii\db\ActiveRecord
             [['brandId'], 'exist', 'skipOnError' => true, 'targetClass' => Brand::className(), 'targetAttribute' => ['brandId' => 'id']],
             [['categoryId'], 'exist', 'skipOnError' => true, 'targetClass' => Category::className(), 'targetAttribute' => ['categoryId' => 'id']],
             [['countryId'], 'exist', 'skipOnError' => true, 'targetClass' => Country::className(), 'targetAttribute' => ['countryId' => 'id']],
+            [['main_good_id'], 'exist', 'skipOnError' => true, 'targetClass' => Good::className(), 'targetAttribute' => ['main_good_id' => 'id']],
         ];
     }
 
@@ -64,6 +65,7 @@ class Good extends \yii\db\ActiveRecord
             'countryId'      => 'Страна',
             'packaged'       => 'В упаковке',
             'active'         => 'Активен',
+            'main_good_id'   => 'Основной товар',
         ];
     }
 
@@ -117,6 +119,11 @@ class Good extends \yii\db\ActiveRecord
     public function getGoodAttributes()
     {
         return $this->hasMany(Attribute::className(), ['id' => 'attribute_id'])->viaTable('attribute_value', ['good_id' => 'id']);
+    }
+
+    public function getMainGood()
+    {
+        return $this->hasOne(Good::className(), ['id' => 'main_good_id']);
     }
 
     public static function getGoodArray()
