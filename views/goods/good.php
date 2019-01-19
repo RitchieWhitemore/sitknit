@@ -4,7 +4,7 @@
  *
  * @var $model app\models\Good
  * @var $values app\models\AttributeValue
- *
+ * @var $valuesMain app\models\AttributeValue
  */
 
 ?>
@@ -64,13 +64,13 @@
                 (<?= $model->country->title ?>)
             </li>
             <?php
-            foreach ($values as $attr => $value) {
+            foreach ($valuesMain as $attr => $value) {
                 $unit = isset($value->goodAttribute->unit) ? $value->goodAttribute->unit->name : '';
                 if ($attr == 'Цвет') {
-                    echo '<li class="page-product__feature-item"><b>' . $attr . ':</b> ' . $value->value . ' ' . $unit . '</li>';
+                    echo '<li class="page-product__feature-item"><b>' . $attr . ':</b> ' . $values[$attr]->value . ' ' . $unit . '</li>';
                 }
                 else {
-                    echo '<li class="page-product__feature-item"><b>' . $attr . ':</b> ' . $valuesMain[$attr]->value . ' ' . $unit . '</li>';
+                    echo '<li class="page-product__feature-item"><b>' . $attr . ':</b> ' . $value->value . ' ' . $unit . '</li>';
                 }
 
             }
