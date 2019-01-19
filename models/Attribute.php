@@ -70,4 +70,10 @@ class Attribute extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Unit::className(), ['id' => 'unit_id']);
     }
+
+    public function getFullName()
+    {
+        $unit = $this->unit ? ' (' . $this->unit->name . ')' : '';
+        return $this->name . $unit;
+    }
 }

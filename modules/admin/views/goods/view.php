@@ -72,7 +72,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
             [
                 'attribute' => 'attribute_id',
-                'value'     => 'name',
+                'value'     => 'fullName',
                 'label'     => 'Атрибут',
             ],
             [

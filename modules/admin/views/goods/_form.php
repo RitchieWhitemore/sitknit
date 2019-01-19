@@ -51,7 +51,7 @@ use app\models\Country;
             </div>
             <div>
                 <?php foreach ($values as $value): ?>
-                    <?= $form->field($value, '[' . $value->goodAttribute->id . ']value')->label($value->goodAttribute->name); ?>
+                    <?= $form->field($value, '[' . $value->goodAttribute->id . ']value')->label($value->goodAttribute->fullName); ?>
                 <?php endforeach; ?>
             </div>
             <?php
