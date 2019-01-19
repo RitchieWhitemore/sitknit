@@ -17,10 +17,10 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <ul class="pager">
         <li class="previous">
-            <?= Html::a('&larr; Предыдущий', ['view', 'id' => $prevId], ['class' => $disablePrev]) ?>
+            <?= Html::a('&larr; Предыдущий', ['update', 'id' => $prevId], ['class' => $disablePrev]) ?>
         </li>
         <li class="next">
-            <?= Html::a('Следующий &rarr;', ['view', 'id' => $nextId], ['class' => $disableNext]) ?>
+            <?= Html::a('Следующий &rarr;', ['update', 'id' => $nextId], ['class' => $disableNext]) ?>
         </li>
     </ul>
 
