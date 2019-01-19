@@ -119,9 +119,16 @@ class GoodsController extends Controller
         /** @var AttributeValue[] $values */
         $values = $model->getAttributeValues()->with('goodAttribute')->indexBy('attribute_id')->all();
         $attributes = Attribute::find()->indexBy('id')->all();
-        foreach (array_diff_key($attributes, $values) as $attribute) {
-            $values[] = new AttributeValue(['attribute_id' => $attribute->id]);
+
+        $arr = array_diff_key($attributes, $values);
+        foreach ($arr as $attribute) {
+            $values[$attribute->id] = new AttributeValue(['attribute_id' => $attribute->id]);
         }
+
+        usort($values, function ($a, $b) {
+            return $a->goodAttribute->name > $b->goodAttribute->name;
+        });
+
         foreach ($values as $value) {
             $value->setScenario(AttributeValue::SCENARIO_TABULAR);
         }
