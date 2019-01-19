@@ -41,7 +41,7 @@ class GoodsController extends Controller
 
         $dataProvider = new ActiveDataProvider(
             [
-                'query'      => Good::find()->where(['categoryId' => $id, 'active' => 1])->with(['attributeValues']),
+                'query'      => Good::find()->where(['categoryId' => $id, 'active' => 1])->with(['attributeValues', 'mainGood.attributeValues']),
                 'pagination' => [
                     'pageSize' => 15,
                 ],
@@ -50,7 +50,7 @@ class GoodsController extends Controller
 
         return $this->render('category', [
             'dataProvider' => $dataProvider,
-            'model' => $Category,
+            'model'        => $Category,
         ]);
     }
 
@@ -62,11 +62,20 @@ class GoodsController extends Controller
             throw new NotFoundHttpException();
         }
 
-        $values = $model->getAttributeValues()->with('goodAttribute.unit')->indexBy('goodAttribute.name')->all();
+        if (isset($model->mainGood)) {
+            $valuesMain = $model->mainGood->getAttributeValues()->with('goodAttribute.unit')->indexBy('goodAttribute.name')->all();
+            $values = $model->getAttributeValues()->with('goodAttribute.unit')->indexBy('goodAttribute.name')->all();
+        }
+        else {
+            $values = $model->getAttributeValues()->with('goodAttribute.unit')->indexBy('goodAttribute.name')->all();
+            $valuesMain = $values;
+        }
+
 
         return $this->render('good', [
-            'model' => $model,
-            'values' => $values,
+            'model'      => $model,
+            'values'     => $values,
+            'valuesMain' => $valuesMain,
         ]);
     }
 }

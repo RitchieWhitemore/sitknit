@@ -66,7 +66,13 @@
             <?php
             foreach ($values as $attr => $value) {
                 $unit = isset($value->goodAttribute->unit) ? $value->goodAttribute->unit->name : '';
-                echo '<li class="page-product__feature-item"><b>' . $attr . ':</b> ' . $value->value . ' ' . $unit . '</li>';
+                if ($attr == 'Цвет') {
+                    echo '<li class="page-product__feature-item"><b>' . $attr . ':</b> ' . $value->value . ' ' . $unit . '</li>';
+                }
+                else {
+                    echo '<li class="page-product__feature-item"><b>' . $attr . ':</b> ' . $valuesMain[$attr]->value . ' ' . $unit . '</li>';
+                }
+
             }
             ?>
             <li class="page-product__feature-item"><b>Товара в упаковке:</b> <?= $model->packaged ?> шт.</li>
@@ -88,7 +94,13 @@
     </div>
     <div class="page-product__descr">
         <h2>Описание:</h2>
-        <p><?= $model->description ?></p>
+        <p><?php
+            if (!empty($model->description) || !isset($model->mainGood)) {
+                echo $model->description;
+            } else {
+                echo $model->mainGood->description;
+            }
+            ?></p>
     </div>
 </div>
 <section class="more-color">
