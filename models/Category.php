@@ -95,4 +95,11 @@ class Category extends \yii\db\ActiveRecord
     {
         return new query\CategoryQuery(get_called_class());
     }
+
+    public function getCountGoods()
+    {
+        $categories = self::find()->where(['parent_id' => $this->id])->active()->indexBy('id')->column();
+
+        return Good::find()->where(['IN', 'categoryId', $categories])->active()->count();
+    }
 }

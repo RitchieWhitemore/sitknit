@@ -17,6 +17,10 @@ use yii\db\ActiveQuery;
  */
 class GoodQuery extends ActiveQuery
 {
+    public function active()
+    {
+        return $this->andWhere(['active' => true]);
+    }
     /**
      * @inheritdoc
      * @return \app\models\Good[]|array

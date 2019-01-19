@@ -2,6 +2,7 @@
 
 namespace app\widgets;
 
+use app\models\Category;
 use yii\base\Widget;
 
 class Categories extends Widget
@@ -13,10 +14,19 @@ class Categories extends Widget
 
     public function run()
     {
-        $Categories = \app\models\Category::findAll(['active' => 1]);
+        //$Categories = Category::find()->active()->all();
+
+        $Categories = Category::find()->where(['parent_id' => null])->active()->all();
+
+        $Subcategories = [];
+        foreach($Categories as $category)
+        {
+            $Subcategories[$category->id] = Category::find()->where(['parent_id' => $category->id])->active()->all();
+        }
 
         return $this->render('categories', [
-            'categories' => $Categories
+            'categories' => $Categories,
+            'subcategories' => $Subcategories,
         ]);
     }
 }
