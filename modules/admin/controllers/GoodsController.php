@@ -125,7 +125,7 @@ class GoodsController extends Controller
             $values[$attribute->id] = new AttributeValue(['attribute_id' => $attribute->id]);
         }
 
-        usort($values, function ($a, $b) {
+        uasort($values, function ($a, $b) {
             return $a->goodAttribute->name > $b->goodAttribute->name;
         });
 
