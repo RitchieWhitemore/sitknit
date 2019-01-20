@@ -1,0 +1,54 @@
+@import "node_modules/normalize.less/normalize.less";
+
+@import "variables.less";
+@import "mixins.less";
+@import "scaffolding.less";
+
+.wrap {
+    padding-top: 60px;
+}
+
+.navbar .nav .logout {
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+
+.grid-view td.action-column {
+    white-space: nowrap;
+    text-align: center;
+    letter-spacing: 0.1em;
+    max-width: 7em;
+}
+
+.good-form {
+    min-height: 600px;
+}
+
+.good-form paper-tabs {
+    margin-bottom: 25px;
+}
+
+a.asc:after, a.desc:after {
+    position: relative;
+    top: 1px;
+    display: inline-block;
+    font-family: 'Glyphicons Halflings';
+    font-style: normal;
+    font-weight: normal;
+    line-height: 1;
+    padding-left: 5px;
+}
+
+a.asc:after {
+    content: "\e151";
+}
+
+a.desc:after {
+    content: "\e152";
+}
+
+a.disabled {
+    pointer-events: none; /* делаем элемент неактивным для взаимодействия */
+    cursor: default; /*  курсор в виде стрелки */
+    color: #888;/* цвет текста серый */
+}
