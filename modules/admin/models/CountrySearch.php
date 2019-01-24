@@ -19,7 +19,7 @@ class CountrySearch extends Country
     {
         return [
             [['id'], 'integer'],
-            [['title', 'description'], 'safe'],
+            [['name', 'description'], 'safe'],
         ];
     }
 
@@ -62,7 +62,7 @@ class CountrySearch extends Country
             'id' => $this->id,
         ]);
 
-        $query->andFilterWhere(['like', 'title', $this->title])
+        $query->andFilterWhere(['like', 'name', $this->name])
             ->andFilterWhere(['like', 'description', $this->description]);
 
         return $dataProvider;

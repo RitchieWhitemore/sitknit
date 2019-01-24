@@ -9,7 +9,7 @@ use yii\helpers\ArrayHelper;
  * This is the model class for table "country".
  *
  * @property int $id
- * @property string $title
+ * @property string $name
  * @property string $description
  */
 class Country extends \yii\db\ActiveRecord
@@ -28,8 +28,8 @@ class Country extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['title'], 'required'],
-            [['title'], 'string', 'max' => 50],
+            [['name'], 'required'],
+            [['name'], 'string', 'max' => 50],
             [['description'], 'string', 'max' => 255],
         ];
     }
@@ -41,13 +41,13 @@ class Country extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'title' => 'Название',
+            'name' => 'Название',
             'description' => 'Описание',
         ];
     }
 
     public static function getCountryArray()
     {
-        return self::find()->select(['title','id'])->indexBy('id')->column();
+        return self::find()->select(['name','id'])->indexBy('id')->column();
     }
 }
