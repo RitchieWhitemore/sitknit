@@ -9,7 +9,7 @@ use yii\helpers\ArrayHelper;
  * This is the model class for table "brand".
  *
  * @property int $id
- * @property string $title
+ * @property string $name
  * @property string $description
  */
 class Brand extends \yii\db\ActiveRecord
@@ -28,8 +28,8 @@ class Brand extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['title'], 'required'],
-            [['title'], 'string', 'max' => 50],
+            [['name'], 'required'],
+            [['name'], 'string', 'max' => 50],
             [['description'], 'string', 'max' => 100],
             [['active'], 'integer'],
         ];
@@ -42,7 +42,7 @@ class Brand extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'title' => 'Название',
+            'name' => 'Название',
             'description' => 'Описание',
             'active' => 'Активен',
         ];
@@ -50,6 +50,6 @@ class Brand extends \yii\db\ActiveRecord
 
     public static function getBrandsArray()
     {
-        return self::find()->select(['title','id'])->indexBy('id')->column();
+        return self::find()->select(['name','id'])->indexBy('id')->column();
     }
 }
