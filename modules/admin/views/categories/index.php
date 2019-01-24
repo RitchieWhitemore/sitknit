@@ -37,11 +37,11 @@ $this->params['breadcrumbs'][] = $this->title;
                     return Html::img($value->getMainImageUrl(), ['width' => 100]);
                 },
             ],
-            'title',
+            'name',
             [
                 'attribute' => 'parent_id',
-                'filter'    => Category::find()->select(['title', 'id'])->indexBy('id')->column(),
-                'value'     => 'parent.title',
+                'filter'    => Category::find()->select(['name', 'id'])->indexBy('id')->column(),
+                'value'     => 'parent.name',
             ],
             [
                 'label'     => 'Кол-во товаров',

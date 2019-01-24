@@ -26,7 +26,7 @@ class CategorySearch extends Category
     {
         return [
             [['id', 'parent_id', 'goods_count', 'active'], 'integer'],
-            [['title', 'description'], 'safe'],
+            [['name', 'description'], 'safe'],
         ];
     }
 
@@ -61,7 +61,7 @@ class CategorySearch extends Category
             'sort' => [
                 'attributes' => [
                     'id',
-                    'title',
+                    'name',
                     'goods_count'
                 ]
             ]
@@ -86,7 +86,7 @@ class CategorySearch extends Category
             $query->andHaving(['goods_count' => $this->goods_count]);
         }
 
-        $query->andFilterWhere(['like', 'title', $this->title])
+        $query->andFilterWhere(['like', 'name', $this->name])
             ->andFilterWhere(['like', 'description', $this->description]);
 
         return $dataProvider;

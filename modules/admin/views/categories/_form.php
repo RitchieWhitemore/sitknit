@@ -13,9 +13,9 @@ use app\models\Category;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'parent_id')->dropDownList(Category::find()->select(['title', 'id'])->indexBy('id')->column(), ['prompt' => 'Выберите родительскую категорию']) ?>
+    <?= $form->field($model, 'parent_id')->dropDownList(Category::find()->select(['name', 'id'])->indexBy('id')->column(), ['prompt' => 'Выберите родительскую категорию']) ?>
 
     <?= $form->field($model, 'description')->textarea(['maxlength' => true]) ?>
 

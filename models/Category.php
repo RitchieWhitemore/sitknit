@@ -11,7 +11,7 @@ use yii\web\UploadedFile;
  * This is the model class for table "category".
  *
  * @property int $id
- * @property string $title
+ * @property string $name
  * @property string $description
  *
  * @property Good[] $goods
@@ -48,8 +48,8 @@ class Category extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['title'], 'required'],
-            [['title'], 'string', 'max' => 50],
+            [['name'], 'required'],
+            [['name'], 'string', 'max' => 50],
             [['description'], 'string', 'max' => 100],
             [['content'], 'string'],
             [['active'], 'integer'],
@@ -67,7 +67,7 @@ class Category extends \yii\db\ActiveRecord
         return [
             'id'          => 'ID',
             'parent_id'   => 'Родительская категория',
-            'title'       => 'Название',
+            'name'       => 'Название',
             'description' => 'Краткое описание',
             'content'     => 'Полное описание',
             'active'      => 'Активен',
@@ -79,19 +79,19 @@ class Category extends \yii\db\ActiveRecord
     public function fields() {
         return [
             'id',
-            'title',
+            'name',
             'parent',
         ];
     }
 
     public static function getCategoriesArray()
     {
-        return self::find()->select(['title', 'id'])->indexBy('id')->column();
+        return self::find()->select(['name', 'id'])->indexBy('id')->column();
     }
 
     public function getGoods()
     {
-        return $this->hasMany(Good::className(), ['categoryId' => 'id']);
+        return $this->hasMany(Good::className(), ['category_id' => 'id']);
     }
 
     public function getParent()
@@ -108,6 +108,6 @@ class Category extends \yii\db\ActiveRecord
     {
         $categories = self::find()->where(['parent_id' => $this->id])->active()->indexBy('id')->column();
 
-        return Good::find()->where(['IN', 'categoryId', $categories])->active()->count();
+        return Good::find()->where(['IN', 'category_id', $categories])->active()->count();
     }
 }

@@ -37,10 +37,10 @@ $this->params['breadcrumbs'][] = $this->title;
                     return Html::img($value->url, ['width' => 100]);
                 },
             ],
-            'title',
+            'name',
             [
                 'attribute' => 'parent_id',
-                'value'     => ArrayHelper::getValue($model, 'parent.title'),
+                'value'     => ArrayHelper::getValue($model, 'parent.name'),
             ],
             'description',
         ],
