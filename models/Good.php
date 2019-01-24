@@ -10,12 +10,12 @@ use app\models\query\GoodQuery;
  *
  * @property int $id
  * @property string $article
- * @property string $title
+ * @property string $name
  * @property string $description
  * @property string $characteristic
- * @property int $categoryId
- * @property int $brandId
- * @property int $countryId
+ * @property int $category_id
+ * @property int $brand_id
+ * @property int $country_id
  * @property int $packaged
  *
  * @property Brand $brand
@@ -38,13 +38,13 @@ class Good extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['title'], 'required'],
-            [['categoryId', 'brandId', 'countryId', 'packaged', 'active'], 'integer'],
+            [['name'], 'required'],
+            [['category_id', 'brand_id', 'country_id', 'packaged', 'active'], 'integer'],
             [['article'], 'string', 'max' => 50],
-            [['title', 'description', 'characteristic'], 'string', 'max' => 255],
-            [['brandId'], 'exist', 'skipOnError' => true, 'targetClass' => Brand::className(), 'targetAttribute' => ['brandId' => 'id']],
-            [['categoryId'], 'exist', 'skipOnError' => true, 'targetClass' => Category::className(), 'targetAttribute' => ['categoryId' => 'id']],
-            [['countryId'], 'exist', 'skipOnError' => true, 'targetClass' => Country::className(), 'targetAttribute' => ['countryId' => 'id']],
+            [['name', 'description', 'characteristic'], 'string', 'max' => 255],
+            [['brand_id'], 'exist', 'skipOnError' => true, 'targetClass' => Brand::className(), 'targetAttribute' => ['brand_id' => 'id']],
+            [['category_id'], 'exist', 'skipOnError' => true, 'targetClass' => Category::className(), 'targetAttribute' => ['category_id' => 'id']],
+            [['country_id'], 'exist', 'skipOnError' => true, 'targetClass' => Country::className(), 'targetAttribute' => ['country_id' => 'id']],
             [['main_good_id'], 'exist', 'skipOnError' => true, 'targetClass' => Good::className(), 'targetAttribute' => ['main_good_id' => 'id']],
         ];
     }
@@ -57,12 +57,12 @@ class Good extends \yii\db\ActiveRecord
         return [
             'id'             => 'ID',
             'article'        => 'Артикул',
-            'title'          => 'Наименование',
+            'name'           => 'Наименование',
             'description'    => 'Описание',
             'characteristic' => 'Дополнительная характеристика',
-            'categoryId'     => 'Категория',
-            'brandId'        => 'Брэнд',
-            'countryId'      => 'Страна',
+            'category_id'    => 'Категория',
+            'brand_id'       => 'Брэнд',
+            'country_id'     => 'Страна',
             'packaged'       => 'В упаковке',
             'active'         => 'Активен',
             'main_good_id'   => 'Основной товар',
@@ -74,10 +74,10 @@ class Good extends \yii\db\ActiveRecord
         return [
             'id',
             'article',
-            'title',
+            'name',
             'category',
             'images',
-            'titleAndColor'
+            'nameAndColor',
         ];
 
     }
@@ -92,7 +92,7 @@ class Good extends \yii\db\ActiveRecord
      */
     public function getBrand()
     {
-        return $this->hasOne(Brand::className(), ['id' => 'brandId']);
+        return $this->hasOne(Brand::className(), ['id' => 'brand_id']);
     }
 
     /**
@@ -100,7 +100,7 @@ class Good extends \yii\db\ActiveRecord
      */
     public function getCategory()
     {
-        return $this->hasOne(Category::className(), ['id' => 'categoryId']);
+        return $this->hasOne(Category::className(), ['id' => 'category_id']);
     }
 
     /**
@@ -108,12 +108,12 @@ class Good extends \yii\db\ActiveRecord
      */
     public function getCountry()
     {
-        return $this->hasOne(Country::className(), ['id' => 'countryId']);
+        return $this->hasOne(Country::className(), ['id' => 'country_id']);
     }
 
     public function getImages()
     {
-        return $this->hasMany(Image::className(), ['goodId' => 'id']);
+        return $this->hasMany(Image::className(), ['good_id' => 'id']);
     }
 
     public function getAttributeValues()
@@ -133,35 +133,36 @@ class Good extends \yii\db\ActiveRecord
 
     public static function getGoodArray()
     {
-        return self::find()->select(['title', 'id'])->indexBy('id')->column();
+        return self::find()->select(['name', 'id'])->indexBy('id')->column();
     }
 
     public function getMainImageUrl()
     {
-        $Image = Image::find()->where(['goodId' => $this->id])->andWhere(['main' => 1])->one();
+        $Image = Image::find()->where(['good_id' => $this->id])->andWhere(['main' => 1])->one();
 
         if (!isset($Image)) {
-            $Image = Image::find()->where(['goodId' => $this->id])->one();
+            $Image = Image::find()->where(['good_id' => $this->id])->one();
         }
 
         if (isset($Image)) {
-            return '/img/goods/' . $this->id . '/' . $Image->fileName;
+            return '/img/goods/' . $this->id . '/' . $Image->file_name;
         }
     }
 
-    public function getFullTitle()
+    public function getFullName()
     {
-        return $this->category->title . ' ' . $this->title;
+        return $this->category->name . ' ' . $this->name;
     }
 
-    public function getTitleAndColor() {
+    public function getNameAndColor()
+    {
         $color = '';
-        return $this->title . ' ' . $color;
+        return $this->name . ' ' . $color;
     }
 
     public static function NextOrPrev($currentId, $categoryId)
     {
-        $records = self::find()->where(['categoryId' => $categoryId])->orderBy('id DESC')->all();
+        $records = self::find()->where(['category_id' => $categoryId])->orderBy('id DESC')->all();
 
         foreach ($records as $i => $record) {
             if ($record->id == $currentId) {

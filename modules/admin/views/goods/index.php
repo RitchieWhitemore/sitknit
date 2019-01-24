@@ -31,19 +31,20 @@ $this->params['breadcrumbs'][] = $this->title;
         'filterModel'  => $searchModel,
         'columns'      => [
             'id',
+            'article',
             [
-                'attribute' => 'categoryId',
+                'attribute' => 'category_id',
                 'filter'    => Category::getCategoriesArray(),
-                'value'     => 'category.title',
+                'value'     => 'category.name',
             ],
             [
 
-                'attribute' => 'brandId',
+                'attribute' => 'brand_id',
                 'filter'    => Brand::getBrandsArray(),
-                'value'     => 'brand.title',
+                'value'     => 'brand.name',
             ],
-            'article',
-            'title',
+
+            'name',
             //'description',
             'characteristic',
             //'countryId',

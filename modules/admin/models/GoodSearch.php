@@ -18,8 +18,8 @@ class GoodSearch extends Good
     public function rules()
     {
         return [
-            [['id', 'categoryId', 'brandId', 'countryId', 'packaged', 'active'], 'integer'],
-            [['article', 'title', 'description', 'characteristic'], 'safe'],
+            [['id', 'category_id', 'brand_id', 'country_id', 'packaged', 'active'], 'integer'],
+            [['article', 'name', 'description', 'characteristic'], 'safe'],
         ];
     }
 
@@ -51,10 +51,10 @@ class GoodSearch extends Good
                 'defaultOrder' => ['id' => SORT_ASC],
                 'attributes' => [
                     'id',
-                    'title',
-                    'categoryId' => [
-                        'asc' => ['category.title' => SORT_ASC],
-                        'desc' => ['category.title' => SORT_DESC],
+                    'name',
+                    'category_id' => [
+                        'asc' => ['category.name' => SORT_ASC],
+                        'desc' => ['category.name' => SORT_DESC],
                     ]
                 ]
             ]
@@ -71,15 +71,15 @@ class GoodSearch extends Good
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'categoryId' => $this->categoryId,
-            'brandId' => $this->brandId,
-            'countryId' => $this->countryId,
+            'category_id' => $this->category_id,
+            'brand_id' => $this->brand_id,
+            'country_id' => $this->country_id,
             'packaged' => $this->packaged,
             'active' => $this->active,
         ]);
 
         $query->andFilterWhere(['like', 'article', $this->article])
-            ->andFilterWhere(['like', 'title', $this->title])
+            ->andFilterWhere(['like', 'name', $this->name])
             ->andFilterWhere(['like', 'description', $this->description])
             ->andFilterWhere(['like', 'characteristic', $this->characteristic]);
 

@@ -9,7 +9,7 @@ use yii\grid\GridView;
 /* @var $this yii\web\View */
 /* @var $model app\models\Good */
 
-$this->title = $model->title;
+$this->title = $model->name;
 $this->params['breadcrumbs'][] = ['label' => 'Товары', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -48,20 +48,20 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
 
             'article',
-            'title',
+            'name',
             'description',
             'characteristic',
             [
-                'attribute' => 'categoryId',
-                'value'     => ArrayHelper::getValue($model, 'category.title'),
+                'attribute' => 'category_id',
+                'value'     => ArrayHelper::getValue($model, 'category.name'),
             ],
             [
-                'attribute' => 'brandId',
-                'value'     => ArrayHelper::getValue($model, 'brand.title'),
+                'attribute' => 'brand_id',
+                'value'     => ArrayHelper::getValue($model, 'brand.name'),
             ],
             [
-                'attribute' => 'countryId',
-                'value'     => ArrayHelper::getValue($model, 'country.title'),
+                'attribute' => 'country_id',
+                'value'     => ArrayHelper::getValue($model, 'country.name'),
             ],
             'packaged',
         ],

@@ -31,21 +31,21 @@ use app\models\Country;
             <div>
                 <?php $form = ActiveForm::begin(); ?>
 
-                <?= $form->field($model, 'categoryId')->dropDownList(Category::getCategoriesArray(), ['prompt' => 'Выберите категорию']) ?>
+                <?= $form->field($model, 'category_id')->dropDownList(Category::getCategoriesArray(), ['prompt' => 'Выберите категорию']) ?>
 
      <!--           --><?/*= $form->field($model, 'main_good_id')->textInput(['maxlength' => true])->label('Id основного товара в группе') */?>
                 <choice-good attr="Good[main_good_id]" good-id="<?=$model->main_good_id?>"></choice-good>
                 <?= $form->field($model, 'article')->textInput(['maxlength' => true]) ?>
 
-                <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
+                <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
                 <?= $form->field($model, 'description')->textarea(['maxlength' => true]) ?>
 
                 <?= $form->field($model, 'characteristic')->textInput(['maxlength' => true]) ?>
 
-                <?= $form->field($model, 'brandId')->dropDownList(Brand::getBrandsArray(), ['prompt' => 'Выберите брэнд']) ?>
+                <?= $form->field($model, 'brand_id')->dropDownList(Brand::getBrandsArray(), ['prompt' => 'Выберите брэнд']) ?>
 
-                <?= $form->field($model, 'countryId')->dropDownList(Country::getCountryArray(), ['prompt' => 'Выберите страну']) ?>
+                <?= $form->field($model, 'country_id')->dropDownList(Country::getCountryArray(), ['prompt' => 'Выберите страну']) ?>
 
                 <?= $form->field($model, 'packaged')->textInput() ?>
 

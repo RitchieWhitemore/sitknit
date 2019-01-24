@@ -59,7 +59,7 @@ class GoodsController extends Controller
     {
         $model = $this->findModel($id);
 
-        $index = Good::nextOrPrev($id, $model->categoryId);
+        $index = Good::nextOrPrev($id, $model->category_id);
         $nextId = $index['next'];
         $disableNext = ($nextId === null) ? 'disabled' : null;
         $prevId = $index['prev'];

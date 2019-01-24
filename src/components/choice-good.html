@@ -88,7 +88,7 @@
                 <paper-listbox class="category-list" attr-for-selected="item-category" selected="{{itemCategory}}" fallback-selection="None">
                     <template id="domRepeat" is="dom-repeat" items="{{category}}">
                         <paper-item item-category="{{item}}" data-category-id="{{item.id}}" on-dblclick="dblClickFolder" onselectstart="return false" onmousedown="return false"><span
-                                class="glyphicon glyphicon-folder-close"></span>{{item.title}}
+                                class="glyphicon glyphicon-folder-close"></span>{{item.name}}
                         </paper-item>
                     </template>
                 </paper-listbox>
@@ -99,7 +99,7 @@
                                     on-dblclick="dblClickGood"
                                     onselectstart="return false"
                                     onmousedown="return false">
-                            <span class="glyphicon glyphicon-file"></span>{{item.article}} {{item.titleAndColor}}
+                            <span class="glyphicon glyphicon-file"></span>{{item.article}} {{item.nameAndColor}}
                         </paper-item>
                     </template>
                 </paper-listbox>
@@ -162,18 +162,18 @@
                     if (this.responseCategory.parent != null) {
                         this.push('parentCategories', {
                             'id': this.responseCategory.parent.id,
-                            'name': this.responseCategory.parent.title,
+                            'name': this.responseCategory.parent.name,
                             'offset': '--',
                         });
                     }
                     this.push('parentCategories', {
                         'id': this.responseCategory.id,
-                        'name': this.responseCategory.title,
+                        'name': this.responseCategory.name,
                         'offset': '--'});
                 }
             },
             confirm: function() {
-                this.name = this.itemGood.title;
+                this.name = this.itemGood.name;
                 this.id = this.itemGood.id;
                 this.article = this.itemGood.article;
             },
@@ -199,7 +199,7 @@
                 console.log(this.responseGoods);*/
             },
             handleResponseGood: function() {
-                this.name = this.responseGood.title;
+                this.name = this.responseGood.name;
                 this.article = this.responseGood.article;
                 this.categoryId = this.responseGood.category.id;
                 if (!this.name) {

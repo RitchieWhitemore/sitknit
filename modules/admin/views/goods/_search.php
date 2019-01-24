@@ -19,17 +19,17 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'article') ?>
 
-    <?= $form->field($model, 'title') ?>
+    <?= $form->field($model, 'name') ?>
 
     <?= $form->field($model, 'description') ?>
 
     <?= $form->field($model, 'characteristic') ?>
 
-    <?php // echo $form->field($model, 'categoryId') ?>
+    <?php // echo $form->field($model, 'category_id') ?>
 
-    <?php // echo $form->field($model, 'brandId') ?>
+    <?php // echo $form->field($model, 'brand_id') ?>
 
-    <?php // echo $form->field($model, 'countryId') ?>
+    <?php // echo $form->field($model, 'country_id') ?>
 
     <?php // echo $form->field($model, 'packaged') ?>
 
