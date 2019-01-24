@@ -1,0 +1,256 @@
+<link rel="import" href="/bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="/bower_components/paper-dialog-scrollable/paper-dialog-scrollable.html">
+<link rel="import" href="/bower_components/paper-button/paper-button.html">
+<link rel="import" href="/bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="/bower_components/paper-spinner/paper-spinner-lite.html">
+<link rel="import" href="/bower_components/paper-listbox/paper-listbox.html">
+
+<dom-module id="choice-good">
+    <template>
+        <style>
+            :host {
+                display: flex;
+                flex-direction: row;
+                align-items: flex-end;
+            }
+
+            :host .field-choice {
+                margin: 0;
+                padding: 10px 20px;
+                border: solid 1px grey;
+                height: 40px;
+                min-width: 200px;
+            }
+
+            :host paper-dialog {
+                top: 0;
+                padding: 0 25px;
+                z-index: 9999;
+            }
+
+            :host paper-listbox {
+                padding-top: 0;
+                display: flex;
+                flex-direction: column;
+            }
+
+            :host paper-listbox paper-item {
+                padding: 5px;
+                cursor: pointer;
+            }
+
+            :host .category-list paper-item .glyphicon,
+            :host .parent-folder .glyphicon {
+                margin-right: 5px;
+                color: #e69f54;
+            }
+
+            :host .good-list paper-item .glyphicon {
+                margin-right: 5px;
+                color: #79c5b4;
+            }
+
+            :host .parent-folder {
+                margin-bottom: 5px;
+                cursor: pointer;
+            }
+
+            :host paper-listbox .iron-selected {
+                background: lightgrey;
+            }
+
+            :host paper-spinner-lite {
+                display: block;
+                margin: 0 auto;
+            }
+        </style>
+        <div class="field-wrapper">
+            <label>{{article}}</label>
+            <input type="text" name="{{attr}}" value="{{id}}" hidden>
+            <p class="field-choice">{{name}}<paper-spinner-lite id="spinnerFieldChoice"></paper-spinner-lite></p>
+        </div>
+        <button type="button" class="visually-hidden">Очистить</button>
+        <paper-button raised on-tap="open">Выбрать</paper-button>
+        <content></content>
+        <paper-dialog id="scrolling">
+            <h2>Выберите товар</h2>
+            <paper-dialog-scrollable>
+                <template id="domRepeatFolder" is="dom-repeat" items="{{parentCategories}}">
+                    <div class="parent-folder"
+                         on-dblclick="dblClickFolder"
+                         onselectstart="return false"
+                         onmousedown="return false"
+                         data-category-id="{{item.id}}">
+                        {{item.offset}}<span class="glyphicon glyphicon-folder-open"></span>{{item.name}}
+                    </div>
+                </template>
+                <paper-spinner-lite id="spinner" active></paper-spinner-lite>
+                <paper-listbox class="category-list" attr-for-selected="item-category" selected="{{itemCategory}}" fallback-selection="None">
+                    <template id="domRepeat" is="dom-repeat" items="{{category}}">
+                        <paper-item item-category="{{item}}" data-category-id="{{item.id}}" on-dblclick="dblClickFolder" onselectstart="return false" onmousedown="return false"><span
+                                class="glyphicon glyphicon-folder-close"></span>{{item.title}}
+                        </paper-item>
+                    </template>
+                </paper-listbox>
+                <paper-listbox id="goodList" class="good-list" attr-for-selected="item-good" selected="{{itemGood}}" fallback-selection="None">
+                    <template id="domRepeatGood" is="dom-repeat" items="{{responseGoods}}">
+                        <paper-item item-good="{{item}}"
+                                    data-good-id="{{item.id}}"
+                                    on-dblclick="dblClickGood"
+                                    onselectstart="return false"
+                                    onmousedown="return false">
+                            <span class="glyphicon glyphicon-file"></span>{{item.article}} {{item.titleAndColor}}
+                        </paper-item>
+                    </template>
+                </paper-listbox>
+            </paper-dialog-scrollable>
+            <div class="buttons">
+                <paper-button dialog-dismiss>Отмена</paper-button>
+                <paper-button dialog-confirm on-tap="confirm">Выбрать</paper-button>
+            </div>
+        </paper-dialog>
+        <iron-ajax id="ajax"
+                   url="/api/category/parent"
+                   handle-as="json"
+                   on-response="handleResponse"
+                   last-response="{{response}}"
+                   debounce-duration="300"></iron-ajax>
+        <iron-ajax id="ajaxCategory"
+                   url="/api/categories/{{categoryId}}"
+                   handle-as="json"
+                   on-response="handleResponseCategory"
+                   last-response="{{responseCategory}}"
+                   debounce-duration="300"></iron-ajax>
+        <iron-ajax id="ajaxGoods"
+                   url="/api/good/category"
+                   handle-as="json"
+                   on-response="handleResponseGoods"
+                   last-response="{{responseGoods}}"
+                   debounce-duration="300"></iron-ajax>
+        <iron-ajax id="ajaxGood"
+                   url="/api/goods/{{goodId}}"
+                   handle-as="json"
+                   on-response="handleResponseGood"
+                   last-response="{{responseGood}}"
+                   debounce-duration="300"></iron-ajax>
+    </template>
+    <script>
+        Polymer({
+            is: 'choice-good',
+            properties: {
+                'article': String,
+                'attr': String,
+                'goodId': Number,
+                'categoryId': {type: Number, value: 0},
+                'name': String,
+                'category': Array,
+                'goods': Array,
+                'itemCategory': Object,
+                'itemGood': Object,
+                'parentCategories': {type: Array, value: []},
+            },
+            buildParentTree: function() {
+                this.parentCategories = [
+                    {
+                        'id': 0,
+                        'name': 'Корневая директория',
+                        'offset': '',
+                    }
+                ];
+
+                if (this.categoryId != 0) {
+                    if (this.responseCategory.parent != null) {
+                        this.push('parentCategories', {
+                            'id': this.responseCategory.parent.id,
+                            'name': this.responseCategory.parent.title,
+                            'offset': '--',
+                        });
+                    }
+                    this.push('parentCategories', {
+                        'id': this.responseCategory.id,
+                        'name': this.responseCategory.title,
+                        'offset': '--'});
+                }
+            },
+            confirm: function() {
+                this.name = this.itemGood.title;
+                this.id = this.itemGood.id;
+                this.article = this.itemGood.article;
+            },
+            handleResponse: function(event) {
+                var resp = event.detail.response;
+                console.log(resp);
+                this.category = resp;
+
+                this.$.spinner.active = false;
+                this.$.spinner.style.display = 'none';
+            },
+            handleResponseCategory: function(event) {
+                this.buildParentTree();
+            },
+            handleResponseGoods: function() {
+                /*for (var i = 0; i < this.responseGoods.length; i++) {
+                    if (this.responseGoods[i].id == this.goodId) {
+                        this.responseGoods[i].selected = true;
+                    } else {
+                        this.responseGoods[i].selected = false;
+                    }
+                }
+                console.log(this.responseGoods);*/
+            },
+            handleResponseGood: function() {
+                this.name = this.responseGood.title;
+                this.article = this.responseGood.article;
+                this.categoryId = this.responseGood.category.id;
+                if (!this.name) {
+                    this.name = 'Выберите основной товар'
+                }
+
+                this.$.spinnerFieldChoice.active = false;
+            },
+            open: function() {
+                this.$.ajax.params = {
+                    'parent_id': this.categoryId,
+                };
+
+                this.$.ajaxGoods.params = {
+                    'category_id': this.categoryId,
+                };
+
+                if (this.categoryId == 0) {
+                    this.buildParentTree();
+                } else {
+                    this.$.ajaxCategory.generateRequest();
+                }
+
+                this.$.ajax.generateRequest();
+                this.$.ajaxGoods.generateRequest();
+                this.$.scrolling.open();
+            },
+            ready: function() {
+                if (this.goodId == 0) {
+                    this.name = 'Выберите основной товар'
+                } else {
+                    this.$.spinnerFieldChoice.active = true;
+                    this.$.ajaxGood.generateRequest();
+                }
+            },
+            dblClickFolder: function(evt) {
+                var target = evt.currentTarget;
+
+                this.$.spinner.active = true;
+                this.$.spinner.style.display = 'block';
+
+                this.category = [];
+
+                this.categoryId = target.dataCategoryId;
+                this.open();
+            },
+            dblClickGood: function(evt) {
+                var target = evt.currentTarget;
+                console.log(target.dataGoodId);
+            }
+
+        })
+    </script>
+</dom-module>

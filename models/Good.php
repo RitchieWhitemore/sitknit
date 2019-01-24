@@ -72,7 +72,12 @@ class Good extends \yii\db\ActiveRecord
     public function fields()
     {
         return [
-            'images' => 'images',
+            'id',
+            'article',
+            'title',
+            'category',
+            'images',
+            'titleAndColor'
         ];
 
     }
@@ -147,6 +152,11 @@ class Good extends \yii\db\ActiveRecord
     public function getFullTitle()
     {
         return $this->category->title . ' ' . $this->title;
+    }
+
+    public function getTitleAndColor() {
+        $color = '';
+        return $this->title . ' ' . $color;
     }
 
     public static function NextOrPrev($currentId, $categoryId)

@@ -33,8 +33,8 @@ use app\models\Country;
 
                 <?= $form->field($model, 'categoryId')->dropDownList(Category::getCategoriesArray(), ['prompt' => 'Выберите категорию']) ?>
 
-                <?= $form->field($model, 'main_good_id')->textInput(['maxlength' => true])->label('Id основного товара в группе') ?>
-
+     <!--           --><?/*= $form->field($model, 'main_good_id')->textInput(['maxlength' => true])->label('Id основного товара в группе') */?>
+                <choice-good attr="Good[main_good_id]" good-id="<?=$model->main_good_id?>"></choice-good>
                 <?= $form->field($model, 'article')->textInput(['maxlength' => true]) ?>
 
                 <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>

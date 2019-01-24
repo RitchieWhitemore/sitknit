@@ -44,7 +44,7 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute' => 'main_good_id',
                 'value'     =>  ArrayHelper::getValue($model, 'mainGood.article'),
-                'label'     => 'Артикул товара с которого беруться характеристики',
+                'label'     => 'Артикул товара с которого берутся характеристики',
             ],
 
             'article',

@@ -76,6 +76,14 @@ class Category extends \yii\db\ActiveRecord
         ];
     }
 
+    public function fields() {
+        return [
+            'id',
+            'title',
+            'parent',
+        ];
+    }
+
     public static function getCategoriesArray()
     {
         return self::find()->select(['title', 'id'])->indexBy('id')->column();

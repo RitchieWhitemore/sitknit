@@ -36,7 +36,21 @@ return [
                     ],
                 ],
 
-                ['class' => 'yii\rest\UrlRule', 'controller' => 'api/good',],
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'api/good',
+                    'extraPatterns' => [
+                        'GET category' => 'category',
+                    ],
+                ],
+
+                [
+                    'class'         => 'yii\rest\UrlRule',
+                    'controller'    => 'api/category',
+                    'extraPatterns' => [
+                        'GET parent' => 'parent',
+                    ],
+                ],
 
                 ''                                                                               => 'goods/catalog',
                 'contact'                                                                        => 'main/contact/index',
