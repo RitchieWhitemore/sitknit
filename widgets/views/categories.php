@@ -13,14 +13,14 @@ use yii\helpers\Url;
     <div class="aside-catalog__list">
         <?php foreach ($categories as $category) : ?>
             <a class="link aside-catalog__link"
-               href="<?= Url::to(['/goods/category', 'id' => $category->id]) ?>"><?= $category->title ?>
+               href="<?= Url::to(['/goods/category', 'id' => $category->id]) ?>"><?= $category->name ?>
                 (<?= $category->countGoods ?>)</a>
 
             <?php if (!empty($subcategories[$category->id])) : ?>
                 <?php foreach ($subcategories[$category->id] as $subcategory) : ?>
 
                     <a class="link aside-catalog__link"
-                       href="<?= Url::to(['/goods/category', 'id' => $subcategory->id]) ?>">-<?= $subcategory->title ?>
+                       href="<?= Url::to(['/goods/category', 'id' => $subcategory->id]) ?>">-<?= $subcategory->name ?>
                         (<?= $subcategory->getGoods()->where(['active' => 1])->count() ?>)</a>
                 <?php endforeach; ?>
             <?php endif; ?>

@@ -41,7 +41,7 @@ class GoodsController extends Controller
 
         $dataProvider = new ActiveDataProvider(
             [
-                'query'      => Good::find()->where(['categoryId' => $id, 'active' => 1])->with(['attributeValues', 'mainGood.attributeValues']),
+                'query'      => Good::find()->where(['category_id' => $id, 'active' => 1])->with(['attributeValues', 'mainGood.attributeValues']),
                 'pagination' => [
                     'pageSize' => 15,
                 ],

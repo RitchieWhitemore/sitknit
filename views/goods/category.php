@@ -2,6 +2,11 @@
 
 use yii\widgets\ListView;
 
+/**
+ *
+ * @var $model app\models\Category
+ */
+
 ?>
 
 <ul class="breadcrumb">
@@ -23,7 +28,7 @@ use yii\widgets\ListView;
     </label>
 </div>
 <div class="catalog">
-    <h1 class="catalog__title"><?= $model->title ?></h1>
+    <h1 class="catalog__title"><?= $model->name ?></h1>
     <p class="catalog__descr"><?= $model->description ?></p>
     <?php echo ListView::widget([
         'dataProvider' => $dataProvider,

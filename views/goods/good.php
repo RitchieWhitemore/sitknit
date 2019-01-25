@@ -10,13 +10,13 @@
 ?>
 
 <ul class="breadcrumb">
-    <li><a href="" class="link breadcrumb__link"><?= $model->category->title ?></a></li>
-    <li><?= $model->fulltitle ?></li>
+    <li><a href="" class="link breadcrumb__link"><?= $model->category->name ?></a></li>
+    <li><?= $model->fullName ?></li>
 </ul>
 
 <div class="page-product">
     <div class="page-product__title-wrapper">
-        <h1 class="page-product__title"><?= $model->fulltitle ?></h1>
+        <h1 class="page-product__title"><?= $model->fullName ?></h1>
     </div>
     <div class="page-product__slider-image slider-image">
         <div class="slider-image__main-image-wrapper">
@@ -60,8 +60,8 @@
     <div class="page-product__feature">
         <h2 class="page-product__feature-title">Характеристики:</h2>
         <ul class="page-product__feature-list">
-            <li class="page-product__feature-item"><b>Производитель: </b><?= $model->brand->title ?>
-                (<?= $model->country->title ?>)
+            <li class="page-product__feature-item"><b>Производитель: </b><?= $model->brand->name ?>
+                (<?= $model->country->name ?>)
             </li>
             <?php
             foreach ($valuesMain as $attr => $value) {

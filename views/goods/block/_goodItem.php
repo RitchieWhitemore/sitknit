@@ -17,8 +17,8 @@ if (isset($model->mainGood)) {
 ?>
 
 
-<h2 class="product__title"><a href="<?= Url::to(['goods/view', 'id' => $model->id])?>" class="link">Пряжа <?= $model->title ?></a></h2>
-<span class="product__manufacturer"><?= $model->brand->title ?></span>
+<h2 class="product__title"><a href="<?= Url::to(['goods/view', 'id' => $model->id])?>" class="link">Пряжа <?= $model->name ?></a></h2>
+<span class="product__manufacturer"><?= $model->brand->name ?></span>
 <div class="product__image-wrapper">
     <?= Yii::$app->thumbnail->img($model->mainImageUrl, [
         'thumbnail'   => [
