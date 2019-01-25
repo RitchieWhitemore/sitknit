@@ -23,8 +23,8 @@ class ImageSearch extends Image
     public function rules()
     {
         return [
-            [['id', 'goodId', 'main'], 'integer'],
-            [['fileName'], 'safe'],
+            [['id', 'good_id', 'main'], 'integer'],
+            [['file_name'], 'safe'],
         ];
     }
 
@@ -65,11 +65,11 @@ class ImageSearch extends Image
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'goodId' => $this->goodId,
+            'good_id' => $this->good_id,
             'main' => $this->main,
         ]);
 
-        $query->andFilterWhere(['like', 'fileName', $this->fileName]);
+        $query->andFilterWhere(['like', 'file_name', $this->file_name]);
 
         return $dataProvider;
     }

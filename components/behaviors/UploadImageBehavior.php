@@ -20,7 +20,7 @@ class UploadImageBehavior extends \yii\base\Behavior
      */
     public $imageFile;
     public $fileNameField;
-    public $goodIdField = 'goodId';
+    public $goodIdField = 'good_id';
     public $catalog;
 
     /**

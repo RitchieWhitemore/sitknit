@@ -17,9 +17,9 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'id') ?>
 
-    <?= $form->field($model, 'fileName') ?>
+    <?= $form->field($model, 'file_name') ?>
 
-    <?= $form->field($model, 'goodId') ?>
+    <?= $form->field($model, 'good_id') ?>
 
     <?= $form->field($model, 'main') ?>
 

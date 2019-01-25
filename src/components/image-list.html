@@ -31,8 +31,8 @@
         <div id="old-images" class="list">
 
             <template is="dom-repeat" items="{{resp}}">
-                <image-item good-id="{{item.goodId}}" index="{{index}}"
-                            file-name="{{item.fileName}}" image-id="{{item.id}}" main="{{item.main}}">
+                <image-item good-id="{{item.good_id}}" index="{{index}}"
+                            file-name="{{item.file_name}}" image-id="{{item.id}}" main="{{item.main}}">
 
                 </image-item>
             </template>
@@ -42,7 +42,7 @@
         <upload-button></upload-button>
         <div id="new-list" class="list">
             <template id="domRepeat" is="dom-repeat" items="{{images}}">
-                <image-item good-id="{{item.goodId}}" src="{{item.src}}" index="{{index}}"
+                <image-item good-id="{{item.good_id}}" src="{{item.src}}" index="{{index}}"
                             file-name="{{item.name}}">
 
                 </image-item>
@@ -109,7 +109,7 @@
                 if (this.images.length > 0) {
                     this.images.forEach(function(item) {
                         var formData = new FormData();
-                        formData.append("goodId", this.goodId);
+                        formData.append("good_id", this.goodId);
                         formData.append("Image[imageFile]", item);
 
                         var xhr = new XMLHttpRequest();

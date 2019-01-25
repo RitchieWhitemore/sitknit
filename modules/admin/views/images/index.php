@@ -27,13 +27,13 @@ $this->params['breadcrumbs'][] = $this->title;
 
             'id',
             [
-                'attribute' => 'fileName',
+                'attribute' => 'file_name',
                 'format' => 'raw',
                 'value' => function ($value) {
                     return Html::img($value->url, ['width' => 100]);
                 }
             ],
-            'goodId',
+            'good_id',
             'main',
 
             ['class' => 'yii\grid\ActionColumn'],

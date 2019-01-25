@@ -8,8 +8,8 @@ use app\components\behaviors\UploadImageBehavior;
  * This is the model class for table "image".
  *
  * @property int $id
- * @property string $fileName
- * @property int $goodId
+ * @property string $file_name
+ * @property int $good_id
  * @property int $main
  *
  * @property Good $good
@@ -28,10 +28,10 @@ class Image extends \yii\db\ActiveRecord
     {
         return [
             [
-                'class' => UploadImageBehavior::className(),
-                'fileNameField' => 'fileName',
-                'typeSave' => 'multiple',
-                'catalog' => 'goods'
+                'class'         => UploadImageBehavior::className(),
+                'fileNameField' => 'file_name',
+                'typeSave'      => 'multiple',
+                'catalog'       => 'goods',
             ],
         ];
     }
@@ -42,16 +42,16 @@ class Image extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['goodId'], 'required'],
-            [['goodId'], 'filter', 'filter' => function ($value) {
+            [['good_id'], 'required'],
+            [['good_id'], 'filter', 'filter' => function ($value) {
                 return (int)$value;
             }],
             [['main'], 'filter', 'filter' => function ($value) {
                 return (int)$value;
             }],
-            [['goodId', 'main'], 'integer'],
-            [['fileName'], 'string', 'max' => 255],
-            [['goodId'], 'exist', 'skipOnError' => true, 'targetClass' => Good::className(), 'targetAttribute' => ['goodId' => 'id']],
+            [['good_id', 'main'], 'integer'],
+            [['file_name'], 'string', 'max' => 255],
+            [['good_id'], 'exist', 'skipOnError' => true, 'targetClass' => Good::className(), 'targetAttribute' => ['good_id' => 'id']],
             [['imageFile'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg'],
         ];
     }
@@ -62,11 +62,11 @@ class Image extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id'       => 'ID',
-            'fileName' => 'Имя файла',
-            'goodId'   => 'ID товара',
-            'main'     => 'Главная картинка товара',
-            'imageFile' => 'Загрузка изображения'
+            'id'        => 'ID',
+            'file_name' => 'Имя файла',
+            'good_id'   => 'ID товара',
+            'main'      => 'Главная картинка товара',
+            'imageFile' => 'Загрузка изображения',
         ];
     }
 
@@ -75,6 +75,6 @@ class Image extends \yii\db\ActiveRecord
      */
     public function getGood()
     {
-        return $this->hasOne(Good::className(), ['id' => 'goodId']);
+        return $this->hasOne(Good::className(), ['id' => 'good_id']);
     }
 }

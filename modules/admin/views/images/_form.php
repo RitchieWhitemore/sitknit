@@ -20,7 +20,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'imageFile')->fileInput(['accept' => '.jpg, .jpeg, .png']) ?>
 
-    <?= $form->field($model, 'goodId')->textInput() ?>
+    <?= $form->field($model, 'good_id')->textInput() ?>
 
     <?= $form->field($model, 'main')->textInput() ?>
 
