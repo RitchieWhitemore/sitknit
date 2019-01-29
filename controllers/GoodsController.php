@@ -23,7 +23,7 @@ class GoodsController extends Controller
     {
         $dataProvider = new ActiveDataProvider(
             [
-                'query' => Category::find()->where(['active' => 1]),
+                'query' => Category::find()->where(['active' => 1])->andWhere(['parent_id' => null]),
             ]
         );
         return $this->render('catalog', [
