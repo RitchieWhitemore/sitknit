@@ -139,8 +139,18 @@ class UploadImageBehavior extends \yii\base\Behavior
 
     public function removeOldImage()
     {
+        /**
+         *
+         * Первая проверка для удаления картинок через Ajax на странице товара
+         * Вторая проверка для удаления картинок из категории
+         *
+         */
         if ($this->_oldFileName === null) {
             $this->_oldFileName = $this->owner->{$this->fileNameField};
+        }
+
+        if ($this->_oldFileName === null) {
+            return true;
         }
 
         if (file_exists($this->_serverPath . $this->getPathImg() . $this->_oldFileName)) {
