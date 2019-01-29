@@ -14,8 +14,15 @@ class GoodController extends ActiveController
         if ($category_id == 0) {
             $category_id = null;
         }
-        $model = Good::find()->where(['category_id' => (int)$category_id])->limit(10)->all();
+        $model = Good::find()->where(['category_id' => (int)$category_id])->limit(100)->all();
 
         return $model;
+    }
+
+    public function actionDeleteMainGood($id)
+    {
+        $model = Good::findOne($id);
+        $model->main_good_id = null;
+        $model->save();
     }
 }

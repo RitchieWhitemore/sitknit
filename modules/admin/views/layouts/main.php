@@ -18,7 +18,7 @@ AdminAsset::register($this);
 $webCompsUrl = $this->assetBundles['app\assets\WebComponentsAsset']->baseUrl;
 $this->registerLinkTag(['rel' => 'import', 'href' => "$webCompsUrl/page-tabs.html"]);
 $this->registerLinkTag(['rel' => 'import', 'href' => "$webCompsUrl/image-list.html"]);
-$this->registerLinkTag(['rel' => 'import', 'href' => "$webCompsUrl/choice-good.html"]);
+$this->registerLinkTag(['rel' => 'import', 'href' => "$webCompsUrl/choice-form/choice-form.html"]);
 
 ?>
 <?php $this->beginPage() ?>

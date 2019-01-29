@@ -31,10 +31,25 @@ use app\models\Country;
             <div>
                 <?php $form = ActiveForm::begin(); ?>
 
-                <?= $form->field($model, 'category_id')->dropDownList(Category::getCategoriesArray(), ['prompt' => 'Выберите категорию']) ?>
+                <?/*$form->field($model, 'category_id')->dropDownList(Category::getCategoriesArray(), ['prompt' => 'Выберите категорию'])*/?>
+                <choice-form
+                        attr="Good[category_id]"
+                        label="Категория"
+                        model="categories"
+                        entity-id="<?=$model->category_id?>"
+                        placeholder="Выберите категорию"
+                ></choice-form>
 
      <!--           --><?/*= $form->field($model, 'main_good_id')->textInput(['maxlength' => true])->label('Id основного товара в группе') */?>
-                <choice-good attr="Good[main_good_id]" good-id="<?=$model->main_good_id?>"></choice-good>
+                <choice-form
+                        attr="Good[main_good_id]"
+                        label="Основной товар в группе"
+                        model="categories"
+                        entity-id="<?=$model->main_good_id?>"
+                        good-id="<?= $model->id ?>"
+                        good-flag
+                        placeholder="Выберите основной товар"
+                ></choice-form>
                 <?= $form->field($model, 'article')->textInput(['maxlength' => true]) ?>
 
                 <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>

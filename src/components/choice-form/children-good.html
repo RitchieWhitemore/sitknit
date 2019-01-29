@@ -1,0 +1,88 @@
+<dom-module id="children-good">
+    <template>
+        <style>
+            :host paper-listbox {
+                padding-top: 0;
+                display: flex;
+                flex-direction: column;
+            }
+
+            :host paper-listbox paper-item {
+                padding: 5px;
+                cursor: pointer;
+            }
+
+            :host .good-list paper-item .glyphicon {
+                margin-right: 5px;
+                color: #79c5b4;
+            }
+
+            :host paper-spinner-lite {
+                display: block;
+                margin: 0 auto;
+            }
+
+            :host paper-listbox .iron-selected {
+                background: lightgrey;
+            }
+        </style>
+        <paper-spinner-lite id="spinner"></paper-spinner-lite>
+        <paper-listbox id="goodList" class="good-list" attr-for-selected="item-good" selected="{{itemGood}}"
+                       fallback-selection="None">
+            <template id="domRepeat" is="dom-repeat" items="{{response}}">
+                <paper-item item-good="{{item}}"
+                            data-good-id="{{item.id}}"
+                            on-dblclick="dblClickGood"
+                            onselectstart="return false"
+                            onmousedown="return false">
+                    <span class="glyphicon glyphicon-file"></span>{{item.article}} {{item.nameAndColor}}
+                </paper-item>
+            </template>
+        </paper-listbox>
+        <content></content>
+        <iron-ajax id="ajax"
+                   url="/api/good/category"
+                   handle-as="json"
+                   on-response="handleResponse"
+                   last-response="{{response}}"
+                   debounce-duration="300"></iron-ajax>
+    </template>
+    <script>
+        Polymer({
+            is: 'children-good',
+            properties: {
+                'categoryId': {type: Number, observer: '_runAjax'},
+                'itemGood': {type: Object, observer: 'selectGood'},
+            },
+            _runAjax: function() {
+                this.spinnerOn();
+
+                this.$.ajax.params = {
+                    'category_id': this.categoryId,
+                };
+                this.$.ajax.generateRequest();
+
+            },
+            dblClickGood: function(evt) {
+                var target = evt.currentTarget;
+                //console.log(target.dataGoodId);
+            },
+            handleResponse: function() {
+                //console.log(this.response);
+                this.spinnerOff();
+            },
+            selectGood: function() {
+                var choiceForm = this.parentElement.parentElement.parentElement.parentElement;
+                choiceForm.itemGood = this.itemGood
+            },
+            spinnerOn: function() {
+                this.$.spinner.active = true;
+                this.$.spinner.style.display = 'block';
+            },
+            spinnerOff: function() {
+                this.$.spinner.active = false;
+                this.$.spinner.style.display = 'none';
+            },
+        })
+    </script>
+</dom-module>

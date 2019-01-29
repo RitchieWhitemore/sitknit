@@ -41,6 +41,7 @@ return [
                     'controller' => 'api/good',
                     'extraPatterns' => [
                         'GET category' => 'category',
+                        'DELETE delete-main-good' => 'deleteMainGood',
                     ],
                 ],
 
