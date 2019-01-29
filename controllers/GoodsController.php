@@ -39,6 +39,12 @@ class GoodsController extends Controller
             throw new NotFoundHttpException();
         }
 
+        $subcategories = new ActiveDataProvider(
+            [
+                'query' => Category::find()->active()->andWhere(['parent_id' => $id]),
+            ]
+        );
+
         $dataProvider = new ActiveDataProvider(
             [
                 'query'      => Good::find()->where(['category_id' => $id, 'active' => 1])->with(['attributeValues', 'mainGood.attributeValues']),
@@ -50,6 +56,7 @@ class GoodsController extends Controller
 
         return $this->render('category', [
             'dataProvider' => $dataProvider,
+            'subcategories' => $subcategories,
             'model'        => $Category,
         ]);
     }

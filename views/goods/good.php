@@ -1,5 +1,7 @@
 <?php
 
+use yii\helpers\Url;
+
 /**
  *
  * @var $model app\models\Good
@@ -10,7 +12,7 @@
 ?>
 
 <ul class="breadcrumb">
-    <li><a href="" class="link breadcrumb__link"><?= $model->category->name ?></a></li>
+    <li><a href="<?= Url::to(['/goods/category', 'id' => $model->category_id])?>" class="link breadcrumb__link"><?= $model->category->name ?></a></li>
     <li><?= $model->fullName ?></li>
 </ul>
 

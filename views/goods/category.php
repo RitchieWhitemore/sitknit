@@ -1,19 +1,24 @@
 <?php
 
 use yii\widgets\ListView;
+use yii\widgets\Breadcrumbs;
+use yii\helpers\Html;
 
 /**
  *
  * @var $model app\models\Category
  */
 
+$this->title = $model->name;
+$this->params['breadcrumbs'][] = ['label' => 'Каталог', 'url' => ['index']];
+$this->params['breadcrumbs'][] = $this->title;
+
 ?>
 
-<ul class="breadcrumb">
-    <li><a href="/"><i class="fa fa-home"></i></a> /</li>
-    <li><a href="">Пряжа</a> /</li>
-    <li>Акриловая пряжа</li>
-</ul>
+<?= Breadcrumbs::widget([
+    'homeLink' => ['label' => 'Главная', 'url' => Yii::$app->homeUrl],
+    'links'    => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
+]) ?>
 
 <div class="control">
     <label class="control__label"> Показать по
@@ -27,9 +32,17 @@ use yii\widgets\ListView;
         </select>
     </label>
 </div>
+
 <div class="catalog">
     <h1 class="catalog__title"><?= $model->name ?></h1>
     <p class="catalog__descr"><?= $model->description ?></p>
+    <?php echo ListView::widget([
+        'dataProvider' => $subcategories,
+        'itemView'     => 'block/_categoryItem',
+        'itemOptions'  => ['class' => 'catalog__item product'],
+        'options'      => ['class' => 'catalog__list'],
+    ]);
+    ?>
     <?php echo ListView::widget([
         'dataProvider' => $dataProvider,
         'itemView'     => 'block/_goodItem',
@@ -38,6 +51,7 @@ use yii\widgets\ListView;
     ]);
     ?>
 </div>
+
 <div class="pagination">
     <ul class="pagination__list">
         <li class="pagination__item"><a href="" class="link pagination__link">Назад</a></li>

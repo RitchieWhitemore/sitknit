@@ -1,12 +1,22 @@
 .breadcrumb {
     margin: 0;
+    margin-bottom: 30px;
     padding: 0;
     list-style: none;
-    margin-bottom: 30px;
+    background: none;
+
 
     & li a {
         color: black;
         text-decoration: none;
+    }
+
+    & > li + li:before {
+        color: black;
+    }
+
+    & .active {
+        color: black;
     }
 
     & a:hover {
@@ -19,11 +29,6 @@
 
     &:last-child {
         font-weight: bold;
-    }
-
-    &::after {
-        content: " /";
-
     }
 
     &:last-child::after {
