@@ -14,14 +14,12 @@ class Categories extends Widget
 
     public function run()
     {
-        //$Categories = Category::find()->active()->all();
-
-        $Categories = Category::find()->where(['parent_id' => null])->active()->all();
+        $Categories = Category::find()->where(['parent_id' => null])->active()->orderBy('name')->all();
 
         $Subcategories = [];
         foreach($Categories as $category)
         {
-            $Subcategories[$category->id] = Category::find()->where(['parent_id' => $category->id])->active()->all();
+            $Subcategories[$category->id] = Category::find()->where(['parent_id' => $category->id])->active()->orderBy('name')->all();
         }
 
         return $this->render('categories', [
