@@ -91,13 +91,17 @@ class GoodsController extends Controller
     public function actionCreate()
     {
         $model = new Good();
+        $values = $this->initValues($model);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        $post = Yii::$app->request->post();
+        if ($model->load($post) && $model->save() && Model::loadMultiple($values, $post)) {
+            $this->processValues($values, $model);
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
         return $this->render('create', [
             'model' => $model,
+            'values' => $values,
         ]);
     }
 
@@ -111,40 +115,15 @@ class GoodsController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $values = $this->initValues($model);
 
         $imagesProvider = new ActiveDataProvider([
             'query' => $model->getImages(),
         ]);
 
-        /** @var AttributeValue[] $values */
-        $values = $model->getAttributeValues()->with('goodAttribute')->indexBy('attribute_id')->all();
-        $attributes = Attribute::find()->indexBy('id')->all();
-
-        $arr = array_diff_key($attributes, $values);
-        foreach ($arr as $attribute) {
-            $values[$attribute->id] = new AttributeValue(['attribute_id' => $attribute->id]);
-        }
-
-        uasort($values, function ($a, $b) {
-            return $a->goodAttribute->name > $b->goodAttribute->name;
-        });
-
-        foreach ($values as $value) {
-            $value->setScenario(AttributeValue::SCENARIO_TABULAR);
-        }
         $post = Yii::$app->request->post();
         if ($model->load($post) && $model->save() && Model::loadMultiple($values, $post)) {
-            foreach ($values as $value) {
-                $value->good_id = $model->id;
-                if ($value->validate()) {
-                    if (!empty($value->value)) {
-                        $value->save(false);
-                    }
-                    else {
-                        $value->delete();
-                    }
-                }
-            }
+            $this->processValues($values, $model);
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
@@ -206,5 +185,42 @@ class GoodsController extends Controller
         if ($Good->save()) {
             return $this->redirect('/admin/goods');
         };
+    }
+
+    private function initValues(Good $model)
+    {
+        /** @var AttributeValue[] $values */
+        $values = $model->getAttributeValues()->with('goodAttribute')->indexBy('attribute_id')->all();
+        $attributes = Attribute::find()->indexBy('id')->all();
+
+        $arr = array_diff_key($attributes, $values);
+        foreach ($arr as $attribute) {
+            $values[$attribute->id] = new AttributeValue(['attribute_id' => $attribute->id]);
+        }
+
+        uasort($values, function ($a, $b) {
+            return $a->goodAttribute->name > $b->goodAttribute->name;
+        });
+
+        foreach ($values as $value) {
+            $value->setScenario(AttributeValue::SCENARIO_TABULAR);
+        }
+
+        return $values;
+    }
+
+    private function processValues($values, Good $model)
+    {
+        foreach ($values as $value) {
+            $value->good_id = $model->id;
+            if ($value->validate()) {
+                if (!empty($value->value)) {
+                    $value->save(false);
+                }
+                else {
+                    $value->delete();
+                }
+            }
+        }
     }
 }
