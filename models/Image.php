@@ -2,7 +2,7 @@
 
 namespace app\models;
 
-use app\components\behaviors\UploadImageBehavior;
+use app\components\behaviors\UploadImageMultipleBehavior;
 
 /**
  * This is the model class for table "image".
@@ -28,9 +28,8 @@ class Image extends \yii\db\ActiveRecord
     {
         return [
             [
-                'class'         => UploadImageBehavior::className(),
+                'class'         => UploadImageMultipleBehavior::className(),
                 'fileNameField' => 'file_name',
-                'typeSave'      => 'multiple',
                 'catalog'       => 'goods',
             ],
         ];
@@ -52,7 +51,6 @@ class Image extends \yii\db\ActiveRecord
             [['good_id', 'main'], 'integer'],
             [['file_name'], 'string', 'max' => 255],
             [['good_id'], 'exist', 'skipOnError' => true, 'targetClass' => Good::className(), 'targetAttribute' => ['good_id' => 'id']],
-            [['imageFile'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg'],
         ];
     }
 

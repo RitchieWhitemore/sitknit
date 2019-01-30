@@ -36,7 +36,6 @@ class Category extends \yii\db\ActiveRecord
                 'class'         => UploadImageBehavior::className(),
                 'fileNameField' => 'image',
                 'goodIdField'   => 'id',
-                'typeSave'      => 'single',
                 'catalog'       => 'category',
             ],
         ];
@@ -54,7 +53,6 @@ class Category extends \yii\db\ActiveRecord
             [['content'], 'string'],
             [['active'], 'integer'],
             [['image'], 'string'],
-            [['imageFile'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg'],
             [['parent_id'], 'exist', 'skipOnError' => true, 'targetClass' => Category::className(), 'targetAttribute' => ['parent_id' => 'id']],
         ];
     }
