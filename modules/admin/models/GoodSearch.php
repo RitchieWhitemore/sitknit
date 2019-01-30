@@ -48,9 +48,9 @@ class GoodSearch extends Good
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
             'sort' => [
-                'defaultOrder' => ['id' => SORT_ASC],
+                'defaultOrder' => ['category_id' => SORT_ASC, 'name' => SORT_ASC, 'article' => SORT_ASC],
                 'attributes' => [
-                    'id',
+                    'article',
                     'name',
                     'category_id' => [
                         'asc' => ['category.name' => SORT_ASC],
