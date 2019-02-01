@@ -10,7 +10,7 @@ use yii\helpers\Html;
  */
 
 $this->title = $model->name;
-$this->params['breadcrumbs'][] = ['label' => 'Каталог', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Каталог', 'url' => ['catalog']];
 $this->params['breadcrumbs'][] = $this->title;
 
 ?>

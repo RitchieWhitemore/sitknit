@@ -44,6 +44,15 @@ class UploadImageMultipleBehavior extends UploadImageBehavior
         return true;
     }
 
+    public function afterInsert()
+    {
+        if ($this->imageFile != null) {
+            if ($this->upload()) {
+                $this->owner->save(false);
+            }
+        }
+    }
+
     public function afterUpdate()
     {
         if ($this->imageFile != null) {
@@ -59,7 +68,9 @@ class UploadImageMultipleBehavior extends UploadImageBehavior
 
         $id = $this->_goodId;
 
-        $fileName = mb_strtolower($this->catalog . '_' . $id . '_' . time());
+        $randomNumber = time()+rand(0,1000);
+
+        $fileName = mb_strtolower($this->catalog . '_' . $id . '_' . $randomNumber);
 
         $this->owner->{$this->fileNameField} = $fileName . '.' . $this->imageFile->extension;
 
@@ -73,9 +84,9 @@ class UploadImageMultipleBehavior extends UploadImageBehavior
             $this->_goodId = $this->owner->{$this->goodIdField};
         }
 
-        return $this->_path . '/' . $this->_goodId . '/';
+        $path = $this->_path . '/' . $this->_goodId . '/';
 
-        return $this->_path . '/';
+        return $path;
     }
 
     public function beforeDelete()
@@ -92,6 +103,11 @@ class UploadImageMultipleBehavior extends UploadImageBehavior
         }
 
         return false;
+    }
+
+    public function upload()
+    {
+        return $this->imageFile->saveAs($this->createPathImg() . $this->createFileName());
     }
 
 }

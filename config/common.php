@@ -32,7 +32,8 @@ return [
                     'class'         => 'yii\rest\UrlRule',
                     'controller'    => 'api/image',
                     'extraPatterns' => [
-                        'POST toggle-main' => 'toggle-main',
+                        'POST toggle-main' => 'toggleMain',
+                        'DELETE delete-image' => 'deleteImage',
                     ],
                 ],
 

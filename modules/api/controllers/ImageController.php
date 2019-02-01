@@ -19,4 +19,11 @@ class ImageController extends ActiveController
         }
     }
 
+    public function actionDeleteImage($id)
+    {
+        $model = Image::findOne($id);
+
+        $model->delete();
+    }
+
 }
