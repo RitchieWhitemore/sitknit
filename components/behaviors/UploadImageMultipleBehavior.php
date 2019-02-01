@@ -25,6 +25,7 @@ class UploadImageMultipleBehavior extends UploadImageBehavior
     {
         return [
             ActiveRecord::EVENT_BEFORE_VALIDATE => 'beforeValidate',
+            ActiveRecord::EVENT_BEFORE_INSERT   => 'beforeInsert',
             ActiveRecord::EVENT_AFTER_INSERT    => 'afterInsert',
             ActiveRecord::EVENT_BEFORE_UPDATE   => 'beforeUpdate',
             ActiveRecord::EVENT_AFTER_UPDATE    => 'afterUpdate',
@@ -35,6 +36,12 @@ class UploadImageMultipleBehavior extends UploadImageBehavior
     public function init()
     {
         parent::init();
+    }
+
+    public function beforeInsert()
+    {
+        $this->owner->file_name = 'image';
+        return true;
     }
 
     public function afterUpdate()
@@ -69,6 +76,11 @@ class UploadImageMultipleBehavior extends UploadImageBehavior
         return $this->_path . '/' . $this->_goodId . '/';
 
         return $this->_path . '/';
+    }
+
+    public function beforeDelete()
+    {
+        return $this->removeOldImage();
     }
 
     public function removeOldImage()

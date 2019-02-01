@@ -5,7 +5,6 @@ namespace app\modules\api\controllers;
 use app\models\Image;
 use Yii;
 use yii\rest\ActiveController;
-use yii\web\UploadedFile;
 
 class ImageController extends ActiveController
 {
