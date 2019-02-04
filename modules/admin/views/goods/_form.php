@@ -2,7 +2,6 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-use app\models\Category;
 use app\models\Brand;
 use app\models\Country;
 
@@ -14,6 +13,11 @@ use app\models\Country;
  * @var $values app\models\Attribute
  *
  */
+$bundle = \app\assets\WebComponentsAsset::register($this);
+$this->registerJsFile("$bundle->baseUrl/src/components/page-tabs/page-tabs.js", ['type' => 'module']);
+/*$this->registerJsFile("/web/bower_components/polymer/polymer-element.js", ['type' => 'module']);
+$this->registerJsFile("/web/bower_components/paper-tabs/paper-tabs.js", ['type' => 'module']);
+$this->registerJsFile("/web/bower_components/paper-tabs/paper-tab.js", ['type' => 'module']);*/
 ?>
 
 <div class="good-form">
@@ -31,21 +35,21 @@ use app\models\Country;
             <div>
                 <?php $form = ActiveForm::begin(); ?>
 
-                <?/*$form->field($model, 'category_id')->dropDownList(Category::getCategoriesArray(), ['prompt' => 'Выберите категорию'])*/?>
+                <? /*$form->field($model, 'category_id')->dropDownList(Category::getCategoriesArray(), ['prompt' => 'Выберите категорию'])*/ ?>
                 <choice-form
                         attr="Good[category_id]"
                         label="Категория"
                         model="categories"
-                        entity-id="<?=$model->category_id?>"
+                        entity-id="<?= $model->category_id ?>"
                         placeholder="Выберите категорию"
                 ></choice-form>
 
-     <!--           --><?/*= $form->field($model, 'main_good_id')->textInput(['maxlength' => true])->label('Id основного товара в группе') */?>
+                <!--           --><? /*= $form->field($model, 'main_good_id')->textInput(['maxlength' => true])->label('Id основного товара в группе') */ ?>
                 <choice-form
                         attr="Good[main_good_id]"
                         label="Основной товар в группе"
                         model="categories"
-                        entity-id="<?=$model->main_good_id?>"
+                        entity-id="<?= $model->main_good_id ?>"
                         good-id="<?= $model->id ?>"
                         good-flag
                         placeholder="Выберите основной товар"

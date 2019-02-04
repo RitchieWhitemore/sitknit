@@ -16,10 +16,10 @@ AdminLtePluginAsset::register($this);
 AdminAsset::register($this);
 
 $webCompsUrl = $this->assetBundles['app\assets\WebComponentsAsset']->baseUrl;
-$this->registerLinkTag(['rel' => 'import', 'href' => "$webCompsUrl/page-tabs.html"]);
+/*$this->registerLinkTag(['rel' => 'import', 'href' => "$webCompsUrl/page-tabs.html"]);
 $this->registerLinkTag(['rel' => 'import', 'href' => "$webCompsUrl/image-list.html"]);
-$this->registerLinkTag(['rel' => 'import', 'href' => "$webCompsUrl/choice-form/choice-form.html"]);
-
+$this->registerLinkTag(['rel' => 'import', 'href' => "$webCompsUrl/choice-form/choice-form.html"]);*/
+$this->registerJsFile("$webCompsUrl/node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js");
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
