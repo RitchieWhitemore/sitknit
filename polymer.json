@@ -1,0 +1,9 @@
+{
+  "npm": true,
+  "moduleResolution": "node",
+  "builds": [{
+    "name": "prod",
+    "basePath": true,
+    "browserCapabilities": ["es2015", "push"]
+  }]
+}

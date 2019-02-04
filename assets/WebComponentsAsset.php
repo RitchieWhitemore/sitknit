@@ -17,5 +17,5 @@ use yii\web\AssetBundle;
  */
 class WebComponentsAsset extends AssetBundle
 {
-    public $sourcePath = '@app/src/components';
+    public $sourcePath = '@app/build/prod';
 }

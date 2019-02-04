@@ -12,36 +12,36 @@ return [
     'basePath'   => dirname(__DIR__),
     'bootstrap'  => ['log'],
     'aliases'    => [
-        '@bower' => '@vendor/bower-asset',
-        '@npm'   => '@vendor/npm-asset',
+        '@bower'   => '@vendor/bower-asset',
+        '@npm'     => '@vendor/npm-asset',
     ],
     'components' => [
         'db'         => [
-            'class'   => 'yii\db\Connection',
-            'charset' => 'utf8',
+            'class'             => 'yii\db\Connection',
+            'charset'           => 'utf8',
             'enableSchemaCache' => true,
         ],
         'urlManager' => [
-            'class'               => 'yii\web\UrlManager',
-            'enablePrettyUrl'     => true,
-            'showScriptName'      => false,
+            'class'           => 'yii\web\UrlManager',
+            'enablePrettyUrl' => true,
+            'showScriptName'  => false,
             //'enableStrictParsing' => true,
-            'rules'               => [
+            'rules'           => [
 
                 [
                     'class'         => 'yii\rest\UrlRule',
                     'controller'    => 'api/image',
                     'extraPatterns' => [
-                        'POST toggle-main' => 'toggleMain',
+                        'POST toggle-main'    => 'toggleMain',
                         'DELETE delete-image' => 'deleteImage',
                     ],
                 ],
 
                 [
-                    'class' => 'yii\rest\UrlRule',
-                    'controller' => 'api/good',
+                    'class'         => 'yii\rest\UrlRule',
+                    'controller'    => 'api/good',
                     'extraPatterns' => [
-                        'GET category' => 'category',
+                        'GET category'            => 'category',
                         'DELETE delete-main-good' => 'deleteMainGood',
                     ],
                 ],
@@ -59,8 +59,8 @@ return [
                 '<_a:error>'                                                                     => 'main/default/<_a>',
                 '<_a:(login|logout|signup|confirm-email|request-password-reset|reset-password)>' => 'user/default/<_a>',
 
-                'goods/category/<id:\d+>' => 'goods/category',
-                'goods/category/good/<id:\d+>'          => 'goods/view',
+                'goods/category/<id:\d+>'      => 'goods/category',
+                'goods/category/good/<id:\d+>' => 'goods/view',
 
                 /*'<_m:[\w\-]+>/<_c:[\w\-]+>/<id:\d+>'              => '<_m>/<_c>/view',
                 '<_m:[\w\-]+>/<_c:[\w\-]+>/<id:\d+>/<_a:[\w\-]+>' => '<_m>/<_c>/<_a>',

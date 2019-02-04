@@ -16,11 +16,14 @@
     "tests"
   ],
   "dependencies": {
-    "polymer": "Polymer/polymer#^1.0.0",
-    "iron-icon": "PolymerElements/iron-icon#^1.0.0",
-    "iron-icons": "PolymerElements/iron-icons#^1.0.0",
-    "paper-elements": "PolymerElements/paper-elements#^1.0.7",
-    "iron-ajax": "PolymerElements/iron-ajax#^1.4.3",
-    "iron-pages": "PolymerElements/iron-pages#^1.0.9"
+    "@polymer/iron-ajax": "^3.0.1",
+    "@polymer/iron-icon": "^3.0.0-pre.12",
+    "@polymer/iron-icons": "^3.0.0-pre.12",
+    "@polymer/paper-tabs": "^3.0.1",
+    "@polymer/polymer": "^3.0.0-pre.12",
+    "@webcomponents/webcomponentsjs": "^1.0.20"
+  },
+  "resolutions": {
+    "@webcomponents/webcomponentsjs": "1.0.20"
   }
 }

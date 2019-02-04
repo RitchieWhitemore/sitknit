@@ -4,22 +4,26 @@
   "description": "",
   "main": "gulpfile.js",
   "dependencies": {
+    "@polymer/iron-pages": "^3.0.1",
+    "@polymer/paper-tabs": "^3.0.1",
+    "@polymer/polymer": "^3.0.0-pre.12",
+    "@webcomponents/webcomponentsjs": "^1.0.20",
     "gulp": "^3.9.1",
     "gulp-less": "^3.3.2",
     "normalize.less": "^1.0.0"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.1",
-    "browser-sync": "^2.18.12",
+    "browser-sync": "^2.26.3",
     "css-mqpacker": "^6.0.1",
     "gulp-clean-css": "^3.9.0",
     "gulp-cssmin": "^0.2.0",
-    "gulp-plumber": "^1.1.0",
+    "gulp-plumber": "^1.2.1",
     "gulp-postcss": "^7.0.0",
     "gulp-rename": "^1.2.2",
+    "gulp-sourcemaps": "^2.6.4",
     "gulp-util": "^3.0.8",
-    "run-sequence": "^1.2.2",
-    "gulp-sourcemaps": "^2.6.4"
+    "run-sequence": "^1.2.2"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
