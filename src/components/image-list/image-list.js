@@ -7,26 +7,8 @@ import './image-item.js';
 class ImageList extends PolymerElement {
     static get template() {
         return html`
+        <link rel="stylesheet" href="/css/style.css">
       <style>
-      :host button {
-                display: inline-block;
-                margin-bottom: 0;
-                font-weight: normal;
-                text-align: center;
-                white-space: nowrap;
-                vertical-align: middle;
-                touch-action: manipulation;
-                cursor: pointer;
-                background-image: none;
-                background-color: #6399b1;
-                border: 1px solid transparent;
-                padding: 6px 12px;
-                font-size: 14px;
-                line-height: 1.42857143;
-                color: white;
-                border-radius: 4px;
-                user-select: none;
-            }
       :host .hidden {
         display: none;
       }
