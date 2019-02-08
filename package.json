@@ -4,8 +4,11 @@
   "description": "",
   "main": "gulpfile.js",
   "dependencies": {
+    "@polymer/iron-ajax": "^3.0.1",
     "@polymer/iron-pages": "^3.0.1",
+    "@polymer/paper-behaviors": "^3.0.1",
     "@polymer/paper-tabs": "^3.0.1",
+    "@polymer/paper-toggle-button": "^3.0.1",
     "@polymer/polymer": "^3.0.0-pre.12",
     "@webcomponents/webcomponentsjs": "^1.0.20",
     "gulp": "^3.9.1",

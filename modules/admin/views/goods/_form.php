@@ -14,10 +14,10 @@ use app\models\Country;
  *
  */
 $bundle = \app\assets\WebComponentsAsset::register($this);
-$this->registerJsFile("$bundle->baseUrl/src/components/page-tabs/page-tabs.js", ['type' => 'module']);
-/*$this->registerJsFile("/web/bower_components/polymer/polymer-element.js", ['type' => 'module']);
-$this->registerJsFile("/web/bower_components/paper-tabs/paper-tabs.js", ['type' => 'module']);
-$this->registerJsFile("/web/bower_components/paper-tabs/paper-tab.js", ['type' => 'module']);*/
+
+$this->registerJsFile("$bundle->baseUrl/page-tabs/page-tabs.js", ['type' => 'module'], $this::POS_END);
+$this->registerJsFile("$bundle->baseUrl/page-tabs/page-tabs.js", ['type' => 'module']);
+$this->registerJsFile("$bundle->baseUrl/image-list/image-list.js", ['type' => 'module']);
 ?>
 
 <div class="good-form">

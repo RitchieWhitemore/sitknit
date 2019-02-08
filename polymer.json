@@ -1,6 +1,9 @@
 {
   "npm": true,
   "moduleResolution": "node",
+  "sources": [
+    "src/components/**"
+  ],
   "builds": [{
     "name": "prod",
     "basePath": true,

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "d4202bc4bdced233f389860701c373bc",
+    "content-hash": "3444ca26f68d4f7660ad266e10f8b32d",
     "packages": [
         {
             "name": "almasaeed2010/adminlte",
@@ -911,6 +911,401 @@
                 "tinypng"
             ],
             "time": "2015-01-30T15:01:16+00:00"
+        },
+        {
+            "name": "npm-asset/polymer--font-roboto",
+            "version": "3.0.2",
+            "dist": {
+                "type": "tar",
+                "url": "https://registry.npmjs.org/@polymer/font-roboto/-/font-roboto-3.0.2.tgz",
+                "reference": null,
+                "shasum": null
+            },
+            "type": "npm-asset",
+            "license": [
+                "BSD-3-Clause"
+            ]
+        },
+        {
+            "name": "npm-asset/polymer--iron-a11y-keys-behavior",
+            "version": "3.0.1",
+            "dist": {
+                "type": "tar",
+                "url": "https://registry.npmjs.org/@polymer/iron-a11y-keys-behavior/-/iron-a11y-keys-behavior-3.0.1.tgz",
+                "reference": null,
+                "shasum": null
+            },
+            "require": {
+                "npm-asset/polymer--polymer": ">=3.0.0,<4.0.0"
+            },
+            "type": "npm-asset",
+            "license": [
+                "BSD-3-Clause"
+            ]
+        },
+        {
+            "name": "npm-asset/polymer--iron-behaviors",
+            "version": "3.0.1",
+            "dist": {
+                "type": "tar",
+                "url": "https://registry.npmjs.org/@polymer/iron-behaviors/-/iron-behaviors-3.0.1.tgz",
+                "reference": null,
+                "shasum": null
+            },
+            "require": {
+                "npm-asset/polymer--iron-a11y-keys-behavior": ">=3.0.0-beta.26,<4.0.0",
+                "npm-asset/polymer--polymer": ">=3.0.0,<4.0.0"
+            },
+            "type": "npm-asset",
+            "license": [
+                "BSD-3-Clause"
+            ]
+        },
+        {
+            "name": "npm-asset/polymer--iron-checked-element-behavior",
+            "version": "3.0.1",
+            "dist": {
+                "type": "tar",
+                "url": "https://registry.npmjs.org/@polymer/iron-checked-element-behavior/-/iron-checked-element-behavior-3.0.1.tgz",
+                "reference": null,
+                "shasum": null
+            },
+            "require": {
+                "npm-asset/polymer--iron-form-element-behavior": ">=3.0.0-beta.26,<4.0.0",
+                "npm-asset/polymer--iron-validatable-behavior": ">=3.0.0-beta.26,<4.0.0",
+                "npm-asset/polymer--polymer": ">=3.0.0,<4.0.0"
+            },
+            "type": "npm-asset",
+            "license": [
+                "BSD-3-Clause"
+            ]
+        },
+        {
+            "name": "npm-asset/polymer--iron-flex-layout",
+            "version": "3.0.1",
+            "dist": {
+                "type": "tar",
+                "url": "https://registry.npmjs.org/@polymer/iron-flex-layout/-/iron-flex-layout-3.0.1.tgz",
+                "reference": null,
+                "shasum": null
+            },
+            "require": {
+                "npm-asset/polymer--polymer": ">=3.0.0,<4.0.0"
+            },
+            "type": "npm-asset",
+            "license": [
+                "BSD-3-Clause"
+            ]
+        },
+        {
+            "name": "npm-asset/polymer--iron-form-element-behavior",
+            "version": "3.0.1",
+            "dist": {
+                "type": "tar",
+                "url": "https://registry.npmjs.org/@polymer/iron-form-element-behavior/-/iron-form-element-behavior-3.0.1.tgz",
+                "reference": null,
+                "shasum": null
+            },
+            "require": {
+                "npm-asset/polymer--polymer": ">=3.0.0,<4.0.0"
+            },
+            "type": "npm-asset",
+            "license": [
+                "BSD-3-Clause"
+            ]
+        },
+        {
+            "name": "npm-asset/polymer--iron-icon",
+            "version": "3.0.1",
+            "dist": {
+                "type": "tar",
+                "url": "https://registry.npmjs.org/@polymer/iron-icon/-/iron-icon-3.0.1.tgz",
+                "reference": null,
+                "shasum": null
+            },
+            "require": {
+                "npm-asset/polymer--iron-flex-layout": ">=3.0.0-beta.26,<4.0.0",
+                "npm-asset/polymer--iron-meta": ">=3.0.0-beta.26,<4.0.0",
+                "npm-asset/polymer--polymer": ">=3.0.0,<4.0.0"
+            },
+            "type": "npm-asset",
+            "license": [
+                "BSD-3-Clause"
+            ]
+        },
+        {
+            "name": "npm-asset/polymer--iron-iconset-svg",
+            "version": "3.0.1",
+            "dist": {
+                "type": "tar",
+                "url": "https://registry.npmjs.org/@polymer/iron-iconset-svg/-/iron-iconset-svg-3.0.1.tgz",
+                "reference": null,
+                "shasum": null
+            },
+            "require": {
+                "npm-asset/polymer--iron-meta": ">=3.0.0-beta.26,<4.0.0",
+                "npm-asset/polymer--polymer": ">=3.0.0,<4.0.0"
+            },
+            "type": "npm-asset",
+            "license": [
+                "BSD-3-Clause"
+            ]
+        },
+        {
+            "name": "npm-asset/polymer--iron-menu-behavior",
+            "version": "3.0.2",
+            "dist": {
+                "type": "tar",
+                "url": "https://registry.npmjs.org/@polymer/iron-menu-behavior/-/iron-menu-behavior-3.0.2.tgz",
+                "reference": null,
+                "shasum": null
+            },
+            "require": {
+                "npm-asset/polymer--iron-a11y-keys-behavior": ">=3.0.0-beta.26,<4.0.0",
+                "npm-asset/polymer--iron-flex-layout": ">=3.0.0-beta.26,<4.0.0",
+                "npm-asset/polymer--iron-selector": ">=3.0.0-beta.26,<4.0.0",
+                "npm-asset/polymer--polymer": ">=3.0.0,<4.0.0"
+            },
+            "type": "npm-asset",
+            "license": [
+                "BSD-3-Clause"
+            ]
+        },
+        {
+            "name": "npm-asset/polymer--iron-meta",
+            "version": "3.0.1",
+            "dist": {
+                "type": "tar",
+                "url": "https://registry.npmjs.org/@polymer/iron-meta/-/iron-meta-3.0.1.tgz",
+                "reference": null,
+                "shasum": null
+            },
+            "require": {
+                "npm-asset/polymer--polymer": ">=3.0.0,<4.0.0"
+            },
+            "type": "npm-asset",
+            "license": [
+                "BSD-3-Clause"
+            ]
+        },
+        {
+            "name": "npm-asset/polymer--iron-pages",
+            "version": "3.0.1",
+            "dist": {
+                "type": "tar",
+                "url": "https://registry.npmjs.org/@polymer/iron-pages/-/iron-pages-3.0.1.tgz",
+                "reference": null,
+                "shasum": null
+            },
+            "require": {
+                "npm-asset/polymer--iron-resizable-behavior": ">=3.0.0-beta.26,<4.0.0",
+                "npm-asset/polymer--iron-selector": ">=3.0.0-beta.26,<4.0.0",
+                "npm-asset/polymer--polymer": ">=3.0.0,<4.0.0"
+            },
+            "type": "npm-asset",
+            "license": [
+                "BSD-3-Clause"
+            ]
+        },
+        {
+            "name": "npm-asset/polymer--iron-resizable-behavior",
+            "version": "3.0.1",
+            "dist": {
+                "type": "tar",
+                "url": "https://registry.npmjs.org/@polymer/iron-resizable-behavior/-/iron-resizable-behavior-3.0.1.tgz",
+                "reference": null,
+                "shasum": null
+            },
+            "require": {
+                "npm-asset/polymer--polymer": ">=3.0.0,<4.0.0"
+            },
+            "type": "npm-asset",
+            "license": [
+                "BSD-3-Clause"
+            ]
+        },
+        {
+            "name": "npm-asset/polymer--iron-selector",
+            "version": "3.0.1",
+            "dist": {
+                "type": "tar",
+                "url": "https://registry.npmjs.org/@polymer/iron-selector/-/iron-selector-3.0.1.tgz",
+                "reference": null,
+                "shasum": null
+            },
+            "require": {
+                "npm-asset/polymer--polymer": ">=3.0.0,<4.0.0"
+            },
+            "type": "npm-asset",
+            "license": [
+                "BSD-3-Clause"
+            ]
+        },
+        {
+            "name": "npm-asset/polymer--iron-validatable-behavior",
+            "version": "3.0.1",
+            "dist": {
+                "type": "tar",
+                "url": "https://registry.npmjs.org/@polymer/iron-validatable-behavior/-/iron-validatable-behavior-3.0.1.tgz",
+                "reference": null,
+                "shasum": null
+            },
+            "require": {
+                "npm-asset/polymer--iron-meta": ">=3.0.0-beta.26,<4.0.0",
+                "npm-asset/polymer--polymer": ">=3.0.0,<4.0.0"
+            },
+            "type": "npm-asset",
+            "license": [
+                "BSD-3-Clause"
+            ]
+        },
+        {
+            "name": "npm-asset/polymer--paper-behaviors",
+            "version": "3.0.1",
+            "dist": {
+                "type": "tar",
+                "url": "https://registry.npmjs.org/@polymer/paper-behaviors/-/paper-behaviors-3.0.1.tgz",
+                "reference": null,
+                "shasum": null
+            },
+            "require": {
+                "npm-asset/polymer--iron-behaviors": ">=3.0.0-beta.26,<4.0.0",
+                "npm-asset/polymer--iron-checked-element-behavior": ">=3.0.0-beta.26,<4.0.0",
+                "npm-asset/polymer--paper-ripple": ">=3.0.0-beta.26,<4.0.0",
+                "npm-asset/polymer--polymer": ">=3.0.0,<4.0.0"
+            },
+            "type": "npm-asset",
+            "license": [
+                "BSD-3-Clause"
+            ]
+        },
+        {
+            "name": "npm-asset/polymer--paper-icon-button",
+            "version": "3.0.2",
+            "dist": {
+                "type": "tar",
+                "url": "https://registry.npmjs.org/@polymer/paper-icon-button/-/paper-icon-button-3.0.2.tgz",
+                "reference": null,
+                "shasum": null
+            },
+            "require": {
+                "npm-asset/polymer--iron-icon": ">=3.0.0-beta.26,<4.0.0",
+                "npm-asset/polymer--paper-behaviors": ">=3.0.0-beta.27,<4.0.0",
+                "npm-asset/polymer--paper-styles": ">=3.0.0-beta.26,<4.0.0",
+                "npm-asset/polymer--polymer": ">=3.0.0,<4.0.0"
+            },
+            "type": "npm-asset",
+            "license": [
+                "BSD-3-Clause"
+            ]
+        },
+        {
+            "name": "npm-asset/polymer--paper-ripple",
+            "version": "3.0.1",
+            "dist": {
+                "type": "tar",
+                "url": "https://registry.npmjs.org/@polymer/paper-ripple/-/paper-ripple-3.0.1.tgz",
+                "reference": null,
+                "shasum": null
+            },
+            "require": {
+                "npm-asset/polymer--iron-a11y-keys-behavior": ">=3.0.0-beta.26,<4.0.0",
+                "npm-asset/polymer--polymer": ">=3.0.0,<4.0.0"
+            },
+            "type": "npm-asset",
+            "license": [
+                "BSD-3-Clause"
+            ]
+        },
+        {
+            "name": "npm-asset/polymer--paper-styles",
+            "version": "3.0.1",
+            "dist": {
+                "type": "tar",
+                "url": "https://registry.npmjs.org/@polymer/paper-styles/-/paper-styles-3.0.1.tgz",
+                "reference": null,
+                "shasum": null
+            },
+            "require": {
+                "npm-asset/polymer--font-roboto": ">=3.0.1,<4.0.0",
+                "npm-asset/polymer--iron-flex-layout": ">=3.0.0-beta.26,<4.0.0",
+                "npm-asset/polymer--polymer": ">=3.0.0,<4.0.0"
+            },
+            "type": "npm-asset",
+            "license": [
+                "BSD-3-Clause"
+            ]
+        },
+        {
+            "name": "npm-asset/polymer--paper-tabs",
+            "version": "3.0.1",
+            "dist": {
+                "type": "tar",
+                "url": "https://registry.npmjs.org/@polymer/paper-tabs/-/paper-tabs-3.0.1.tgz",
+                "reference": null,
+                "shasum": null
+            },
+            "require": {
+                "npm-asset/polymer--iron-behaviors": ">=3.0.0-beta.26,<4.0.0",
+                "npm-asset/polymer--iron-flex-layout": ">=3.0.0-beta.26,<4.0.0",
+                "npm-asset/polymer--iron-icon": ">=3.0.0-beta.26,<4.0.0",
+                "npm-asset/polymer--iron-iconset-svg": ">=3.0.0-beta.26,<4.0.0",
+                "npm-asset/polymer--iron-menu-behavior": ">=3.0.0-beta.26,<4.0.0",
+                "npm-asset/polymer--iron-resizable-behavior": ">=3.0.0-beta.26,<4.0.0",
+                "npm-asset/polymer--paper-behaviors": ">=3.0.0-beta.27,<4.0.0",
+                "npm-asset/polymer--paper-icon-button": ">=3.0.0-beta.26,<4.0.0",
+                "npm-asset/polymer--paper-styles": ">=3.0.0-beta.26,<4.0.0",
+                "npm-asset/polymer--polymer": ">=3.0.0,<4.0.0"
+            },
+            "type": "npm-asset",
+            "license": [
+                "BSD-3-Clause"
+            ]
+        },
+        {
+            "name": "npm-asset/polymer--polymer",
+            "version": "3.1.0",
+            "dist": {
+                "type": "tar",
+                "url": "https://registry.npmjs.org/@polymer/polymer/-/polymer-3.1.0.tgz",
+                "reference": null,
+                "shasum": null
+            },
+            "require": {
+                "npm-asset/webcomponents--shadycss": ">=1.5.2,<2.0.0"
+            },
+            "type": "npm-asset",
+            "license": [
+                "BSD-3-Clause"
+            ]
+        },
+        {
+            "name": "npm-asset/webcomponents--shadycss",
+            "version": "1.9.0",
+            "dist": {
+                "type": "tar",
+                "url": "https://registry.npmjs.org/@webcomponents/shadycss/-/shadycss-1.9.0.tgz",
+                "reference": null,
+                "shasum": null
+            },
+            "type": "npm-asset",
+            "license": [
+                "BSD-3-Clause"
+            ]
+        },
+        {
+            "name": "npm-asset/webcomponents--webcomponentsjs",
+            "version": "2.2.7",
+            "dist": {
+                "type": "tar",
+                "url": "https://registry.npmjs.org/@webcomponents/webcomponentsjs/-/webcomponentsjs-2.2.7.tgz",
+                "reference": null,
+                "shasum": null
+            },
+            "type": "npm-asset",
+            "license": [
+                "BSD-3-Clause"
+            ]
         },
         {
             "name": "phpoffice/phpexcel",

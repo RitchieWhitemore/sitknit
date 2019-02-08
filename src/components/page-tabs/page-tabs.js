@@ -1,7 +1,7 @@
-import {PolymerElement, html} from '@polymer/polymer/polymer-element.js';
-import '@polymer/paper-tabs/paper-tabs.js';
-import '@polymer/paper-tabs/paper-tab.js';
-import '@polymer/iron-pages/iron-pages.js';
+import { PolymerElement, html } from "../../../node_modules/@polymer/polymer/polymer-element.js";
+import "../../../node_modules/@polymer/paper-tabs/paper-tabs.js";
+import "../../../node_modules/@polymer/paper-tabs/paper-tab.js";
+import "../../../node_modules/@polymer/iron-pages/iron-pages.js";
 
 class PageTabs extends PolymerElement {
     static get template() {
