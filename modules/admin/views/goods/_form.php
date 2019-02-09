@@ -18,6 +18,7 @@ $bundle = \app\assets\WebComponentsAsset::register($this);
 $this->registerJsFile("$bundle->baseUrl/page-tabs/page-tabs.js", ['type' => 'module'], $this::POS_END);
 $this->registerJsFile("$bundle->baseUrl/page-tabs/page-tabs.js", ['type' => 'module']);
 $this->registerJsFile("$bundle->baseUrl/image-list/image-list.js", ['type' => 'module']);
+$this->registerJsFile("$bundle->baseUrl/choice-form/choice-form.js", ['type' => 'module']);
 ?>
 
 <div class="good-form">
