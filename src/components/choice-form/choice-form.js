@@ -35,20 +35,23 @@ class ChoiceForm extends PolymerElement {
             }
 
             :host paper-spinner {
-                display: block;
+                display: none;
                 margin: 0 auto;
+            }
+            
+            :host .visually-hidden {
+                display: none;
             }
         </style>
         <div class="field-wrapper">
             <label>{{label}}</label>
             <span class="article">{{article}}</span>
-            <input type="text" name="{{attr}}" value="{{id}}" hidden>
+            <slot name="input"></slot>
             <div class="field-choice">{{name}}
             <paper-spinner id="spinner"></paper-spinner></div>
         </div>
         <paper-button raised id="deleteButton" class="visually-hidden" on-click="delete">Очистить</paper-button>
         <paper-button raised on-click="open">Выбрать</paper-button>
-        <slot></slot>
         <paper-dialog id="scrolling">
             <h2>Выберите товар</h2>
             <paper-dialog-scrollable>
@@ -73,7 +76,7 @@ class ChoiceForm extends PolymerElement {
     static get properties() {
         return {
             'article': String,
-            'attr': String,
+            'id': {'type': Number, 'observer': 'setInputValue'},
             'placeholder': String,
             'model': String,
             'entityId': Number,
@@ -91,6 +94,7 @@ class ChoiceForm extends PolymerElement {
     }
 
     confirm() {
+        const input = this.querySelector('input');
         if (this.goodFlag) {
             this.name = this.itemGood.name;
             this.id = this.itemGood.id;
@@ -175,6 +179,11 @@ class ChoiceForm extends PolymerElement {
                 this.findEntity();
             }
         }
+    }
+
+    setInputValue() {
+        const input = this.querySelector('input');
+        input.value = this.id;
     }
 
     spinnerOn() {

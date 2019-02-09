@@ -1,14 +1,14 @@
 import {PolymerElement, html} from "../../../node_modules/@polymer/polymer/polymer-element.js";
+import '../../../node_modules/@polymer/polymer/lib/elements/dom-repeat.js';
 import '../../../node_modules/@polymer/paper-spinner/paper-spinner.js';
 import '../../../node_modules/@polymer/paper-listbox/paper-listbox.js';
 import '../../../node_modules/@polymer/iron-ajax/iron-ajax.js';
-import '../../../node_modules/@polymer/polymer/lib/elements/dom-repeat.js';
 
-class ChildrenCategory extends PolymerElement {
+class ChildrenGood extends PolymerElement {
     static get template() {
         return html`
         <link rel="stylesheet" href="/css/gliphicons.min.css">
-      <style>
+        <style>
             :host paper-listbox {
                 padding-top: 0;
                 display: flex;
@@ -20,9 +20,9 @@ class ChildrenCategory extends PolymerElement {
                 cursor: pointer;
             }
 
-            :host paper-item .glyphicon {
+            :host .good-list paper-item .glyphicon {
                 margin-right: 5px;
-                color: #e69f54;
+                color: #79c5b4;
             }
 
             :host paper-spinner-lite {
@@ -34,22 +34,21 @@ class ChildrenCategory extends PolymerElement {
                 background: lightgrey;
             }
       </style>
-      <paper-spinner id="spinner"></paper-spinner>
-        <paper-listbox attr-for-selected="item-category" selected="{{itemCategory}}"
+      <paper-spinner-lite id="spinner"></paper-spinner-lite>
+        <paper-listbox id="goodList" class="good-list" attr-for-selected="item-good" selected="{{itemGood}}"
                        fallback-selection="None">
             <template id="domRepeat" is="dom-repeat" items="{{response}}">
-                <paper-item item-category="{{item}}"
-                            data-entity-id="{{item.id}}"
-                            on-dblclick="dblClickFolder"
+                <paper-item item-good="{{item}}"
+                            data-good-id="{{item.id}}"
                             onselectstart="return false"
-                            onmousedown="return false"><span
-                        class="glyphicon glyphicon-folder-close"></span>{{item.name}}
+                            onmousedown="return false">
+                    <span class="glyphicon glyphicon-file"></span>{{item.article}} {{item.nameAndColor}}
                 </paper-item>
             </template>
         </paper-listbox>
         <slot></slot>
         <iron-ajax id="ajax"
-                   url="/api/category/parent"
+                   url="/api/good/category"
                    handle-as="json"
                    on-response="handleResponse"
                    last-response="{{response}}"
@@ -59,8 +58,8 @@ class ChildrenCategory extends PolymerElement {
 
     static get properties() {
         return {
-            'entityId': {type: Number, observer: '_runAjax'},
-            'itemCategory': {type: Object, observer: 'selectCategory'},
+            'categoryId': {type: Number, observer: '_runAjax'},
+            'itemGood': {type: Object, observer: 'selectGood'},
         }
     }
 
@@ -70,33 +69,21 @@ class ChildrenCategory extends PolymerElement {
 
     _runAjax() {
         this.spinnerOn();
+
         this.$.ajax.params = {
-            'parent_id': this.entityId,
+            'category_id': this.categoryId,
         };
         this.$.ajax.generateRequest();
-    }
 
-    dblClickFolder(evt) {
-        const target = evt.currentTarget;
-        const choiceForm = this.parent;
-
-        this.entityId = target.dataEntityId;
-        this.parent.shadowRoot.querySelector('parent-tree').entityId = this.entityId;
-
-        if (choiceForm.goodFlag) {
-            choiceForm.categoryId = this.entityId;
-        }
-
-        this.spinnerOn();
     }
 
     handleResponse() {
         this.spinnerOff();
     }
 
-    selectCategory() {
+    selectGood() {
         const choiceForm = this.parent;
-        choiceForm.itemCategory = this.itemCategory;
+        choiceForm.itemGood = this.itemGood
     }
 
     spinnerOn() {
@@ -110,4 +97,4 @@ class ChildrenCategory extends PolymerElement {
     }
 }
 
-customElements.define('children-category', ChildrenCategory);
+customElements.define('children-good', ChildrenGood);

@@ -4,6 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use app\models\Brand;
 use app\models\Country;
+use app\models\Category;
 
 /**
  * @var $this yii\web\View
@@ -36,25 +37,22 @@ $this->registerJsFile("$bundle->baseUrl/choice-form/choice-form.js", ['type' => 
             <div>
                 <?php $form = ActiveForm::begin(); ?>
 
-                <? /*$form->field($model, 'category_id')->dropDownList(Category::getCategoriesArray(), ['prompt' => 'Выберите категорию'])*/ ?>
                 <choice-form
-                        attr="Good[category_id]"
                         label="Категория"
                         model="categories"
                         entity-id="<?= $model->category_id ?>"
-                        placeholder="Выберите категорию"
-                ></choice-form>
+                        placeholder="Выберите категорию">
+                    <input type="text" name="Good[category_id]" slot="input" hidden>
+                </choice-form>
 
-                <!--           --><? /*= $form->field($model, 'main_good_id')->textInput(['maxlength' => true])->label('Id основного товара в группе') */ ?>
                 <choice-form
-                        attr="Good[main_good_id]"
                         label="Основной товар в группе"
                         model="categories"
                         entity-id="<?= $model->main_good_id ?>"
                         good-id="<?= $model->id ?>"
                         good-flag
                         placeholder="Выберите основной товар"
-                ></choice-form>
+                ><input type="text" name="Good[main_good_id]" slot="input" hidden></slot></choice-form>
                 <?= $form->field($model, 'article')->textInput(['maxlength' => true]) ?>
 
                 <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
