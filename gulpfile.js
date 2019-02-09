@@ -57,6 +57,31 @@ gulp.task("admin-style", function () {
         .pipe(server.reload({stream: true}));
 });
 
+gulp.task("gliphicons-style", function () {
+    gulp.src("src/less/gliphicons.less")
+        .pipe(plumber())
+        .pipe(sourcemaps.init())
+        .pipe(less())
+        .pipe(postcss([
+            autoprefixer({browsers: [
+                    "last 1 version",
+                    "last 2 Chrome versions",
+                    "last 2 Firefox versions",
+                    "last 2 Opera versions",
+                    "last 2 Edge versions"
+                ]}),
+            mqpacker({
+                sort: true
+            })
+        ]))
+
+        .pipe(sourcemaps.write('./maps'))
+        .pipe(cssmin())
+        .pipe(rename('gliphicons.min.css'))
+        .pipe(gulp.dest("web/css"))
+        //.pipe(server.reload({stream: true}));
+});
+
 gulp.task("build", function () {
     gulp.src('web/css/*.css')
         //.pipe(gulp.dest('D:/OSPanel/domains/siju-vyaju-yii/frontend/web/css/'))
