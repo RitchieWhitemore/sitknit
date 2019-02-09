@@ -32,7 +32,7 @@ class ImageList extends PolymerElement {
 
         </div>
         <hr>
-      <upload-button></upload-button>
+      <upload-button parent="[[getThis()]]"></upload-button>
       <div id="new-list" class="list">
             <template id="domRepeat" is="dom-repeat" items="{{images}}">
                 <image-item good-id="{{item.good_id}}" src="{{item.src}}" index="{{index}}"
@@ -62,6 +62,10 @@ class ImageList extends PolymerElement {
          this.$.domRepeat.render();
          this.resp = event.detail.response.images;
 
+     }
+
+     getThis() {
+        return this;
      }
 
     addItems(files) {

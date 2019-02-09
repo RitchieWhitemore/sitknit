@@ -34,12 +34,10 @@ class UploadButton extends PolymerElement {
     }
 
     addImage(e) {
-        const imageList = document.querySelector('image-list');
-
-        if (imageList) {
+        if (this.parent) {
             const fileList = e.target.files;
 
-            imageList.addItems(fileList);
+            this.parent.addItems(fileList);
         }
     }
 
