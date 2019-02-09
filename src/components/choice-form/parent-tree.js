@@ -1,5 +1,5 @@
 import {PolymerElement, html} from "../../../node_modules/@polymer/polymer/polymer-element.js";
-
+import '../../../node_modules/@polymer/iron-ajax/iron-ajax.js';
 
 class ParentTree extends PolymerElement {
     static get template() {
@@ -22,7 +22,7 @@ class ParentTree extends PolymerElement {
                 cursor: pointer;
             }
 
-            :host paper-spinner-lite {
+            :host paper-spinner {
                 position: absolute;
                 top: 0;
                 left: 50%;
@@ -31,7 +31,7 @@ class ParentTree extends PolymerElement {
                 margin: 0 auto;
             }
       </style>
-      <paper-spinner-lite id="spinner"></paper-spinner-lite>
+      <paper-spinner id="spinner"></paper-spinner>
         <template id="domRepeat" is="dom-repeat" items="{{parentCategories}}">
             <div class="parent-folder"
                  on-dblclick="dblClickFolder"
@@ -76,7 +76,7 @@ class ParentTree extends PolymerElement {
 
         this.spinnerOn();
         this.entityId = target.dataEntityId;
-        this.parent.querySelector('children-catalog').entityId = this.entityId;
+        this.parent.shadowRoot.querySelector('children-category').entityId = this.entityId;
 
         if (choiceForm.goodFlag) {
             choiceForm.categoryId = this.entityId;

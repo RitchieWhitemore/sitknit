@@ -4,6 +4,11 @@ import '../../../node_modules/@polymer/iron-ajax/iron-ajax.js';
 import '../../../node_modules/@polymer/paper-button/paper-button.js';
 import '../../../node_modules/@polymer/paper-dialog/paper-dialog.js';
 import '../../../node_modules/@polymer/paper-dialog-scrollable/paper-dialog-scrollable.js';
+import '../../../node_modules/@polymer/paper-spinner/paper-spinner.js';
+
+import './parent-tree.js';
+import './children-category.js';
+import './children-good.js';
 
 class ChoiceForm extends PolymerElement {
     static get template() {
@@ -29,7 +34,7 @@ class ChoiceForm extends PolymerElement {
                 z-index: 9999;
             }
 
-            :host paper-spinner-lite {
+            :host paper-spinner {
                 display: block;
                 margin: 0 auto;
             }
@@ -38,7 +43,8 @@ class ChoiceForm extends PolymerElement {
             <label>{{label}}</label>
             <span class="article">{{article}}</span>
             <input type="text" name="{{attr}}" value="{{id}}" hidden>
-            <p class="field-choice">{{name}}<paper-spinner-lite id="spinner"></paper-spinner-lite></p>
+            <div class="field-choice">{{name}}
+            <paper-spinner id="spinner"></paper-spinner></div>
         </div>
         <paper-button raised id="deleteButton" class="visually-hidden" on-click="delete">Очистить</paper-button>
         <paper-button raised on-click="open">Выбрать</paper-button>
@@ -46,9 +52,9 @@ class ChoiceForm extends PolymerElement {
         <paper-dialog id="scrolling">
             <h2>Выберите товар</h2>
             <paper-dialog-scrollable>
-                <parent-tree entity-id="{{entityId}}"></parent-tree>
-                <children-catalog entity-id="{{entityId}}"></children-catalog>
-                <children-good category-id="{{categoryId}}"></children-good>
+                <parent-tree parent="[[getThis()]]" entity-id="{{entityId}}"></parent-tree>
+                <children-category parent="[[getThis()]]" entity-id="{{entityId}}"></children-category>
+                <children-good parent="[[getThis()]]" category-id="{{categoryId}}"></children-good>
             </paper-dialog-scrollable>
             <div class="buttons">
                 <paper-button dialog-dismiss>Отмена</paper-button>
@@ -114,6 +120,10 @@ class ChoiceForm extends PolymerElement {
             },
             request => console.log('failure', request)
         );
+    }
+
+    getThis() {
+        return this;
     }
 
     handleResponse() {
