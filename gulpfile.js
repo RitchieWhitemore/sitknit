@@ -7,6 +7,7 @@ var autoprefixer = require("autoprefixer");
 var mqpacker = require("css-mqpacker");
 var cssmin = require('gulp-cssmin');
 var rename = require("gulp-rename");
+var runCmd = require('gulp-run');
 
 var server = require("browser-sync");
 var run = require("run-sequence");
@@ -89,6 +90,13 @@ gulp.task("build", function () {
         //.pipe(rename('style.min.css'))
         .pipe(gulp.dest('web/css/'));
 
+});
+
+gulp.task("polymer-build", function() {
+   runCmd("polymer build").exec('', function() {
+       gulp.src('build/prod/node_modules/**/*.*')
+           .pipe(gulp.dest('web/node_modules/'))
+   });
 });
 
 gulp.task("serve", ["style"], function () {

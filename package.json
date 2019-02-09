@@ -10,13 +10,16 @@
     "@polymer/paper-button": "^3.0.1",
     "@polymer/paper-dialog": "^3.0.1",
     "@polymer/paper-dialog-scrollable": "^3.0.1",
+    "@polymer/paper-listbox": "^3.0.1",
     "@polymer/paper-spinner": "^3.0.1",
     "@polymer/paper-tabs": "^3.0.1",
     "@polymer/paper-toggle-button": "^3.0.1",
     "@polymer/polymer": "^3.0.0-pre.12",
     "@webcomponents/webcomponentsjs": "^1.0.20",
     "gulp": "^3.9.1",
+    "gulp-copy": "^4.0.1",
     "gulp-less": "^3.3.2",
+    "gulp-run": "^1.7.1",
     "normalize.less": "^1.0.0"
   },
   "devDependencies": {
