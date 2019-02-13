@@ -26,6 +26,7 @@ AdminAsset::register($this);
     <?= Html::csrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
+    <script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
 </head>
 <body class="<?= \dmstr\helpers\AdminLteHelper::skinClass() ?>">
 <?php $this->beginBody() ?>

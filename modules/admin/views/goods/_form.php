@@ -21,7 +21,6 @@ $this->registerJsFile("$bundle->baseUrl/page-tabs/page-tabs.js", ['type' => 'mod
 $this->registerJsFile("$bundle->baseUrl/image-list/image-list.js", ['type' => 'module']);
 $this->registerJsFile("$bundle->baseUrl/choice-form/choice-form.js", ['type' => 'module']);
 ?>
-
 <div class="good-form">
     <page-tabs>
         <paper-tabs selected="0">
