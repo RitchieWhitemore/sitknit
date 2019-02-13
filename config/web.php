@@ -3,6 +3,7 @@
 $config = [
     'id' => 'app',
     'layout' => 'frontend',
+    'language' => 'ru-RU',
     'defaultRoute' => 'main/default/index',
     'components' => [
         'assetManager' => [
