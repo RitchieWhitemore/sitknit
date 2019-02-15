@@ -35,6 +35,15 @@ $config = [
             'class' => 'sadovojav\image\Thumbnail',
             'basePath' => '@app/web',
             'cachePath' => '@app/web/img/thumbnails',
+            'options' => [
+                'placeholder' => [
+                    'type' => sadovojav\image\Thumbnail::PLACEHOLDER_TYPE_IMAGINE,
+                    'backgroundColor' => '#f5f5f5',
+                    'textColor' => '#cdcdcd',
+                    'textSize' => 30,
+                    'text' => 'No image'
+                ],
+            ]
         ],
         'view' => [
             'theme' => [
