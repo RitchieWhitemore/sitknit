@@ -65,6 +65,7 @@ $config = [
         ],
         'trade' => [
             'class' => 'app\modules\trade\Module',
+            'layout' => '@app/modules/admin/views/layouts/main',
         ],
         'user' => [
             'class' => 'app\modules\user\Module',
