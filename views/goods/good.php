@@ -80,10 +80,8 @@ use yii\helpers\Url;
             <li class="page-product__feature-item"><b>Товара в упаковке:</b> <?= $model->packaged ?> шт.</li>
         </ul>
         <p class="page-product__existence"><span>в наличии</span> 10 упак.</p>
-        <p class="page-product__price-text">цена за штуку: <span class="page-product__price">85 руб.</span>
-        </p>
-        <p class="page-product__price-text">цена за упаковку: <span class="page-product__price-pack">580 руб.</span>
-            <span class="page-product__price-old">620 руб.</span></p>
+        <p class="page-product__price-text">цена за штуку: <span class="page-product__price"><?= $model->priceRetail->price ?> руб.</span>
+
         <form action="" class="page-product__qty-form">
             <div class="page-product__qty-wrapper">
                 <input type="text" class="page-product__qty" name="qty" placeholder="10"/>
@@ -135,27 +133,4 @@ use yii\helpers\Url;
         <img src="img/yarn-small-1.png" width="144" height="74"/>
         <p class="more-color__color">Зелено-малиновый (9040)</p>
     </div>
-</section>
-<section class="reviews">
-    <h2>Отзывы</h2>
-    <p>Здесь вы можете оставить отзыв от товаре</p>
-    <form action="" class="reviews__form">
-        <div class="review__form-field-wrapper">
-            <label>Ваше имя</label>
-            <input type="text" class="review__form-field-input" placeholder="Ваше имя"/>
-        </div>
-        <div class="review__form-field-wrapper">
-            <label>Ваш отзыв</label>
-            <input type="textarea" class="review__form-field-textarea" placeholder="Ваше отзыв"/>
-        </div>
-        <div class="review__form-field-wrapper">
-            <label>Оценка</label>
-            <input type="radio" class="review__form-field-radio" name="review" value="1">
-            <input type="radio" class="review__form-field-radio" name="review" value="2">
-            <input type="radio" class="review__form-field-radio" name="review" value="3">
-            <input type="radio" class="review__form-field-radio" name="review" value="4">
-            <input type="radio" class="review__form-field-radio" name="review" value="5">
-        </div>
-        <button type="submit" class="bnt">Отправить</button>
-    </form>
 </section>

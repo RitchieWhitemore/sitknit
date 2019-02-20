@@ -3,6 +3,7 @@
 namespace app\modules\trade\models;
 
 use app\models\Good;
+use app\modules\trade\models\query\PriceQuery;
 use Yii;
 use yii\helpers\ArrayHelper;
 
@@ -77,5 +78,10 @@ class Price extends \yii\db\ActiveRecord
             self::TYPE_PRICE_RETAIL => 'Розничная',
             self::TYPE_PRICE_WHOLESALE => 'Оптовая',
         ];
+    }
+
+    public static function find()
+    {
+        return new PriceQuery(get_called_class());
     }
 }

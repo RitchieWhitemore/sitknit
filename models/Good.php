@@ -171,6 +171,11 @@ class Good extends \yii\db\ActiveRecord
         return $this->hasMany(Price::className(), ['good_id' => 'id']);
     }
 
+    public function getPriceRetail()
+    {
+        return $this->getPrices()->lastRetail()->one();
+    }
+
     public static function NextOrPrev($currentId, $categoryId)
     {
         $records = self::find()->where(['category_id' => $categoryId])->orderBy('id DESC')->all();
