@@ -38,6 +38,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <p class="catalog__descr"><?= $model->description ?></p>
     <?php echo ListView::widget([
         'dataProvider' => $subcategories,
+        'emptyText'    => '',
         'itemView'     => 'block/_categoryItem',
         'itemOptions'  => ['class' => 'catalog__item product'],
         'options'      => ['class' => 'catalog__list'],

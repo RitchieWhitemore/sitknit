@@ -38,6 +38,6 @@ if (isset($model->mainGood)) {
     <li class="product__characteristics-item"><b>Длина:</b> <?= isset($valuesMain['Длина']) ? $valuesMain['Длина']->value : ''?> <?= isset($valuesMain['Длина']->goodAttribute) ? $valuesMain['Длина']->goodAttribute->unit->name : ''?></li>
 </ul>
 <div class="product__price-wrapper">
-    <span class="product__price">151 руб.</span>
+    <span class="product__price"><?= isset($model->priceRetail->price) ? ($model->priceRetail->price . ' руб.') : 'нет цены' ?></span>
 </div>
 

@@ -18,10 +18,13 @@ use app\modules\trade\models\Price;
  * @property int $brand_id
  * @property int $country_id
  * @property int $packaged
+ * @property string $mainImageUrl
+ *
  *
  * @property Brand $brand
  * @property Category $category
  * @property Country $country
+ * @property Price $priceRetail
  */
 class Good extends \yii\db\ActiveRecord
 {
@@ -112,11 +115,17 @@ class Good extends \yii\db\ActiveRecord
         return $this->hasOne(Country::className(), ['id' => 'country_id']);
     }
 
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getImages()
     {
         return $this->hasMany(Image::className(), ['good_id' => 'id']);
     }
 
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getAttributeValues()
     {
         return $this->hasMany(AttributeValue::className(), ['good_id' => 'id']);
@@ -127,6 +136,9 @@ class Good extends \yii\db\ActiveRecord
         return $this->hasMany(Attribute::className(), ['id' => 'attribute_id'])->viaTable('attribute_value', ['good_id' => 'id']);
     }
 
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getMainGood()
     {
         return $this->hasOne(Good::className(), ['id' => 'main_good_id']);
@@ -137,6 +149,9 @@ class Good extends \yii\db\ActiveRecord
         return self::find()->select(['name', 'id'])->indexBy('id')->column();
     }
 
+    /**
+     * @return string
+     */
     public function getMainImageUrl()
     {
         $Image = Image::find()->where(['good_id' => $this->id])->andWhere(['main' => 1])->one();

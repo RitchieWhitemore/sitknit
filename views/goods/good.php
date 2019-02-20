@@ -80,7 +80,7 @@ use yii\helpers\Url;
             <li class="page-product__feature-item"><b>Товара в упаковке:</b> <?= $model->packaged ?> шт.</li>
         </ul>
         <p class="page-product__existence"><span>в наличии</span> 10 упак.</p>
-        <p class="page-product__price-text">цена за штуку: <span class="page-product__price"><?= $model->priceRetail->price ?> руб.</span>
+        <p class="page-product__price-text">цена за штуку: <span class="page-product__price"><?= isset($model->priceRetail->price) ? ($model->priceRetail->price . ' руб') : 'нет цены' ?></span>
 
         <form action="" class="page-product__qty-form">
             <div class="page-product__qty-wrapper">
