@@ -23,9 +23,9 @@ $this->params['breadcrumbs'][] = $this->title;
     </p>
 
     <?php Pjax::begin([
-            'id' => 'goods-list',
-            'timeout' => 10000,
-            'enablePushState' => false]);
+        'id'              => 'goods-list',
+        'timeout'         => 10000,
+        'enablePushState' => false]);
     echo GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel'  => $searchModel,
@@ -44,9 +44,13 @@ $this->params['breadcrumbs'][] = $this->title;
                 'value'     => 'brand.name',
             ],
 
-            'name',
+            [
+                'attribute' => 'name',
+                'label' => 'Название',
+                'value' => 'nameAndColor',
+            ],
             //'description',
-            'characteristic',
+            //'characteristic',
             //'countryId',
             //'packaged',
             [
@@ -58,7 +62,8 @@ $this->params['breadcrumbs'][] = $this->title;
                 'value'          => function ($value) {
                     if ($value->active == 1) {
                         $label = '<span class="glyphicon glyphicon-eye-open text-success"></span>';
-                    } else {
+                    }
+                    else {
                         $label = '<span class="glyphicon glyphicon-eye-close text-success"></span>';
                     }
 
@@ -69,5 +74,5 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]);
-     Pjax::end(); ?>
+    Pjax::end(); ?>
 </div>
