@@ -56,6 +56,10 @@ AdminAsset::register($this);
                 ['label' => 'Единицы измерения', 'url' => ['/admin/units/index']],
                 ['label' => 'Изображения', 'url' => ['/admin/images/index']],
             ]],
+            ['label' => 'Управление ценами', 'items' => [
+                ['label' => 'Цены', 'url' => ['/trade/prices/index']],
+                ['label' => 'Установить цены', 'url' => ['/trade/prices/set-prices']],
+            ]],
 
         ]),
     ]);

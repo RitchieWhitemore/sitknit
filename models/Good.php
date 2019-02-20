@@ -156,8 +156,13 @@ class Good extends \yii\db\ActiveRecord
 
     public function getNameAndColor()
     {
-        $color = '';
-        return $this->name . ' ' . $color;
+        $color = $this->getAttributeValues()->where(['attribute_id' => 1])->one();
+
+        if (isset($color)) {
+            return $this->name . ' - ' . $color->value;
+        }
+
+        return $this->name;
     }
 
     public static function NextOrPrev($currentId, $categoryId)

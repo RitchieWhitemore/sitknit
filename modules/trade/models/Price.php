@@ -4,6 +4,7 @@ namespace app\modules\trade\models;
 
 use app\models\Good;
 use Yii;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "price".
@@ -18,6 +19,9 @@ use Yii;
  */
 class Price extends \yii\db\ActiveRecord
 {
+    const TYPE_PRICE_RETAIL = 0;
+    const TYPE_PRICE_WHOLESALE = 1;
+
     /**
      * {@inheritdoc}
      */
@@ -60,5 +64,18 @@ class Price extends \yii\db\ActiveRecord
     public function getGood()
     {
         return $this->hasOne(Good::className(), ['id' => 'good_id']);
+    }
+
+    public function getTypePrice()
+    {
+        return ArrayHelper::getValue(self::getTypesPriceArray(), $this->type_price);
+    }
+
+    public static function getTypesPriceArray()
+    {
+        return [
+            self::TYPE_PRICE_RETAIL => 'Розничная',
+            self::TYPE_PRICE_WHOLESALE => 'Оптовая',
+        ];
     }
 }

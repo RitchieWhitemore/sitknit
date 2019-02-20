@@ -3,6 +3,9 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
+use app\modules\trade\models\Price;
+use app\models\Good;
+
 /* @var $this yii\web\View */
 /* @var $searchModel app\modules\trade\models\PriceSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -19,17 +22,29 @@ $this->params['breadcrumbs'][] = $this->title;
     <p>
         <?= Html::a('Создать цену', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
+    <p>
+        <?= Html::a('Установить цены', ['set-prices'], ['class' => 'btn btn-success']) ?>
+    </p>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-
+        'filterModel'  => $searchModel,
+        'columns'      => [
             'id',
             'date',
-            'good_id',
-            'type_price',
+            [
+                'label'     => 'Товар',
+                'attribute' => 'good_id',
+                'value'     => 'good.nameAndColor',
+            ],
+            [
+                'filter'    => Price::getTypesPriceArray(),
+                'attribute' => 'type_price',
+                'value'     => function ($model) {
+                    /** @var Price $model */
+                    return $model->getTypePrice();
+                },
+            ],
             'price',
 
             ['class' => 'yii\grid\ActionColumn'],

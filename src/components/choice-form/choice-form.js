@@ -19,6 +19,7 @@ class ChoiceForm extends PolymerElement {
                 display: flex;
                 flex-direction: row;
                 align-items: flex-end;
+                width: 100%;
             }
 
             :host .field-choice {
@@ -78,6 +79,7 @@ class ChoiceForm extends PolymerElement {
             'article': String,
             'id': {'type': Number, 'observer': 'setInputValue'},
             'placeholder': String,
+            'label': String,
             'model': String,
             'entityId': Number,
             'goodFlag': Boolean,

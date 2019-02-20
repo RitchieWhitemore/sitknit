@@ -2,12 +2,15 @@
 
 namespace app\modules\trade\controllers;
 
+use app\components\SetPrice;
+use app\modules\trade\models\SetPriceForm;
 use Yii;
 use app\modules\trade\models\Price;
 use app\modules\trade\models\PriceSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\UploadedFile;
 
 /**
  * PricesController implements the CRUD actions for Price model.
@@ -21,7 +24,7 @@ class PricesController extends Controller
     {
         return [
             'verbs' => [
-                'class' => VerbFilter::className(),
+                'class'   => VerbFilter::className(),
                 'actions' => [
                     'delete' => ['POST'],
                 ],
@@ -39,7 +42,7 @@ class PricesController extends Controller
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
-            'searchModel' => $searchModel,
+            'searchModel'  => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
     }
@@ -107,6 +110,24 @@ class PricesController extends Controller
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
+    }
+
+    public function actionSetPrices()
+    {
+        $model = new SetPriceForm();
+
+        if (Yii::$app->request->isPost) {
+            $model->attributes = Yii::$app->request->post('SetPriceForm');
+            $model->file_price = UploadedFile::getInstance($model, 'file_input_price');
+
+            $setPrice = new SetPrice($model->file_price);
+            $setPrice->run();
+
+            $this->redirect('set-prices');
+        }
+
+
+        return $this->render('set-prices', ['model' => $model]);
     }
 
     /**

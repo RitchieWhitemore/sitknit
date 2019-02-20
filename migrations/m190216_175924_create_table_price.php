@@ -14,7 +14,7 @@ class m190216_175924_create_table_price extends Migration
     {
         $this->createTable('price', [
             'id' => $this->primaryKey(),
-            'date' => $this->dateTime()->notNull(),
+            'date' => $this->date()->notNull(),
             'type_price' => $this->smallInteger()->notNull(),
             'price' => $this->float(2)->notNull(),
             'good_id' => $this->integer()->notNull(),

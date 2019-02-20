@@ -8,10 +8,12 @@
 
 namespace app\commands;
 
+use app\components\SetPrice;
 use app\models\Brand;
 use app\models\Category;
-use app\models\Country;
 use app\models\Good;
+use app\modules\trade\models\Price;
+use igogo5yo\uploadfromurl\UploadFromUrl;
 use yii\console\Controller;
 
 class ParseExcelController extends Controller
@@ -19,7 +21,7 @@ class ParseExcelController extends Controller
     public function actionLoadCategory()
     {
 
-        if(!$this->existExcelFile()) return false;
+        if (!$this->existExcelFile()) return false;
 
         $excelFile = $this->existExcelFile();
         $list = $excelFile->getSheetByName('Goods list table')->toArray();
@@ -42,7 +44,7 @@ class ParseExcelController extends Controller
 
     public function actionLoadBrand()
     {
-        if(!$this->existExcelFile()) return false;
+        if (!$this->existExcelFile()) return false;
 
         $excelFile = $this->existExcelFile();
         $list = $excelFile->getSheetByName('Goods list table')->toArray();
@@ -65,7 +67,7 @@ class ParseExcelController extends Controller
 
     public function actionLoadGood()
     {
-        if(!$excelFile = $this->existExcelFile()) return false;
+        if (!$excelFile = $this->existExcelFile()) return false;
 
         $list = $excelFile->getSheetByName('Goods list table')->toArray();
 
@@ -81,22 +83,25 @@ class ParseExcelController extends Controller
 
                     if ($category = Category::findOne(['title' => $row[2]])) {
                         $Good->categoryId = $category->id;
-                    } else {
+                    }
+                    else {
                         $Good->categoryId = 1;
                     }
 
                     if ($brand = Brand::findOne(['title' => $row[3]])) {
                         $Good->brandId = $brand->id;
-                    } else {
+                    }
+                    else {
                         $Good->brandId = 1;
                     }
 
                     $Good->countryId = 1;
 
-                    if($Good->save()) {
+                    if ($Good->save()) {
                         echo "Товар {$Good->title} с артикулом {$Good->article} успешно добавлен" . PHP_EOL;
                     };
-                } else {
+                }
+                else {
                     echo "Товар с артикулом {$row[1]} уже есть в базе" . PHP_EOL;
                 }
 
@@ -107,14 +112,15 @@ class ParseExcelController extends Controller
         return true;
     }
 
-    private function existExcelFile()
+    public function actionSetPrice()
     {
-        if (file_exists('price.xls')) {
-            return \PHPExcel_IOFactory::load('price.xls');
-        }
-        else {
-            echo 'file not exist';
-            return false;
-        };
+        $url = 'http://www.kudel.ru/reklama/price.xls';
+        $path = 'temp/price.xls';
+
+        $file = UploadFromUrl::initWithUrl($url);
+        $file->saveAs($path);
+
+        $setPrice = new SetPrice('temp/price.xls');
+        $setPrice->run();
     }
 }
