@@ -34,7 +34,7 @@ tests/_support/_generated
 
 /yii
 
-/temp/
+/temp/*
 
 /node_modules/
 /build/
