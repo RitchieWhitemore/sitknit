@@ -43,7 +43,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'id',
             [
                 'attribute' => 'main_good_id',
-                'value'     =>  ArrayHelper::getValue($model, 'mainGood.article'),
+                'value'     => ArrayHelper::getValue($model, 'mainGood.article'),
                 'label'     => 'Артикул товара с которого берутся характеристики',
             ],
 
@@ -105,6 +105,19 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
         ],
     ]); ?>
+
+    <?= GridView::widget([
+        'dataProvider' => $pricesProvider,
+        'columns'      => [
+            ['class' => 'yii\grid\SerialColumn'],
+            'date',
+            'typePrice',
+            'price',
+        ],
+    ])
+
+
+    ?>
 
 
 </div>

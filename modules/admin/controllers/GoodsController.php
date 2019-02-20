@@ -69,17 +69,22 @@ class GoodsController extends Controller
             'query' => $model->getGoodAttributes()->joinWith([
                 'attributeValues attr' => function ($query) use ($id) {
                     $query->andWhere(['=', 'attr.good_id', $id]);
-                }
-            ])->orderBy(['name' => SORT_ASC])
+                },
+            ])->orderBy(['name' => SORT_ASC]),
+        ]);
+
+        $pricesProvider = new ActiveDataProvider([
+            'query' => $model->getPrices(),
         ]);
 
         return $this->render('view', [
-            'model'        => $model,
-            'dataProvider' => $dataProvider,
-            'nextId'       => $nextId,
-            'prevId'       => $prevId,
-            'disableNext'  => $disableNext,
-            'disablePrev'  => $disablePrev,
+            'model'          => $model,
+            'dataProvider'   => $dataProvider,
+            'pricesProvider' => $pricesProvider,
+            'nextId'         => $nextId,
+            'prevId'         => $prevId,
+            'disableNext'    => $disableNext,
+            'disablePrev'    => $disablePrev,
         ]);
     }
 
@@ -100,7 +105,7 @@ class GoodsController extends Controller
         }
 
         return $this->render('create', [
-            'model' => $model,
+            'model'  => $model,
             'values' => $values,
         ]);
     }

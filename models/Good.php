@@ -4,6 +4,7 @@ namespace app\models;
 
 
 use app\models\query\GoodQuery;
+use app\modules\trade\models\Price;
 
 /**
  * This is the model class for table "good".
@@ -163,6 +164,11 @@ class Good extends \yii\db\ActiveRecord
         }
 
         return $this->name;
+    }
+
+    public function getPrices()
+    {
+        return $this->hasMany(Price::className(), ['good_id' => 'id']);
     }
 
     public static function NextOrPrev($currentId, $categoryId)
