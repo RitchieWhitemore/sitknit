@@ -3,13 +3,13 @@
 use yii\helpers\Html;
 
 /* @var $this yii\web\View */
-/* @var $model app\modules\trade\models\Document */
+/* @var $model app\modules\trade\models\Partner */
 
-$this->title = 'Создать документ';
-$this->params['breadcrumbs'][] = ['label' => 'Документы', 'url' => ['index']];
+$this->title = 'Создать контрагента';
+$this->params['breadcrumbs'][] = ['label' => 'Контрагенты', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="document-create">
+<div class="partner-create">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
