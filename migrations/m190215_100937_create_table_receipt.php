@@ -5,19 +5,23 @@ use yii\db\Migration;
 /**
  * Class m190215_100937_create_table_documents
  */
-class m190215_100937_create_table_document extends Migration
+class m190215_100937_create_table_receipt extends Migration
 {
     /**
      * {@inheritdoc}
      */
     public function safeUp()
     {
-        $this->createTable('document', [
+        $this->createTable('receipt', [
             'id' => $this->primaryKey(),
             'date' => $this->dateTime()->notNull(),
-            'type_id' => $this->smallInteger()->notNull(),
+            'partner_id' => $this->integer(),
             'total' => $this->float(2),
         ]);
+
+        $this->createIndex('idx-receipt-partner_id', 'receipt', 'partner_id');
+
+        $this->addForeignKey('fk-receipt-partner_id', 'receipt', 'partner_id', 'partner', 'id', 'SET NULL', 'RESTRICT');
     }
 
     /**
@@ -25,7 +29,11 @@ class m190215_100937_create_table_document extends Migration
      */
     public function safeDown()
     {
-        $this->dropTable('document');
+        $this->dropForeignKey('fk-receipt-partner_id', 'receipt');
+
+        $this->dropIndex('idx-receipt-partner_id', 'receipt');
+
+        $this->dropTable('receipt');
     }
 
     /*
