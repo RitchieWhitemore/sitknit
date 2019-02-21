@@ -4,14 +4,14 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
-/* @var $model app\modules\trade\models\Document */
+/* @var $model app\modules\trade\models\DocumentItem */
 
 $this->title = $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Документы', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Позиции документов', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>
-<div class="document-view">
+<div class="document-item-view">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
@@ -30,9 +30,10 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'id',
-            'date',
-            'type_id',
-            'total',
+            'document_id',
+            'good_id',
+            'qty',
+            'price',
         ],
     ]) ?>
 

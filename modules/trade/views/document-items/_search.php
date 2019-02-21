@@ -4,11 +4,11 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $model app\modules\trade\models\DocumentSearch */
+/* @var $model app\modules\trade\models\DocumentItemSearch */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
-<div class="document-search">
+<div class="document-item-search">
 
     <?php $form = ActiveForm::begin([
         'action' => ['index'],
@@ -20,11 +20,13 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'id') ?>
 
-    <?= $form->field($model, 'date') ?>
+    <?= $form->field($model, 'document_id') ?>
 
-    <?= $form->field($model, 'type_id') ?>
+    <?= $form->field($model, 'good_id') ?>
 
-    <?= $form->field($model, 'total') ?>
+    <?= $form->field($model, 'qty') ?>
+
+    <?= $form->field($model, 'price') ?>
 
     <div class="form-group">
         <?= Html::submitButton('Поиск', ['class' => 'btn btn-primary']) ?>

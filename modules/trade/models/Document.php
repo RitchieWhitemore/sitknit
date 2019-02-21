@@ -42,9 +42,9 @@ class Document extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'date' => 'Date',
-            'type_id' => 'Type ID',
-            'total' => 'Total',
+            'date' => 'Дата документа',
+            'type_id' => 'Тип документа',
+            'total' => 'Сумма документа',
         ];
     }
 }

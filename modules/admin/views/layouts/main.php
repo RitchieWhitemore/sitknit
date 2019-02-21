@@ -60,6 +60,7 @@ AdminAsset::register($this);
                 ['label' => 'Цены', 'url' => ['/trade/prices/index']],
                 ['label' => 'Установить цены', 'url' => ['/trade/prices/set-prices']],
             ]],
+            ['label' => 'Документы', 'url' => ['/trade/documents/index']],
 
         ]),
     ]);
