@@ -22,7 +22,8 @@
         "kartik-v/yii2-field-range": "*",
         "dmstr/yii2-adminlte-asset": "^2.1",
         "sadovojav/yii2-image-thumbnail": "dev-master",
-        "phpoffice/phpspreadsheet": "^1.6"
+        "phpoffice/phpspreadsheet": "^1.6",
+        "kartik-v/yii2-widget-datetimepicker": "dev-master"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",
