@@ -2,29 +2,31 @@
 
 namespace app\modules\trade\models;
 
+use Yii;
+
+use app\modules\trade\models\Order;
 use app\models\Good;
 
-
 /**
- * This is the model class for table "document_item".
+ * This is the model class for table "order_item".
  *
  * @property int $id
- * @property int $document_id
+ * @property int $order_id
  * @property int $good_id
  * @property int $qty
  * @property double $price
  *
- * @property Document $document
  * @property Good $good
+ * @property Order $order
  */
-class DocumentItem extends \yii\db\ActiveRecord
+class OrderItem extends \yii\db\ActiveRecord
 {
     /**
      * {@inheritdoc}
      */
     public static function tableName()
     {
-        return 'document_item';
+        return 'order_item';
     }
 
     /**
@@ -33,11 +35,11 @@ class DocumentItem extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['document_id', 'good_id', 'qty', 'price'], 'required'],
-            [['document_id', 'good_id', 'qty'], 'integer'],
+            [['order_id', 'good_id', 'qty', 'price'], 'required'],
+            [['order_id', 'good_id', 'qty'], 'integer'],
             [['price'], 'number'],
-            [['document_id'], 'exist', 'skipOnError' => true, 'targetClass' => Document::className(), 'targetAttribute' => ['document_id' => 'id']],
             [['good_id'], 'exist', 'skipOnError' => true, 'targetClass' => Good::className(), 'targetAttribute' => ['good_id' => 'id']],
+            [['order_id'], 'exist', 'skipOnError' => true, 'targetClass' => Order::className(), 'targetAttribute' => ['order_id' => 'id']],
         ];
     }
 
@@ -48,7 +50,7 @@ class DocumentItem extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'document_id' => 'Документ',
+            'order_id' => 'Заказ №',
             'good_id' => 'Товар',
             'qty' => 'Количество',
             'price' => 'Цена',
@@ -58,16 +60,16 @@ class DocumentItem extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getDocument()
+    public function getGood()
     {
-        return $this->hasOne(Document::className(), ['id' => 'document_id']);
+        return $this->hasOne(Good::className(), ['id' => 'good_id']);
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getGood()
+    public function getOrder()
     {
-        return $this->hasOne(Good::className(), ['id' => 'good_id']);
+        return $this->hasOne(Order::className(), ['id' => 'order_id']);
     }
 }
