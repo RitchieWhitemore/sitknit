@@ -44,24 +44,31 @@ AdminAsset::register($this);
         'options'         => ['class' => 'navbar-nav navbar-right'],
         'activateParents' => true,
         'items'           => array_filter([
+
             ['label' => 'Главная', 'url' => ['/main/default/index']],
             ['label' => 'Администрирование пользователей', 'url' => ['/admin/users/index']],
-            ['label' => 'Брэнды', 'url' => ['/admin/brands/index']],
-            ['label' => 'Категории', 'url' => ['/admin/categories/index']],
-            ['label' => 'Страны', 'url' => ['/admin/country/index']],
-            ['label' => 'Управление товарами', 'items' => [
-                ['label' => 'Товары', 'url' => ['/admin/goods/index']],
-                ['label' => 'Атрибуты', 'url' => ['/admin/attributes/index']],
-                ['label' => 'Значения атрибута', 'url' => ['/admin/attribute-values/index']],
-                ['label' => 'Единицы измерения', 'url' => ['/admin/units/index']],
-                ['label' => 'Изображения', 'url' => ['/admin/images/index']],
+            ['label' => 'Справочники', 'items' => [
+                ['label' => 'Брэнды', 'url' => ['/admin/brands/index']],
+                ['label' => 'Категории', 'url' => ['/admin/categories/index']],
+                ['label' => 'Страны', 'url' => ['/admin/country/index']],
+                ['label' => 'Управление товарами', 'items' => [
+                    ['label' => 'Товары', 'url' => ['/admin/goods/index']],
+                    ['label' => 'Атрибуты', 'url' => ['/admin/attributes/index']],
+                    ['label' => 'Значения атрибута', 'url' => ['/admin/attribute-values/index']],
+                    ['label' => 'Единицы измерения', 'url' => ['/admin/units/index']],
+                    ['label' => 'Изображения', 'url' => ['/admin/images/index']],
+                ]],
+                ['label' => 'Управление ценами', 'items' => [
+                    ['label' => 'Цены', 'url' => ['/trade/prices/index']],
+                    ['label' => 'Установить цены', 'url' => ['/trade/prices/set-prices']],
+                ]],
+                ['label' => 'Контрагенты', 'url' => ['/trade/partners/index']],
             ]],
-            ['label' => 'Управление ценами', 'items' => [
-                ['label' => 'Цены', 'url' => ['/trade/prices/index']],
-                ['label' => 'Установить цены', 'url' => ['/trade/prices/set-prices']],
+            ['label' => 'Документы', 'items' => [
+                ['label' => 'Поступления товара', 'url' => ['/trade/receipts/index']],
+                ['label' => 'Заказы покупателей', 'url' => ['/trade/orders/index']],
             ]],
-            ['label' => 'Документы', 'url' => ['/trade/documents/index']],
-            ['label' => 'Контрагенты', 'url' => ['/trade/partners/index']],
+
 
         ]),
     ]);

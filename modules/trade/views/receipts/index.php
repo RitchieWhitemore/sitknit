@@ -4,20 +4,20 @@ use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
 /* @var $this yii\web\View */
-/* @var $searchModel app\modules\trade\models\DocumentItemSearch */
+/* @var $searchModel app\modules\trade\models\ReceiptSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Позиции документов';
+$this->title = 'Поступления';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="document-item-index">
+<div class="receipt-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
     <?php Pjax::begin(); ?>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Создать позицию документа', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Создать поступление товара', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?= GridView::widget([
@@ -27,10 +27,9 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
             'id',
-            'document_id',
-            'good_id',
-            'qty',
-            'price',
+            'date',
+            'partner_id',
+            'total',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

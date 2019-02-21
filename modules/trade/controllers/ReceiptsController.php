@@ -3,16 +3,16 @@
 namespace app\modules\trade\controllers;
 
 use Yii;
-use app\modules\trade\models\DocumentItem;
-use app\modules\trade\models\DocumentItemSearch;
+use app\modules\trade\models\Receipt;
+use app\modules\trade\models\ReceiptSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * DocumentItemsController implements the CRUD actions for DocumentItem model.
+ * ReceiptsController implements the CRUD actions for Receipt model.
  */
-class DocumentItemsController extends Controller
+class ReceiptsController extends Controller
 {
     /**
      * {@inheritdoc}
@@ -30,12 +30,12 @@ class DocumentItemsController extends Controller
     }
 
     /**
-     * Lists all DocumentItem models.
+     * Lists all Receipt models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new DocumentItemSearch();
+        $searchModel = new ReceiptSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -45,7 +45,7 @@ class DocumentItemsController extends Controller
     }
 
     /**
-     * Displays a single DocumentItem model.
+     * Displays a single Receipt model.
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
@@ -58,13 +58,13 @@ class DocumentItemsController extends Controller
     }
 
     /**
-     * Creates a new DocumentItem model.
+     * Creates a new Receipt model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new DocumentItem();
+        $model = new Receipt();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -76,7 +76,7 @@ class DocumentItemsController extends Controller
     }
 
     /**
-     * Updates an existing DocumentItem model.
+     * Updates an existing Receipt model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -96,7 +96,7 @@ class DocumentItemsController extends Controller
     }
 
     /**
-     * Deletes an existing DocumentItem model.
+     * Deletes an existing Receipt model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -110,15 +110,15 @@ class DocumentItemsController extends Controller
     }
 
     /**
-     * Finds the DocumentItem model based on its primary key value.
+     * Finds the Receipt model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return DocumentItem the loaded model
+     * @return Receipt the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = DocumentItem::findOne($id)) !== null) {
+        if (($model = Receipt::findOne($id)) !== null) {
             return $model;
         }
 
