@@ -5,7 +5,7 @@ use yii\db\Migration;
 /**
  * Class m190216_175924_create_table_price
  */
-class m190216_175924_create_table_price extends Migration
+class m190213_175924_create_table_price extends Migration
 {
     /**
      * {@inheritdoc}
