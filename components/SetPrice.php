@@ -13,6 +13,7 @@ use app\models\Brand;
 use app\models\Category;
 use app\models\Good;
 use app\modules\trade\models\Price;
+use app\modules\trade\models\SetPriceForm;
 use yii\db\Query;
 
 class SetPrice
@@ -24,26 +25,27 @@ class SetPrice
     private $fileExtension;
     private $good;
     private $priceWholesale;
+    private $form;
 
-    public function __construct($file = null)
+    public function __construct(SetPriceForm $form)
     {
-        $this->date_set_price = date('Y-m-d', time());
+        $this->form = $form;
 
-        if ($file === 'temp/price.xls') {
+        if ($form->file_price->tempName === 'temp/price.xls') {
             $this->filePath = 'temp/price.xls';
-            $this->file = $file;
+            $this->file = $form->file_price;
             $this->fileExtension = $this->getFileExtension($this->filePath);
         }
         else {
-            $this->file = $file;
-            $this->filePath = $file->tempName;
+            $this->file = $form->file_price;
+            $this->filePath = $form->file_price->tempName;
             $this->fileExtension = $this->getFileExtension($this->file->name);
         }
     }
 
     public function run()
     {
-
+        set_time_limit(300);
         switch ($this->fileExtension) {
             case 'xls':
                 $this->parseFileExcel();
@@ -164,7 +166,7 @@ class SetPrice
         if (isset($Price)) {
             if ($Price->price != $this->priceWholesale) {
                 $Price = new Price();
-                $Price->date = $this->date_set_price;
+                $Price->date = $this->form->date_set_price;
                 $Price->type_price = Price::TYPE_PRICE_WHOLESALE;
                 $Price->good_id = $this->good->id;
                 $Price->price = $this->priceWholesale;
@@ -172,19 +174,20 @@ class SetPrice
                 //echo 'opt' . PHP_EOL;
             }
             else {
+                unset($Price);
                 return false;
             }
         }
         else {
             $Price = new Price();
-            $Price->date = $this->date_set_price;
+            $Price->date = $this->form->date_set_price;
             $Price->type_price = Price::TYPE_PRICE_WHOLESALE;
             $Price->good_id = $this->good->id;
             $Price->price = $this->priceWholesale;
             $Price->save();
             //echo 'opt' . PHP_EOL;
         }
-
+        unset($Price);
         return true;
 
     }
@@ -193,12 +196,12 @@ class SetPrice
     {
         $Price = $this->getPrice(Price::TYPE_PRICE_RETAIL);
 
-        $priceRetail = (int)($this->priceWholesale * (self::PERCENT_CHANGE / 100 + 1));
+        $priceRetail = (int)($this->priceWholesale * ($this->form->percent_change / 100 + 1));
 
         if (isset($Price)) {
             if ($Price->price != $priceRetail) {
                 $Price = new Price();
-                $Price->date = $this->date_set_price;
+                $Price->date = $this->form->date_set_price;
                 $Price->type_price = Price::TYPE_PRICE_RETAIL;
                 $Price->good_id = $this->good->id;
                 $Price->price = $priceRetail;
@@ -206,18 +209,21 @@ class SetPrice
                 //echo 'retail' . PHP_EOL;
             }
             else {
+                unset($Price);
                 return false;
             }
         }
         else {
             $Price = new Price();
-            $Price->date = $this->date_set_price;
+            $Price->date = $this->form->date_set_price;
             $Price->type_price = Price::TYPE_PRICE_RETAIL;
             $Price->good_id = $this->good->id;
             $Price->price = $priceRetail;
             $Price->save();
             //echo 'retail' . PHP_EOL;
         }
+        unset($Price);
+        return true;
     }
 
     private function getPrice($type_price)

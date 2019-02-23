@@ -27,7 +27,7 @@ class SetPriceForm extends Model
     public function rules()
     {
         return [
-            [['file_input_price'], 'required'],
+            [['file_input_price', 'date_set_price', 'percent_change'], 'required'],
             [['category_id', 'percent_change'], 'number'],
             [['file_price'], 'file', 'skipOnEmpty' => false],
         ];

@@ -120,9 +120,11 @@ class PricesController extends Controller
             $model->attributes = Yii::$app->request->post('SetPriceForm');
             $model->file_price = UploadedFile::getInstance($model, 'file_input_price');
 
-            $setPrice = new SetPrice($model->file_price);
+            $setPrice = new SetPrice($model);
             $setPrice->run();
 
+            $session = Yii::$app->session;
+            $session->setFlash('priceImported', 'Прайс успешно загружен');
             $this->redirect('set-prices');
         }
 
