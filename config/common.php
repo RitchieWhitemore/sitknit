@@ -54,6 +54,8 @@ return [
                     ],
                 ],
 
+                ['class' => 'yii\rest\UrlRule', 'controller'    => 'api/partner',],
+
                 ''                                                                               => 'goods/catalog',
                 'contact'                                                                        => 'main/contact/index',
                 '<_a:error>'                                                                     => 'main/default/<_a>',

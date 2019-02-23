@@ -6,7 +6,7 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model app\modules\trade\models\Receipt */
 
-$this->title = $model->id;
+$this->title = "Поступление товаров №: $model->id";
 $this->params['breadcrumbs'][] = ['label' => 'Поступления', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
@@ -31,7 +31,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             'id',
             'date',
-            'partner_id',
+            'partner.name',
             'total',
         ],
     ]) ?>

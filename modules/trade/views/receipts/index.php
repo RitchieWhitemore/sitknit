@@ -28,7 +28,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
             'id',
             'date',
-            'partner_id',
+            'partner.name',
             'total',
 
             ['class' => 'yii\grid\ActionColumn'],
