@@ -2,8 +2,7 @@
 
 namespace app\modules\trade\models;
 
-use app\modules\trade\models\Order;
-use app\modules\trade\models\Receipt;
+use Yii;
 
 /**
  * This is the model class for table "partner".
@@ -12,6 +11,10 @@ use app\modules\trade\models\Receipt;
  * @property string $name
  * @property string $full_name
  * @property string $address
+ * @property int $phone
+ * @property string $email
+ * @property string $profile
+ * @property string $post_index
  *
  * @property Order[] $orders
  * @property Receipt[] $receipts
@@ -33,8 +36,10 @@ class Partner extends \yii\db\ActiveRecord
     {
         return [
             [['name'], 'required'],
+            [['phone'], 'integer'],
             [['name'], 'string', 'max' => 50],
-            [['full_name', 'address'], 'string', 'max' => 255],
+            [['full_name', 'address', 'email', 'profile'], 'string', 'max' => 255],
+            [['post_index'], 'string', 'max' => 10],
         ];
     }
 
@@ -45,9 +50,13 @@ class Partner extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'name' => 'Краткое имя',
-            'full_name' => 'Полное имя',
-            'address' => 'Адрес',
+            'name' => 'Краткое наименование',
+            'full_name' => 'Полное наименование',
+            'address' => 'Почтовый адрес',
+            'phone' => 'Контактный телефон',
+            'email' => 'Email',
+            'profile' => 'Профиль в соцсетях',
+            'post_index' => 'Почтовый индекс',
         ];
     }
 
