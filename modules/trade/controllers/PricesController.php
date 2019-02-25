@@ -3,6 +3,7 @@
 namespace app\modules\trade\controllers;
 
 use app\components\SetPrice;
+use app\modules\trade\models\SetPriceAjaxForm;
 use app\modules\trade\models\SetPriceForm;
 use Yii;
 use app\modules\trade\models\Price;
@@ -114,11 +115,11 @@ class PricesController extends Controller
 
     public function actionSetPrices()
     {
-        $model = new SetPriceForm();
+        $model = new SetPriceAjaxForm();
 
         if (Yii::$app->request->isPost) {
             $model->attributes = Yii::$app->request->post('SetPriceForm');
-            $model->file_price = UploadedFile::getInstance($model, 'file_input_price');
+           // $model->file_price = UploadedFile::getInstance($model, 'file_input_price');
 
             $setPrice = new SetPrice($model);
             $setPrice->run();

@@ -27,20 +27,25 @@ class SetPrice
     private $priceWholesale;
     private $form;
 
-    public function __construct(SetPriceForm $form)
+    public function __construct($form)
     {
         $this->form = $form;
 
-        if ($form->file_price->tempName === 'temp/price.xls') {
-            $this->filePath = 'temp/price.xls';
-            $this->file = $form->file_price;
-            $this->fileExtension = $this->getFileExtension($this->filePath);
+        if (isset($form->file_price)) {
+            if ($form->file_price->tempName === 'temp/price.xls') {
+                $this->filePath = 'temp/price.xls';
+                $this->file = $form->file_price;
+                $this->fileExtension = $this->getFileExtension($this->filePath);
+            }
+            else {
+                $this->file = $form->file_price;
+                $this->filePath = $form->file_price->tempName;
+                $this->fileExtension = $this->getFileExtension($this->file->name);
+            }
+        } else {
+            $this->fileExtension = 'string';
         }
-        else {
-            $this->file = $form->file_price;
-            $this->filePath = $form->file_price->tempName;
-            $this->fileExtension = $this->getFileExtension($this->file->name);
-        }
+
     }
 
     public function run()
@@ -53,8 +58,42 @@ class SetPrice
             case 'csv':
                 $this->parseFileCSV();
                 break;
+            case 'string':
+                $this->parseStringCSV();
+                break;
         }
         return true;
+    }
+
+    private function parseStringCSV()
+    {
+        $array = explode(';', $this->form->stringCsv);
+
+        $session = \Yii::$app->session;
+        $currentCount = $session->get('countCsv');
+        $session->set('countCsv', (count($array) + $currentCount));
+
+        foreach ($array as $item) {
+            $value = explode('|', $item);
+            $this->priceWholesale = str_replace(',', '.', $value[8]);
+
+            if (Good::findOne(['article' => $value[1]])) {
+                $this->good = Good::findOne(['article' => $value[1]]);
+
+                if ($this->setWholesalePrice()) {
+                    $this->setRetailPrice();
+                };
+
+            }
+            else {
+                $this->createGood($value);
+
+                if ($this->setWholesalePrice()) {
+                    $this->setRetailPrice();
+                };
+            }
+        }
+
     }
 
     private function parseFileCSV()
@@ -171,7 +210,6 @@ class SetPrice
                 $Price->good_id = $this->good->id;
                 $Price->price = $this->priceWholesale;
                 $Price->save();
-                //echo 'opt' . PHP_EOL;
             }
             else {
                 unset($Price);
@@ -185,7 +223,6 @@ class SetPrice
             $Price->good_id = $this->good->id;
             $Price->price = $this->priceWholesale;
             $Price->save();
-            //echo 'opt' . PHP_EOL;
         }
         unset($Price);
         return true;
@@ -206,7 +243,6 @@ class SetPrice
                 $Price->good_id = $this->good->id;
                 $Price->price = $priceRetail;
                 $Price->save();
-                //echo 'retail' . PHP_EOL;
             }
             else {
                 unset($Price);
@@ -220,7 +256,6 @@ class SetPrice
             $Price->good_id = $this->good->id;
             $Price->price = $priceRetail;
             $Price->save();
-            //echo 'retail' . PHP_EOL;
         }
         unset($Price);
         return true;

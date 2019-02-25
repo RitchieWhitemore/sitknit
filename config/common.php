@@ -54,7 +54,14 @@ return [
                     ],
                 ],
 
-                ['class' => 'yii\rest\UrlRule', 'controller'    => 'api/partner',],
+                ['class' => 'yii\rest\UrlRule', 'controller' => 'api/partner',],
+                [
+                    'class'         => 'yii\rest\UrlRule',
+                    'controller'    => 'api/price',
+                    'extraPatterns' => [
+                        'POST set-price' => 'setPrice',
+                    ],
+                ],
 
                 ''                                                                               => 'goods/catalog',
                 'contact'                                                                        => 'main/contact/index',

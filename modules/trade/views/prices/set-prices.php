@@ -6,7 +6,8 @@ use kartik\date\DatePicker;
 
 $bundle = \app\assets\WebComponentsAsset::register($this);
 
-$this->registerJsFile("$bundle->baseUrl/choice-form/choice-form.js", ['type' => 'module']);
+$this->registerJsFile("$bundle->baseUrl/parser-excel/parser-excel.js", ['type' => 'module']);
+$this->registerJsFile("/js/papaparse.min.js");
 ?>
 
 <?php if(Yii::$app->session->hasFlash('priceImported')) : ?>
@@ -14,31 +15,35 @@ $this->registerJsFile("$bundle->baseUrl/choice-form/choice-form.js", ['type' => 
         <?= Yii::$app->session->getFlash('priceImported') ?>
     </div>
 <?php endif; ?>
-<?php $form = ActiveForm::begin(); ?>
+<parser-excel>
+    <?php $form = ActiveForm::begin(); ?>
 
-<div class="row">
-    <div class="col-md-6">
-        <label>Дата установки цены:</label>
-        <?= DatePicker::widget([
-            'name' => 'SetPriceForm[date_set_price]',
-            'value' => date('Y-m-d', time()),
-            'type' => DatePicker::TYPE_COMPONENT_APPEND,
-            'options' => ['placeholder' => 'Выберите дату'],
-            'pluginOptions' => [
-                'format' => 'yyyy-mm-dd',
-                'todayHighlight' => true
-            ]
-        ])?>
+    <div class="row">
+        <div class="col-md-6">
+            <label>Дата установки цены:</label>
+            <?= DatePicker::widget([
+                'name' => 'SetPriceAjaxForm[date_set_price]',
+                'value' => date('Y-m-d', time()),
+                'type' => DatePicker::TYPE_COMPONENT_APPEND,
+                'options' => ['placeholder' => 'Выберите дату'],
+                'pluginOptions' => [
+                    'format' => 'yyyy-mm-dd',
+                    'todayHighlight' => true
+                ]
+            ])?>
+        </div>
+        <div class="col-md-6">
+            <?= $form->field($model, 'percent_change')->input('number', ['required' => 'required'])?>
+        </div>
     </div>
-    <div class="col-md-6">
-        <?= $form->field($model, 'percent_change')->input('number')?>
+
+    <?= $form->field($model, 'file_input_price')->fileInput(['accept' => '.csv, .xls', 'class' => 'coll-md-6']) ?>
+
+    <div class="form-group">
+        <?= Html::submitButton('Установить', ['class' => 'btn btn-success', 'id' => 'buttonSuccess']) ?>
     </div>
-</div>
 
-<?= $form->field($model, 'file_input_price')->fileInput(['accept' => '.csv, .xls', 'class' => 'coll-md-6']) ?>
+    <?php ActiveForm::end(); ?>
 
-<div class="form-group">
-    <?= Html::submitButton('Установить', ['class' => 'btn btn-success']) ?>
-</div>
+</parser-excel>
 
-<?php ActiveForm::end(); ?>
