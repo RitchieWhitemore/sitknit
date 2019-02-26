@@ -70,7 +70,7 @@ class GoodSearch extends Good
 
         // grid filtering conditions
         $query->andFilterWhere([
-            'id' => $this->id,
+            'good.id' => $this->id,
             'category_id' => $this->category_id,
             'brand_id' => $this->brand_id,
             'country_id' => $this->country_id,
@@ -79,7 +79,7 @@ class GoodSearch extends Good
         ]);
 
         $query->andFilterWhere(['like', 'article', $this->article])
-            ->andFilterWhere(['like', 'name', $this->name])
+            ->andFilterWhere(['like', 'good.name', $this->name])
             ->andFilterWhere(['like', 'description', $this->description])
             ->andFilterWhere(['like', 'characteristic', $this->characteristic]);
 
