@@ -1,0 +1,44 @@
+.brand__list {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.brand__item {
+  width: 100%;
+  text-align: center;
+
+  @media @tablet-widths {
+    width: 30%;
+    margin-bottom: 30px;
+  }
+}
+
+.brand__link {
+  text-align: center;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  color: @font-brown;
+
+  &:hover {
+    text-decoration: underline;
+    color: @font-hover-brown;
+  }
+}
+
+.brand__image-wrapper {
+  display: flex;
+  margin: 0 auto;
+  max-width: 125px;
+  min-height: 130px;
+}
+
+.brand__image {
+  margin: auto;
+  max-height: 130px;
+}
+
+.brand__title {
+  font-size: 16px;
+}
