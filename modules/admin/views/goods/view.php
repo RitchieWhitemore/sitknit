@@ -59,10 +59,6 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'brand_id',
                 'value'     => ArrayHelper::getValue($model, 'brand.name'),
             ],
-            [
-                'attribute' => 'country_id',
-                'value'     => ArrayHelper::getValue($model, 'country.name'),
-            ],
             'packaged',
         ],
     ]) ?>

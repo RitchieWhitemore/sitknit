@@ -18,7 +18,7 @@ class GoodSearch extends Good
     public function rules()
     {
         return [
-            [['id', 'category_id', 'brand_id', 'country_id', 'packaged', 'active'], 'integer'],
+            [['id', 'category_id', 'brand_id', 'packaged', 'active'], 'integer'],
             [['article', 'name', 'description', 'characteristic'], 'safe'],
         ];
     }
@@ -73,7 +73,6 @@ class GoodSearch extends Good
             'good.id' => $this->id,
             'category_id' => $this->category_id,
             'brand_id' => $this->brand_id,
-            'country_id' => $this->country_id,
             'packaged' => $this->packaged,
             'active' => $this->active,
         ]);

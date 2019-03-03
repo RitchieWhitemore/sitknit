@@ -2,7 +2,9 @@
 
 namespace app\models;
 
+use app\components\behaviors\UploadImageBehavior;
 use Yii;
+use yii\db\Query;
 use yii\helpers\ArrayHelper;
 
 /**
@@ -11,6 +13,8 @@ use yii\helpers\ArrayHelper;
  * @property int $id
  * @property string $name
  * @property string $description
+ *
+ * @property Country $country
  */
 class Brand extends \yii\db\ActiveRecord
 {
@@ -22,6 +26,18 @@ class Brand extends \yii\db\ActiveRecord
         return 'brand';
     }
 
+    public function behaviors()
+    {
+        return [
+            [
+                'class' => UploadImageBehavior::className(),
+                'fileNameField' => 'image',
+                'goodIdField' => 'id',
+                'catalog' => 'brand',
+            ],
+        ];
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -31,7 +47,9 @@ class Brand extends \yii\db\ActiveRecord
             [['name'], 'required'],
             [['name'], 'string', 'max' => 50],
             [['description'], 'string', 'max' => 100],
-            [['active'], 'integer'],
+            [['active', 'country_id'], 'integer'],
+            [['image'], 'string'],
+            [['country_id'], 'exist', 'skipOnError' => true, 'targetClass' => Country::className(), 'targetAttribute' => ['country_id' => 'id']],
         ];
     }
 
@@ -45,11 +63,39 @@ class Brand extends \yii\db\ActiveRecord
             'name' => 'Название',
             'description' => 'Описание',
             'active' => 'Активен',
+            'imageFile' => 'Изображение',
+            'image' => 'Загруженое изображение',
+            'country_id' => 'Страна',
         ];
     }
 
     public static function getBrandsArray()
     {
-        return self::find()->select(['name','id'])->indexBy('id')->column();
+        return self::find()->select(['name', 'id'])->indexBy('id')->column();
+    }
+
+    public static function getBrandsInCategory()
+    {
+        $childrenCategory = (new Query())->from('category')->where(['parent_id' => 1])->column();
+        $childrenCategory[] = 1;
+        $brands = (new Query())->select('brand_id')->from('good')->where(['in', 'category_id', $childrenCategory])->groupBy('brand_id');
+
+        return $brands;
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getGoods()
+    {
+        return $this->hasMany(Good::className(), ['brand_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCountry()
+    {
+        return $this->hasOne(Country::className(), ['id' => 'country_id']);
     }
 }

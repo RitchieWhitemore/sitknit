@@ -10,9 +10,11 @@ namespace app\controllers;
 
 use app\models\Attribute;
 use app\models\AttributeValue;
+use app\models\Brand;
 use app\models\Category;
 use app\models\Good;
 use yii\data\ActiveDataProvider;
+use yii\db\Query;
 use yii\helpers\ArrayHelper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -47,18 +49,42 @@ class GoodsController extends Controller
 
         $dataProvider = new ActiveDataProvider(
             [
-                'query'      => Good::find()->where(['category_id' => $id, 'active' => 1])->with(['attributeValues', 'mainGood.attributeValues']),
+                'query' => Good::find()->where(['category_id' => $id, 'active' => 1])->with(['attributeValues', 'mainGood.attributeValues']),
                 'pagination' => [
                     'pageSize' => 15,
                 ],
             ]
         );
 
+        if ($Category->parent == null) {
+            $childrenCategory = (new Query())->from('category')->where(['parent_id' => $id])->column();
+            $childrenCategory[] = 1;
+
+            $queryBrands =  Good::find()->select(['id', 'brand_id'])->where(['active'=> 1])->andWhere(['in', 'category_id', $childrenCategory])->groupBy('brand_id');
+
+        } else {
+            $queryBrands = null;
+        }
+
+        $brands = new ActiveDataProvider(
+            [
+                'query' => $queryBrands,
+            ]
+        );
+
         return $this->render('category', [
             'dataProvider' => $dataProvider,
             'subcategories' => $subcategories,
-            'model'        => $Category,
+            'model' => $Category,
+            'brands' => $brands,
         ]);
+    }
+
+    public function actionBrand($id)
+    {
+        $Brand = Brand::find($id)->joinWith(['goods'])->where(['good.active' => 1])->one();
+
+        return $this->render('brand', []);
     }
 
     public function actionView($id)
@@ -72,16 +98,15 @@ class GoodsController extends Controller
         if (isset($model->mainGood)) {
             $valuesMain = $model->mainGood->getAttributeValues()->with('goodAttribute.unit')->indexBy('goodAttribute.name')->all();
             $values = $model->getAttributeValues()->with('goodAttribute.unit')->indexBy('goodAttribute.name')->all();
-        }
-        else {
+        } else {
             $values = $model->getAttributeValues()->with('goodAttribute.unit')->indexBy('goodAttribute.name')->all();
             $valuesMain = $values;
         }
 
 
         return $this->render('good', [
-            'model'      => $model,
-            'values'     => $values,
+            'model' => $model,
+            'values' => $values,
             'valuesMain' => $valuesMain,
         ]);
     }

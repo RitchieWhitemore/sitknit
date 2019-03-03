@@ -3,6 +3,7 @@
 use yii\widgets\ListView;
 use yii\widgets\Breadcrumbs;
 use yii\helpers\Html;
+use app\models\Category;
 
 /**
  *
@@ -17,7 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <?= Breadcrumbs::widget([
     'homeLink' => ['label' => 'Главная', 'url' => Yii::$app->homeUrl],
-    'links'    => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
+    'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
 ]) ?>
 
 <div class="control">
@@ -36,19 +37,33 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="catalog">
     <h1 class="catalog__title"><?= $model->name ?></h1>
     <p class="catalog__descr"><?= $model->description ?></p>
+    <h2><?=$model->name?> по производителям:</h2>
+    <?php if ($model->parent == null) {
+        echo ListView::widget([
+            'dataProvider' => $brands,
+            'emptyText' => '',
+            'itemView' => 'block/_brandItem',
+            'itemOptions' => ['class' => 'brand__item'],
+            'options' => ['class' => 'brand__list'],
+            'summary' => ''
+        ]);
+    }
+    ?>
+    <h2><?=$model->name?> по составу:</h2>
     <?php echo ListView::widget([
         'dataProvider' => $subcategories,
-        'emptyText'    => '',
-        'itemView'     => 'block/_categoryItem',
-        'itemOptions'  => ['class' => 'catalog__item product'],
-        'options'      => ['class' => 'catalog__list'],
+        'emptyText' => '',
+        'itemView' => 'block/_categoryItem',
+        'itemOptions' => ['class' => 'catalog__item product'],
+        'options' => ['class' => 'catalog__list'],
+        'summary' => ''
     ]);
     ?>
     <?php echo ListView::widget([
         'dataProvider' => $dataProvider,
-        'itemView'     => 'block/_goodItem',
-        'itemOptions'  => ['class' => 'catalog__item product'],
-        'options'      => ['class' => 'catalog__list'],
+        'itemView' => 'block/_goodItem',
+        'itemOptions' => ['class' => 'catalog__item product'],
+        'options' => ['class' => 'catalog__list'],
     ]);
     ?>
 </div>

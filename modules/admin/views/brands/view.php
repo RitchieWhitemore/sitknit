@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use yii\helpers\ArrayHelper;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Brand */
@@ -30,6 +31,17 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             'id',
             'name',
+            [
+                'attribute' => 'image',
+                'format'    => 'raw',
+                'value'     => function ($value) {
+                    return Html::img($value->url, ['width' => 100]);
+                },
+            ],
+            [
+                'attribute' => 'country_id',
+                'value'     => ArrayHelper::getValue($model, 'country.name'),
+            ],
             'description',
         ],
     ]) ?>

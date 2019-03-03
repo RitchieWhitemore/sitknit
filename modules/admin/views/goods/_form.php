@@ -3,8 +3,6 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use app\models\Brand;
-use app\models\Country;
-use app\models\Category;
 
 /**
  * @var $this yii\web\View
@@ -61,8 +59,6 @@ $this->registerJsFile("$bundle->baseUrl/choice-form/choice-form.js", ['type' => 
                 <?= $form->field($model, 'characteristic')->textInput(['maxlength' => true]) ?>
 
                 <?= $form->field($model, 'brand_id')->dropDownList(Brand::getBrandsArray(), ['prompt' => 'Выберите брэнд']) ?>
-
-                <?= $form->field($model, 'country_id')->dropDownList(Country::getCountryArray(), ['prompt' => 'Выберите страну']) ?>
 
                 <?= $form->field($model, 'packaged')->textInput() ?>
 

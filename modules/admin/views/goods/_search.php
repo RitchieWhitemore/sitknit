@@ -29,8 +29,6 @@ use yii\widgets\ActiveForm;
 
     <?php // echo $form->field($model, 'brand_id') ?>
 
-    <?php // echo $form->field($model, 'country_id') ?>
-
     <?php // echo $form->field($model, 'packaged') ?>
 
     <div class="form-group">

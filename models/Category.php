@@ -3,7 +3,9 @@
 namespace app\models;
 
 use app\components\behaviors\UploadImageBehavior;
+use app\models\query\CategoryQuery;
 use Yii;
+use yii\db\Query;
 use yii\helpers\ArrayHelper;
 use yii\web\UploadedFile;
 
@@ -99,7 +101,7 @@ class Category extends \yii\db\ActiveRecord
 
     public static function find()
     {
-        return new query\CategoryQuery(get_called_class());
+        return new CategoryQuery(get_called_class());
     }
 
     public function getCountGoods()
