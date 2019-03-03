@@ -21,6 +21,11 @@ class GoodQuery extends ActiveQuery
     {
         return $this->andWhere(['active' => true]);
     }
+
+    public function groupByName()
+    {
+        return $this->groupBy('name');
+    }
     /**
      * @inheritdoc
      * @return \app\models\Good[]|array

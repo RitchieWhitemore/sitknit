@@ -1,0 +1,37 @@
+.good-by-name__list {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.good-by-name__item {
+  margin-bottom: 10px;
+  padding: 0 5px;
+  display: inline-block;
+  border-right: 1px solid grey;
+
+  &:last-child {
+    border-right: none;
+  }
+}
+
+.good-by-name__link {
+  color: @font-brown;
+  font-size: 18px;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+    color: @font-hover-brown;
+  }
+}
+
+.good-by-name__link--active {
+  font-weight: bold;
+
+  &:hover {
+    text-decoration: none;
+    color: @font-brown;
+    cursor: default;
+  }
+}

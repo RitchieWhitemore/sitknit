@@ -37,8 +37,9 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="catalog">
     <h1 class="catalog__title"><?= $model->name ?></h1>
     <p class="catalog__descr"><?= $model->description ?></p>
-    <h2><?=$model->name?> по производителям:</h2>
+
     <?php if ($model->parent == null) {
+        echo "<h2>$model->name по производителям:</h2>";
         echo ListView::widget([
             'dataProvider' => $brands,
             'emptyText' => '',
@@ -49,15 +50,19 @@ $this->params['breadcrumbs'][] = $this->title;
         ]);
     }
     ?>
-    <h2><?=$model->name?> по составу:</h2>
-    <?php echo ListView::widget([
-        'dataProvider' => $subcategories,
-        'emptyText' => '',
-        'itemView' => 'block/_categoryItem',
-        'itemOptions' => ['class' => 'catalog__item product'],
-        'options' => ['class' => 'catalog__list'],
-        'summary' => ''
-    ]);
+    <?php
+    if ($subcategories->getCount() > 0) {
+        echo "<h2>$model->name по составу:</h2>";
+        echo ListView::widget([
+            'dataProvider' => $subcategories,
+            'emptyText' => '',
+            'itemView' => 'block/_categoryItem',
+            'itemOptions' => ['class' => 'catalog__item product'],
+            'options' => ['class' => 'catalog__list'],
+            'summary' => ''
+        ]);
+    }
+
     ?>
     <?php echo ListView::widget([
         'dataProvider' => $dataProvider,

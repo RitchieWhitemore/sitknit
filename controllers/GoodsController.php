@@ -82,9 +82,25 @@ class GoodsController extends Controller
 
     public function actionBrand($id)
     {
-        $Brand = Brand::find($id)->joinWith(['goods'])->where(['good.active' => 1])->one();
+        $Brand = Brand::find()->joinWith(['goods'])->where(['brand.id' => $id, 'good.active' => 1])->one();
 
-        return $this->render('brand', []);
+        $goodsByNameDataProvider = new ActiveDataProvider(
+          [
+              'query' => $Brand->getGoods()->active()->groupByName(),
+          ]
+        );
+
+        $goodsDataProvider = new ActiveDataProvider(
+            [
+                'query' => $Brand->getGoods()->active(),
+            ]
+        );
+
+        return $this->render('brand', [
+            'goodsByNameDataProvider' => $goodsByNameDataProvider,
+            'goodsDataProvider' => $goodsDataProvider,
+            'brand' => $Brand,
+        ]);
     }
 
     public function actionView($id)
