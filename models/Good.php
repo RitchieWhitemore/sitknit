@@ -42,7 +42,7 @@ class Good extends \yii\db\ActiveRecord
     {
         return [
             [['name'], 'required'],
-            [['category_id', 'brand_id', 'packaged', 'active'], 'integer'],
+            [['category_id', 'composition_id', 'brand_id', 'packaged', 'active'], 'integer'],
             [['article'], 'string', 'max' => 50],
             [['name', 'description', 'characteristic'], 'string', 'max' => 255],
             [['brand_id'], 'exist', 'skipOnError' => true, 'targetClass' => Brand::className(), 'targetAttribute' => ['brand_id' => 'id']],
@@ -63,6 +63,7 @@ class Good extends \yii\db\ActiveRecord
             'description'    => 'Описание',
             'characteristic' => 'Дополнительная характеристика',
             'category_id'    => 'Категория',
+            'composition_id' => 'Состав (категория)',
             'brand_id'       => 'Брэнд',
             'packaged'       => 'В упаковке',
             'active'         => 'Активен',
@@ -102,6 +103,14 @@ class Good extends \yii\db\ActiveRecord
     public function getCategory()
     {
         return $this->hasOne(Category::className(), ['id' => 'category_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getComposition()
+    {
+        return $this->hasOne(Composition::className(), ['id' => 'composition_id']);
     }
 
     /**

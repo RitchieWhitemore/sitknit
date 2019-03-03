@@ -50,6 +50,7 @@ AdminAsset::register($this);
             ['label' => 'Справочники', 'items' => [
                 ['label' => 'Брэнды', 'url' => ['/admin/brands/index']],
                 ['label' => 'Категории', 'url' => ['/admin/categories/index']],
+                ['label' => 'Составы (категории)', 'url' => ['/admin/compositions/index']],
                 ['label' => 'Страны', 'url' => ['/admin/country/index']],
                 ['label' => 'Управление товарами', 'items' => [
                     ['label' => 'Товары', 'url' => ['/admin/goods/index']],

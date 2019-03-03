@@ -56,6 +56,10 @@ $this->params['breadcrumbs'][] = $this->title;
                 'value'     => ArrayHelper::getValue($model, 'category.name'),
             ],
             [
+                'attribute' => 'composition_id',
+                'value'     => ArrayHelper::getValue($model, 'composition.name'),
+            ],
+            [
                 'attribute' => 'brand_id',
                 'value'     => ArrayHelper::getValue($model, 'brand.name'),
             ],

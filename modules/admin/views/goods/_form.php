@@ -3,6 +3,8 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use app\models\Brand;
+use app\models\Category;
+use app\models\Composition;
 
 /**
  * @var $this yii\web\View
@@ -34,31 +36,40 @@ $this->registerJsFile("$bundle->baseUrl/choice-form/choice-form.js", ['type' => 
             <div>
                 <?php $form = ActiveForm::begin(); ?>
 
-                <choice-form
-                        label="Категория"
-                        model="categories"
-                        entity-id="<?= $model->category_id ?>"
-                        placeholder="Выберите категорию">
-                    <input type="text" name="Good[category_id]" slot="input" hidden>
-                </choice-form>
+                <div class="row">
+                    <div class="col-md-3">
+                        <?= $form->field($model, 'article')->textInput(['maxlength' => true]) ?>
+                    </div>
+                    <div class="col-md-9">
+                        <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
+                    </div>
+                </div>
 
-                <choice-form
-                        label="Основной товар в группе"
-                        model="categories"
-                        entity-id="<?= $model->main_good_id ?>"
-                        good-id="<?= $model->id ?>"
-                        good-flag
-                        placeholder="Выберите основной товар"
-                ><input type="text" name="Good[main_good_id]" slot="input" hidden></slot></choice-form>
-                <?= $form->field($model, 'article')->textInput(['maxlength' => true]) ?>
+                <div class="row">
+                    <div class="col-md-3">
+                        <?= $form->field($model, 'category_id')->dropDownList(Category::getCategoriesArray(), ['prompt' => 'Выберите категорию']) ?>
+                    </div>
+                    <div class="col-md-9">
+                        <choice-form
+                                label="Основной товар в группе"
+                                model="categories"
+                                entity-id="<?= $model->main_good_id ?>"
+                                good-id="<?= $model->id ?>"
+                                good-flag
+                                placeholder="Выберите основной товар"
+                        ><input type="text" name="Good[main_good_id]" slot="input" hidden></slot></choice-form>
+                    </div>
+                </div>
 
-                <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
+
 
                 <?= $form->field($model, 'description')->textarea(['maxlength' => true]) ?>
 
                 <?= $form->field($model, 'characteristic')->textInput(['maxlength' => true]) ?>
 
                 <?= $form->field($model, 'brand_id')->dropDownList(Brand::getBrandsArray(), ['prompt' => 'Выберите брэнд']) ?>
+
+                <?= $form->field($model, 'composition_id')->dropDownList(Composition::getCompositionsArray(), ['prompt' => 'Выберите состав (категорию)']) ?>
 
                 <?= $form->field($model, 'packaged')->textInput() ?>
 
