@@ -80,7 +80,7 @@ class GoodsController extends Controller
         ]);
     }
 
-    public function actionBrand($id)
+    public function actionBrand($id, $name = '')
     {
         $Brand = Brand::find()->joinWith(['goods'])->where(['brand.id' => $id, 'good.active' => 1])->one();
 
@@ -92,7 +92,7 @@ class GoodsController extends Controller
 
         $goodsDataProvider = new ActiveDataProvider(
             [
-                'query' => $Brand->getGoods()->active(),
+                'query' => $Brand->getGoods()->where(['like', 'name', $name])->active(),
             ]
         );
 
