@@ -26,7 +26,17 @@ class AppAsset extends AssetBundle
         'js/common.js',
     ];
     public $depends = [
-        'yii\web\YiiAsset',
-        'yii\bootstrap\BootstrapAsset',
+       /* 'yii\web\YiiAsset',
+        'yii\bootstrap\BootstrapAsset',*/
     ];
+
+    public function init()
+    {
+        parent::init();
+        // resetting BootstrapAsset to not load own css files
+        \Yii::$app->assetManager->bundles['yii\\bootstrap\\BootstrapAsset'] = [
+            'css' => [],
+            'js' => []
+        ];
+    }
 }
