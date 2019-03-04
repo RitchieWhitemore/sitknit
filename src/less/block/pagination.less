@@ -12,28 +12,29 @@
 
 .pagination__item {
     display: inline-block;
-}
-
-.pagination__link {
-    padding: 4px 6px;
-    font-size: 14px;
-    line-height: 14px;
     border: 1px solid @bg-brown;
     border-radius: 3px;
 
     &:hover {
-        background-color: #ebb766;
-    }
+    background-color: #ebb766;
+}
 
     &:active {
         opacity: 0.8;
     }
 }
 
-.pagination__link--active {
+.pagination__link {
+    display: inline-block;
+    padding: 4px 6px;
+    font-size: 14px;
+    line-height: 14px;
+}
+
+.pagination__item--active {
     font-weight: bold;
     border: none;
-    cursor: auto;
+    cursor: default;
 
     &:hover {
         background-color: transparent;
@@ -41,5 +42,23 @@
 
     &:active {
         opacity: 1;
+    }
+}
+
+.pagination__item--disabled span {
+    display: inline-block;
+    padding: 4px 6px;
+    cursor: default;
+}
+
+.pagination__item--disabled {
+    color: grey;
+    border-color: grey;
+    &:hover {
+        background: transparent;
+    }
+
+    &:active {
+        opacity: 0.8;
     }
 }

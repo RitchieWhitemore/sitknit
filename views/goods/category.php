@@ -69,15 +69,17 @@ $this->params['breadcrumbs'][] = $this->title;
         'itemView' => 'block/_goodItem',
         'itemOptions' => ['class' => 'catalog__item product'],
         'options' => ['class' => 'catalog__list'],
+        'layout' => "{items}\n<div class='pagination'>{pager}</div>",
+        'pager' => [
+            'class' => '\yii\widgets\LinkPager',
+            'options' => ['class' => 'pagination__list'],
+            'linkContainerOptions' => ['class' => 'pagination__item'],
+            'linkOptions' => ['class' => 'link pagination__link'],
+            'activePageCssClass' => 'pagination__item--active',
+            'nextPageLabel' => 'Вперед',
+            'prevPageLabel' => 'Назад',
+            'disabledPageCssClass' => 'pagination__item--disabled'
+        ]
     ]);
     ?>
-</div>
-
-<div class="pagination">
-    <ul class="pagination__list">
-        <li class="pagination__item"><a href="" class="link pagination__link">Назад</a></li>
-        <li class="pagination__item"><a class="link pagination__link pagination__link--active">1</a></li>
-        <li class="pagination__item"><a href="" class="link pagination__link">2</a></li>
-        <li class="pagination__item"><a href="" class="link pagination__link">Вперед</a></li>
-    </ul>
 </div>

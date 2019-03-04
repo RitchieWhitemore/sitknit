@@ -52,35 +52,6 @@ AppAsset::register($this);
             <a href="#" class="page-header__cart-btn btn">Оформить заказ</a>
         </div>
     </div>
-
-    <?php
-    NavBar::begin([
-        'brandLabel' => Yii::$app->name,
-        'brandUrl' => Yii::$app->homeUrl,
-        'options' => [
-            'class' => 'navbar-inverse navbar-fixed-top',
-        ],
-    ]);
-    echo Nav::widget([
-        'options' => ['class' => 'navbar-nav navbar-right'],
-        'items'   => array_filter([
-            ['label' => 'Home', 'url' => ['/main/default/index']],
-            ['label' => 'Contact', 'url' => ['main/contact/index']],
-            Yii::$app->user->isGuest ?
-                ['label' => 'Sign Up', 'url' => ['/user/default/signup']] :
-                false,
-            Yii::$app->user->isGuest ?
-                ['label' => 'Login', 'url' => ['/user/default/login']] :
-                ['label' => 'Logout (' . Yii::$app->user->identity->username . ')',
-                 'url' => ['/user/default/logout'],
-                 'linkOptions' => ['data-method' => 'post']],
-            !Yii::$app->user->isGuest ?
-                ['label' => 'Личный кабинет', 'url' => ['/user/profile/index']] :
-                false,
-        ]),
-    ]);
-    NavBar::end();
-    ?>
     <nav class="main-nav main-nav--closed main-nav--nojs">
         <button class="main-nav__toggle">Открыть меню</button>
         <h2 class="main-nav__title">Главная</h2>
