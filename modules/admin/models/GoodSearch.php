@@ -74,7 +74,7 @@ class GoodSearch extends Good
             'category_id' => $this->category_id,
             'brand_id' => $this->brand_id,
             'packaged' => $this->packaged,
-            'active' => $this->active,
+            'good.active' => $this->active,
         ]);
 
         $query->andFilterWhere(['like', 'article', $this->article])
