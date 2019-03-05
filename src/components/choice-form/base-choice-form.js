@@ -6,14 +6,13 @@ import '../../../node_modules/@polymer/paper-dialog/paper-dialog.js';
 import '../../../node_modules/@polymer/paper-dialog-scrollable/paper-dialog-scrollable.js';
 import '../../../node_modules/@polymer/paper-spinner/paper-spinner.js';
 
-import './partner-element.js';
+import {BaseClass} from '../base-class.js'
 
-class PartnerSelectionForm extends PolymerElement {
+export class BaseChoiceForm extends BaseClass {
     static get template() {
-        return html`
-      <style>
+        return  html`
+                <style>
             :host {
-                margin: 20px 0;
                 display: flex;
                 flex-direction: row;
                 align-items: flex-end;
@@ -28,7 +27,7 @@ class PartnerSelectionForm extends PolymerElement {
 
             :host .field-choice {
                 margin: 0;
-                padding: 10px 20px;
+                padding: 6px 20px;
                 border: solid 1px grey;
                 min-width: 200px;
             }
@@ -56,9 +55,9 @@ class PartnerSelectionForm extends PolymerElement {
         </div>
         <paper-button raised on-click="open">Выбрать</paper-button>
         <paper-dialog id="scrolling">
-            <h2>Выберите контрагента</h2>
+            <slot name="title-dialog"></slot>
             <paper-dialog-scrollable>
-                <partner-element parent="[[getThis()]]" partner-id="{{partnerId}}"></partner-element>
+                <slot name="item-element" item-id="{{itemId}}" ></slot>
             </paper-dialog-scrollable>
             <div class="buttons">
                 <paper-button dialog-dismiss>Отмена</paper-button>
@@ -66,22 +65,23 @@ class PartnerSelectionForm extends PolymerElement {
             </div>
         </paper-dialog>
         <iron-ajax id="ajax"
-                   url="/api/partners/{{partnerId}}"
+                   url="{{urlApi}}{{itemId}}"
                    handle-as="json"
                    on-response="handleResponse"
                    last-response="{{response}}"
                    debounce-duration="300"></iron-ajax>
-        `;
+`;
     }
 
     static get properties() {
         return {
             'id': {'type': Number, 'observer': 'setInputValue'},
-            'itemPartner': Object,
+            'itemObject': Object,
             'label': String,
             'name': String,
-            'partnerId': {type: Number, value: 0},
+            'itemId': {type: Number, value: 0},
             'placeholder': String,
+            'urlApi': String,
         }
     }
 
@@ -90,20 +90,16 @@ class PartnerSelectionForm extends PolymerElement {
     }
 
     confirm() {
-        this.name = this.itemPartner.name;
-        this.id = this.itemPartner.id;
-    }
-
-    getThis() {
-        return this;
+        this.name = this.itemObject.name;
+        this.id = this.itemObject.id;
     }
 
     handleResponse() {
         this.spinnerOff();
     }
 
-    findPartner() {
-        this.$.ajax.url = '/api/partners/' + this.partnerId;
+    findItem() {
+        this.$.ajax.url = this.urlApi + this.itemId;
         this.$.ajax.generateRequest().completes.then(
             (request) => {
                 this.id = request.response.id;
@@ -114,36 +110,32 @@ class PartnerSelectionForm extends PolymerElement {
         );
     }
 
+    setInputValue() {
+        const input = this.querySelector('input');
+        input.value = this.id;
+    }
+
     open() {
         this.$.scrolling.open();
+
+        const itemElement = document.querySelector('#itemElement');
+        itemElement.parent = this;
+        itemElement._runAjax();
     }
 
     ready() {
         super.ready();
 
-        if (this.partnerId != 0) {
+        if (this.itemId != 0) {
             this.spinnerOn();
-            this.findPartner();
+            this.findItem();
         } else {
             this.name = this.placeholder;
         }
 
     }
 
-    setInputValue() {
-        const input = this.querySelector('input');
-        input.value = this.id;
-    }
 
-    spinnerOn() {
-        this.$.spinner.active = true;
-        this.$.spinner.style.display = 'block';
-    }
 
-    spinnerOff() {
-        this.$.spinner.active = false;
-        this.$.spinner.style.display = 'none';
-    }
 }
-
-customElements.define('partner-selection-form', PartnerSelectionForm);
+customElements.define('base-choice-form', BaseChoiceForm);

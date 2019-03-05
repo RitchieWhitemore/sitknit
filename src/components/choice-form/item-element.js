@@ -1,13 +1,16 @@
 import {PolymerElement, html} from "../../../node_modules/@polymer/polymer/polymer-element.js";
+
 import '../../../node_modules/@polymer/polymer/lib/elements/dom-repeat.js';
 import '../../../node_modules/@polymer/paper-spinner/paper-spinner.js';
 import '../../../node_modules/@polymer/paper-listbox/paper-listbox.js';
 import '../../../node_modules/@polymer/iron-ajax/iron-ajax.js';
 
-class PartnerElement extends PolymerElement {
+import {BaseClass} from '../base-class.js'
+
+class ItemElement extends BaseClass {
     static get template() {
         return html`
-        <link rel="stylesheet" href="/css/gliphicons.min.css">
+       <link rel="stylesheet" href="/css/gliphicons.min.css">
         <style>
             :host paper-listbox {
                 padding-top: 0;
@@ -34,11 +37,11 @@ class PartnerElement extends PolymerElement {
                 background: lightgrey;
             }
       </style>
-      <paper-spinner-lite id="spinner"></paper-spinner-lite>
-        <paper-listbox class="item-list" attr-for-selected="item-partner" selected="{{itemPartner}}"
+      <paper-spinner id="spinner"></paper-spinner>
+        <paper-listbox class="item-list" attr-for-selected="item-object" selected="{{itemObject}}"
                        fallback-selection="None">
             <template id="domRepeat" is="dom-repeat" items="{{response}}">
-                <paper-item item-partner="{{item}}"
+                <paper-item item-object="{{item}}"
                             onselectstart="return false"
                             onmousedown="return false">
                     <span class="glyphicon glyphicon-file"></span>{{item.name}}
@@ -47,7 +50,7 @@ class PartnerElement extends PolymerElement {
         </paper-listbox>
         <slot></slot>
         <iron-ajax id="ajax"
-                   url="/api/partners"
+                   url="{{urlApi}}"
                    handle-as="json"
                    on-response="handleResponse"
                    last-response="{{response}}"
@@ -57,8 +60,10 @@ class PartnerElement extends PolymerElement {
 
     static get properties() {
         return {
-            'partnerId': {type: Number, observer: '_runAjax'},
-            'itemPartner': {type: Object, observer: 'selectPartner'},
+            /*'itemId': {type: Number, observer: '_runAjax'},*/
+            'itemObject': {type: Object, observer: 'selectItem'},
+            'urlApi': String,
+            'parent': Object
         }
     }
 
@@ -77,20 +82,10 @@ class PartnerElement extends PolymerElement {
         this.spinnerOff();
     }
 
-    selectPartner() {
+    selectItem() {
         const choiceForm = this.parent;
-        choiceForm.itemPartner = this.itemPartner
-    }
-
-    spinnerOn() {
-        this.$.spinner.active = true;
-        this.$.spinner.style.display = 'block';
-    }
-
-    spinnerOff() {
-        this.$.spinner.active = false;
-        this.$.spinner.style.display = 'none';
+        choiceForm.itemObject = this.itemObject
     }
 }
 
-customElements.define('partner-element', PartnerElement);
+customElements.define('item-element', ItemElement);
