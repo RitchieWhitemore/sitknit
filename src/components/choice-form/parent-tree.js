@@ -1,8 +1,9 @@
 import {PolymerElement, html} from "../../../node_modules/@polymer/polymer/polymer-element.js";
 import '../../../node_modules/@polymer/iron-ajax/iron-ajax.js';
 import '../../../node_modules/@polymer/polymer/lib/elements/dom-repeat.js';
+import {BaseClass} from "../base-class.js";
 
-class ParentTree extends PolymerElement {
+class ParentTree extends BaseClass {
     static get template() {
         return html`
         <link rel="stylesheet" href="/css/gliphicons.min.css">
@@ -38,7 +39,7 @@ class ParentTree extends PolymerElement {
                  on-dblclick="dblClickFolder"
                  onselectstart="return false"
                  onmousedown="return false"
-                 data-entity-id="{{item.id}}">
+                 data-item-id="{{item.id}}">
                 {{item.offset}}<span class="glyphicon glyphicon-folder-open"></span>{{item.name}}
             </div>
         </template>
@@ -53,8 +54,10 @@ class ParentTree extends PolymerElement {
 
     static get properties() {
         return {
-            entityId: {type: Number, observer: '_runAjax'},
+            itemId: {type: Number, observer: '_runAjax'},
             parentCategories: Array,
+            urlApi: String,
+            parent: Object
         }
     }
 
@@ -64,8 +67,8 @@ class ParentTree extends PolymerElement {
 
     _runAjax() {
         this.spinnerOn();
-        if (this.entityId != 0) {
-            this.$.ajax.url = "/api/categories/" + this.entityId;
+        if (this.itemId != 0) {
+            this.$.ajax.url = this.urlApi + this.itemId;
         }
         this.$.ajax.generateRequest();
 
@@ -76,8 +79,8 @@ class ParentTree extends PolymerElement {
         const choiceForm = this.parent;
 
         this.spinnerOn();
-        this.entityId = target.dataEntityId;
-        this.parent.shadowRoot.querySelector('children-category').entityId = this.entityId;
+        this.itemId = target.dataItemId;
+        //this.parent.shadowRoot.querySelector('children-category').itemId = this.itemId;
 
         if (choiceForm.goodFlag) {
             choiceForm.categoryId = this.entityId;
@@ -95,7 +98,7 @@ class ParentTree extends PolymerElement {
             }
         ];
 
-        if (this.entityId != 0) {
+        if (this.itemId != 0) {
             if (this.response.parent != null) {
                 this.push('parentCategories', {
                     'id': this.response.parent.id,
@@ -111,16 +114,6 @@ class ParentTree extends PolymerElement {
         }
 
         this.spinnerOff();
-    }
-
-    spinnerOn() {
-        this.$.spinner.active = true;
-        this.$.spinner.style.display = 'block';
-    }
-
-    spinnerOff() {
-        this.$.spinner.active = false;
-        this.$.spinner.style.display = 'none';
     }
 }
 

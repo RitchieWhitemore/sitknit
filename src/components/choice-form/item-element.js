@@ -44,7 +44,7 @@ class ItemElement extends BaseClass {
                 <paper-item item-object="{{item}}"
                             onselectstart="return false"
                             onmousedown="return false">
-                    <span class="glyphicon glyphicon-file"></span>{{item.name}}
+                    <span class="glyphicon glyphicon-file"></span>[[getName(item)]]
                 </paper-item>
             </template>
         </paper-listbox>
@@ -85,6 +85,14 @@ class ItemElement extends BaseClass {
     selectItem() {
         const choiceForm = this.parent;
         choiceForm.itemObject = this.itemObject
+    }
+
+    getName(item) {
+        if (item.nameAndColor) {
+            return item.nameAndColor
+        }
+
+        return item.name;
     }
 }
 

@@ -7,10 +7,6 @@ export class BaseClass extends PolymerElement {
         `;
     }
 
-    getThis() {
-        return this;
-    }
-
     spinnerOn() {
         this.$.spinner.active = true;
         this.$.spinner.style.display = 'block';

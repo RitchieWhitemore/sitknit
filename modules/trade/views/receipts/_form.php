@@ -5,7 +5,6 @@ use yii\widgets\ActiveForm;
 use kartik\datetime\DateTimePicker;
 
 $bundle = \app\assets\WebComponentsAsset::register($this);
-$this->registerJsFile("$bundle->baseUrl/partner-selection-form/partner-selection-form.js", ['type' => 'module']);
 $this->registerJsFile("$bundle->baseUrl/document-table/document-table.js", ['type' => 'module']);
 $this->registerJsFile("$bundle->baseUrl/choice-form/base-choice-form.js", ['type' => 'module']);
 $this->registerJsFile("$bundle->baseUrl/choice-form/item-element.js", ['type' => 'module']);
@@ -41,9 +40,6 @@ $this->registerJsFile("$bundle->baseUrl/choice-form/item-element.js", ['type' =>
             </base-choice-form>
         </div>
     </div>
-
-
-
 
     <document-table document-id="<?= $model->id ?>" document-type="order"></document-table>
 

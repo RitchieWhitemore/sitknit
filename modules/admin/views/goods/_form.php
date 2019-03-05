@@ -20,6 +20,9 @@ $this->registerJsFile("$bundle->baseUrl/page-tabs/page-tabs.js", ['type' => 'mod
 $this->registerJsFile("$bundle->baseUrl/page-tabs/page-tabs.js", ['type' => 'module']);
 $this->registerJsFile("$bundle->baseUrl/image-list/image-list.js", ['type' => 'module']);
 $this->registerJsFile("$bundle->baseUrl/choice-form/choice-form.js", ['type' => 'module']);
+$this->registerJsFile("$bundle->baseUrl/choice-form/base-choice-form.js", ['type' => 'module']);
+$this->registerJsFile("$bundle->baseUrl/choice-form/parent-tree.js", ['type' => 'module']);
+$this->registerJsFile("$bundle->baseUrl/choice-form/item-element.js", ['type' => 'module']);
 ?>
 <div class="good-form">
     <page-tabs>
@@ -58,6 +61,16 @@ $this->registerJsFile("$bundle->baseUrl/choice-form/choice-form.js", ['type' => 
                                 good-flag
                                 placeholder="Выберите основной товар"
                         ><input type="text" name="Good[main_good_id]" slot="input" hidden></slot></choice-form>
+                        <base-choice-form label="Основной товар в группе"
+                                          item-id="<?= $model->main_good_id ?>"
+                                          placeholder="Выберите основной товар"
+                                          url-api="/api/goods/"
+                                        model="good">
+                            <h2 slot="title-dialog">Выберите основной товар</h2>
+                            <input type="text" name="Good[main_good_id]" slot="input" hidden>
+                            <parent-tree slot="parent-tree" url-api="/api/categories/"></parent-tree>
+                            <item-element slot="item-element" url-api="/api/goods"></item-element>
+                        </base-choice-form>
                     </div>
                 </div>
 

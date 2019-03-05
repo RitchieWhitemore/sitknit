@@ -57,7 +57,8 @@ export class BaseChoiceForm extends BaseClass {
         <paper-dialog id="scrolling">
             <slot name="title-dialog"></slot>
             <paper-dialog-scrollable>
-                <slot name="item-element" item-id="{{itemId}}" ></slot>
+                <slot name="parent-tree" item-id="{{parentId}}"></slot>
+                <slot name="item-element" item-id="{{itemId}}"></slot>
             </paper-dialog-scrollable>
             <div class="buttons">
                 <paper-button dialog-dismiss>Отмена</paper-button>
@@ -80,6 +81,7 @@ export class BaseChoiceForm extends BaseClass {
             'label': String,
             'name': String,
             'itemId': {type: Number, value: 0},
+            'model': String,
             'placeholder': String,
             'urlApi': String,
         }
@@ -103,11 +105,19 @@ export class BaseChoiceForm extends BaseClass {
         this.$.ajax.generateRequest().completes.then(
             (request) => {
                 this.id = request.response.id;
-                this.name = request.response.name;
+                this.name = this.getName(request.response);
                 this.spinnerOff();
             },
             request => console.log('failure', request)
         );
+    }
+
+    getName(response) {
+        if (this.model == 'good') {
+            return response.nameAndColor;
+        } else {
+            return response.name;
+        }
     }
 
     setInputValue() {
@@ -118,9 +128,15 @@ export class BaseChoiceForm extends BaseClass {
     open() {
         this.$.scrolling.open();
 
-        const itemElement = document.querySelector('#itemElement');
+        const itemElement = this.querySelector('item-element');
         itemElement.parent = this;
         itemElement._runAjax();
+
+        if (this.model == 'good') {
+            const parentTree = this.querySelector('parent-tree');
+            parentTree.itemId = this.response.category.id;
+            parentTree.parent = this;
+        }
     }
 
     ready() {
