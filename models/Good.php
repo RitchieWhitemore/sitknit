@@ -76,6 +76,7 @@ class Good extends \yii\db\ActiveRecord
         return [
             'id',
             'article',
+            'brand',
             'name',
             'category',
             'images',

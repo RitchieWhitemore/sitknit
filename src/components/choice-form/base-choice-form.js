@@ -41,6 +41,7 @@ export class BaseChoiceForm extends BaseClass {
             :host paper-spinner {
                 display: none;
                 margin: 0 auto;
+                position: absolute;
             }
             
             :host .visually-hidden {
@@ -53,11 +54,13 @@ export class BaseChoiceForm extends BaseClass {
             <div class="field-choice">{{name}}
             <paper-spinner id="spinner"></paper-spinner></div>
         </div>
-        <paper-button raised on-click="open">Выбрать</paper-button>
+        <paper-button raised id="deleteButton" class="visually-hidden" on-click="delete">Очистить</paper-button>
+        <paper-button raised on-click="open">Выбрать</paper-button>        
         <paper-dialog id="scrolling">
             <slot name="title-dialog"></slot>
             <paper-dialog-scrollable>
                 <slot name="parent-tree" item-id="{{parentId}}"></slot>
+                <slot name="brands"></slot>
                 <slot name="item-element" item-id="{{itemId}}"></slot>
             </paper-dialog-scrollable>
             <div class="buttons">
@@ -76,14 +79,15 @@ export class BaseChoiceForm extends BaseClass {
 
     static get properties() {
         return {
-            'id': {'type': Number, 'observer': 'setInputValue'},
-            'itemObject': Object,
-            'label': String,
-            'name': String,
-            'itemId': {type: Number, value: 0},
-            'model': String,
-            'placeholder': String,
-            'urlApi': String,
+            categoryId: Number,
+            id: {'type': Number, 'observer': 'setInputValue'},
+            itemObject: Object,
+            label: String,
+            name: String,
+            itemId: {type: Number, value: 0},
+            model: String,
+            placeholder: String,
+            urlApi: String,
         }
     }
 
@@ -92,8 +96,37 @@ export class BaseChoiceForm extends BaseClass {
     }
 
     confirm() {
-        this.name = this.itemObject.name;
+        if (this.model == 'good') {
+            this.name = this.itemObject.nameAndColor;
+        } else {
+            this.name = this.itemObject.name;
+        }
         this.id = this.itemObject.id;
+    }
+
+    delete() {
+        if (this.model == 'good') {
+            this.deleteMainGood();
+        }
+
+    }
+
+    deleteMainGood() {
+        this.spinnerOn();
+        this.$.ajax.url = '/api/good/delete-main-good';
+        this.$.ajax.method = 'DELETE';
+        this.$.ajax.params = {
+            'id': this.itemId,
+        };
+        this.$.ajax.generateRequest().completes.then(
+            (request) => {
+                this.id = null;
+                this.name = this.placeholder;
+                this.$.deleteButton.classList.add('visually-hidden');
+                this.spinnerOff();
+            },
+            request => console.log('failure', request)
+        );
     }
 
     handleResponse() {
@@ -107,6 +140,9 @@ export class BaseChoiceForm extends BaseClass {
                 this.id = request.response.id;
                 this.name = this.getName(request.response);
                 this.spinnerOff();
+                if (this.model == 'good') {
+                    this.$.deleteButton.classList.remove('visually-hidden');
+                }
             },
             request => console.log('failure', request)
         );
@@ -129,13 +165,16 @@ export class BaseChoiceForm extends BaseClass {
         this.$.scrolling.open();
 
         const itemElement = this.querySelector('item-element');
-        itemElement.parent = this;
         itemElement._runAjax();
 
         if (this.model == 'good') {
             const parentTree = this.querySelector('parent-tree');
-            parentTree.itemId = this.response.category.id;
-            parentTree.parent = this;
+            const brandsForChoiceForm = this.querySelector('brands-for-choice-form');
+
+            if (this.response) {
+                parentTree.itemId = this.response.category.id;
+                brandsForChoiceForm.itemId = this.response.brand.id;
+            }
         }
     }
 

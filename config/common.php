@@ -54,6 +54,8 @@ return [
                     ],
                 ],
 
+                ['class' => 'yii\rest\UrlRule', 'controller' => 'api/brand',],
+
                 ['class' => 'yii\rest\UrlRule', 'controller' => 'api/partner',],
                 [
                     'class'         => 'yii\rest\UrlRule',

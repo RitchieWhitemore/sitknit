@@ -60,10 +60,10 @@ class ItemElement extends BaseClass {
 
     static get properties() {
         return {
-            /*'itemId': {type: Number, observer: '_runAjax'},*/
-            'itemObject': {type: Object, observer: 'selectItem'},
-            'urlApi': String,
-            'parent': Object
+            brandId: Number,
+            itemObject: {type: Object, observer: 'selectItem'},
+            parentId: {Number: Object, observer: '_runAjax'},
+            urlApi: String,
         }
     }
 
@@ -73,9 +73,16 @@ class ItemElement extends BaseClass {
 
     _runAjax() {
         this.spinnerOn();
-
+        if (this.parentId) {
+            this.$.ajax.url = this.urlApi;
+            this.$.ajax.params = {'category_id': this.parentId, 'brand_id': this.brandId}
+        }
         this.$.ajax.generateRequest();
+    }
 
+    findByParent() {
+        this.spinnerOn();
+        this.$.ajax.url = this.urlApi + '/' + this.parentId;
     }
 
     handleResponse() {
@@ -83,7 +90,7 @@ class ItemElement extends BaseClass {
     }
 
     selectItem() {
-        const choiceForm = this.parent;
+        const choiceForm = this.parentElement;
         choiceForm.itemObject = this.itemObject
     }
 

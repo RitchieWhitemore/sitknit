@@ -12,6 +12,7 @@ class ParentTree extends BaseClass {
                 position: relative;
                 width: 100%;
                 display: block;
+                min-height: 50px;
             }
 
             :host .parent-folder .glyphicon {
@@ -39,7 +40,7 @@ class ParentTree extends BaseClass {
                  on-dblclick="dblClickFolder"
                  onselectstart="return false"
                  onmousedown="return false"
-                 data-item-id="{{item.id}}">
+                 data-item-id$="{{item.id}}">
                 {{item.offset}}<span class="glyphicon glyphicon-folder-open"></span>{{item.name}}
             </div>
         </template>
@@ -56,8 +57,7 @@ class ParentTree extends BaseClass {
         return {
             itemId: {type: Number, observer: '_runAjax'},
             parentCategories: Array,
-            urlApi: String,
-            parent: Object
+            urlApi: String
         }
     }
 
@@ -68,7 +68,9 @@ class ParentTree extends BaseClass {
     _runAjax() {
         this.spinnerOn();
         if (this.itemId != 0) {
-            this.$.ajax.url = this.urlApi + this.itemId;
+            this.$.ajax.url = this.urlApi + '/' + this.itemId;
+        } else {
+            this.$.ajax.url = this.urlApi;
         }
         this.$.ajax.generateRequest();
 
@@ -76,14 +78,20 @@ class ParentTree extends BaseClass {
 
     dblClickFolder(evt) {
         const target = evt.currentTarget;
-        const choiceForm = this.parent;
+        const choiceForm = this.parentElement;
 
         this.spinnerOn();
-        this.itemId = target.dataItemId;
-        //this.parent.shadowRoot.querySelector('children-category').itemId = this.itemId;
+        this.itemId = target.getAttribute('data-item-id');
 
-        if (choiceForm.goodFlag) {
-            choiceForm.categoryId = this.entityId;
+        const brandsForChoiceForm = choiceForm.querySelector('brands-for-choice-form');
+        const itemElement = choiceForm.querySelector('item-element');
+        if (this.itemId != 0) {
+            brandsForChoiceForm._runAjax();
+            itemElement.parentId =  this.itemId;
+            itemElement.urlApi = '/api/good/category'
+        } else {
+            brandsForChoiceForm.brands = [];
+            itemElement.response = [];
         }
 
     }
@@ -111,6 +119,19 @@ class ParentTree extends BaseClass {
                 'name': this.response.name,
                 'offset': '--'
             });
+        } else {
+            this.unshift('response', {
+                'id': 0,
+                'name': 'Корневая директория',
+                'offset': '',
+            });
+            this.parentCategories = this.response;
+
+            for (let i=0; i < this.parentCategories.length; i++) {
+                if (i > 0) {
+                    this.parentCategories[i].offset = '--';
+                }
+            }
         }
 
         this.spinnerOff();
