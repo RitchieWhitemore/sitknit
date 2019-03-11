@@ -23,4 +23,19 @@ return [
             ],
         ],
     ],
+    'bootstrap' => [
+        'debug', 'gii'
+    ],
+    'modules' => [
+        'debug' => [
+            'class' => 'yii\debug\Module',
+            // uncomment the following to add your IP if you are not connecting from localhost.
+            'allowedIPs' => ['*'],
+        ],
+        'gii' => [
+            'class' => 'yii\gii\Module',
+            // uncomment the following to add your IP if you are not connecting from localhost.
+            'allowedIPs' => ['0'],
+        ]
+    ]
 ];
