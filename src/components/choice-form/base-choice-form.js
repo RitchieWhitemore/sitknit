@@ -61,6 +61,7 @@ export class BaseChoiceForm extends BaseClass {
             <paper-dialog-scrollable>
                 <slot name="parent-tree" item-id="{{parentId}}"></slot>
                 <slot name="brands"></slot>
+                <slot name="group-good"></slot>
                 <slot name="item-element" item-id="{{itemId}}"></slot>
             </paper-dialog-scrollable>
             <div class="buttons">
@@ -164,17 +165,17 @@ export class BaseChoiceForm extends BaseClass {
     open() {
         this.$.scrolling.open();
 
-        const itemElement = this.querySelector('item-element');
-        itemElement._runAjax();
-
         if (this.model == 'good') {
             const parentTree = this.querySelector('parent-tree');
             const brandsForChoiceForm = this.querySelector('brands-for-choice-form');
 
             if (this.response) {
-                parentTree.itemId = this.response.category.id;
+                //parentTree.itemId = this.response.category.id;
                 brandsForChoiceForm.itemId = this.response.brand.id;
             }
+        } else {
+            const itemElement = this.querySelector('item-element');
+            itemElement._runAjax();
         }
     }
 

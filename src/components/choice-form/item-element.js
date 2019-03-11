@@ -62,7 +62,8 @@ class ItemElement extends BaseClass {
         return {
             brandId: Number,
             itemObject: {type: Object, observer: 'selectItem'},
-            parentId: {Number: Object, observer: '_runAjax'},
+            categoryId: Number,
+            groupName: String,
             urlApi: String,
         }
     }
@@ -73,16 +74,20 @@ class ItemElement extends BaseClass {
 
     _runAjax() {
         this.spinnerOn();
-        if (this.parentId) {
+        if (this.categoryId) {
             this.$.ajax.url = this.urlApi;
-            this.$.ajax.params = {'category_id': this.parentId, 'brand_id': this.brandId}
+            this.$.ajax.params = {
+                'category_id': this.categoryId,
+                'brand_id': this.brandId,
+                'name': this.groupName,
+            }
         }
         this.$.ajax.generateRequest();
     }
 
     findByParent() {
         this.spinnerOn();
-        this.$.ajax.url = this.urlApi + '/' + this.parentId;
+        this.$.ajax.url = this.urlApi + '/' + this.categoryId;
     }
 
     handleResponse() {

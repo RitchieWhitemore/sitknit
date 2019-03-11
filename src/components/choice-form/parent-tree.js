@@ -84,16 +84,17 @@ class ParentTree extends BaseClass {
         this.itemId = target.getAttribute('data-item-id');
 
         const brandsForChoiceForm = choiceForm.querySelector('brands-for-choice-form');
+        const groupGoodList = choiceForm.querySelector('group-good-for-choice-form');
         const itemElement = choiceForm.querySelector('item-element');
         if (this.itemId != 0) {
-            brandsForChoiceForm._runAjax();
-            itemElement.parentId =  this.itemId;
-            itemElement.urlApi = '/api/good/category'
+            brandsForChoiceForm.itemId = 0;
+            brandsForChoiceForm.categoryId = this.itemId;
         } else {
             brandsForChoiceForm.brands = [];
+            groupGoodList.groupGood = [];
             itemElement.response = [];
-        }
 
+        }
     }
 
     handleResponse() {

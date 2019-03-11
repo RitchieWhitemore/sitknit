@@ -5,9 +5,8 @@ import '../../../node_modules/@polymer/iron-ajax/iron-ajax.js';
 import '../../../node_modules/@polymer/polymer/lib/elements/dom-repeat.js';
 
 import {BaseClass} from "../base-class.js";
-import "./group-good-for-choice-form.js";
 
-class BrandsForChoiceForm extends BaseClass {
+class GroupGoodForChoiceForm extends BaseClass {
     static get template() {
         return html`
         <link rel="stylesheet" href="/css/gliphicons.min.css">
@@ -32,18 +31,18 @@ class BrandsForChoiceForm extends BaseClass {
             }
       </style>
       <paper-spinner id="spinner"></paper-spinner>
-            <template id="domRepeat" is="dom-repeat" items="{{brands}}">
+            <template id="domRepeat" is="dom-repeat" items="{{groupGood}}">
                 <div class$="list-catalog [[item.status]]" 
-                 data-id$="[[item.id]]" 
-                 on-dblclick="dblClickFolder"
+                 data-name$="[[item.name]]" 
+                 on-dblclick="dblClickGroup"
                  onselectstart="return false"
                  onmousedown="return false"
-                 ><span class$="glyphicon glyphicon-folder-[[getStatusCatalog(item)]]"></span>{{item.name}}
+                 >--<span class$="glyphicon glyphicon-folder-[[getStatusCatalog(item)]]"></span>{{item.name}}
                 </div>
             </template>
         <slot></slot>
         <iron-ajax id="ajax"
-                   url="{{urlApi}}"
+                   url="/api/good/group-by-name"
                    handle-as="json"
                    on-response="handleResponse"
                    last-response="{{response}}"
@@ -53,12 +52,19 @@ class BrandsForChoiceForm extends BaseClass {
 
     static get properties() {
         return {
-            brands: {type: Array, value: []},
+            groupGood: {type: Array, value: []},
             categoryId: Number,
-            itemId: {type: Number, observer: '_runAjax'},
+            brandId: Number,
+            itemName: String,
             itemObject: Object,
             urlApi: String,
         }
+    }
+
+    static get observers() {
+        return [
+            '_runAjax(brandId, categoryId, itemName)',
+        ]
     }
 
     constructor() {
@@ -67,34 +73,23 @@ class BrandsForChoiceForm extends BaseClass {
 
     _runAjax() {
         this.spinnerOn();
-        if (this.itemId > 0) {
-            this.$.ajax.url = this.urlApi + '/' + this.itemId;
-        } else {
-            this.$.ajax.url = this.urlApi;
-        }
-        this.getGroupGood();
+        this.$.ajax.params = {
+            categoryId: this.categoryId,
+            brandId: this.brandId,
+            groupName: this.itemName,
+        };
+
         this.$.ajax.generateRequest();
     }
 
-    getGroupGood() {
-        const groupGood = this.parentElement.querySelector('group-good-for-choice-form');
-        groupGood.brandId = this.itemId;
-        groupGood.categoryId = this.categoryId;
-    }
-
-    dblClickFolder(evt) {
+    dblClickGroup(evt) {
         const target = evt.currentTarget;
-        const itemElement = this.parentElement.querySelector('item-element');
+     //   const itemElement = this.parentElement.querySelector('item-element');
 
-        if (this.itemId != target.getAttribute('data-id')) {
-            this.itemId = target.getAttribute('data-id');
-            this.getGroupGood();
+        if (this.itemName != target.getAttribute('data-name')) {
+            this.itemName = target.getAttribute('data-name');
+           // itemElement.groupName = this.itemName;
             this.spinnerOn();
-        }
-
-        if (this.itemId == 0) {
-            itemElement.brandId = this.itemId;
-            itemElement._runAjax();
         }
     }
 
@@ -107,17 +102,23 @@ class BrandsForChoiceForm extends BaseClass {
     }
 
     handleResponse() {
-        this.brands = [];
-        if (!Array.isArray(this.response)) {
-            this.push('brands', {id: 0, name: 'Все бренды', status: 'close'});
-            this.response.status = 'open';
-            this.push('brands', this.response);
+        this.groupGood = [];
+        const itemElement = this.parentElement.querySelector('item-element');
+        if (this.response.length == 1) {
+            this.groupGood = this.response;
+            this.groupGood[0].status = 'open';
+            this.unshift('groupGood', {name: 'Все группы', status: 'close'});
+            itemElement.categoryId = this.categoryId;
+            itemElement.brandId = this.brandId;
+            itemElement.groupName = this.groupGood[1].name;
+            itemElement._runAjax();
         } else {
-            this.brands = this.response;
+            this.groupGood = this.response;
+            itemElement.response = [];
         }
         this.spinnerOff();
     }
 
 }
 
-customElements.define('brands-for-choice-form', BrandsForChoiceForm);
+customElements.define('group-good-for-choice-form', GroupGoodForChoiceForm);

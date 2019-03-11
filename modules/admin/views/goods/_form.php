@@ -23,6 +23,7 @@ $this->registerJsFile("$bundle->baseUrl/choice-form/choice-form.js", ['type' => 
 $this->registerJsFile("$bundle->baseUrl/choice-form/base-choice-form.js", ['type' => 'module']);
 $this->registerJsFile("$bundle->baseUrl/choice-form/parent-tree.js", ['type' => 'module']);
 $this->registerJsFile("$bundle->baseUrl/choice-form/brands-for-choice-form.js", ['type' => 'module']);
+$this->registerJsFile("$bundle->baseUrl/choice-form/group-good-for-choice-form.js", ['type' => 'module']);
 $this->registerJsFile("$bundle->baseUrl/choice-form/item-element.js", ['type' => 'module']);
 ?>
 <div class="good-form">
@@ -71,8 +72,9 @@ $this->registerJsFile("$bundle->baseUrl/choice-form/item-element.js", ['type' =>
                             <h2 slot="title-dialog">Выберите основной товар</h2>
                             <input type="text" name="Good[main_good_id]" slot="input" hidden>
                             <parent-tree slot="parent-tree" url-api="/api/categories" item-id="<?=$model->category_id?>"></parent-tree>
-                            <brands-for-choice-form slot="brands" url-api="/api/brands" item-id="<?=$model->brand_id?>"></brands-for-choice-form>
-                            <item-element slot="item-element" url-api="/api/good/category" parent-id="<?=$model->category_id?>" brand-id="<?=$model->brand_id?>"></item-element>
+                            <brands-for-choice-form slot="brands" url-api="/api/brands" item-id="<?=$model->brand_id?>" category-id="<?=$model->category_id?>"></brands-for-choice-form>
+                            <group-good-for-choice-form slot="group-good" url-api="/api/good/group-by-name" category-id="<?=$model->category_id?>" brand-id="<?=$model->brand_id?>"></group-good-for-choice-form>
+                            <item-element slot="item-element" url-api="/api/goods"></item-element>
                         </base-choice-form>
                     </div>
                 </div>
