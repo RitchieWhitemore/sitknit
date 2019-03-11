@@ -166,11 +166,9 @@ export class BaseChoiceForm extends BaseClass {
         this.$.scrolling.open();
 
         if (this.model == 'good') {
-            const parentTree = this.querySelector('parent-tree');
             const brandsForChoiceForm = this.querySelector('brands-for-choice-form');
 
             if (this.response) {
-                //parentTree.itemId = this.response.category.id;
                 brandsForChoiceForm.itemId = this.response.brand.id;
             }
         } else {
