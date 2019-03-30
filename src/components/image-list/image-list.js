@@ -15,7 +15,7 @@ class ImageList extends PolymerElement {
       </style>
       <iron-ajax id="ajax"
                    auto
-                   url="/api/goods/{{goodId}}?fields=images"
+                   url="/api/goods/{{goodId}}?expand=images"
                    handle-as="json"
                    on-response="handleResponse"
                    last-response="{{response}}"

@@ -108,7 +108,7 @@ class BrandsForChoiceForm extends BaseClass {
 
     handleResponse() {
         this.brands = [];
-        if (!Array.isArray(this.response)) {
+        if (this.response && !Array.isArray(this.response)) {
             this.push('brands', {id: 0, name: 'Все бренды', status: 'close'});
             this.response.status = 'open';
             this.push('brands', this.response);

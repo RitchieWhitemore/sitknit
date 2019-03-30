@@ -12,7 +12,7 @@ class m190223_095830_add_columns_in_partner extends Migration
      */
     public function safeUp()
     {
-        $this->addColumn('partner', 'phone', $this->integer(11));
+        $this->addColumn('partner', 'phone', $this->string());
         $this->addColumn('partner', 'email', $this->string());
         $this->addColumn('partner', 'profile', $this->string());
         $this->addColumn('partner', 'post_index', $this->string(10));

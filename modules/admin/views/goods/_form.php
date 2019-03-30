@@ -19,7 +19,6 @@ $bundle = \app\assets\WebComponentsAsset::register($this);
 $this->registerJsFile("$bundle->baseUrl/page-tabs/page-tabs.js", ['type' => 'module'], $this::POS_END);
 $this->registerJsFile("$bundle->baseUrl/page-tabs/page-tabs.js", ['type' => 'module']);
 $this->registerJsFile("$bundle->baseUrl/image-list/image-list.js", ['type' => 'module']);
-$this->registerJsFile("$bundle->baseUrl/choice-form/choice-form.js", ['type' => 'module']);
 $this->registerJsFile("$bundle->baseUrl/choice-form/base-choice-form.js", ['type' => 'module']);
 $this->registerJsFile("$bundle->baseUrl/choice-form/parent-tree.js", ['type' => 'module']);
 $this->registerJsFile("$bundle->baseUrl/choice-form/brands-for-choice-form.js", ['type' => 'module']);
@@ -55,14 +54,6 @@ $this->registerJsFile("$bundle->baseUrl/choice-form/item-element.js", ['type' =>
                         <?= $form->field($model, 'category_id')->dropDownList(Category::getCategoriesArray(), ['prompt' => 'Выберите категорию']) ?>
                     </div>
                     <div class="col-md-9">
-                        <!--<choice-form
-                                label="Основной товар в группе"
-                                model="categories"
-                                entity-id="<?/*= $model->main_good_id */?>"
-                                good-id="<?/*= $model->id */?>"
-                                good-flag
-                                placeholder="Выберите основной товар"
-                        ><input type="text" name="Good[main_good_id]" slot="input" hidden></slot></choice-form>-->
                         <base-choice-form label="Основной товар в группе"
                                           item-id="<?= $model->main_good_id ?>"
                                           category-id="<?= $model->category_id ?>"

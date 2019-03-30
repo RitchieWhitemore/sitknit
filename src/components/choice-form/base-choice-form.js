@@ -48,27 +48,23 @@ export class BaseChoiceForm extends BaseClass {
                 display: none;
             }
         </style>
-        <div class="field-wrapper">
-            <label>{{label}}</label>
-            <slot name="input"></slot>
-            <div class="field-choice">{{name}}
-            <paper-spinner id="spinner"></paper-spinner></div>
-        </div>
+        ${this.inputTemplate}
         <paper-button raised id="deleteButton" class="visually-hidden" on-click="delete">Очистить</paper-button>
-        <paper-button raised on-click="open">Выбрать</paper-button>        
+        <paper-button raised on-click="open">{{buttonName}}</paper-button>        
         <paper-dialog id="scrolling">
             <slot name="title-dialog"></slot>
             <paper-dialog-scrollable>
-                <slot name="parent-tree" item-id="{{parentId}}"></slot>
+                <slot name="parent-tree"></slot>
                 <slot name="brands"></slot>
                 <slot name="group-good"></slot>
-                <slot name="item-element" item-id="{{itemId}}"></slot>
+                <slot name="item-element"></slot>
             </paper-dialog-scrollable>
             <div class="buttons">
                 <paper-button dialog-dismiss>Отмена</paper-button>
                 <paper-button dialog-confirm on-click="confirm">Выбрать</paper-button>
             </div>
         </paper-dialog>
+        ${this.inputQtyTemplate}
         <iron-ajax id="ajax"
                    url="{{urlApi}}{{itemId}}"
                    handle-as="json"
@@ -78,8 +74,24 @@ export class BaseChoiceForm extends BaseClass {
 `;
     }
 
+    static get inputTemplate() {
+        return html`
+        <div class="field-wrapper">
+            <label>{{label}}</label>
+            <slot name="input"></slot>
+            <div class="field-choice">{{name}}
+            <paper-spinner id="spinner"></paper-spinner></div>
+        </div>
+        `
+    }
+
+    static get inputQtyTemplate() {
+        return html``
+    }
+
     static get properties() {
         return {
+            buttonName: {type: String, value: 'Выбрать'},
             categoryId: Number,
             id: {'type': Number, 'observer': 'setInputValue'},
             itemObject: Object,
@@ -150,7 +162,7 @@ export class BaseChoiceForm extends BaseClass {
     }
 
     getName(response) {
-        if (this.model == 'good') {
+        if (this.model == 'good' || this.model == 'selected') {
             return response.nameAndColor;
         } else {
             return response.name;

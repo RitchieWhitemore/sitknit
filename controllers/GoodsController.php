@@ -86,7 +86,7 @@ class GoodsController extends Controller
 
         $goodsByNameDataProvider = new ActiveDataProvider(
           [
-              'query' => $Brand->getGoods()->active()->groupByName(),
+              'query' => $Brand->getGoods()->active()->groupBy('name'),
           ]
         );
 

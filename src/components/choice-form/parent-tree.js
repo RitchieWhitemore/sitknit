@@ -55,7 +55,7 @@ class ParentTree extends BaseClass {
 
     static get properties() {
         return {
-            itemId: {type: Number, observer: '_runAjax'},
+            itemId: {type: Number, value: 0, observer: '_runAjax'},
             parentCategories: Array,
             urlApi: String
         }

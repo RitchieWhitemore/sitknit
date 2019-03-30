@@ -79,7 +79,6 @@ class Good extends \yii\db\ActiveRecord
             'brand',
             'name',
             'category',
-            'images',
             'nameAndColor',
         ];
 
@@ -87,7 +86,7 @@ class Good extends \yii\db\ActiveRecord
 
     public function extraFields()
     {
-        return ['images'];
+        return ['images', 'priceRetail'];
     }
 
     /**

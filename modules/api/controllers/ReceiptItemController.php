@@ -2,14 +2,14 @@
 
 namespace app\modules\api\controllers;
 
-use app\models\Good;
-use Yii;
 use yii\data\ActiveDataProvider;
 use yii\rest\ActiveController;
+use Yii;
 
-class GoodController extends ActiveController
+class ReceiptItemController extends ActiveController
 {
-    public $modelClass = 'app\models\Good';
+    public $modelClass = 'app\modules\trade\models\ReceiptItem';
+
 
     public function actions()
     {
@@ -38,7 +38,7 @@ class GoodController extends ActiveController
         /* @var $modelClass \yii\db\BaseActiveRecord */
         $modelClass = new $this->modelClass;
 
-        $query = $modelClass::find()->with('images', 'prices');
+        $query = $modelClass::find()->with('good');
         if (!empty($requestParams)) {
             $query->andWhere($requestParams);
         }
@@ -53,45 +53,5 @@ class GoodController extends ActiveController
                 'params' => $requestParams,
             ],
         ]);
-    }
-
-    public function actionCategory($categoryId, $brandId)
-    {
-        if ($categoryId == 0) {
-            $categoryId = null;
-        }
-        if ($brandId == 0) {
-            $brandId = null;
-        }
-
-        $model = Good::find()->where(['category_id' => (int)$categoryId, 'brand_id' => (int)$brandId])->all();
-
-        return $model;
-    }
-
-    public function actionGroupByName($categoryId, $brandId, $groupName)
-    {
-        if ($categoryId == 0) {
-            $categoryId = null;
-        }
-        if ($brandId == 0) {
-            $brandId = null;
-        }
-
-        $model = Good::find()->where(['category_id' => (int) $categoryId,
-                                                      'brand_id'    => (int) $brandId]);
-        if ($groupName != 'undefined' && $groupName != 'Все группы') {
-            $model->andWhere(['name' => $groupName]);
-        };
-
-        $model = $model->groupBy('name')->all();
-
-        return $model;
-    }
-
-    public function actionDeleteMainGood($id)
-    {
-        $model = Good::findOne($id);
-        $model->main_good_id = null;
     }
 }

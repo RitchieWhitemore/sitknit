@@ -41,6 +41,7 @@ return [
                     'class'         => 'yii\rest\UrlRule',
                     'controller'    => 'api/good',
                     'extraPatterns' => [
+                        'GET list'                => 'list',
                         'GET category'            => 'category',
                         'GET group-by-name'       => 'groupByName',
                         'DELETE delete-main-good' => 'deleteMainGood',
@@ -65,6 +66,16 @@ return [
                         'POST set-price' => 'setPrice',
                     ],
                 ],
+
+                [
+                    'class'         => 'yii\rest\UrlRule',
+                    'controller'    => 'api/receipt',
+                    'extraPatterns' => [
+                        'POST save' => 'save',
+                    ],
+                ],
+
+                ['class' => 'yii\rest\UrlRule', 'controller' => 'api/receiptItem',],
 
                 ''                                                                               => 'goods/catalog',
                 'contact'                                                                        => 'main/contact/index',

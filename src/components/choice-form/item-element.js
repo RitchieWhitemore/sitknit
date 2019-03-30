@@ -42,6 +42,7 @@ class ItemElement extends BaseClass {
                        fallback-selection="None">
             <template id="domRepeat" is="dom-repeat" items="{{response}}">
                 <paper-item item-object="{{item}}"
+                            on-dblclick="dblClickGood"
                             onselectstart="return false"
                             onmousedown="return false">
                     <span class="glyphicon glyphicon-file"></span>[[getName(item)]]
@@ -74,20 +75,27 @@ class ItemElement extends BaseClass {
 
     _runAjax() {
         this.spinnerOn();
+        this.$.ajax.url = this.urlApi;
         if (this.categoryId) {
-            this.$.ajax.url = this.urlApi;
             this.$.ajax.params = {
                 'category_id': this.categoryId,
                 'brand_id': this.brandId,
                 'name': this.groupName,
+                'expand': 'priceRetail',
+            }
+        } else {
+            this.$.ajax.params = {
+                'category_id': 0,
             }
         }
         this.$.ajax.generateRequest();
     }
 
-    findByParent() {
-        this.spinnerOn();
-        this.$.ajax.url = this.urlApi + '/' + this.categoryId;
+    dblClickGood() {
+        const selectedModal = this.parentElement;
+        if(selectedModal.model = 'selected') {
+            selectedModal.$.qtyModal.open();
+        }
     }
 
     handleResponse() {
