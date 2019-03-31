@@ -5,6 +5,7 @@ import '../../../node_modules/@polymer/iron-ajax/iron-ajax.js';
 class DocumentTable extends PolymerElement {
     static get template() {
         return html`
+        <link rel="stylesheet" href="/css/gliphicons.min.css">
       <style>
         ::slotted(selected-modal) {
             margin-bottom: 20px;
@@ -35,6 +36,16 @@ class DocumentTable extends PolymerElement {
         td input {
             padding: 5px;
         }
+        
+        .btn {
+            background: transparent;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .glyphicon-remove {
+            color: #ff2e49;
+        }
        
       </style>
       <slot name="button"></slot>
@@ -47,10 +58,11 @@ class DocumentTable extends PolymerElement {
                 <th>Количество</th>
                 <th>Цена</th>
                 <th>Сумма</th>
+                <th></th>
             </tr>            
         </thead>
         <tbody>
-            <template is="dom-repeat" items="{{response}}">
+            <template is="dom-repeat" items="{{items}}">
                 <tr>
                     <td id="numRow">[[getIndex(index)]]</td>
                     <td>
@@ -68,6 +80,7 @@ class DocumentTable extends PolymerElement {
                     <td id="sumRow">
                     {{item.sum}}
                     </td>
+                    <td><button type="button" class="btn" on-click="deleteItem" data-index$="{{index}}"><span class="glyphicon glyphicon-remove"></span></button></td>
                 </tr>   
             </template>           
         </tbody>    
@@ -86,6 +99,7 @@ class DocumentTable extends PolymerElement {
         return {
             documentId: {type: Number, value: 0},
             documentType: String,
+            items: {type: Array, observer: 'calculateTotalDocument'}
         }
     }
 
@@ -95,10 +109,10 @@ class DocumentTable extends PolymerElement {
 
     calculateTotalDocument() {
         let result = 0;
-        if (this.response.length == 1) {
-            result = this.calculateSum(this.response[0]);
+        if (this.items.length == 1) {
+            result = this.calculateSum(this.items[0]);
         } else {
-            result = this.response.reduce(function (sum, current) {
+            result = this.items.reduce(function (sum, current) {
                 if (typeof sum == 'object') {
                     sum = this.calculateSum(sum)
                 }
@@ -118,6 +132,14 @@ class DocumentTable extends PolymerElement {
         buttonSaveElement.addEventListener('click', this.saveDocument);
     }
 
+    deleteItem(evt) {
+        if (this.items[evt.model.index]) {
+            this.splice('items', evt.model.index, 1);
+
+            this.calculateTotalDocument();
+        }
+    }
+
     getIndex(index) {
         return ++index;
     }
@@ -131,9 +153,20 @@ class DocumentTable extends PolymerElement {
     }
 
     handleResponse() {
-        for (let i = 0; i < this.response.length; i++) {
-            this.response[i].sum = this.response[i].price * this.response[i].qty;
+        if (typeof (this.response) != 'boolean') {
+            this.items = this.response;
+            for (let i = 0; i < this.items.length; i++) {
+                this.items[i].sum = this.items[i].price * this.items[i].qty;
+            }
+        } else {
+            if (this.response == true) {
+                alert('Документ успешно сохранен');
+            } else {
+                alert('Ошибка сохранения');
+            }
+
         }
+
     }
 
     pressEnter(evt) {
@@ -150,17 +183,20 @@ class DocumentTable extends PolymerElement {
     saveDocument(evt) {
         evt.preventDefault();
         const documentTable = document.querySelector('document-table');
-        //documentTable.$.ajax.body = documentTable.response;
-        //documentTable.$.ajax.method = 'POST';
-        //documentTable.$.ajax.generateRequest();
+
 
         const formData = new FormData(document.querySelector('#w0'));
-        formData.append("documentTable", JSON.stringify(documentTable.response));
+        formData.append("documentTable", JSON.stringify(documentTable.items));
         formData.append('Receipt[id]', documentTable.documentId);
-        const xhr = new XMLHttpRequest();
+        /*const xhr = new XMLHttpRequest();
 
         xhr.open("POST", "/api/receipt/save");
-        xhr.send(formData);
+        xhr.send(formData);*/
+
+        documentTable.$.ajax.body = formData;
+        documentTable.$.ajax.url = '/api/receipt/save';
+        documentTable.$.ajax.method = 'POST';
+        documentTable.$.ajax.generateRequest();
     }
 }
 

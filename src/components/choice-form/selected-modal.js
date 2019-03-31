@@ -31,8 +31,13 @@ class SelectedModal extends BaseChoiceForm {
             this.itemObject.good_id = this.itemObject.id;
             this.itemObject.id = null;
             this.itemObject.qty = evt.target.value;
-            this.itemObject.price = this.itemObject.priceRetail.price;
-            this.itemObject.sum = evt.target.value * this.itemObject.price;
+            if (this.itemObject.priceRetail) {
+                this.itemObject.price = this.itemObject.priceRetail.price;
+                this.itemObject.sum = evt.target.value * this.itemObject.price;
+            } else {
+                this.itemObject.price = 0;
+                this.itemObject.sum = 0;
+            }
             this.confirmQty();
             this.$.qtyModal.close();
             evt.target.value = '';
@@ -42,18 +47,18 @@ class SelectedModal extends BaseChoiceForm {
     confirmQty() {
         const documentTable = this.parentElement;
 
-        if (documentTable.response == null) {
-            documentTable.response = [];
-            documentTable.push('response', this.itemObject);
+        if (documentTable.items == null) {
+            documentTable.items = [];
+            documentTable.push('items', this.itemObject);
         } else {
-            let index = this.findItem(documentTable.response, this.itemObject);
+            let index = this.findItem(documentTable.items, this.itemObject);
             if (index != null) {
-                const qty = +this.itemObject.qty + parseInt(documentTable.response[index].qty);
-                documentTable.set('response.'+index+'.qty', qty);
-                const sum = qty * parseInt(documentTable.response[index].price);
-                documentTable.set('response.'+index+'.sum', sum);
+                const qty = +this.itemObject.qty + parseInt(documentTable.items[index].qty);
+                documentTable.set('items.'+index+'.qty', qty);
+                const sum = qty * parseInt(documentTable.items[index].price);
+                documentTable.set('items.'+index+'.sum', sum);
             } else {
-                documentTable.push('response', this.itemObject);
+                documentTable.push('items', this.itemObject);
             }
         }
 
@@ -64,15 +69,9 @@ class SelectedModal extends BaseChoiceForm {
         for (let i = 0; i < arr.length; i++) {
             if (arr[i].article === item.article) {
                 return i;
-            } else {
-                return null;
             }
         }
-        /*if (currentItem.article == item.name.article) {
-            return index;
-        }*/
-
-        //return currentItem.article == item.name.article;
+        return null;
     }
 
 }

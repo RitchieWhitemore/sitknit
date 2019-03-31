@@ -24,6 +24,15 @@ class ReceiptController extends ActiveController
 
         $document = Receipt::findOne($requestParams['Receipt']['id']);
         $documentTable = json_decode($requestParams['documentTable']);
+        $documentTableInitial = ReceiptItem::find()->where(['receipt_id' => $requestParams['Receipt']['id']])->with('good')->all();
+
+        foreach ($documentTableInitial as $index => $item) {
+            foreach ($documentTable as $value) {
+                if ($item->good->article === $value->article) {
+                    unset($documentTableInitial[$index]);
+                }
+            }
+        }
 
         $transaction = Receipt::getDb()->beginTransaction();
         try {
@@ -48,10 +57,17 @@ class ReceiptController extends ActiveController
                 $tableItem->price = $item->price;
                 $tableItem->save();
             }
+
+            foreach ($documentTableInitial as $item) {
+                $item->delete();
+            }
+
             $transaction->commit();
+            return true;
         } catch (\Throwable $e) {
             $transaction->rollBack();
             throw $e;
+            return false;
         }
     }
 }
