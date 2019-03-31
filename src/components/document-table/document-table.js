@@ -72,10 +72,10 @@ class DocumentTable extends PolymerElement {
                     {{item.nameAndColor}}         
                     </td>
                     <td>
-                    <input id="qty" type="number" name="qty" value="{{item.qty}}" on-change="changeInput" on-keypress="pressEnter">
+                    <input type="number" name="qty" value="{{item.qty}}" on-change="changeInput" on-keypress="pressEnter">
                     </td>
                     <td>
-                    <input id="price" type="number" name="price" value="{{item.price}}" on-change="changeInput" on-keypress="pressEnter">
+                    <input type="number" name="price" value="{{item.price}}" on-change="changeInput" on-keypress="pressEnter">
                     </td>
                     <td id="sumRow">
                     {{item.sum}}
@@ -146,10 +146,24 @@ class DocumentTable extends PolymerElement {
 
     changeInput(evt) {
         const row = evt.currentTarget.parentElement.parentElement;
-        let sum = row.querySelector('#sumRow');
+        let price, qty;
+        const index = evt.model.index;
+        if (evt.currentTarget.name === 'qty') {
+            qty = +evt.currentTarget.value;
+            price = parseInt(this.items[index].price);
+        }
 
-        sum.innerHTML = this.calculateSum(evt.model.item);
-        console.log(evt);
+        if (evt.currentTarget.name === 'price') {
+            qty = parseInt(this.items[index].qty);
+            price = +evt.currentTarget.value;
+        }
+
+        this.set('items.'+index+'.qty', qty);
+        this.set('items.'+index+'.price', price);
+        const sum = qty * price;
+        this.set('items.'+index+'.sum', sum);
+
+        this.calculateTotalDocument();
     }
 
     handleResponse() {
