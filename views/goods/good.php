@@ -16,6 +16,7 @@ $balance = new Balance($model);
 
 <ul class="breadcrumb">
     <li><a href="<?= Url::to(['/goods/category', 'id' => $model->category_id])?>" class="link breadcrumb__link"><?= $model->category->name ?></a></li>
+    <li><a href="<?= Url::to(['/goods/brand', 'id' => $model->brand_id])?>" class="link breadcrumb__link"><?= $model->brand->name ?></a></li>
     <li><?= $model->fullName ?></li>
 </ul>
 
