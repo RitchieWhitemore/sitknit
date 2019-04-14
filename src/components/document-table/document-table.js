@@ -86,8 +86,7 @@ class DocumentTable extends PolymerElement {
         </tbody>    
       </table>
       <slot></slot>
-      <iron-ajax id="ajax"
-                   url="/api/receipt-item?receipt_id={{documentId}}"                                 
+      <iron-ajax id="ajax"                                               
                    handle-as="json"
                    on-response="handleResponse"
                    last-response="{{response}}"
@@ -111,7 +110,7 @@ class DocumentTable extends PolymerElement {
         let result = 0;
         if (this.items.length == 1) {
             result = this.calculateSum(this.items[0]);
-        } else {
+        } else if (this.items.length > 1) {
             result = this.items.reduce(function (sum, current) {
                 if (typeof sum == 'object') {
                     sum = this.calculateSum(sum)
@@ -191,6 +190,18 @@ class DocumentTable extends PolymerElement {
 
     ready() {
         super.ready();
+        if (this.documentType === 'receipt') {
+            this.$.ajax.url="/api/receipt-item";
+            this.$.ajax.params = {
+                'receipt_id': this.documentId,
+            }
+        } else if (this.documentType === 'order') {
+            this.$.ajax.url="/api/order-item";
+            this.$.ajax.params = {
+                'order_id': this.documentId,
+            }
+        }
+
         this.$.ajax.generateRequest();
     }
 
@@ -201,14 +212,16 @@ class DocumentTable extends PolymerElement {
 
         const formData = new FormData(document.querySelector('#w0'));
         formData.append("documentTable", JSON.stringify(documentTable.items));
-        formData.append('Receipt[id]', documentTable.documentId);
-        /*const xhr = new XMLHttpRequest();
 
-        xhr.open("POST", "/api/receipt/save");
-        xhr.send(formData);*/
-
+        if (documentTable.documentType === 'receipt') {
+            formData.append('Receipt[id]', documentTable.documentId);
+            documentTable.$.ajax.url = '/api/receipt/save';
+        } else if (documentTable.documentType === 'order') {
+            formData.append('Order[id]', documentTable.documentId);
+            documentTable.$.ajax.url = '/api/order/save';
+        }
         documentTable.$.ajax.body = formData;
-        documentTable.$.ajax.url = '/api/receipt/save';
+        documentTable.$.ajax.params = {};
         documentTable.$.ajax.method = 'POST';
         documentTable.$.ajax.generateRequest();
     }

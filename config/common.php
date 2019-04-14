@@ -77,6 +77,16 @@ return [
 
                 ['class' => 'yii\rest\UrlRule', 'controller' => 'api/receiptItem',],
 
+                [
+                    'class'         => 'yii\rest\UrlRule',
+                    'controller'    => 'api/order',
+                    'extraPatterns' => [
+                        'POST save' => 'save',
+                    ],
+                ],
+
+                ['class' => 'yii\rest\UrlRule', 'controller' => 'api/orderItem',],
+
                 ''                                                                               => 'goods/catalog',
                 'contact'                                                                        => 'main/contact/index',
                 '<_a:error>'                                                                     => 'main/default/<_a>',

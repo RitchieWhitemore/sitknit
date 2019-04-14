@@ -46,7 +46,7 @@ $this->registerJsFile("$bundle->baseUrl/choice-form/item-element.js", ['type' =>
         </div>
     </div>
 
-    <document-table id="document-table" document-id="<?= $model->id ?>" document-type="order">
+    <document-table id="document-table" document-id="<?= $model->id ?>" document-type="receipt">
         <selected-modal model="selected" slot="button">
             <h2 slot="title-dialog">Выберите товар</h2>
             <parent-tree slot="parent-tree" url-api="/api/categories"></parent-tree>

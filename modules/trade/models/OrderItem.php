@@ -57,6 +57,24 @@ class OrderItem extends \yii\db\ActiveRecord
         ];
     }
 
+    public function fields()
+    {
+        $fields = parent::fields();
+        $fields['article'] = function () {
+            return $this->good->article;
+        };
+        $fields['article'] = function () {
+            return $this->good->article;
+        };
+        $fields['nameAndColor'] = function () {
+            return $this->good->getNameAndColor();
+        };
+
+
+        //unset($fields['good_id']);
+        return $fields;
+    }
+
     /**
      * @return \yii\db\ActiveQuery
      */
