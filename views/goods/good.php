@@ -63,7 +63,7 @@ use yii\helpers\Url;
         <h2 class="page-product__feature-title">Характеристики:</h2>
         <ul class="page-product__feature-list">
             <li class="page-product__feature-item"><b>Производитель: </b><?= $model->brand->name ?>
-                (<?= $model->country->name ?>)
+                (<?= $model->brand->country->name ?>)
             </li>
             <?php
             foreach ($valuesMain as $attr => $value) {
@@ -79,7 +79,7 @@ use yii\helpers\Url;
             ?>
             <li class="page-product__feature-item"><b>Товара в упаковке:</b> <?= $model->packaged ?> шт.</li>
         </ul>
-        <p class="page-product__existence"><span>в наличии</span> 10 упак.</p>
+        <p class="page-product__existence"><span>в наличии</span> <?= \app\components\Balance::currentBalanceOfGood($model->id)?></p>
         <p class="page-product__price-text">цена за штуку: <span class="page-product__price"><?= isset($model->priceRetail->price) ? ($model->priceRetail->price . ' руб') : 'нет цены' ?></span>
 
         <form action="" class="page-product__qty-form">
