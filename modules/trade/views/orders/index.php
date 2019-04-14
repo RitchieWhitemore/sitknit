@@ -1,5 +1,8 @@
 <?php
 
+use app\components\grid\SetColumn;
+use app\models\Advert;
+use app\modules\trade\models\Order;
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
@@ -24,13 +27,33 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-
             'id',
             'date',
-            'status',
-            'payment',
-            'partner_id',
+            [
+                    'attribute' => 'partner.name',
+                    'label' => 'Контрагент'
+            ],
+            [
+                'class' => SetColumn::className(),
+                'filter' => Order::getStatusesArray(),
+                'attribute' => 'status',
+                'name' => 'statusName',
+                'cssCLasses' => [
+                    Order::STATUS_NOT_RESERVE => 'primary',
+                    Order::STATUS_RESERVE => 'warning',
+                    Order::STATUS_SHIPPED => 'success',
+                ],
+            ],
+            [
+                'class' => SetColumn::className(),
+                'filter' => Order::getPaymentsArray(),
+                'attribute' => 'payment',
+                'name' => 'paymentName',
+                'cssCLasses' => [
+                    Order::PAYMENT_NOT_PAYMENT => 'primary',
+                    Order::PAYMENT_PAYMENT => 'success',
+                ],
+            ],
             //'total',
 
             ['class' => 'yii\grid\ActionColumn'],

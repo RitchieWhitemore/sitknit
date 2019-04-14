@@ -42,6 +42,8 @@ class OrderController extends ActiveController
             $document->partner_id = $requestParams['Order']['partner_id'];
             $document->total = $requestParams['Order']['total'];
             $document->date = $requestParams['Order']['date'];
+            $document->status = $requestParams['Order']['status'];
+            $document->payment = $requestParams['Order']['payment'];
             $document->save();
 
             foreach ($documentTable as $item) {

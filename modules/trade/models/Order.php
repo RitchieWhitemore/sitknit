@@ -3,6 +3,7 @@
 namespace app\modules\trade\models;
 
 use Yii;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "order".
@@ -10,6 +11,7 @@ use Yii;
  * @property int $id
  * @property string $date
  * @property int $status
+ * @property int $payment
  * @property int $partner_id
  * @property double $total
  *
@@ -18,9 +20,9 @@ use Yii;
  */
 class Order extends \yii\db\ActiveRecord
 {
-    const STATUS_RESERVE = 0;
-    const STATUS_SHIPPED = 1;
-    const STATUS_NOT_RESERVE = 2;
+    const STATUS_NOT_RESERVE = 0;
+    const STATUS_RESERVE = 1;
+    const STATUS_SHIPPED = 2;
 
     const PAYMENT_NOT_PAYMENT = 0;
     const PAYMENT_PAYMENT = 1;
@@ -76,5 +78,32 @@ class Order extends \yii\db\ActiveRecord
     public function getOrderItems()
     {
         return $this->hasMany(OrderItem::className(), ['order_id' => 'id']);
+    }
+
+    public function getStatusesArray()
+    {
+        return [
+            self::STATUS_NOT_RESERVE => 'Ожидает подтверждения',
+            self::STATUS_RESERVE => 'В резерве',
+            self::STATUS_SHIPPED => 'Отгружен',
+        ];
+    }
+
+    public function getPaymentsArray()
+    {
+        return [
+            self::PAYMENT_NOT_PAYMENT => 'Не оплачен',
+            self::PAYMENT_PAYMENT => 'Оплачен',
+        ];
+    }
+
+    public function getStatusName()
+    {
+        return ArrayHelper::getValue(self::getStatusesArray(), $this->status);
+    }
+
+    public function getPaymentName()
+    {
+        return ArrayHelper::getValue(self::getPaymentsArray(), $this->payment);
     }
 }

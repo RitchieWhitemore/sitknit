@@ -47,6 +47,15 @@ $this->registerJsFile("$bundle->baseUrl/choice-form/item-element.js", ['type' =>
         </div>
     </div>
 
+    <div class="row" style="margin-bottom: 30px">
+        <div class="col-md-6">
+            <?= $form->field($model, 'status')->dropDownList($model->getStatusesArray()) ?>
+        </div>
+        <div class="col-md-6">
+            <?= $form->field($model, 'payment')->dropDownList($model->getPaymentsArray()) ?>
+        </div>
+    </div>
+
     <document-table id="document-table" document-id="<?= $model->id ?>" document-type="order">
         <selected-modal model="selected" slot="button">
             <h2 slot="title-dialog">Выберите товар</h2>
@@ -57,10 +66,6 @@ $this->registerJsFile("$bundle->baseUrl/choice-form/item-element.js", ['type' =>
         </selected-modal>
         <?= $form->field($model, 'total')->textInput(['id' => 'totalSum']) ?>
     </document-table>
-
-    <?= $form->field($model, 'status')->textInput() ?>
-
-    <?= $form->field($model, 'payment')->textInput() ?>
 
     <div class="form-group">
         <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success', 'id' => 'buttonSave']) ?>
