@@ -1,5 +1,6 @@
 <?php
 
+use app\components\Balance;
 use yii\helpers\Url;
 
 /**
@@ -8,6 +9,8 @@ use yii\helpers\Url;
  * @var $values app\models\AttributeValue
  * @var $valuesMain app\models\AttributeValue
  */
+
+$balance = new Balance($model);
 
 ?>
 
@@ -79,7 +82,7 @@ use yii\helpers\Url;
             ?>
             <li class="page-product__feature-item"><b>Товара в упаковке:</b> <?= $model->packaged ?> шт.</li>
         </ul>
-        <p class="page-product__existence"><span>в наличии</span> <?= \app\components\Balance::currentBalanceOfGood($model->id)?></p>
+        <p class="page-product__existence"><span>в наличии</span> <?= $balance->getQty() ?> шт.</p>
         <p class="page-product__price-text">цена за штуку: <span class="page-product__price"><?= isset($model->priceRetail->price) ? ($model->priceRetail->price . ' руб') : 'нет цены' ?></span>
 
         <form action="" class="page-product__qty-form">
