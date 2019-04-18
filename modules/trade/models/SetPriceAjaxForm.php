@@ -1,28 +1,30 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Lexx
- * Date: 16.02.2019
- * Time: 21:38
- */
+
+
 
 namespace app\modules\trade\models;
 
 
 use yii\base\Model;
 
+/**
+ *
+ * @property string $stringPackCsv
+ * @property int $percent_change
+ *
+ */
 class SetPriceAjaxForm extends Model
 {
     public $date_set_price;
     public $percent_change;
-    public $stringCsv;
+    public $stringPackCsv;
     public $beginStep;
     public $file_input_price;
 
     public function rules()
     {
         return [
-            [['date_set_price', 'percent_change', 'stringCsv'], 'required'],
+            [['date_set_price', 'percent_change', 'stringPackCsv'], 'required'],
             [['percent_change', 'beginStep'], 'number'],
         ];
     }

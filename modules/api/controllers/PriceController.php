@@ -9,7 +9,7 @@
 namespace app\modules\api\controllers;
 
 
-use app\components\SetPrice;
+use app\components\price\ParsePriceListCSV;
 use app\modules\trade\models\SetPriceAjaxForm;
 use Yii;
 use yii\rest\ActiveController;
@@ -20,18 +20,18 @@ class PriceController extends ActiveController
 
     public function actionSetPrice()
     {
-        /* @var $model \yii\db\ActiveRecord */
-        $model = new SetPriceAjaxForm();
+        /* @var $form SetPriceAjaxForm */
+        $form = new SetPriceAjaxForm();
 
         $session = Yii::$app->session;
 
         if (Yii::$app->request->isPost) {
-            $model->attributes = Yii::$app->request->post('SetPriceAjaxForm');
+            $form->attributes = Yii::$app->request->post('SetPriceAjaxForm');
 
-            if ($model->stringCsv) {
-                $session->set('countCsv', $model->beginStep);
-                $setPrice = new SetPrice($model);
-                $setPrice->run();
+            if ($form->stringPackCsv) {
+                $session->set('countCsv', $form->beginStep);
+                $setPrice = new ParsePriceListCSV($form);
+                $setPrice->parse();
             } else {
                 return ['count' => 'Прайс загружен'];
             }

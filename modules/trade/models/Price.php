@@ -13,7 +13,7 @@ use yii\helpers\ArrayHelper;
  * @property int $id
  * @property string $date
  * @property int $type_price
- * @property double $value
+ * @property double $price
  * @property int $good_id
  *
  * @property Good $good

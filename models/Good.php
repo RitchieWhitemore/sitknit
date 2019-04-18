@@ -16,7 +16,6 @@ use app\modules\trade\models\Price;
  * @property string $characteristic
  * @property int $category_id
  * @property int $brand_id
- * @property int $country_id
  * @property int $packaged
  * @property string $mainImageUrl
  *

@@ -15,7 +15,7 @@ $this->registerJsFile("/js/papaparse.min.js");
         <?= Yii::$app->session->getFlash('priceImported') ?>
     </div>
 <?php endif; ?>
-<parser-excel>
+<parser-excel session-step="<?= Yii::$app->session->get('countCsv');?>">
     <?php $form = ActiveForm::begin(); ?>
 
     <div class="row">
@@ -37,7 +37,7 @@ $this->registerJsFile("/js/papaparse.min.js");
         </div>
     </div>
 
-    <?= $form->field($model, 'file_input_price')->fileInput(['accept' => '.csv, .xls', 'class' => 'coll-md-6']) ?>
+    <?= $form->field($model, 'file_input_price')->fileInput(['accept' => '.csv', 'class' => 'coll-md-6']) ?>
 
     <div class="form-group">
         <?= Html::submitButton('Установить', ['class' => 'btn btn-success', 'id' => 'buttonSuccess']) ?>

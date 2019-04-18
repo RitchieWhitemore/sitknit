@@ -13,6 +13,7 @@ use app\models\Brand;
 use app\models\Category;
 use app\models\Good;
 use app\modules\trade\models\Price;
+use app\modules\trade\models\SetPriceAjaxForm;
 use app\modules\trade\models\SetPriceForm;
 use yii\db\Query;
 
@@ -27,7 +28,7 @@ class SetPrice
     private $priceWholesale;
     private $form;
 
-    public function __construct($form)
+    public function __construct(SetPriceAjaxForm $form)
     {
         $this->form = $form;
 
@@ -59,13 +60,13 @@ class SetPrice
                 $this->parseFileCSV();
                 break;
             case 'string':
-                $this->parseStringCSV();
+                $this->parsePackCSV();
                 break;
         }
         return true;
     }
 
-    private function parseStringCSV()
+    private function parsePackCSV()
     {
         $array = explode(';', $this->form->stringCsv);
 
@@ -73,7 +74,7 @@ class SetPrice
         $currentCount = $session->get('countCsv');
         $session->set('countCsv', (count($array) + $currentCount));
 
-        foreach ($array as $item) {
+        foreach ($array as $key => $item) {
             $value = explode('|', $item);
             $this->priceWholesale = str_replace(',', '.', $value[8]);
 
@@ -318,8 +319,6 @@ class SetPrice
         else {
             $Good->brand_id = 1;
         }
-
-        $Good->country_id = 1;
 
         if ($Good->save()) {
             $this->good = $Good;

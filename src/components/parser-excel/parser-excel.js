@@ -38,6 +38,7 @@ class ParserExcel extends PolymerElement {
 
     static get properties() {
         return {
+            sessionStep: {type: Number, value: 0},
             csv: Object,
         }
     }
@@ -54,10 +55,9 @@ class ParserExcel extends PolymerElement {
     handleResponse() {
         const p = document.createElement('p');
 
-
-
         if (this.response.count != 'Прайс загружен') {
-            this.buildString(this.response.count);
+            this.sessionStep = +this.response.count;
+            this.buildString();
             p.innerHTML = 'Загружено ' + this.response.count + ' записей';
         } else {
             p.innerHTML = this.response.count;
@@ -84,31 +84,29 @@ class ParserExcel extends PolymerElement {
 
         const fileInput = this.querySelector('#setpriceajaxform-file_input_price').files[0];
 
-        let step = 0;
-
-        this.buildString(step);
+        this.buildString();
 
         const p = document.createElement('p');
-        p.innerHTML = 'Загрузка началась';
+        p.innerHTML = 'Загрузка началась c ' + this.sessionStep + ' элемента';
         this.$.messages.insertBefore(p, this.$.messages.firstChild);
 
         this.$.spinner.active = true;
 
     }
 
-    buildString(step) {
+    buildString() {
         const form = this.querySelector('#w0');
         const formData = new FormData(form);
-        const beginStep = step;
-        const endStep = 1000 + step;
+        //const beginStep = step;
+        const endStep = +this.sessionStep + 1000;
 
         this.pack = [];
         const data = this.csv.data;
 
 
-        for (let i = step; i < endStep; i++) {
+        for (let i = this.sessionStep; i < endStep; i++) {
             if (i == 0) continue;
-            if (data.length > step) {
+            if (data.length > this.sessionStep) {
                 if (data[i] != undefined && data[i].length > 1) {
                     const arrayToString = data[i].join('|');
                     this.pack.push(arrayToString);
@@ -117,8 +115,8 @@ class ParserExcel extends PolymerElement {
             }
         }
 
-        formData.append('SetPriceAjaxForm[stringCsv]', this.pack.join(';'));
-        formData.append('SetPriceAjaxForm[beginStep]', beginStep);
+        formData.append('SetPriceAjaxForm[stringPackCsv]', this.pack.join(';'));
+        formData.append('SetPriceAjaxForm[beginStep]', this.sessionStep);
         this.$.ajax.body = formData;
 
         this.$.ajax.generateRequest()
