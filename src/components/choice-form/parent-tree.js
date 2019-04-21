@@ -88,10 +88,12 @@ class ParentTree extends BaseClass {
         const itemElement = choiceForm.querySelector('item-element');
         if (this.itemId != 0) {
             brandsForChoiceForm.itemId = 0;
+            brandsForChoiceForm.categoryId = this.itemId;
+
             if (brandsForChoiceForm.itemId == 0) {
                 brandsForChoiceForm._runAjax();
             }
-            brandsForChoiceForm.categoryId = this.itemId;
+
 
         } else {
             brandsForChoiceForm.brands = [];

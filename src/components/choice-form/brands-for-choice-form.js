@@ -72,6 +72,11 @@ class BrandsForChoiceForm extends BaseClass {
         } else {
             this.$.ajax.url = this.urlApi;
         }
+        if (this.categoryId) {
+            this.$.ajax.params = {
+                categoryId: this.categoryId,
+            }
+        }
         this.getGroupGood();
         this.$.ajax.generateRequest();
     }
@@ -80,6 +85,7 @@ class BrandsForChoiceForm extends BaseClass {
         const groupGood = this.parentElement.querySelector('group-good-for-choice-form');
         groupGood.brandId = this.itemId;
         groupGood.categoryId = this.categoryId;
+        groupGood.itemName = undefined;
     }
 
     dblClickFolder(evt) {

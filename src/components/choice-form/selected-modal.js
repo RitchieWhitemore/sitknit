@@ -12,10 +12,10 @@ class SelectedModal extends BaseChoiceForm {
         return html`
         <paper-dialog id="qtyModal">
             <h2>Укажите количество</h2>
-            <input type="number" autofocus on-keypress="pressEnter">
+            <input id="inputQty" type="number" autofocus on-keypress="pressEnter">
             <div class="buttons">
                 <paper-button dialog-dismiss>Отмена</paper-button>
-                <paper-button dialog-confirm on-click="confirmQty">Ок</paper-button>
+                <paper-button dialog-confirm on-click="pressOk">Ок</paper-button>
             </div>
         </paper-dialog>
         `
@@ -28,20 +28,30 @@ class SelectedModal extends BaseChoiceForm {
 
     pressEnter(evt) {
         if (evt.keyCode == 13) {
-            this.itemObject.good_id = this.itemObject.id;
-            this.itemObject.id = null;
-            this.itemObject.qty = evt.target.value;
-            if (this.itemObject.priceRetail) {
-                this.itemObject.price = this.itemObject.priceRetail.price;
-                this.itemObject.sum = evt.target.value * this.itemObject.price;
-            } else {
-                this.itemObject.price = 0;
-                this.itemObject.sum = 0;
-            }
+            this.calculateQty(evt.target.value);
             this.confirmQty();
-            this.$.qtyModal.close();
-            evt.target.value = '';
         }
+    }
+
+    pressOk() {
+        this.$.inputQty.value;
+        this.calculateQty(this.$.inputQty.value);
+        this.confirmQty();
+    }
+
+    calculateQty(qty) {
+        this.itemObject.good_id = this.itemObject.id;
+        this.itemObject.id = null;
+        this.itemObject.qty = qty;
+        if (this.itemObject.priceRetail) {
+            this.itemObject.price = this.itemObject.priceRetail.price;
+            this.itemObject.sum = qty * this.itemObject.price;
+        } else {
+            this.itemObject.price = 0;
+            this.itemObject.sum = 0;
+        }
+        this.$.qtyModal.close();
+        this.$.inputQty.value = '';
     }
 
     confirmQty() {

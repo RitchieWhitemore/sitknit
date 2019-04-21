@@ -78,15 +78,14 @@ class GoodController extends ActiveController
             $brandId = null;
         }
 
-        $model = Good::find()->where(['category_id' => (int) $categoryId,
-                                                      'brand_id'    => (int) $brandId]);
+        $model = Good::find()->where(['category_id' => (int) $categoryId, 'brand_id' => (int) $brandId]);
         if ($groupName != 'undefined' && $groupName != 'Все группы') {
             $model->andWhere(['name' => $groupName]);
         };
 
         $model = $model->groupBy('name')->all();
 
-        return $model;
+        return $model->all();
     }
 
     public function actionDeleteMainGood($id)

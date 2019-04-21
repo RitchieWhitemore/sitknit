@@ -3,9 +3,9 @@
 namespace app\models;
 
 use app\components\behaviors\UploadImageBehavior;
+use app\models\query\BrandQuery;
 use Yii;
 use yii\db\Query;
-use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "brand".
@@ -97,5 +97,10 @@ class Brand extends \yii\db\ActiveRecord
     public function getCountry()
     {
         return $this->hasOne(Country::className(), ['id' => 'country_id']);
+    }
+
+    public static function find()
+    {
+        return new BrandQuery(get_called_class());
     }
 }
