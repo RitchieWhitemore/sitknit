@@ -75,6 +75,8 @@ class ReceiptController extends ActiveController
             $transaction->commit();
             if (!$document->hasErrors() && strpos(Yii::$app->request->referrer, 'create')) {
                 return ['status' => true, 'id' => $document->id];
+            } else {
+                return ['status' => true];
             }
         } catch (\Exception $e) {
             $transaction->rollBack();

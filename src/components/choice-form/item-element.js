@@ -42,7 +42,7 @@ class ItemElement extends BaseClass {
                        fallback-selection="None">
             <template id="domRepeat" is="dom-repeat" items="{{response}}">
                 <paper-item item-object="{{item}}"
-                            on-dblclick="dblClickGood"
+                            on-dblclick="dblClickItem"
                             onselectstart="return false"
                             onmousedown="return false">
                     <span class="glyphicon glyphicon-file"></span>[[getName(item)]]
@@ -65,6 +65,7 @@ class ItemElement extends BaseClass {
             itemObject: {type: Object, observer: 'selectItem'},
             categoryId: Number,
             groupName: String,
+            type: String,
             urlApi: String,
         }
     }
@@ -91,10 +92,16 @@ class ItemElement extends BaseClass {
         this.$.ajax.generateRequest();
     }
 
-    dblClickGood() {
-        const selectedModal = this.parentElement;
-        if(selectedModal.model = 'selected') {
-            selectedModal.$.qtyModal.open();
+    dblClickItem() {
+        const choiceForm = this.parentElement;
+        if(choiceForm.model == 'selected') {
+            choiceForm.$.qtyModal.open();
+        }
+        if (this.type == 'partner') {
+            choiceForm.itemObject = this.itemObject;
+            choiceForm.id = this.itemObject.id;
+            choiceForm.name = this.itemObject.name;
+            choiceForm.$.scrolling.close();
         }
     }
 

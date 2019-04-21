@@ -85,7 +85,7 @@ class GoodController extends ActiveController
 
         $model = $model->groupBy('name')->all();
 
-        return $model->all();
+        return $model;
     }
 
     public function actionDeleteMainGood($id)

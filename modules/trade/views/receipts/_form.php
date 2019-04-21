@@ -41,7 +41,7 @@ $this->registerJsFile("$bundle->baseUrl/choice-form/item-element.js", ['type' =>
                               url-api="/api/partners/">
                 <h2 slot="title-dialog">Выберите контрагента</h2>
                 <input type="text" name="Receipt[partner_id]" slot="input" hidden>
-                <item-element id="itemElement" slot="item-element" url-api="/api/partners"></item-element>
+                <item-element id="itemElement" type="partner" slot="item-element" url-api="/api/partners"></item-element>
             </base-choice-form>
         </div>
     </div>

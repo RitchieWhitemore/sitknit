@@ -143,6 +143,22 @@ class DocumentTable extends PolymerElement {
         return ++index;
     }
 
+    getTableDocument() {
+        if (this.documentType === 'receipt') {
+            this.$.ajax.url = "/api/receipt-item";
+            this.$.ajax.params = {
+                'receipt_id': this.documentId,
+            }
+        } else if (this.documentType === 'order') {
+            this.$.ajax.url = "/api/order-item";
+            this.$.ajax.params = {
+                'order_id': this.documentId,
+            }
+        }
+
+        this.$.ajax.generateRequest();
+    }
+
     changeInput(evt) {
         const row = evt.currentTarget.parentElement.parentElement;
         let price, qty;
@@ -175,14 +191,16 @@ class DocumentTable extends PolymerElement {
             }
         }
 
-        if (this.response.status && window.location.pathname.indexOf('create')) {
+        if (this.response.status && window.location.pathname.indexOf('create') != -1) {
             alert('Документ успешно сохранен!');
             window.location.href = '/trade/receipts/update?id=' + this.response.id;
-        }
-
-        this.items = this.response;
-        for (let i = 0; i < this.items.length; i++) {
-            this.items[i].sum = this.items[i].price * this.items[i].qty;
+        } else if (this.response.status ) {
+            alert('Документ успешно сохранен!');
+        } else {
+            this.items = this.response;
+            for (let i = 0; i < this.items.length; i++) {
+                this.items[i].sum = this.items[i].price * this.items[i].qty;
+            }
         }
     }
 
@@ -194,19 +212,7 @@ class DocumentTable extends PolymerElement {
 
     ready() {
         super.ready();
-        if (this.documentType === 'receipt') {
-            this.$.ajax.url = "/api/receipt-item";
-            this.$.ajax.params = {
-                'receipt_id': this.documentId,
-            }
-        } else if (this.documentType === 'order') {
-            this.$.ajax.url = "/api/order-item";
-            this.$.ajax.params = {
-                'order_id': this.documentId,
-            }
-        }
-
-        this.$.ajax.generateRequest();
+        this.getTableDocument();
     }
 
     saveDocument(evt) {
