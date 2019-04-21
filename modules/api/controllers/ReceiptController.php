@@ -12,6 +12,7 @@ namespace app\modules\api\controllers;
 use app\modules\trade\models\Receipt;
 use app\modules\trade\models\ReceiptItem;
 use Yii;
+use yii\db\Exception;
 use yii\rest\ActiveController;
 
 class ReceiptController extends ActiveController
@@ -43,31 +44,45 @@ class ReceiptController extends ActiveController
             $document->partner_id = $requestParams['Receipt']['partner_id'];
             $document->total = $requestParams['Receipt']['total'];
             $document->date = $requestParams['Receipt']['date'];
-            $document->save();
 
-            foreach ($documentTable as $item) {
-                $tableItem = ReceiptItem::findOne($item->id);
-                if (!isset($tableItem)) {
-                    $tableItem = new ReceiptItem();
-                    $tableItem->receipt_id = $document->id;
-                    $tableItem->good_id = $item->good_id;
+            if ($document->save()) {
+                if (count($documentTable) === 0) {
+                    throw new Exception('ошибка: ', ['error' =>
+                                                         ['Ошибка: В документе должна быть хотя бы одна строка']
+                    ]);
+                }
+                foreach ($documentTable as $item) {
+                    $tableItem = ReceiptItem::findOne($item->id);
+                    if (!isset($tableItem)) {
+                        $tableItem = new ReceiptItem();
+                        $tableItem->receipt_id = $document->id;
+                        $tableItem->good_id = $item->good_id;
+                    }
+
+                    $tableItem->qty = $item->qty;
+                    $tableItem->price = $item->price;
+                    $tableItem->save();
                 }
 
-                $tableItem->qty = $item->qty;
-                $tableItem->price = $item->price;
-                $tableItem->save();
+                foreach ($documentTableInitial as $item) {
+                    $item->delete();
+                }
+            } else {
+                throw new Exception('ошибка', $document->errors);
             }
 
-            foreach ($documentTableInitial as $item) {
-                $item->delete();
-            }
 
             $transaction->commit();
-            return true;
+            if (!$document->hasErrors() && strpos(Yii::$app->request->referrer, 'create')) {
+                return ['status' => true, 'id' => $document->id];
+            }
+        } catch (\Exception $e) {
+            $transaction->rollBack();
+            return $e;
         } catch (\Throwable $e) {
             $transaction->rollBack();
             throw $e;
-            return false;
+            return ['status' => false];
         }
     }
 }

@@ -157,29 +157,33 @@ class DocumentTable extends PolymerElement {
             price = +evt.currentTarget.value;
         }
 
-        this.set('items.'+index+'.qty', qty);
-        this.set('items.'+index+'.price', price);
+        this.set('items.' + index + '.qty', qty);
+        this.set('items.' + index + '.price', price);
         const sum = qty * price;
-        this.set('items.'+index+'.sum', sum);
+        this.set('items.' + index + '.sum', sum);
 
         this.calculateTotalDocument();
     }
 
     handleResponse() {
-        if (typeof (this.response) != 'boolean') {
-            this.items = this.response;
-            for (let i = 0; i < this.items.length; i++) {
-                this.items[i].sum = this.items[i].price * this.items[i].qty;
-            }
-        } else {
-            if (this.response == true) {
-                alert('Документ успешно сохранен');
-            } else {
-                alert('Ошибка сохранения');
-            }
+        if (this.response === null) return;
 
+        if ('errorInfo' in this.response) {
+            for (let key in this.response.errorInfo) {
+                alert(this.response.errorInfo[key][0]);
+                return;
+            }
         }
 
+        if (this.response.status && window.location.pathname.indexOf('create')) {
+            alert('Документ успешно сохранен!');
+            window.location.href = '/trade/receipts/update?id=' + this.response.id;
+        }
+
+        this.items = this.response;
+        for (let i = 0; i < this.items.length; i++) {
+            this.items[i].sum = this.items[i].price * this.items[i].qty;
+        }
     }
 
     pressEnter(evt) {
@@ -191,12 +195,12 @@ class DocumentTable extends PolymerElement {
     ready() {
         super.ready();
         if (this.documentType === 'receipt') {
-            this.$.ajax.url="/api/receipt-item";
+            this.$.ajax.url = "/api/receipt-item";
             this.$.ajax.params = {
                 'receipt_id': this.documentId,
             }
         } else if (this.documentType === 'order') {
-            this.$.ajax.url="/api/order-item";
+            this.$.ajax.url = "/api/order-item";
             this.$.ajax.params = {
                 'order_id': this.documentId,
             }

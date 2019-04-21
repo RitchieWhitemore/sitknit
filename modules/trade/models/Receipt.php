@@ -31,7 +31,7 @@ class Receipt extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['date'], 'required'],
+            [['date', 'partner_id'], 'required'],
             [['date'], 'safe'],
             [['partner_id'], 'integer'],
             [['total'], 'number'],
