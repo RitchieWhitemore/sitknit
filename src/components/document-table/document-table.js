@@ -62,7 +62,7 @@ class DocumentTable extends PolymerElement {
             </tr>            
         </thead>
         <tbody>
-            <template is="dom-repeat" items="{{items}}">
+            <template is="dom-repeat" items="{{items}}" sort="sortedList">
                 <tr>
                     <td id="numRow">[[getIndex(index)]]</td>
                     <td>
@@ -86,6 +86,7 @@ class DocumentTable extends PolymerElement {
         </tbody>    
       </table>
       <slot></slot>
+      <slot name="button-bottom"></slot>
       <iron-ajax id="ajax"                                               
                    handle-as="json"
                    on-response="handleResponse"
@@ -191,9 +192,12 @@ class DocumentTable extends PolymerElement {
             }
         }
 
-        if (this.response.status && window.location.pathname.indexOf('create') != -1) {
+        if (this.response.status && window.location.pathname.indexOf('/trade/receipts/create') != -1) {
             alert('Документ успешно сохранен!');
             window.location.href = '/trade/receipts/update?id=' + this.response.id;
+        } else if (this.response.status && window.location.pathname.indexOf('/trade/orders/create') != -1) {
+                alert('Документ успешно сохранен!');
+                window.location.href = '/trade/orders/update?id=' + this.response.id;
         } else if (this.response.status ) {
             alert('Документ успешно сохранен!');
         } else {
@@ -234,6 +238,11 @@ class DocumentTable extends PolymerElement {
         documentTable.$.ajax.params = {};
         documentTable.$.ajax.method = 'POST';
         documentTable.$.ajax.generateRequest();
+    }
+
+    sortedList(a, b) {
+        if (a.nameAndColor > b.nameAndColor) return 1;
+        if (a.nameAndColor < b.nameAndColor) return -1;
     }
 }
 

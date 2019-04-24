@@ -10,7 +10,6 @@ use app\models\Good;
 /**
  * This is the model class for table "order_item".
  *
- * @property int $id
  * @property int $order_id
  * @property int $good_id
  * @property int $qty
@@ -49,7 +48,6 @@ class OrderItem extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
             'order_id' => 'Заказ №',
             'good_id' => 'Товар',
             'qty' => 'Количество',

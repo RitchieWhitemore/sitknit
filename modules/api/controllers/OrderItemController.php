@@ -46,9 +46,7 @@ class OrderItemController extends ActiveController
         return Yii::createObject([
             'class' => ActiveDataProvider::className(),
             'query' => $query,
-            'pagination' => [
-                'params' => $requestParams,
-            ],
+            'pagination' => false,
             'sort' => [
                 'params' => $requestParams,
             ],

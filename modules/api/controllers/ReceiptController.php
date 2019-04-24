@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Lexx
- * Date: 23.03.2019
- * Time: 14:09
- */
 
 namespace app\modules\api\controllers;
 
@@ -25,11 +19,11 @@ class ReceiptController extends ActiveController
 
         $document = Receipt::findOne($requestParams['Receipt']['id']);
         $documentTable = json_decode($requestParams['documentTable']);
-        $documentTableInitial = ReceiptItem::find()->where(['receipt_id' => $requestParams['Receipt']['id']])->with('good')->all();
+        $documentTableInitial = ReceiptItem::find()->where(['receipt_id' => $requestParams['Receipt']['id']])->all();
 
         foreach ($documentTableInitial as $index => $item) {
             foreach ($documentTable as $value) {
-                if ($item->good->article === $value->article) {
+                if ($item['good_id'] == $value->good_id) {
                     unset($documentTableInitial[$index]);
                 }
             }
@@ -52,7 +46,8 @@ class ReceiptController extends ActiveController
                     ]);
                 }
                 foreach ($documentTable as $item) {
-                    $tableItem = ReceiptItem::findOne($item->id);
+                    $tableItem = ReceiptItem::find()->where(['receipt_id' => $document->id, 'good_id' => $item->good_id])->one();
+
                     if (!isset($tableItem)) {
                         $tableItem = new ReceiptItem();
                         $tableItem->receipt_id = $document->id;

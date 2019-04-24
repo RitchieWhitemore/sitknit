@@ -41,7 +41,7 @@ class Order extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['date'], 'required'],
+            [['date', 'partner_id'], 'required'],
             [['date'], 'safe'],
             [['status', 'partner_id', 'payment'], 'integer'],
             [['total'], 'number'],
