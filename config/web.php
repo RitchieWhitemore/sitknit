@@ -34,10 +34,10 @@ $config = [
         'thumbnail' => [
             'class' => 'sadovojav\image\Thumbnail',
             'basePath' => '@app/web',
-            'cachePath' => '@app/web/img/thumbnails',
+            'cachePath' => '@webroot/img/thumbnails',
             'options' => [
                 'placeholder' => [
-                    'type' => sadovojav\image\Thumbnail::PLACEHOLDER_TYPE_URL,
+                    'type' => sadovojav\image\Thumbnail::PLACEHOLDER_TYPE_JS,
                     'backgroundColor' => '#f5f5f5',
                     'textColor' => '#cdcdcd',
                     'textSize' => 30,
@@ -79,14 +79,14 @@ if (YII_ENV_DEV) {
     $config['modules']['debug'] = [
         'class' => 'yii\debug\Module',
         // uncomment the following to add your IP if you are not connecting from localhost.
-        //'allowedIPs' => ['127.0.0.1', '::1'],
+        'allowedIPs' => ['127.0.0.1', '::1', '192.168.83.1'],
     ];
 
     $config['bootstrap'][] = 'gii';
     $config['modules']['gii'] = [
         'class' => 'yii\gii\Module',
         // uncomment the following to add your IP if you are not connecting from localhost.
-        //'allowedIPs' => ['*'],
+        'allowedIPs' => ['127.0.0.1', '::1', '192.168.83.1'],
     ];
 }
 
