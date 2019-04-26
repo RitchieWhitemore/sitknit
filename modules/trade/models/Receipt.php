@@ -2,8 +2,6 @@
 
 namespace app\modules\trade\models;
 
-use Yii;
-
 /**
  * This is the model class for table "receipt".
  *
@@ -13,9 +11,9 @@ use Yii;
  * @property double $total
  *
  * @property Partner $partner
- * @property ReceiptItem[] $receiptItems
+ * @property ReceiptItem[] $documentItems
  */
-class Receipt extends \yii\db\ActiveRecord
+class Receipt extends \yii\db\ActiveRecord implements DocumentInterface
 {
     /**
      * {@inheritdoc}
@@ -63,8 +61,23 @@ class Receipt extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getReceiptItems()
+    public function getDocumentItems()
     {
         return $this->hasMany(ReceiptItem::className(), ['receipt_id' => 'id']);
+    }
+
+    /**
+     * @param $documentId
+     * @param $goodId
+     * @return ReceiptItem
+     */
+    public function createTableItem($documentId, $goodId)
+    {
+        $tableItem =  new ReceiptItem();
+
+        $tableItem->receipt_id = $documentId;
+        $tableItem->good_id = $goodId;
+
+        return $tableItem;
     }
 }

@@ -10,6 +10,7 @@ namespace app\modules\api\controllers;
 
 use app\modules\trade\models\Order;
 use app\modules\trade\models\OrderItem;
+use app\services\DocumentRepository;
 use Yii;
 use yii\db\Exception;
 use yii\rest\ActiveController;
@@ -22,9 +23,16 @@ class OrderController extends ActiveController
     {
         $requestParams = Yii::$app->getRequest()->getBodyParams();
 
-        $document = Order::findOne($requestParams['Order']['id']);
+        if (!$document = Order::findOne($requestParams['Order']['id'])) {
+            $document = new Order();
+        };
         $documentTable = json_decode($requestParams['documentTable']);
-        $documentTableInitial = OrderItem::find()->where(['order_id' => $requestParams['Order']['id']])->all();
+
+        $documentRepository = new DocumentRepository($document, $documentTable, $requestParams['Order']);
+
+        return $documentRepository->save();
+
+        /*$documentTableInitial = OrderItem::find()->where(['order_id' => $requestParams['Order']['id']])->all();
 
         foreach ($documentTableInitial as $index => $item) {
             foreach ($documentTable as $value) {
@@ -88,6 +96,6 @@ class OrderController extends ActiveController
             $transaction->rollBack();
             throw $e;
             return ['status' => false];
-        }
+        }*/
     }
 }

@@ -104,7 +104,7 @@ class GroupGoodForChoiceForm extends BaseClass {
     handleResponse() {
         this.groupGood = [];
         const itemElement = this.parentElement.querySelector('item-element');
-        if (this.response.length == 1) {
+        if (this.response && this.response.length == 1) {
             this.groupGood = this.response;
             this.groupGood[0].status = 'open';
             this.unshift('groupGood', {name: 'Все группы', status: 'close'});

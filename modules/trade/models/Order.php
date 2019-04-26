@@ -18,7 +18,7 @@ use yii\helpers\ArrayHelper;
  * @property Partner $partner
  * @property OrderItem[] $orderItems
  */
-class Order extends \yii\db\ActiveRecord
+class Order extends \yii\db\ActiveRecord implements DocumentInterface
 {
     const STATUS_NOT_RESERVE = 0;
     const STATUS_RESERVE = 1;
@@ -75,9 +75,24 @@ class Order extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getOrderItems()
+    public function getDocumentItems()
     {
         return $this->hasMany(OrderItem::className(), ['order_id' => 'id']);
+    }
+
+    /**
+     * @param $documentId
+     * @param $goodId
+     * @return OrderItem
+     */
+    public function createTableItem($documentId, $goodId)
+    {
+        $tableItem =  new OrderItem();
+
+        $tableItem->order_id = $documentId;
+        $tableItem->good_id = $goodId;
+
+        return $tableItem;
     }
 
     public function getStatusesArray()
