@@ -35,6 +35,10 @@ class ReceiptItemController extends ActiveController
             unset($requestParams['expand']);
         }
 
+        if (isset($requestParams['q'])) {
+            unset($requestParams['q']);
+        }
+
         /* @var $modelClass \yii\db\BaseActiveRecord */
         $modelClass = new $this->modelClass;
 
