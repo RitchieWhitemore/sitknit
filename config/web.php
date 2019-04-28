@@ -8,11 +8,6 @@ $config = [
     'components' => [
         'assetManager' => [
             'appendTimestamp' => true,
-            'bundles' => [
-                'dmstr\web\AdminLteAsset' => [
-                    'skin' => 'skin-black',
-                ],
-            ],
         ],
         'request' => [
             'baseUrl'=> '',
@@ -44,13 +39,6 @@ $config = [
                     'text' => 'No image'
                 ],
             ]
-        ],
-        'view' => [
-            'theme' => [
-                'pathMap' => [
-                    '@app/views' => '@vendor/dmstr/yii2-adminlte-asset/example-views/yiisoft/yii2-app'
-                ],
-            ],
         ],
     ],
     'modules' => [
