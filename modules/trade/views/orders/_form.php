@@ -57,7 +57,7 @@ $this->registerJsFile("$bundle->baseUrl/choice-form/item-element.js", ['type' =>
     </div>
 
     <document-table id="document-table" document-id="<?= $model->id ?>" document-type="order">
-        <selected-modal model="selected" slot="button">
+        <selected-modal model="selected" slot="button" type-price="priceRetail">
             <h2 slot="title-dialog">Выберите товар</h2>
             <parent-tree slot="parent-tree" url-api="/api/categories"></parent-tree>
             <brands-for-choice-form slot="brands" url-api="/api/brands"></brands-for-choice-form>
@@ -65,7 +65,7 @@ $this->registerJsFile("$bundle->baseUrl/choice-form/item-element.js", ['type' =>
             <item-element slot="item-element" url-api="/api/goods"></item-element>
         </selected-modal>
         <?= $form->field($model, 'total')->textInput(['id' => 'totalSum']) ?>
-        <selected-modal model="selected" slot="button-bottom">
+        <selected-modal model="selected" slot="button-bottom" type-price="priceRetail">
             <h2 slot="title-dialog">Выберите товар</h2>
             <parent-tree slot="parent-tree" url-api="/api/categories"></parent-tree>
             <brands-for-choice-form slot="brands" url-api="/api/brands"></brands-for-choice-form>

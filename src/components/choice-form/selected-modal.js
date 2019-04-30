@@ -21,9 +21,19 @@ class SelectedModal extends BaseChoiceForm {
         `
     }
 
+    static get properties() {
+        return {
+            typePrice: String,
+        }
+    }
+
     constructor() {
         super();
         this.buttonName = 'Подбор';
+    }
+
+    ready() {
+        super.ready();
     }
 
     pressEnter(evt) {
@@ -45,6 +55,9 @@ class SelectedModal extends BaseChoiceForm {
         this.itemObject.qty = qty;
         if (this.itemObject.priceRetail) {
             this.itemObject.price = this.itemObject.priceRetail.price;
+            this.itemObject.sum = qty * this.itemObject.price;
+        } else if (this.itemObject.priceWholesale) {
+            this.itemObject.price = this.itemObject.priceWholesale.price;
             this.itemObject.sum = qty * this.itemObject.price;
         } else {
             this.itemObject.price = 0;

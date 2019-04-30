@@ -20,6 +20,12 @@ class PriceQuery extends ActiveQuery
         $subQuery = (new Query())->select('MAX(date)')->from('price')->where(['good_id' => $this->primaryModel->id, 'type_price' => Price::TYPE_PRICE_RETAIL]);
         return $this->andWhere(['type_price' => Price::TYPE_PRICE_RETAIL, 'date' => $subQuery]);
     }
+
+    public function lastWholesale()
+    {
+        $subQuery = (new Query())->select('MAX(date)')->from('price')->where(['good_id' => $this->primaryModel->id, 'type_price' => Price::TYPE_PRICE_WHOLESALE]);
+        return $this->andWhere(['type_price' => Price::TYPE_PRICE_WHOLESALE, 'date' => $subQuery]);
+    }
     /**
      * @inheritdoc
      * @return \app\models\Good[]|array

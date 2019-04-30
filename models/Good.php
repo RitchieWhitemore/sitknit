@@ -85,7 +85,7 @@ class Good extends \yii\db\ActiveRecord
 
     public function extraFields()
     {
-        return ['images', 'priceRetail'];
+        return ['images', 'priceRetail', 'priceWholesale'];
     }
 
     /**
@@ -186,6 +186,11 @@ class Good extends \yii\db\ActiveRecord
     public function getPriceRetail()
     {
         return $this->getPrices()->lastRetail()->one();
+    }
+
+    public function getPriceWholesale()
+    {
+        return $this->getPrices()->lastWholesale()->one();
     }
 
     public static function NextOrPrev($currentId, $categoryId)

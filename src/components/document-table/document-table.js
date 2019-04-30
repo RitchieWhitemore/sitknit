@@ -62,7 +62,7 @@ class DocumentTable extends PolymerElement {
             </tr>            
         </thead>
         <tbody>
-            <template is="dom-repeat" items="{{items}}" sort="sortedList">
+            <template is="dom-repeat" items="{{items}}">
                 <tr>
                     <td id="numRow">[[getIndex(index)]]</td>
                     <td>
@@ -202,6 +202,10 @@ class DocumentTable extends PolymerElement {
             alert('Документ успешно сохранен!');
         } else {
             this.items = this.response;
+            this.items.sort(function(a, b) {
+                if (a.nameAndColor > b.nameAndColor) return 1;
+                if (a.nameAndColor < b.nameAndColor) return -1;
+            });
             for (let i = 0; i < this.items.length; i++) {
                 this.items[i].sum = this.items[i].price * this.items[i].qty;
             }
@@ -238,11 +242,6 @@ class DocumentTable extends PolymerElement {
         documentTable.$.ajax.params = {};
         documentTable.$.ajax.method = 'POST';
         documentTable.$.ajax.generateRequest();
-    }
-
-    sortedList(a, b) {
-        if (a.nameAndColor > b.nameAndColor) return 1;
-        if (a.nameAndColor < b.nameAndColor) return -1;
     }
 }
 

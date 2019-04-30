@@ -66,6 +66,7 @@ class ItemElement extends BaseClass {
             categoryId: Number,
             groupName: String,
             type: String,
+            typePrice: String,
             urlApi: String,
         }
     }
@@ -82,7 +83,7 @@ class ItemElement extends BaseClass {
                 'category_id': this.categoryId,
                 'brand_id': this.brandId,
                 'name': this.groupName,
-                'expand': 'priceRetail',
+                'expand': this.typePrice,
             }
         } else {
             this.$.ajax.params = {

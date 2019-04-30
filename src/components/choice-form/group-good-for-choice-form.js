@@ -111,6 +111,7 @@ class GroupGoodForChoiceForm extends BaseClass {
             itemElement.categoryId = this.categoryId;
             itemElement.brandId = this.brandId;
             itemElement.groupName = this.groupGood[1].name;
+            itemElement.typePrice = this.parentElement.typePrice;
             itemElement._runAjax();
         } else {
             this.groupGood = this.response;
