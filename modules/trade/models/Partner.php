@@ -11,7 +11,7 @@ use Yii;
  * @property string $name
  * @property string $full_name
  * @property string $address
- * @property int $phone
+ * @property string $phone
  * @property string $email
  * @property string $profile
  * @property string $post_index
