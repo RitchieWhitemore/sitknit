@@ -1,17 +1,20 @@
 <?php
 
-namespace app\modules\admin\models;
+namespace app\modules\admin\forms;
 
-use Yii;
+use app\core\entities\Shop\Country;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\Country;
 
 /**
- * CountrySearch represents the model behind the search form of `app\models\Country`.
+ * CountrySearch represents the model behind the search form of `core\entities\Shop\Country`.
  */
-class CountrySearch extends Country
+class CountrySearch extends Model
 {
+    public $id;
+    public $name;
+    public $description;
+
     /**
      * {@inheritdoc}
      */

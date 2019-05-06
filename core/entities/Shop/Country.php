@@ -1,9 +1,8 @@
 <?php
 
-namespace app\models;
+namespace app\core\entities\Shop;
 
-use Yii;
-use yii\helpers\ArrayHelper;
+use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "country".
@@ -12,31 +11,32 @@ use yii\helpers\ArrayHelper;
  * @property string $name
  * @property string $description
  */
-class Country extends \yii\db\ActiveRecord
+class Country extends ActiveRecord
 {
+
+    public static function create($name, $description): self
+    {
+        $country = new static();
+        $country->name = $name;
+        $country->description = $description;
+
+        return $country;
+    }
+
+    public function edit($name, $description)
+    {
+        $this->name = $name;
+        $this->description = $description;
+    }
+
     /**
      * {@inheritdoc}
      */
     public static function tableName()
     {
-        return 'country';
+        return '{{%country}}';
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function rules()
-    {
-        return [
-            [['name'], 'required'],
-            [['name'], 'string', 'max' => 50],
-            [['description'], 'string', 'max' => 255],
-        ];
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function attributeLabels()
     {
         return [
