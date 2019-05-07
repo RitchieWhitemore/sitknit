@@ -5,15 +5,13 @@ use yii\widgets\DetailView;
 use yii\helpers\ArrayHelper;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\Brand */
+/* @var $model \core\entities\Shop\Brand */
 
 $this->title = $model->name;
 $this->params['breadcrumbs'][] = ['label' => 'Брэнды', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="brand-view">
-
-    <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
         <?= Html::a('Редактировать', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
@@ -35,7 +33,12 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'image',
                 'format'    => 'raw',
                 'value'     => function ($value) {
-                    return Html::img($value->url, ['width' => 100]);
+                    /* @var app\core\entities\Shop\Brand $value*/
+                    return Html::a(
+                        Html::img($value->getThumbFileUrl('image', 'admin')),
+                        $value->getUploadedFileUrl('image'),
+                        ['class' => 'thumbnail', 'target' => '_blank']
+                    );
                 },
             ],
             [

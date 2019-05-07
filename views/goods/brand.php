@@ -5,7 +5,7 @@ use yii\widgets\ListView;
 
 /**
  *
- * @var $brand app\models\Brand
+ * @var $brand \core\entities\Shop\Brand
  *
  */
 ?>

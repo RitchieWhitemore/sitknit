@@ -1,27 +1,35 @@
 <?php
 
-namespace app\modules\admin\controllers;
+namespace app\modules\admin\controllers\shop;
 
+use app\core\forms\manage\Shop\BrandForm;
+use app\core\services\manage\Shop\BrandManageService;
 use Yii;
-use app\models\Brand;
-use app\modules\admin\models\BrandSearch;
+use app\core\entities\Shop\Brand;
+use app\modules\admin\forms\BrandSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\UploadedFile;
 
 /**
  * BrandsController implements the CRUD actions for Brand model.
  */
 class BrandsController extends Controller
 {
-    /**
-     * {@inheritdoc}
-     */
+    private $service;
+
+    public function __construct($id, $module, BrandManageService $service, $config = [])
+    {
+        parent::__construct($id, $module, $config);
+        $this->service = $service;
+    }
+
     public function behaviors()
     {
         return [
             'verbs' => [
-                'class' => VerbFilter::className(),
+                'class'   => VerbFilter::className(),
                 'actions' => [
                     'delete' => ['POST'],
                 ],
@@ -39,7 +47,7 @@ class BrandsController extends Controller
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
-            'searchModel' => $searchModel,
+            'searchModel'  => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
     }
@@ -64,15 +72,18 @@ class BrandsController extends Controller
      */
     public function actionCreate()
     {
-        $model = new Brand();
+        $form = new BrandForm();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($form->load(Yii::$app->request->post()) && $form->validate()) {
+            try {
+                $brand = $this->service->create($form);
+                return $this->redirect(['view', 'id' => $brand->id]);
+            } catch (\DomainException $e) {
+                Yii::$app->errorHandler->logException($e);
+                Yii::$app->session->setFlash('error', $e->getMessage());
+            }
         }
-
-        return $this->render('create', [
-            'model' => $model,
-        ]);
+        return $this->render('create', ['model' => $form,]);
     }
 
     /**
@@ -84,14 +95,25 @@ class BrandsController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
+        $brand = $this->findModel($id);
+        $form = new BrandForm($brand);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($form->load(Yii::$app->request->post())) {
+            $form->imageFile = UploadedFile::getInstance($form, 'imageFile');
+            if ($form->validate()) {
+                try {
+                    $this->service->edit($brand->id, $form);
+                    return $this->redirect(['view', 'id' => $brand->id]);
+                } catch (\DomainException $e) {
+                    Yii::$app->errorHandler->logException($e);
+                    Yii::$app->session->setFlash('error', $e->getMessage());
+                }
+            }
         }
 
         return $this->render('update', [
-            'model' => $model,
+            'model' => $form,
+            'brand' => $brand
         ]);
     }
 
@@ -100,12 +122,15 @@ class BrandsController extends Controller
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
-
+        try {
+            $this->service->remove($id);
+        } catch (\DomainException $e) {
+            Yii::$app->errorHandler->logException($e);
+            Yii::$app->session->setFlash('error', $e->getMessage());
+        }
         return $this->redirect(['index']);
     }
 
@@ -116,7 +141,7 @@ class BrandsController extends Controller
      * @return Brand the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel($id)
+    protected function findModel($id): Brand
     {
         if (($model = Brand::findOne($id)) !== null) {
             return $model;
@@ -127,16 +152,16 @@ class BrandsController extends Controller
 
     public function actionToggleActive($id)
     {
-        $Model = $this->findModel($id);
+        $model = $this->findModel($id);
 
-        if ($Model->active == 0) {
-            $Model->active = 1;
+        if ($model->status == 0) {
+            $model->status = 1;
         } else {
-            $Model->active = 0;
+            $model->status = 0;
         }
 
-        if ($Model->save()) {
-            return $this->redirect('/admin/brands');
+        if ($model->save()) {
+            return $this->redirect('/admin/shop/brands');
         };
     }
 }

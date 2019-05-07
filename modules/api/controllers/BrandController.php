@@ -9,14 +9,14 @@
 namespace app\modules\api\controllers;
 
 
-use app\models\Brand;
+use core\entities\Shop\Brand;
 use Yii;
 use yii\data\ActiveDataProvider;
 use yii\rest\ActiveController;
 
 class BrandController extends ActiveController
 {
-    public $modelClass = 'app\models\Brand';
+    public $modelClass = 'core\entities\Shop\Brand';
 
     public function actions()
     {

@@ -1,11 +1,13 @@
 <?php
 
+use app\core\entities\Shop\Brand;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-use app\models\Country;
+use app\core\entities\Shop\Country;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\Brand */
+/* @var $brand app\core\entities\Shop\Brand */
+/* @var $model app\core\forms\manage\Shop\BrandForm */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
@@ -19,11 +21,15 @@ use app\models\Country;
 
     <?= $form->field($model, 'country_id')->dropDownList(Country::getCountryArray(), ['prompt' => 'Выберите страну']) ?>
 
-    <?= $form->field($model, 'active')->dropDownList([0 => 'Нет', 1 => 'Да'], ['prompt' => 'активируйте брэнд']) ?>
+    <?= $form->field($model, 'status')->dropDownList(Brand::statusList(), ['prompt' => 'Выберите статус']) ?>
 
     <?php
-    if (isset($model->image)) {
-        echo Html::img($model->url, ['width' => 200, 'style' => 'margin-bottom: 25px']);
+    if (isset($brand->image)) {
+        echo Html::a(
+            Html::img($brand->getThumbFileUrl('image', 'admin')),
+            $brand->getUploadedFileUrl('image'),
+            ['class' => 'thumbnail', 'target' => '_blank']
+        );
     } else {
         echo Html::img('/img/no-image.svg', ['width' => 200, 'style' => 'margin-bottom: 25px']);
     }
