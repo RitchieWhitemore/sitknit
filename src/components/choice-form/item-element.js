@@ -90,6 +90,9 @@ class ItemElement extends BaseClass {
                 'category_id': 0,
             }
         }
+        if (this.type == 'partner') {
+            this.$.ajax.params = {}
+        }
         this.$.ajax.generateRequest();
     }
 
