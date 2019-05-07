@@ -18,7 +18,7 @@ class m190507_060102_add_slug_field extends Migration
         $countries = \app\core\entities\Shop\Country::find()->all();
 
         foreach ($countries as $country) {
-            if (empty($country->alias)) {
+            if (empty($country->slug)) {
                 $country->slug = Inflector::slug($country->name, '-');
                 $country->save();
             }

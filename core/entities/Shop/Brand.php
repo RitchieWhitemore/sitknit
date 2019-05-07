@@ -3,7 +3,7 @@
 namespace app\core\entities\Shop;
 
 use app\core\behaviors\UploadImageBehavior;
-use app\models\query\BrandQuery;
+use app\core\entities\Shop\queries\BrandQuery;
 use core\entities\Shop\Good\Good;
 use yii\db\ActiveRecord;
 use yii\db\Query;

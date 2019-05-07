@@ -3,10 +3,10 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
-use app\models\Category;
+use app\core\entities\Shop\Category;
 
 /* @var $this yii\web\View */
-/* @var $searchModel app\modules\admin\models\CategorySearch */
+/* @var $searchModel \app\modules\admin\forms\CategorySearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = 'Категории';
@@ -29,39 +29,53 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => $dataProvider,
         'filterModel'  => $searchModel,
         'columns'      => [
-            'id',
+            [
+                'attribute' => 'name',
+                'value' => function (Category $model) {
+                    $indent = ($model->depth > 1 ? str_repeat('&nbsp;&nbsp;', $model->depth - 1) . ' ' : '');
+                    return $indent . Html::a(Html::encode($model->name), ['view', 'id' => $model->id]);
+                },
+                'format' => 'raw',
+            ],
+            [
+                'value' => function (Category $model) {
+                    return
+                        Html::a('<span class="glyphicon glyphicon-arrow-up"></span>', ['move-up', 'id' => $model->id]) .
+                        Html::a('<span class="glyphicon glyphicon-arrow-down"></span>', ['move-down', 'id' => $model->id]);
+                },
+                'format' => 'raw',
+                'contentOptions' => ['style' => 'text-align: center'],
+            ],
             [
                 'attribute' => 'image',
                 'format'    => 'raw',
                 'value'     => function ($value) {
-                    return Html::img($value->getMainImageUrl(), ['width' => 100]);
+                    return Html::a(
+                        Html::img($value->getThumbFileUrl('image', 'admin')),
+                        $value->getUploadedFileUrl('image'),
+                        ['class' => 'thumbnail', 'target' => '_blank']);
                 },
             ],
-            'name',
-            [
-                'attribute' => 'parent_id',
-                'filter'    => Category::find()->select(['name', 'id'])->indexBy('id')->column(),
-                'value'     => 'parent.name',
-            ],
+            'slug',
             [
                 'label'     => 'Кол-во товаров',
                 'attribute' => 'goods_count',
             ],
             [
-                'attribute'      => 'active',
+                'attribute'      => 'status',
                 'label'          => 'Активен',
                 'format'         => 'html',
                 'filter'         => [0 => 'нет', 1 => 'да'],
                 'contentOptions' => ['class' => 'text-center'],
                 'value'          => function ($value) {
-                    if ($value->active == 1) {
+                    if ($value->status == 1) {
                         $label = '<span class="glyphicon glyphicon-eye-open text-success"></span>';
                     }
                     else {
                         $label = '<span class="glyphicon glyphicon-eye-close text-success"></span>';
                     }
 
-                    return Html::a($label, ["/admin/categories/toggle-active", "id" => $value->id], ['class' => 'btn-ajax btn-in-view']);
+                    return Html::a($label, ["/admin/shop/categories/toggle-active", "id" => $value->id], ['class' => 'btn-ajax btn-in-view']);
                 },
             ],
 

@@ -6,26 +6,27 @@
  * Time: 13:32
  */
 
-namespace app\models\query;
+namespace app\core\entities\Shop\queries;
 
 
+use app\core\entities\Shop\Category;
 use yii\db\ActiveQuery;
 
 /**
- * This is the ActiveQuery class for [[\app\models\Category]].
+ * This is the ActiveQuery class for [[\app\core\entities\Shop\Category]].
  *
- * @see \app\models\Category
+ * @see \app\core\entities\Shop\Category
  */
 class CategoryQuery extends ActiveQuery
 {
 
     public function active()
     {
-        return $this->andWhere(['active' => true]);
+        return $this->andWhere(['status' => true]);
     }
     /**
      * @inheritdoc
-     * @return \app\models\Category[]|array
+     * @return Category[]|array
      */
     public function all($db = null)
     {
@@ -33,7 +34,7 @@ class CategoryQuery extends ActiveQuery
     }
     /**
      * @inheritdoc
-     * @return \app\models\Category|array|null
+     * @return Category|array|null
      */
     public function one($db = null)
     {

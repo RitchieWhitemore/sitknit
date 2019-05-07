@@ -1,7 +1,7 @@
 <?php
 
 
-namespace app\models\query;
+namespace app\core\entities\Shop\queries;
 
 
 use yii\db\ActiveQuery;

@@ -24,7 +24,8 @@
         "sadovojav/yii2-image-thumbnail": "dev-master",
         "phpoffice/phpspreadsheet": "^1.6",
         "kartik-v/yii2-widget-datetimepicker": "dev-master",
-        "yii-dream-team/yii2-upload-behavior": "*"
+        "yii-dream-team/yii2-upload-behavior": "*",
+        "paulzi/yii2-nested-sets": "^1.1"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",

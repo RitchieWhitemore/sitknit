@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "08100f7e4110dd6d91bf89a22a8e436a",
+    "content-hash": "677b92aa85c343bf279e1aa4328ae98a",
     "packages": [
         {
             "name": "almasaeed2010/adminlte",
@@ -268,47 +268,6 @@
                 "yii"
             ],
             "time": "2013-12-10T17:49:58+00:00"
-        },
-        {
-            "name": "dastanaron/yii2-translit",
-            "version": "1.0.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/dastanaron/yii2-translit.git",
-                "reference": "635737e01a2abd047c86e1e95c4b042b3f1c1846"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/dastanaron/yii2-translit/zipball/635737e01a2abd047c86e1e95c4b042b3f1c1846",
-                "reference": "635737e01a2abd047c86e1e95c4b042b3f1c1846",
-                "shasum": ""
-            },
-            "type": "extension",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.0.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "dastanaron\\translit\\": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "GPL-3.0+"
-            ],
-            "authors": [
-                {
-                    "name": "dastanaron",
-                    "email": "flow199@yandex.ru"
-                }
-            ],
-            "description": "Transliteration symbols rus-en and en-rus",
-            "keywords": [
-                "extension"
-            ],
-            "time": "2017-10-12T09:28:48+00:00"
         },
         {
             "name": "dmstr/yii2-adminlte-asset",
@@ -2101,6 +2060,55 @@
                 "rotate"
             ],
             "time": "2015-09-08T22:55:44+00:00"
+        },
+        {
+            "name": "paulzi/yii2-nested-sets",
+            "version": "v1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/paulzi/yii2-nested-sets.git",
+                "reference": "05b51d129295e10becf603777aa25cf555329f46"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/paulzi/yii2-nested-sets/zipball/05b51d129295e10becf603777aa25cf555329f46",
+                "reference": "05b51d129295e10becf603777aa25cf555329f46",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0",
+                "yiisoft/yii2": "~2.0.0"
+            },
+            "require-dev": {
+                "phpunit/dbunit": "~1.0",
+                "phpunit/phpunit": "~4.0"
+            },
+            "type": "yii2-extension",
+            "autoload": {
+                "psr-4": {
+                    "paulzi\\nestedsets\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Alexander Kochetov",
+                    "email": "creocoder@gmail.com"
+                },
+                {
+                    "name": "PaulZi",
+                    "email": "pavel.zimakoff@gmail.com"
+                }
+            ],
+            "description": "Nested Sets Behavior for Yii2",
+            "keywords": [
+                "nested sets",
+                "yii2"
+            ],
+            "time": "2018-07-31T13:38:08+00:00"
         },
         {
             "name": "phpoffice/phpspreadsheet",

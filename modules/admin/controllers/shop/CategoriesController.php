@@ -1,23 +1,29 @@
 <?php
 
-namespace app\modules\admin\controllers;
+namespace app\modules\admin\controllers\shop;
 
+use app\core\forms\manage\Shop\CategoryForm;
+use app\core\services\manage\Shop\CategoryManageService;
 use Yii;
-use app\models\Category;
-use app\modules\admin\models\CategorySearch;
+use app\core\entities\Shop\Category;
+use app\modules\admin\forms\CategorySearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use yii\web\UploadedFile;
 
 /**
  * CategoriesController implements the CRUD actions for Category model.
  */
 class CategoriesController extends Controller
 {
-    /**
-     * {@inheritdoc}
-     */
+    private $service;
+
+    public function __construct($id, $module, CategoryManageService $service, $config = [])
+    {
+        parent::__construct($id, $module, $config);
+        $this->service = $service;
+    }
+
     public function behaviors()
     {
         return [
@@ -54,7 +60,7 @@ class CategoriesController extends Controller
     public function actionView($id)
     {
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'category' => $this->findModel($id),
         ]);
     }
 
@@ -65,14 +71,20 @@ class CategoriesController extends Controller
      */
     public function actionCreate()
     {
-        $model = new Category();
+        $form = new CategoryForm();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($form->load(Yii::$app->request->post()) && $form->validate()) {
+            try {
+                $category = $this->service->create($form);
+                return $this->redirect(['view', 'id' => $category->id]);
+            } catch (\DomainException $e) {
+                Yii::$app->errorHandler->logException($e);
+                Yii::$app->session->setFlash('error', $e->getMessage());
+            }
         }
 
         return $this->render('create', [
-            'model' => $model,
+            'model' => $form,
         ]);
     }
 
@@ -85,14 +97,22 @@ class CategoriesController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
+        $category = $this->findModel($id);
+        $form = new CategoryForm($category);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($form->load(Yii::$app->request->post()) && $form->validate()) {
+            try {
+                $this->service->edit($category->id, $form);
+                return $this->redirect(['view', 'id' => $category->id]);
+            } catch (\DomainException $e) {
+                Yii::$app->errorHandler->logException($e);
+                Yii::$app->session->setFlash('error', $e->getMessage());
+            }
         }
 
         return $this->render('update', [
-            'model' => $model,
+            'model' => $form,
+            'category' => $category,
         ]);
     }
 
@@ -105,8 +125,32 @@ class CategoriesController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        try {
+            $this->service->remove($id);
+        } catch (\DomainException $e) {
+            Yii::$app->errorHandler->logException($e);
+            Yii::$app->session->setFlash('error', $e->getMessage());
+        }
+        return $this->redirect(['index']);
+    }
 
+    /**
+     * @param integer $id
+     * @return mixed
+     */
+    public function actionMoveUp($id)
+    {
+        $this->service->moveUp($id);
+        return $this->redirect(['index']);
+    }
+
+    /**
+     * @param integer $id
+     * @return mixed
+     */
+    public function actionMoveDown($id)
+    {
+        $this->service->moveDown($id);
         return $this->redirect(['index']);
     }
 
@@ -128,17 +172,17 @@ class CategoriesController extends Controller
 
     public function actionToggleActive($id)
     {
-        $Category = $this->findModel($id);
+        $category = $this->findModel($id);
 
-        if ($Category->active == 0) {
-            $Category->active = 1;
+        if ($category->status == 0) {
+            $category->status = 1;
         }
         else {
-            $Category->active = 0;
+            $category->status = 0;
         }
 
-        if ($Category->save()) {
-            return $this->redirect('/admin/categories');
+        if ($category->save()) {
+            return $this->redirect('/admin/shop/categories');
         };
     }
 }
