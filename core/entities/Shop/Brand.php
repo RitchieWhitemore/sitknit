@@ -15,6 +15,7 @@ use yiidreamteam\upload\ImageUploadBehavior;
  *
  * @property int $id
  * @property string $name
+ * @property string $slug
  * @property string $description
  * @property string $image
  * @property int $country_id
@@ -27,10 +28,11 @@ class Brand extends ActiveRecord
     const STATUS_INACTIVE = 0;
     const STATUS_ACTIVE = 1;
 
-    public static function create($name, $description, $countryId, $status): self
+    public static function create($name, $slug, $description, $countryId, $status): self
     {
         $brand = new static();
         $brand->name = $name;
+        $brand->slug = $slug;
         $brand->description = $description;
         $brand->country_id = $countryId;
         $brand->status = $status;
@@ -38,9 +40,10 @@ class Brand extends ActiveRecord
         return $brand;
     }
 
-    public function edit($name, $description, $countryId, $status)
+    public function edit($name, $slug, $description, $countryId, $status)
     {
         $this->name = $name;
+        $this->slug = $slug;
         $this->description = $description;
         $this->country_id = $countryId;
         $this->status = $status;
@@ -78,6 +81,7 @@ class Brand extends ActiveRecord
         return [
             'id'          => 'ID',
             'name'        => 'Название',
+            'slug'        => 'Транслит',
             'description' => 'Описание',
             'active'      => 'Активен',
             'imageFile'   => 'Изображение',

@@ -13,6 +13,7 @@ class CountrySearch extends Model
 {
     public $id;
     public $name;
+    public $slug;
     public $description;
 
     /**
@@ -22,7 +23,7 @@ class CountrySearch extends Model
     {
         return [
             [['id'], 'integer'],
-            [['name', 'description'], 'safe'],
+            [['name', 'slug', 'description'], 'safe'],
         ];
     }
 
@@ -66,6 +67,7 @@ class CountrySearch extends Model
         ]);
 
         $query->andFilterWhere(['like', 'name', $this->name])
+            ->andFilterWhere(['like', 'slug', $this->slug])
             ->andFilterWhere(['like', 'description', $this->description]);
 
         return $dataProvider;

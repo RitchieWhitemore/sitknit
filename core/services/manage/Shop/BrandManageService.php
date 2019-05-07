@@ -21,6 +21,7 @@ class BrandManageService
     {
         $brand = Brand::create(
             $form->name,
+            $form->slug,
             $form->description,
             $form->country_id,
             $form->status
@@ -38,6 +39,7 @@ class BrandManageService
 
         $brand->edit(
             $form->name,
+            $form->slug,
             $form->description,
             $form->country_id,
             $form->status

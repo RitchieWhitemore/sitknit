@@ -4,7 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $model \app\modules\admin\forms\BrandSearch */
+/* @var $model app\modules\admin\forms\BrandSearch */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
@@ -18,6 +18,8 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'id') ?>
 
     <?= $form->field($model, 'name') ?>
+
+    <?= $form->field($model, 'slug') ?>
 
     <?= $form->field($model, 'description') ?>
 

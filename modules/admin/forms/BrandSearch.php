@@ -13,13 +13,14 @@ class BrandSearch extends Model
 {
     public $id;
     public $name;
+    public $slug;
     public $status;
 
     public function rules()
     {
         return [
             [['id', 'status'], 'integer'],
-            [['name'], 'safe'],
+            [['name', 'slug'], 'safe'],
         ];
     }
 
@@ -62,7 +63,8 @@ class BrandSearch extends Model
             'status' => $this->status,
         ]);
 
-        $query->andFilterWhere(['like', 'name', $this->name]);
+        $query->andFilterWhere(['like', 'name', $this->name])
+            ->andFilterWhere(['like', 'slug', $this->slug]);
 
         return $dataProvider;
     }

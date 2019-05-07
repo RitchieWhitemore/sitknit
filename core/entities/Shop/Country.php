@@ -9,23 +9,26 @@ use yii\db\ActiveRecord;
  *
  * @property int $id
  * @property string $name
+ * @property string $slug
  * @property string $description
  */
 class Country extends ActiveRecord
 {
 
-    public static function create($name, $description): self
+    public static function create($name, $slug, $description): self
     {
         $country = new static();
         $country->name = $name;
+        $country->slug = $slug;
         $country->description = $description;
 
         return $country;
     }
 
-    public function edit($name, $description)
+    public function edit($name, $slug, $description)
     {
         $this->name = $name;
+        $this->slug = $slug;
         $this->description = $description;
     }
 
@@ -42,6 +45,7 @@ class Country extends ActiveRecord
         return [
             'id' => 'ID',
             'name' => 'Название',
+            'slug' => 'Транслит',
             'description' => 'Описание',
         ];
     }

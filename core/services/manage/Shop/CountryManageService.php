@@ -19,7 +19,7 @@ class CountryManageService
 
     public function create(CountryForm $form): Country
     {
-        $country = Country::create($form->name, $form->description);
+        $country = Country::create($form->name, $form->slug, $form->description);
 
         $this->countries->save($country);
 
@@ -30,7 +30,7 @@ class CountryManageService
     {
         $country = $this->countries->get($id);
 
-        $country->edit($form->name, $form->description);
+        $country->edit($form->name, $form->slug, $form->description);
 
         $this->countries->save($country);
     }
