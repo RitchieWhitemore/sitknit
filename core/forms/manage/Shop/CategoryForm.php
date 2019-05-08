@@ -54,8 +54,29 @@ class CategoryForm extends Model
             [['name', 'slug', 'title'], 'string', 'max' => 255],
             [['description'], 'string'],
             ['slug', SlugValidator::class],
-            [['name', 'slug'], 'unique', 'targetClass' => Category::class, 'filter' => $this->_category ? ['<>', 'id', $this->_category->id] : null],
+            [
+                ['name', 'slug'],
+                'unique',
+                'targetClass' => Category::class,
+                'filter'      => $this->_category ? ['<>', 'id', $this->_category->id] : null
+            ],
             [['imageFile'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg'],
+        ];
+    }
+
+    public function attributeLabels()
+    {
+        return [
+            'id'          => 'ID',
+            'name'        => 'Название',
+            'slug'        => 'Транслит',
+            'title'       => 'Заголовок',
+            'description' => 'Краткое описание',
+            'content'     => 'Полное описание',
+            'status'      => 'Статус',
+            'imageFile'   => 'Изображение',
+            'image'       => 'Загруженое изображение',
+            'parentId'    => 'Родительская категория'
         ];
     }
 

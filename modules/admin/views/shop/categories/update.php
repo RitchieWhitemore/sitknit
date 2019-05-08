@@ -1,13 +1,12 @@
 <?php
 
-use yii\helpers\Html;
-
 /* @var $this yii\web\View */
-/* @var $model \app\core\entities\Shop\Category */
+/* @var $model app\core\forms\manage\Shop\CategoryForm */
+/* @var $category app\core\entities\Shop\Category */
 
-$this->title = 'Редактировать категорию: ' . $model->name;
+$this->title = 'Редактировать категорию: ' . $category->name;
 $this->params['breadcrumbs'][] = ['label' => 'Категории', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->name, 'url' => ['view', 'id' => $model->id]];
+$this->params['breadcrumbs'][] = ['label' => $category->name, 'url' => ['view', 'id' => $category->id]];
 $this->params['breadcrumbs'][] = 'Редактировать';
 ?>
 <div class="category-update">

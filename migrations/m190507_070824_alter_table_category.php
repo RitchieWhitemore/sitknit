@@ -67,8 +67,6 @@ class m190507_070824_alter_table_category extends Migration
      */
     public function safeDown()
     {
-        $this->dropIndex('{{%idx-category-slug}}', '{{%category}}');
-
         $this->dropColumn('{{%category}}', 'slug');
 
         $this->dropColumn('{{%category}}', 'title');

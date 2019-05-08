@@ -16,11 +16,12 @@ class CategorySearch extends Model
     public $name;
     public $slug;
     public $title;
+    public $status;
 
     public function rules(): array
     {
         return [
-            [['id'], 'integer'],
+            [['id', 'status'], 'integer'],
             [['name', 'slug', 'title'], 'safe'],
         ];
     }
@@ -49,6 +50,7 @@ class CategorySearch extends Model
 
         $query->andFilterWhere([
             'id' => $this->id,
+            'status' => $this->status,
         ]);
 
         $query
