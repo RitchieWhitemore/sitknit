@@ -1,6 +1,6 @@
 <?php
 
-namespace core\forms;
+namespace app\core\forms;
 
 use yii\base\Model;
 use yii\helpers\ArrayHelper;

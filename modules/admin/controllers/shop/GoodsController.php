@@ -65,11 +65,11 @@ class GoodsController extends Controller
     {
         $model = $this->findModel($id);
 
-        $index = Good::nextOrPrev($id, $model->category_id);
+       /* $index = Good::nextOrPrev($id, $model->category_id);
         $nextId = $index['next'];
         $disableNext = ($nextId === null) ? 'disabled' : null;
         $prevId = $index['prev'];
-        $disablePrev = ($prevId === null) ? 'disabled' : null;
+        $disablePrev = ($prevId === null) ? 'disabled' : null;*/
 
         $dataProvider = new ActiveDataProvider([
             'query' => $model->getGoodAttributes()->joinWith([
@@ -87,10 +87,10 @@ class GoodsController extends Controller
             'model'          => $model,
             'dataProvider'   => $dataProvider,
             'pricesProvider' => $pricesProvider,
-            'nextId'         => $nextId,
+           /* 'nextId'         => $nextId,
             'prevId'         => $prevId,
             'disableNext'    => $disableNext,
-            'disablePrev'    => $disablePrev,
+            'disablePrev'    => $disablePrev,*/
         ]);
     }
 

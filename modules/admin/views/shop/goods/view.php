@@ -15,16 +15,14 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="good-view">
 
-    <ul class="pager">
+    <!--    <ul class="pager">
         <li class="previous">
-            <?= Html::a('&larr; Предыдущий', ['update', 'id' => $prevId], ['class' => $disablePrev]) ?>
+            <? /*= Html::a('&larr; Предыдущий', ['update', 'id' => $prevId], ['class' => $disablePrev]) */ ?>
         </li>
         <li class="next">
-            <?= Html::a('Следующий &rarr;', ['update', 'id' => $nextId], ['class' => $disableNext]) ?>
+            <? /*= Html::a('Следующий &rarr;', ['update', 'id' => $nextId], ['class' => $disableNext]) */ ?>
         </li>
-    </ul>
-
-    <h1><?= Html::encode($this->title) ?></h1>
+    </ul>-->
 
     <p>
         <?= Html::a('Редактировать', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
@@ -36,40 +34,39 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
         ]) ?>
     </p>
+    <div class="box">
+        <div class="box-body">
+            <?= DetailView::widget([
+                'model'      => $model,
+                'attributes' => [
+                    'id',
+                    [
+                        'attribute' => 'main_good_id',
+                        'value'     => ArrayHelper::getValue($model, 'mainGood.article'),
+                        'label'     => 'Артикул товара с которого берутся характеристики',
+                    ],
 
-    <?= DetailView::widget([
-        'model'      => $model,
-        'attributes' => [
-            'id',
-            [
-                'attribute' => 'main_good_id',
-                'value'     => ArrayHelper::getValue($model, 'mainGood.article'),
-                'label'     => 'Артикул товара с которого берутся характеристики',
-            ],
-
-            'article',
-            'name',
-            'description',
-            'characteristic',
-            [
-                'attribute' => 'category_id',
-                'value'     => ArrayHelper::getValue($model, 'category.name'),
-            ],
-            [
-                'attribute' => 'composition_id',
-                'value'     => ArrayHelper::getValue($model, 'composition.name'),
-            ],
-            [
-                'attribute' => 'brand_id',
-                'value'     => ArrayHelper::getValue($model, 'brand.name'),
-            ],
-            'packaged',
-        ],
-    ]) ?>
-
+                    'article',
+                    'name',
+                    [
+                        'attribute' => 'category_id',
+                        'value'     => ArrayHelper::getValue($model, 'category.name'),
+                    ],
+                    [
+                        'attribute' => 'brand_id',
+                        'value'     => ArrayHelper::getValue($model, 'brand.name'),
+                    ],
+                    'packaged',
+                ],
+            ]) ?>
+        </div>
+    </div>
 
     <p>
-        <?= Html::a('Добавить характеристику', ['attribute-values/create', 'good_id' => $model->id], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Добавить характеристику', [
+            'attribute-values/create',
+            'good_id' => $model->id
+        ], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?= GridView::widget([
@@ -93,13 +90,25 @@ $this->params['breadcrumbs'][] = $this->title;
                 'controller' => 'attribute-values',
                 'buttons'    => [
                     'view'   => function ($url, $model, $key) {
-                        return Html::a('', ['/admin/attribute-values/view', 'good_id' => $model->attributeValues[0]->good_id, 'attribute_id' => $model->attributeValues[0]->attribute_id], ['class' => 'glyphicon glyphicon-eye-open']);
+                        return Html::a('', [
+                            '/admin/attribute-values/view',
+                            'good_id'      => $model->attributeValues[0]->good_id,
+                            'attribute_id' => $model->attributeValues[0]->attribute_id
+                        ], ['class' => 'glyphicon glyphicon-eye-open']);
                     },
                     'update' => function ($url, $model, $key) {
-                        return Html::a('', ['/admin/attribute-values/update', 'good_id' => $model->attributeValues[0]->good_id, 'attribute_id' => $model->attributeValues[0]->attribute_id], ['class' => 'glyphicon glyphicon-pencil']);
+                        return Html::a('', [
+                            '/admin/attribute-values/update',
+                            'good_id'      => $model->attributeValues[0]->good_id,
+                            'attribute_id' => $model->attributeValues[0]->attribute_id
+                        ], ['class' => 'glyphicon glyphicon-pencil']);
                     },
                     'delete' => function ($url, $model, $key) {
-                        return Html::a('', ['/admin/attribute-values/delete', 'good_id' => $model->attributeValues[0]->good_id, 'attribute_id' => $model->attributeValues[0]->attribute_id], ['class' => 'glyphicon glyphicon-trash']);
+                        return Html::a('', [
+                            '/admin/attribute-values/delete',
+                            'good_id'      => $model->attributeValues[0]->good_id,
+                            'attribute_id' => $model->attributeValues[0]->attribute_id
+                        ], ['class' => 'glyphicon glyphicon-trash']);
                     },
                 ],
             ],

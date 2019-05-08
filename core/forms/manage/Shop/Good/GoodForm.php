@@ -6,9 +6,15 @@ namespace app\core\forms\manage\Shop\Good;
 use app\core\entities\Shop\Brand;
 use app\core\entities\Shop\Good\Good;
 use app\core\entities\Shop\Category;
-use yii\base\Model;
+use app\core\forms\CompositeForm;
 
-class GoodForm extends Model
+/**
+ * Class GoodForm
+ * @package app\core\forms\manage\Shop\Good
+ *
+ * @property CategoriesForm $categories
+ */
+class GoodForm extends CompositeForm
 {
     public $id;
     public $article;
@@ -37,7 +43,11 @@ class GoodForm extends Model
             $this->status = $good->status;
             $this->main_good_id = $good->main_good_id;
 
+            $this->categories = new CategoriesForm($good);
+
             $this->_good = $good;
+        } else {
+            $this->categories = new CategoriesForm();
         }
         parent::__construct($config);
     }
@@ -52,9 +62,27 @@ class GoodForm extends Model
             [['category_id', 'brand_id', 'packaged', 'status'], 'integer'],
             [['article'], 'string', 'max' => 50],
             [['name', 'description'], 'string', 'max' => 255],
-            [['brand_id'], 'exist', 'skipOnError' => true, 'targetClass' => Brand::className(), 'targetAttribute' => ['brand_id' => 'id']],
-            [['category_id'], 'exist', 'skipOnError' => true, 'targetClass' => Category::className(), 'targetAttribute' => ['category_id' => 'id']],
-            [['main_good_id'], 'exist', 'skipOnError' => true, 'targetClass' => Good::className(), 'targetAttribute' => ['main_good_id' => 'id']],
+            [
+                ['brand_id'],
+                'exist',
+                'skipOnError'     => true,
+                'targetClass'     => Brand::className(),
+                'targetAttribute' => ['brand_id' => 'id']
+            ],
+            [
+                ['category_id'],
+                'exist',
+                'skipOnError'     => true,
+                'targetClass'     => Category::className(),
+                'targetAttribute' => ['category_id' => 'id']
+            ],
+            [
+                ['main_good_id'],
+                'exist',
+                'skipOnError'     => true,
+                'targetClass'     => Good::className(),
+                'targetAttribute' => ['main_good_id' => 'id']
+            ],
         ];
     }
 
@@ -72,6 +100,13 @@ class GoodForm extends Model
             'packaged'       => 'В упаковке',
             'active'         => 'Активен',
             'main_good_id'   => 'Основной товар',
+            'main'           => 'Основная',
+            'others'         => 'Другие',
         ];
+    }
+
+    protected function internalForms(): array
+    {
+        return ['categories'];
     }
 }

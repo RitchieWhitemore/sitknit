@@ -1,5 +1,6 @@
 <?php
 
+use app\core\entities\Shop\Brand;
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
@@ -28,7 +29,13 @@ $this->params['breadcrumbs'][] = $this->title;
                 'filterModel'  => $searchModel,
                 'columns'      => [
                     'id',
-                    'name',
+                    [
+                        'attribute' => 'name',
+                        'value' => function (Brand $model) {
+                            return Html::a(Html::encode($model->name), ['view', 'id' => $model->id]);
+                        },
+                        'format' => 'raw',
+                    ],
                     'slug',
                     [
                         'attribute'      => 'status',

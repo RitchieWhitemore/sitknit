@@ -11,6 +11,8 @@ use app\models\Composition;
 use app\models\Image;
 use app\core\entities\Shop\Good\queries\GoodQuery;
 use app\modules\trade\models\Price;
+use lhs\Yii2SaveRelationsBehavior\SaveRelationsBehavior;
+use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 
 /**
@@ -21,6 +23,7 @@ use yii\db\ActiveRecord;
  * @property string $name
  * @property string $description
  * @property string $characteristic
+ * @property string $nameAndColor
  * @property int $category_id
  * @property int $brand_id
  * @property int $packaged
@@ -32,6 +35,7 @@ use yii\db\ActiveRecord;
  * @property Brand $brand
  * @property Category $category
  * @property Price $priceRetail
+ * @property CategoryAssignment[] $categoryAssignments
  */
 class Good extends ActiveRecord
 {
@@ -53,21 +57,74 @@ class Good extends ActiveRecord
         return $good;
     }
 
-    public function edit($brandId, $categoryId, $article, $name, $description, $packaged, $mainGoodId = null, $status)
+    public function edit($brandId, $article, $name, $description, $packaged, $mainGoodId = null, $status)
     {
         $this->article = $article;
         $this->name = $name;
         $this->description = $description;
         $this->packaged = $packaged;
         $this->brand_id = $brandId;
-        $this->category_id = $categoryId;
         $this->main_good_id = $mainGoodId;
         $this->status = $status;
+    }
+
+    // Category
+
+    public function changeMainCategory($categoryId)
+    {
+        $this->category_id = $categoryId;
+    }
+
+    public function assignCategory($id)
+    {
+        $assignments = $this->categoryAssignments;
+        foreach ($assignments as $assignment) {
+            if ($assignment->isForCategory($id)) {
+                return;
+            }
+        }
+        $assignments[] = CategoryAssignment::create($id);
+        $this->categoryAssignments = $assignments;
+    }
+
+    public function revokeCategory($id)
+    {
+        $assignments = $this->categoryAssignments;
+        foreach ($assignments as $i => $assignment) {
+            if ($assignment->isForCategory($id)) {
+                unset($assignments[$i]);
+                $this->categoryAssignments = $assignments;
+                return;
+            }
+        }
+        throw new \DomainException('Assignment is not found.');
+    }
+
+    public function revokeCategories()
+    {
+        $this->categoryAssignments = [];
     }
 
     public static function tableName()
     {
         return '{{%good}}';
+    }
+
+    public function behaviors(): array
+    {
+        return [
+            [
+                'class' => SaveRelationsBehavior::className(),
+                'relations' => ['categoryAssignments'],
+            ],
+        ];
+    }
+
+    public function transactions()
+    {
+        return [
+            self::SCENARIO_DEFAULT => self::OP_ALL,
+        ];
     }
 
     /**
@@ -111,7 +168,7 @@ class Good extends ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getBrand()
+    public function getBrand(): ActiveQuery
     {
         return $this->hasOne(Brand::className(), ['id' => 'brand_id']);
     }
@@ -119,9 +176,14 @@ class Good extends ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCategory()
+    public function getCategory(): ActiveQuery
     {
         return $this->hasOne(Category::className(), ['id' => 'category_id']);
+    }
+
+    public function getCategoryAssignments(): ActiveQuery
+    {
+        return $this->hasMany(CategoryAssignment::class, ['good_id' => 'id']);
     }
 
     /**
@@ -187,7 +249,7 @@ class Good extends ActiveRecord
         return $this->category->name . ' ' . $this->name;
     }
 
-    public function getNameAndColor()
+    public function getNameAndColor(): string
     {
         $color = $this->getAttributeValues()->where(['attribute_id' => 1])->one();
 
