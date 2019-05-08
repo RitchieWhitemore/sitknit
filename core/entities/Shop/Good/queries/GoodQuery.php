@@ -6,12 +6,13 @@
  * Time: 20:31
  */
 
-namespace app\models\query;
+namespace app\core\entities\Shop\Good\queries;
 
+use core\entities\Shop\Good\Good;
 use yii\db\ActiveQuery;
 
 /**
- * This is the ActiveQuery class for [[\app\models\Good]].
+ * This is the ActiveQuery class for [[Good]].
  *
  * @see \app\models\Good
  */
@@ -24,7 +25,7 @@ class GoodQuery extends ActiveQuery
 
     /**
      * @inheritdoc
-     * @return \app\models\Good[]|array
+     * @return Good[]|array
      */
     public function all($db = null)
     {
@@ -32,7 +33,7 @@ class GoodQuery extends ActiveQuery
     }
     /**
      * @inheritdoc
-     * @return \app\models\Good|array|null
+     * @return Good|array|null
      */
     public function one($db = null)
     {

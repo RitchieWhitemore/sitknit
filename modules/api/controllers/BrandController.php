@@ -8,15 +8,14 @@
 
 namespace app\modules\api\controllers;
 
-
-use core\entities\Shop\Brand;
+use app\core\entities\Shop\Brand;
 use Yii;
 use yii\data\ActiveDataProvider;
 use yii\rest\ActiveController;
 
 class BrandController extends ActiveController
 {
-    public $modelClass = 'core\entities\Shop\Brand';
+    public $modelClass = 'app\core\entities\Shop\Brand';
 
     public function actions()
     {

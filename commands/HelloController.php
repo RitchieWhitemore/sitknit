@@ -7,6 +7,7 @@
 
 namespace app\commands;
 
+use app\core\entities\Shop\Good\Good;
 use yii\console\Controller;
 use yii\console\ExitCode;
 
@@ -30,6 +31,20 @@ class HelloController extends Controller
         echo $message . "\n";
 
         return ExitCode::OK;
+    }
+
+    public function actionEdit($startId)
+    {
+        for ($i = $startId; $i > 0; $i--) {
+            $goods = Good::find()->where(['category_id' => $i])->all();
+
+            foreach ($goods as $good) {
+                $good->category_id = $i + 1;
+                echo $good->id;
+                $good->save();
+            }
+        }
+
     }
 
 }

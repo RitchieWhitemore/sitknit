@@ -4,7 +4,7 @@ use yii\helpers\Url;
 
 /**
  *
- * @var $model app\models\Good
+ * @var $model \app\models\Good
  */
 if (isset($model->mainGood)) {
     $values = $model->getAttributeValues()->with('goodAttribute.unit')->indexBy('goodAttribute.name')->all();

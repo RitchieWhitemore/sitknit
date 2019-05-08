@@ -1,13 +1,14 @@
 <?php
 
-namespace app\modules\admin\controllers;
+namespace app\modules\admin\controllers\shop;
 
+use app\core\entities\Shop\Good\Good;
+use app\core\forms\manage\Shop\Good\GoodForm;
+use app\core\services\manage\Shop\GoodManageService;
 use app\models\Attribute;
 use app\models\AttributeValue;
-use app\models\Image;
 use Yii;
-use app\models\Good;
-use app\modules\admin\models\GoodSearch;
+use app\modules\admin\forms\GoodSearch;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
@@ -19,9 +20,14 @@ use yii\filters\VerbFilter;
  */
 class GoodsController extends Controller
 {
-    /**
-     * {@inheritdoc}
-     */
+    private $service;
+
+    public function __construct($id, $module, GoodManageService $service, $config = [])
+    {
+        $this->service = $service;
+        parent::__construct($id, $module, $config);
+    }
+
     public function behaviors()
     {
         return [
@@ -96,16 +102,23 @@ class GoodsController extends Controller
     public function actionCreate()
     {
         $model = new Good();
+        $form = new GoodForm();
         $values = $this->initValues($model);
 
         $post = Yii::$app->request->post();
-        if ($model->load($post) && $model->save() && Model::loadMultiple($values, $post)) {
-            $this->processValues($values, $model);
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($form->load($post) && $form->validate() && Model::loadMultiple($values, $post)) {
+            try {
+                $category = $this->service->create($form);
+                $this->processValues($values, $category);
+                return $this->redirect(['view', 'id' => $category->id]);
+            } catch (\DomainException $e) {
+                Yii::$app->errorHandler->logException($e);
+                Yii::$app->session->setFlash('error', $e->getMessage());
+            }
         }
 
         return $this->render('create', [
-            'model'  => $model,
+            'model'  => $form,
             'values' => $values,
         ]);
     }
@@ -119,21 +132,29 @@ class GoodsController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
-        $values = $this->initValues($model);
+        $good = $this->findModel($id);
+        $values = $this->initValues($good);
 
         $imagesProvider = new ActiveDataProvider([
-            'query' => $model->getImages(),
+            'query' => $good->getImages(),
         ]);
 
+        $form = new GoodForm($good);
         $post = Yii::$app->request->post();
-        if ($model->load($post) && $model->save() && Model::loadMultiple($values, $post)) {
-            $this->processValues($values, $model);
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($form->load($post) && $form->validate() && Model::loadMultiple($values, $post)) {
+            try {
+                $this->service->edit($good->id, $form);
+                $this->processValues($values, $good);
+                return $this->redirect(['view', 'id' => $good->id]);
+            } catch (\DomainException $e) {
+                Yii::$app->errorHandler->logException($e);
+                Yii::$app->session->setFlash('error', $e->getMessage());
+            }
         }
 
         return $this->render('update', [
-            'model'          => $model,
+            'model'          => $form,
+            'good'           => $good,
             'imagesProvider' => $imagesProvider,
             'values'         => $values,
         ]);
@@ -180,15 +201,14 @@ class GoodsController extends Controller
     {
         $Good = $this->findModel($id);
 
-        if ($Good->active == 0) {
-            $Good->active = 1;
-        }
-        else {
-            $Good->active = 0;
+        if ($Good->status == 0) {
+            $Good->status = 1;
+        } else {
+            $Good->status = 0;
         }
 
         if ($Good->save()) {
-            return $this->redirect('/admin/goods');
+            return $this->redirect('/admin/shop/goods');
         };
     }
 
@@ -221,8 +241,7 @@ class GoodsController extends Controller
             if ($value->validate()) {
                 if (!empty($value->value)) {
                     $value->save(false);
-                }
-                else {
+                } else {
                     $value->delete();
                 }
             }

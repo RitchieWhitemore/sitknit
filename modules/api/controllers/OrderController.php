@@ -9,10 +9,8 @@
 namespace app\modules\api\controllers;
 
 use app\modules\trade\models\Order;
-use app\modules\trade\models\OrderItem;
 use app\services\DocumentRepository;
 use Yii;
-use yii\db\Exception;
 use yii\rest\ActiveController;
 
 class OrderController extends ActiveController

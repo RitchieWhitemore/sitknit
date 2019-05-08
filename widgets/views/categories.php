@@ -4,7 +4,7 @@ use yii\helpers\Url;
 
 /**
  *
- * @var $categories \app\models\Category
+ * @var $categories \app\core\entities\Shop\Category
  * */
 ?>
 

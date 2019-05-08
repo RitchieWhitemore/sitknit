@@ -7,7 +7,7 @@ use yii\widgets\Pjax;
 use yii\grid\GridView;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\Good */
+/* @var $model \app\models\Good */
 
 $this->title = $model->name;
 $this->params['breadcrumbs'][] = ['label' => 'Товары', 'url' => ['index']];

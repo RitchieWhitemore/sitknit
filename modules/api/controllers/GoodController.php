@@ -2,14 +2,14 @@
 
 namespace app\modules\api\controllers;
 
-use app\models\Good;
+use app\core\entities\Shop\Good\Good;
 use Yii;
 use yii\data\ActiveDataProvider;
 use yii\rest\ActiveController;
 
 class GoodController extends ActiveController
 {
-    public $modelClass = 'app\models\Good';
+    public $modelClass = 'app\core\entities\Shop\Good\Good';
 
     public function actions()
     {

@@ -1,10 +1,17 @@
 <?php
 
-namespace app\models;
+namespace app\core\entities\Shop\Good;
 
 
-use app\models\query\GoodQuery;
+use app\models\Attribute;
+use app\models\AttributeValue;
+use app\core\entities\Shop\Brand;
+use app\core\entities\Shop\Category;
+use app\models\Composition;
+use app\models\Image;
+use app\core\entities\Shop\Good\queries\GoodQuery;
 use app\modules\trade\models\Price;
+use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "good".
@@ -17,6 +24,8 @@ use app\modules\trade\models\Price;
  * @property int $category_id
  * @property int $brand_id
  * @property int $packaged
+ * @property int $status
+ * @property int $main_good_id
  * @property string $mainImageUrl
  *
  *
@@ -24,30 +33,41 @@ use app\modules\trade\models\Price;
  * @property Category $category
  * @property Price $priceRetail
  */
-class Good extends \yii\db\ActiveRecord
+class Good extends ActiveRecord
 {
-    /**
-     * {@inheritdoc}
-     */
-    public static function tableName()
+    const STATUS_ACTIVE = 1;
+    const STATUS_INACTIVE = 0;
+
+    public static function create($brandId, $categoryId, $article, $name, $description, $packaged, $mainGoodId = null, $status): self
     {
-        return 'good';
+        $good = new static();
+        $good->article = $article;
+        $good->name = $name;
+        $good->description = $description;
+        $good->packaged = $packaged;
+        $good->brand_id = $brandId;
+        $good->category_id = $categoryId;
+        $good->main_good_id = $mainGoodId;
+        $good->status = $status;
+
+        return $good;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function rules()
+    public function edit($brandId, $categoryId, $article, $name, $description, $packaged, $mainGoodId = null, $status)
     {
-        return [
-            [['name'], 'required'],
-            [['category_id', 'composition_id', 'brand_id', 'packaged', 'active'], 'integer'],
-            [['article'], 'string', 'max' => 50],
-            [['name', 'description', 'characteristic'], 'string', 'max' => 255],
-            [['brand_id'], 'exist', 'skipOnError' => true, 'targetClass' => Brand::className(), 'targetAttribute' => ['brand_id' => 'id']],
-            [['category_id'], 'exist', 'skipOnError' => true, 'targetClass' => Category::className(), 'targetAttribute' => ['category_id' => 'id']],
-            [['main_good_id'], 'exist', 'skipOnError' => true, 'targetClass' => Good::className(), 'targetAttribute' => ['main_good_id' => 'id']],
-        ];
+        $this->article = $article;
+        $this->name = $name;
+        $this->description = $description;
+        $this->packaged = $packaged;
+        $this->brand_id = $brandId;
+        $this->category_id = $categoryId;
+        $this->main_good_id = $mainGoodId;
+        $this->status = $status;
+    }
+
+    public static function tableName()
+    {
+        return '{{%good}}';
     }
 
     /**

@@ -9,12 +9,12 @@
 namespace app\modules\api\controllers;
 
 
-use app\models\Category;
+use app\core\entities\Shop\Category;
 use yii\rest\ActiveController;
 
 class CategoryController extends ActiveController
 {
-    public $modelClass = 'app\models\Category';
+    public $modelClass = 'app\core\entities\Shop\Category';
 
     public function actionParent($parent_id)
     {

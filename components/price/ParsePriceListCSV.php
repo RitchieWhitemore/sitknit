@@ -4,8 +4,8 @@
 namespace app\components\price;
 
 
-use app\models\Brand;
-use app\models\Category;
+use core\entities\Shop\Brand;
+use app\core\entities\Shop\Category;
 use app\models\Good;
 use app\modules\trade\models\Price;
 use app\modules\trade\models\SetPriceAjaxForm;

@@ -1,24 +1,32 @@
 <?php
 
-namespace app\modules\admin\models;
+namespace app\modules\admin\forms;
 
-use Yii;
+use app\core\entities\Shop\Good\Good;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\Good;
 
 /**
  * GoodSearch represents the model behind the search form of `app\models\Good`.
  */
-class GoodSearch extends Good
+class GoodSearch extends Model
 {
+    public $id;
+    public $article;
+    public $name;
+    public $category_id;
+    public $brand_id;
+    public $packaged;
+    public $status;
+    public $description;
+    public $characteristic;
     /**
      * {@inheritdoc}
      */
     public function rules()
     {
         return [
-            [['id', 'category_id', 'brand_id', 'packaged', 'active'], 'integer'],
+            [['id', 'category_id', 'brand_id', 'packaged', 'status'], 'integer'],
             [['article', 'name', 'description', 'characteristic'], 'safe'],
         ];
     }
@@ -74,7 +82,7 @@ class GoodSearch extends Good
             'category_id' => $this->category_id,
             'brand_id' => $this->brand_id,
             'packaged' => $this->packaged,
-            'good.active' => $this->active,
+            'good.status' => $this->status,
         ]);
 
         $query->andFilterWhere(['like', 'article', $this->article])

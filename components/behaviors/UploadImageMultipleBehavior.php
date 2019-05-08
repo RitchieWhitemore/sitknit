@@ -2,6 +2,7 @@
 
 namespace app\components\behaviors;
 
+use app\core\behaviors\UploadImageBehavior;
 use Yii;
 use yii\db\ActiveRecord;
 use yii\helpers\FileHelper;

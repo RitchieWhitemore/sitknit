@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use app\core\entities\Shop\Good\Good;
 use Yii;
 
 /**

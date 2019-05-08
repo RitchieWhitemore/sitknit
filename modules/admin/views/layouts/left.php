@@ -39,7 +39,7 @@
                         ['label' => 'Составы (категории)', 'url' => ['/admin/compositions/index']],
                         ['label' => 'Страны', 'url' => ['/admin/shop/country/index']],
                         ['label' => 'Управление товарами', 'items' => [
-                            ['label' => 'Товары', 'url' => ['/admin/goods/index']],
+                            ['label' => 'Товары', 'url' => ['/admin/shop/goods/index']],
                             ['label' => 'Атрибуты', 'url' => ['/admin/attributes/index']],
                             ['label' => 'Значения атрибута', 'url' => ['/admin/attribute-values/index']],
                             ['label' => 'Единицы измерения', 'url' => ['/admin/units/index']],

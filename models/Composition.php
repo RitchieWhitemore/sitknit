@@ -2,7 +2,7 @@
 
 namespace app\models;
 
-use app\components\behaviors\UploadImageBehavior;
+use app\core\behaviors\UploadImageBehavior;
 use Yii;
 
 /**
@@ -27,7 +27,7 @@ class Composition extends \yii\db\ActiveRecord
         return 'composition';
     }
 
-    public function behaviors()
+    /*public function behaviors()
     {
         return [
             [
@@ -37,7 +37,7 @@ class Composition extends \yii\db\ActiveRecord
                 'catalog' => 'composition',
             ],
         ];
-    }
+    }*/
 
     /**
      * {@inheritdoc}

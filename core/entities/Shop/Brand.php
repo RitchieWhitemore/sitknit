@@ -2,9 +2,8 @@
 
 namespace app\core\entities\Shop;
 
-use app\core\behaviors\UploadImageBehavior;
 use app\core\entities\Shop\queries\BrandQuery;
-use core\entities\Shop\Good\Good;
+use app\core\entities\Shop\Good\Good;
 use yii\db\ActiveRecord;
 use yii\db\Query;
 use yii\helpers\ArrayHelper;

@@ -4,11 +4,8 @@ namespace app\modules\api\controllers;
 
 
 use app\modules\trade\models\Receipt;
-use app\modules\trade\models\ReceiptItem;
-use app\services\DocumentHelper;
 use app\services\DocumentRepository;
 use Yii;
-use yii\db\Exception;
 use yii\rest\ActiveController;
 
 class ReceiptController extends ActiveController

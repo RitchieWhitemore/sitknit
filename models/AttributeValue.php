@@ -2,7 +2,7 @@
 
 namespace app\models;
 
-use Yii;
+use app\core\entities\Shop\Good\Good;
 
 /**
  * This is the model class for table "attribute_value".

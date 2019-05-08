@@ -1,13 +1,13 @@
 <?php
 
+use app\core\entities\Shop\Brand;
 use yii\helpers\Html;
 use yii\grid\GridView;
-use app\models\Category;
-use app\models\Brand;
+use app\core\entities\Shop\Category;
 use yii\widgets\Pjax;
 
 /* @var $this yii\web\View */
-/* @var $searchModel app\modules\admin\models\GoodSearch */
+/* @var $searchModel \app\modules\admin\forms\GoodSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = 'Товары';
@@ -49,18 +49,14 @@ $this->params['breadcrumbs'][] = $this->title;
                 'label' => 'Название',
                 'value' => 'nameAndColor',
             ],
-            //'description',
-            //'characteristic',
-            //'countryId',
-            //'packaged',
             [
-                'attribute'      => 'active',
+                'attribute'      => 'status',
                 'label'          => 'Активен',
                 'format'         => 'html',
                 'filter'         => [0 => 'нет', 1 => 'да'],
                 'contentOptions' => ['class' => 'text-center'],
                 'value'          => function ($value) {
-                    if ($value->active == 1) {
+                    if ($value->status == 1) {
                         $label = '<span class="glyphicon glyphicon-eye-open text-success"></span>';
                     }
                     else {

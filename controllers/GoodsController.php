@@ -10,8 +10,8 @@ namespace app\controllers;
 
 use app\models\Attribute;
 use app\models\AttributeValue;
-use app\models\Brand;
-use app\models\Category;
+use core\entities\Shop\Brand;
+use app\core\entities\Shop\Category;
 use app\models\Good;
 use yii\data\ActiveDataProvider;
 use yii\db\Query;

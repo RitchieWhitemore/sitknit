@@ -5,7 +5,7 @@ use yii\helpers\Url;
 
 /**
  *
- * @var $model app\models\Good
+ * @var $model \app\models\Good
  * @var $values app\models\AttributeValue
  * @var $valuesMain app\models\AttributeValue
  */

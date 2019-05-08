@@ -2,7 +2,7 @@
 
 namespace app\widgets;
 
-use app\models\Category;
+use app\core\entities\Shop\Category;
 use yii\base\Widget;
 
 class Categories extends Widget

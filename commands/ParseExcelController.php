@@ -9,8 +9,8 @@
 namespace app\commands;
 
 use app\components\SetPrice;
-use app\models\Brand;
-use app\models\Category;
+use core\entities\Shop\Brand;
+use app\core\entities\Shop\Category;
 use app\models\Good;
 use app\modules\trade\models\Price;
 use igogo5yo\uploadfromurl\UploadFromUrl;

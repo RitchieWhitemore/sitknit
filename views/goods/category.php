@@ -3,11 +3,11 @@
 use yii\widgets\ListView;
 use yii\widgets\Breadcrumbs;
 use yii\helpers\Html;
-use app\models\Category;
+use app\core\entities\Shop\Category;
 
 /**
  *
- * @var $model app\models\Category
+ * @var $model \app\core\entities\Shop\Category
  */
 
 $this->title = $model->name;

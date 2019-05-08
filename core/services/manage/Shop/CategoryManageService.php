@@ -58,9 +58,9 @@ class CategoryManageService
     {
         $category = $this->categories->get($id);
         $this->assertIsNotRoot($category);
-        if ($this->products->existsByMainCategory($category->id)) {
+        /*if ($this->products->existsByMainCategory($category->id)) {
             throw new \DomainException('Unable to remove category with products.');
-        }
+        }*/
         $this->categories->remove($category);
     }
 
