@@ -46,7 +46,7 @@ class BrandForm extends Model
     public function rules()
     {
         return [
-            [['name', 'slug', 'country_id', 'status'], 'required'],
+            [['name', 'country_id', 'status'], 'required'],
             [['name', 'slug'], 'string', 'max' => 50],
             [['description'], 'string', 'max' => 100],
             [['status', 'country_id'], 'integer'],

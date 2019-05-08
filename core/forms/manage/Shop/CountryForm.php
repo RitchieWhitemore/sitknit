@@ -29,7 +29,7 @@ class CountryForm extends Model
     public function rules()
     {
         return [
-            [['name', 'slug'], 'required'],
+            [['name'], 'required'],
             [['name', 'slug'], 'string', 'max' => 50],
             [['description'], 'string', 'max' => 255],
             ['slug', SlugValidator::class],
