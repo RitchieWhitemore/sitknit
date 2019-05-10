@@ -36,6 +36,9 @@ class GoodsController extends Controller
                 'class'   => VerbFilter::className(),
                 'actions' => [
                     'delete' => ['POST'],
+                    'delete-photo' => ['POST'],
+                    'move-photo-up' => ['POST'],
+                    'move-photo-down' => ['POST'],
                 ],
             ],
         ];
