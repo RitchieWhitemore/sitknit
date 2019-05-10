@@ -6,6 +6,7 @@ namespace app\core\services\manage\Shop;
 
 use app\core\entities\Shop\Good\Good;
 use app\core\forms\manage\Shop\Good\GoodForm;
+use app\core\forms\manage\Shop\Good\ImagesForm;
 use app\core\repositories\Shop\BrandRepository;
 use app\core\repositories\Shop\CategoryRepository;
 use app\core\repositories\Shop\GoodRepository;
@@ -32,11 +33,23 @@ class GoodManageService
         $brand = $this->brands->get($form->brand_id);
         $category = $this->categories->get($form->categories->main);
 
-        $good = Good::create($brand->id, $category->id, $form->article, $form->name, $form->description, $form->packaged, $form->main_good_id, $form->status);
+        $good = Good::create(
+            $brand->id,
+            $category->id,
+            $form->article,
+            $form->name,
+            $form->description,
+            $form->packaged,
+            $form->main_good_id,
+            $form->status);
 
         foreach ($form->categories->others as $otherId) {
             $category = $this->categories->get($otherId);
             $good->assignCategory($category->id);
+        }
+
+        foreach ($form->images->files as $file) {
+            $good->addImage($file);
         }
 
         $this->goods->save($good);
@@ -72,5 +85,35 @@ class GoodManageService
     {
         $product = $this->goods->get($id);
         $this->goods->remove($product);
+    }
+
+    public function addImages($id, ImagesForm $form)
+    {
+        $good = $this->goods->get($id);
+        foreach ($form->files as $file) {
+            $good->addImage($file);
+        }
+        $this->goods->save($good);
+    }
+
+    public function moveImageUp($id, $imageId)
+    {
+        $good = $this->goods->get($id);
+        $good->moveImageUp($imageId);
+        $this->goods->save($good);
+    }
+
+    public function moveImageDown($id, $imageId)
+    {
+        $good = $this->goods->get($id);
+        $good->moveImageDown($imageId);
+        $this->goods->save($good);
+    }
+
+    public function removeImage($id, $imageId)
+    {
+        $good = $this->goods->get($id);
+        $good->removeImage($imageId);
+        $this->goods->save($good);
     }
 }

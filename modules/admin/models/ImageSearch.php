@@ -5,12 +5,12 @@ namespace app\modules\admin\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\Image;
+use app\core\entities\Shop\Good\Image;
 
 /**
- * ImageSearch represents the model behind the search form of `app\models\Image`.
+ * ImageSearch represents the model behind the search form of `app\core\entities\Shop\Good\Image`.
  */
-class ImageSearch extends Image
+class ImageSearch extends \app\core\entities\Shop\Good\Image
 {
     public function behaviors()
     {

@@ -3,7 +3,7 @@
 namespace app\modules\admin\controllers;
 
 use Yii;
-use app\models\Image;
+use app\core\entities\Shop\Good\Image;
 use app\modules\admin\models\ImageSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;

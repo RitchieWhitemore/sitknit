@@ -7,13 +7,12 @@ use app\models\Attribute;
 use app\models\AttributeValue;
 use app\core\entities\Shop\Brand;
 use app\core\entities\Shop\Category;
-use app\models\Composition;
-use app\models\Image;
 use app\core\entities\Shop\Good\queries\GoodQuery;
 use app\modules\trade\models\Price;
 use lhs\Yii2SaveRelationsBehavior\SaveRelationsBehavior;
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
+use yii\web\UploadedFile;
 
 /**
  * This is the model class for table "good".
@@ -29,13 +28,15 @@ use yii\db\ActiveRecord;
  * @property int $packaged
  * @property int $status
  * @property int $main_good_id
- * @property string $mainImageUrl
+ * @property integer $main_image_id
  *
  *
  * @property Brand $brand
  * @property Category $category
  * @property Price $priceRetail
  * @property CategoryAssignment[] $categoryAssignments
+ * @property Image[] $images
+ * @property Image $mainImage
  */
 class Good extends ActiveRecord
 {
@@ -105,6 +106,75 @@ class Good extends ActiveRecord
         $this->categoryAssignments = [];
     }
 
+    // Images
+
+    public function addImage(UploadedFile $file)
+    {
+        $images = $this->images;
+        $images[] = Image::create($file);
+        $this->updateImages($images);
+    }
+
+    public function removeImage($id)
+    {
+        $images = $this->images;
+        foreach ($images as $i => $image) {
+            if ($image->isIdEqualTo($id)) {
+                unset($images[$i]);
+                $this->updateImages($images);
+                return;
+            }
+        }
+        throw new \DomainException('Image is not found.');
+    }
+
+    public function removeImages()
+    {
+        $this->updateImages([]);
+    }
+
+    public function moveImageUp($id)
+    {
+        $images = $this->images;
+        foreach ($images as $i => $image) {
+            if ($image->isIdEqualTo($id)) {
+                if ($prev = $images[$i - 1] ?? null) {
+                    $images[$i - 1] = $image;
+                    $images[$i] = $prev;
+                    $this->updateImages($images);
+                }
+                return;
+            }
+        }
+        throw new \DomainException('Image is not found.');
+    }
+
+    public function moveImageDown($id)
+    {
+        $images = $this->images;
+        foreach ($images as $i => $image) {
+            if ($image->isIdEqualTo($id)) {
+                if ($next = $images[$i + 1] ?? null) {
+                    $images[$i] = $next;
+                    $images[$i + 1] = $image;
+                    $this->updateImages($images);
+                }
+                return;
+            }
+        }
+        throw new \DomainException('Image is not found.');
+    }
+
+    private function updateImages(array $images)
+    {
+        foreach ($images as $i => $image) {
+            $image->setSort($i);
+        }
+        $this->images = $images;
+        $this->populateRelation('mainImage', reset($images));
+    }
+
+
     public static function tableName()
     {
         return '{{%good}}';
@@ -115,7 +185,7 @@ class Good extends ActiveRecord
         return [
             [
                 'class' => SaveRelationsBehavior::className(),
-                'relations' => ['categoryAssignments'],
+                'relations' => ['categoryAssignments', 'images'],
             ],
         ];
     }
@@ -186,20 +256,14 @@ class Good extends ActiveRecord
         return $this->hasMany(CategoryAssignment::class, ['good_id' => 'id']);
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getComposition()
+    public function getImages(): ActiveQuery
     {
-        return $this->hasOne(Composition::className(), ['id' => 'composition_id']);
+        return $this->hasMany(Image::className(), ['good_id' => 'id'])->orderBy('sort');
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getImages()
+    public function getMainImage(): ActiveQuery
     {
-        return $this->hasMany(Image::className(), ['good_id' => 'id']);
+        return $this->hasOne(Image::class, ['id' => 'main_image_id']);
     }
 
     /**
@@ -226,22 +290,6 @@ class Good extends ActiveRecord
     public static function getGoodArray()
     {
         return self::find()->select(['name', 'id'])->indexBy('id')->column();
-    }
-
-    /**
-     * @return string
-     */
-    public function getMainImageUrl()
-    {
-        $Image = Image::find()->where(['good_id' => $this->id])->andWhere(['main' => 1])->one();
-
-        if (!isset($Image)) {
-            $Image = Image::find()->where(['good_id' => $this->id])->one();
-        }
-
-        if (isset($Image)) {
-            return '/img/goods/' . $this->id . '/' . $Image->file_name;
-        }
     }
 
     public function getFullName()
@@ -292,5 +340,25 @@ class Good extends ActiveRecord
     public static function find()
     {
         return new GoodQuery(get_called_class());
+    }
+
+    public function beforeDelete(): bool
+    {
+        if (parent::beforeDelete()) {
+            foreach ($this->images as $image) {
+                $image->delete();
+            }
+            return true;
+        }
+        return false;
+    }
+
+    public function afterSave($insert, $changedAttributes)
+    {
+        $related = $this->getRelatedRecords();
+        if (array_key_exists('mainImage', $related)) {
+            $this->updateAttributes(['main_image_id' => $related['mainImage'] ? $related['mainImage']->id : null]);
+        }
+        parent::afterSave($insert, $changedAttributes);
     }
 }

@@ -3,8 +3,6 @@
 use app\core\entities\Shop\Brand;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-use app\core\entities\Shop\Category;
-use app\models\Composition;
 
 /**
  * @var $this yii\web\View
@@ -18,7 +16,6 @@ $bundle = \app\assets\WebComponentsAsset::register($this);
 
 $this->registerJsFile("$bundle->baseUrl/page-tabs/page-tabs.js", ['type' => 'module'], $this::POS_END);
 $this->registerJsFile("$bundle->baseUrl/page-tabs/page-tabs.js", ['type' => 'module']);
-$this->registerJsFile("$bundle->baseUrl/image-list/image-list.js", ['type' => 'module']);
 $this->registerJsFile("$bundle->baseUrl/choice-form/base-choice-form.js", ['type' => 'module']);
 $this->registerJsFile("$bundle->baseUrl/choice-form/parent-tree.js", ['type' => 'module']);
 $this->registerJsFile("$bundle->baseUrl/choice-form/brands-for-choice-form.js", ['type' => 'module']);
@@ -31,11 +28,6 @@ $this->registerJsFile("$bundle->baseUrl/choice-form/item-element.js", ['type' =>
             <paper-tabs selected="0">
                 <paper-tab>Основная информация</paper-tab>
                 <paper-tab>Дополнительная информация</paper-tab>
-                <?php
-                if ($this->context->action->id == "update") {
-                    echo "<paper-tab>Изображения</paper-tab>";
-                }
-                ?>
             </paper-tabs>
             <iron-pages selected="0">
                 <div>
@@ -107,6 +99,7 @@ $this->registerJsFile("$bundle->baseUrl/choice-form/item-element.js", ['type' =>
                         0 => 'Нет',
                         1 => 'Да'
                     ], ['prompt' => 'активируйте товар']) ?>
+
                 </div>
                 <div>
                     <?php foreach ($values as $value): ?>

@@ -3,7 +3,7 @@
 use yii\helpers\Html;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\Image */
+/* @var $model \app\core\entities\Shop\Good\Image */
 
 $this->title = 'Редактировать изображение: ' . $model->id;
 $this->params['breadcrumbs'][] = ['label' => 'Images', 'url' => ['index']];

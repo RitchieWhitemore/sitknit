@@ -13,6 +13,7 @@ use app\core\forms\CompositeForm;
  * @package app\core\forms\manage\Shop\Good
  *
  * @property CategoriesForm $categories
+ * @property ImagesForm $images
  */
 class GoodForm extends CompositeForm
 {
@@ -48,6 +49,7 @@ class GoodForm extends CompositeForm
             $this->_good = $good;
         } else {
             $this->categories = new CategoriesForm();
+            $this->images = new ImagesForm();
         }
         parent::__construct($config);
     }
@@ -107,6 +109,6 @@ class GoodForm extends CompositeForm
 
     protected function internalForms(): array
     {
-        return ['categories'];
+        return ['categories', 'images'];
     }
 }

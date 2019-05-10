@@ -2,6 +2,7 @@
 
 use app\core\entities\Shop\Brand;
 use app\core\entities\Shop\Good\Good;
+use app\core\entities\Shop\Good\Image;
 use yii\helpers\Html;
 use yii\grid\GridView;
 use app\core\entities\Shop\Category;
@@ -31,6 +32,13 @@ $this->params['breadcrumbs'][] = $this->title;
                 'filterModel'  => $searchModel,
                 'columns'      => [
                     'id',
+                    [
+                        'value' => function (Good $model) {
+                            return $model->mainImage ? Html::img($model->mainImage->getThumbFileUrl('file_name', 'admin')) : null;
+                        },
+                        'format' => 'raw',
+                        'contentOptions' => ['style' => 'width: 100px'],
+                    ],
                     'article',
                     [
                         'attribute' => 'category_id',

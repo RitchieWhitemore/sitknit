@@ -4,6 +4,7 @@ namespace app\modules\admin\controllers\shop;
 
 use app\core\entities\Shop\Good\Good;
 use app\core\forms\manage\Shop\Good\GoodForm;
+use app\core\forms\manage\Shop\Good\ImagesForm;
 use app\core\services\manage\Shop\GoodManageService;
 use app\models\Attribute;
 use app\models\AttributeValue;
@@ -63,16 +64,16 @@ class GoodsController extends Controller
      */
     public function actionView($id)
     {
-        $model = $this->findModel($id);
+        $good = $this->findModel($id);
 
-       /* $index = Good::nextOrPrev($id, $model->category_id);
-        $nextId = $index['next'];
-        $disableNext = ($nextId === null) ? 'disabled' : null;
-        $prevId = $index['prev'];
-        $disablePrev = ($prevId === null) ? 'disabled' : null;*/
+        /* $index = Good::nextOrPrev($id, $model->category_id);
+         $nextId = $index['next'];
+         $disableNext = ($nextId === null) ? 'disabled' : null;
+         $prevId = $index['prev'];
+         $disablePrev = ($prevId === null) ? 'disabled' : null;*/
 
         $dataProvider = new ActiveDataProvider([
-            'query' => $model->getGoodAttributes()->joinWith([
+            'query' => $good->getGoodAttributes()->joinWith([
                 'attributeValues attr' => function ($query) use ($id) {
                     $query->andWhere(['=', 'attr.good_id', $id]);
                 },
@@ -80,17 +81,30 @@ class GoodsController extends Controller
         ]);
 
         $pricesProvider = new ActiveDataProvider([
-            'query' => $model->getPrices(),
+            'query' => $good->getPrices(),
         ]);
 
+        $imagesForm = new ImagesForm();
+
+        if ($imagesForm->load(Yii::$app->request->post()) && $imagesForm->validate()) {
+            try {
+                $this->service->addImages($good->id, $imagesForm);
+                return $this->redirect(['view', 'id' => $good->id]);
+            } catch (\DomainException $e) {
+                Yii::$app->errorHandler->logException($e);
+                Yii::$app->session->setFlash('error', $e->getMessage());
+            }
+        }
+
         return $this->render('view', [
-            'model'          => $model,
+            'good'           => $good,
             'dataProvider'   => $dataProvider,
             'pricesProvider' => $pricesProvider,
-           /* 'nextId'         => $nextId,
-            'prevId'         => $prevId,
-            'disableNext'    => $disableNext,
-            'disablePrev'    => $disablePrev,*/
+            'imagesForm'     => $imagesForm,
+            /* 'nextId'         => $nextId,
+             'prevId'         => $prevId,
+             'disableNext'    => $disableNext,
+             'disablePrev'    => $disablePrev,*/
         ]);
     }
 
@@ -135,10 +149,6 @@ class GoodsController extends Controller
         $good = $this->findModel($id);
         $values = $this->initValues($good);
 
-        $imagesProvider = new ActiveDataProvider([
-            'query' => $good->getImages(),
-        ]);
-
         $form = new GoodForm($good);
         $post = Yii::$app->request->post();
         if ($form->load($post) && $form->validate() && Model::loadMultiple($values, $post)) {
@@ -155,7 +165,6 @@ class GoodsController extends Controller
         return $this->render('update', [
             'model'          => $form,
             'good'           => $good,
-            'imagesProvider' => $imagesProvider,
             'values'         => $values,
         ]);
     }
@@ -173,6 +182,44 @@ class GoodsController extends Controller
 
         return $this->redirect(['index']);
     }
+
+    /**
+     * @param integer $id
+     * @param $image_id
+     * @return mixed
+     */
+    public function actionDeleteImage($id, $image_id)
+    {
+        try {
+            $this->service->removeImage($id, $image_id);
+        } catch (\DomainException $e) {
+            Yii::$app->session->setFlash('error', $e->getMessage());
+        }
+        return $this->redirect(['view', 'id' => $id, '#' => 'images']);
+    }
+
+    /**
+     * @param integer $id
+     * @param $image_id
+     * @return mixed
+     */
+    public function actionMoveImageUp($id, $image_id)
+    {
+        $this->service->moveImageUp($id, $image_id);
+        return $this->redirect(['view', 'id' => $id, '#' => 'images']);
+    }
+
+    /**
+     * @param integer $id
+     * @param $image_id
+     * @return mixed
+     */
+    public function actionMoveImageDown($id, $image_id)
+    {
+        $this->service->moveImageDown($id, $image_id);
+        return $this->redirect(['view', 'id' => $id, '#' => 'images']);
+    }
+
 
     /**
      * Finds the Good model based on its primary key value.

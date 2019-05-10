@@ -2,13 +2,13 @@
 
 namespace app\modules\api\controllers;
 
-use app\models\Image;
+use app\core\entities\Shop\Good\Image;
 use Yii;
 use yii\rest\ActiveController;
 
 class ImageController extends ActiveController
 {
-    public $modelClass = 'app\models\Image';
+    public $modelClass = 'app\core\entities\Shop\Good\Image';
 
     public function actionToggleMain($id)
     {

@@ -30,7 +30,7 @@ class m181222_123625_create_image_table extends Migration
             'image',
             'goodId',
             'good',
-            'id'
+            'id', 'CASCADE', 'RESTRICT'
         );
 
     }
