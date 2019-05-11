@@ -40,7 +40,7 @@
                         ['label' => 'Страны', 'url' => ['/admin/shop/country/index']],
                         ['label' => 'Управление товарами', 'items' => [
                             ['label' => 'Товары', 'url' => ['/admin/shop/goods/index']],
-                            ['label' => 'Атрибуты', 'url' => ['/admin/attributes/index']],
+                            ['label' => 'Характеристики', 'url' => ['/admin/shop/characteristics/index']],
                             ['label' => 'Значения атрибута', 'url' => ['/admin/attribute-values/index']],
                             ['label' => 'Единицы измерения', 'url' => ['/admin/shop/units/index']],
                         ]],

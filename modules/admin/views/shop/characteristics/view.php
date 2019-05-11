@@ -1,19 +1,18 @@
 <?php
 
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\Attribute */
+/* @var $model app\core\entities\Shop\Characteristic */
 
 $this->title = $model->name;
-$this->params['breadcrumbs'][] = ['label' => 'Атрибуты', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Характеристики', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>
 <div class="attribute-view">
-
-    <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
         <?= Html::a('Редактировать', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
@@ -31,7 +30,11 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             'id',
             'name',
-            'unit.name',
+            [
+                    'attribute' => 'unit_id',
+                    'label' => 'Единица измерения',
+                    'value' => ArrayHelper::getValue($model, 'unit.name')
+            ]
         ],
     ]) ?>
 

@@ -1,27 +1,34 @@
 <?php
 
-namespace app\modules\admin\controllers;
+namespace app\modules\admin\controllers\shop;
 
+use app\core\forms\manage\Shop\CharacteristicForm;
+use app\core\services\manage\Shop\CharacteristicManageService;
 use Yii;
-use app\models\Attribute;
-use app\modules\admin\models\AttributeSearch;
+use app\core\entities\Shop\Characteristic;
+use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * AttributesController implements the CRUD actions for Attribute model.
+ * CharacteristicsController implements the CRUD actions for Attribute model.
  */
-class AttributesController extends Controller
+class CharacteristicsController extends Controller
 {
-    /**
-     * {@inheritdoc}
-     */
+    private $service;
+
+    public function __construct($id, $module, CharacteristicManageService $service, $config = [])
+    {
+        parent::__construct($id, $module, $config);
+        $this->service = $service;
+    }
+
     public function behaviors()
     {
         return [
             'verbs' => [
-                'class' => VerbFilter::className(),
+                'class'   => VerbFilter::className(),
                 'actions' => [
                     'delete' => ['POST'],
                 ],
@@ -35,11 +42,11 @@ class AttributesController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = new AttributeSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $dataProvider = new ActiveDataProvider([
+            'query' => Characteristic::find(),
+        ]);
 
         return $this->render('index', [
-            'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
     }
@@ -64,14 +71,20 @@ class AttributesController extends Controller
      */
     public function actionCreate()
     {
-        $model = new Attribute();
+        $form = new CharacteristicForm();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($form->load(Yii::$app->request->post()) && $form->validate()) {
+            try {
+                $characteristic = $this->service->create($form);
+                return $this->redirect(['view', 'id' => $characteristic->id]);
+            } catch (\DomainException $e) {
+                Yii::$app->errorHandler->logException($e);
+                Yii::$app->session->setFlash('error', $e->getMessage());
+            }
         }
 
         return $this->render('create', [
-            'model' => $model,
+            'model' => $form,
         ]);
     }
 
@@ -84,14 +97,22 @@ class AttributesController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
+        $characteristic = $this->findModel($id);
+        $form = new CharacteristicForm($characteristic);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($form->load(Yii::$app->request->post()) && $form->validate()) {
+            try {
+                $this->service->edit($characteristic->id, $form);
+                return $this->redirect(['view', 'id' => $characteristic->id]);
+            } catch (\DomainException $e) {
+                Yii::$app->errorHandler->logException($e);
+                Yii::$app->session->setFlash('error', $e->getMessage());
+            }
         }
 
         return $this->render('update', [
-            'model' => $model,
+            'model'          => $form,
+            'characteristic' => $characteristic,
         ]);
     }
 
@@ -104,7 +125,13 @@ class AttributesController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        try {
+            $this->service->remove($id);
+        } catch (\DomainException $e)
+        {
+            Yii::$app->errorHandler->logException($e);
+            Yii::$app->session->setFlash('error', $e->getMessage());
+        }
 
         return $this->redirect(['index']);
     }
@@ -113,12 +140,12 @@ class AttributesController extends Controller
      * Finds the Attribute model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Attribute the loaded model
+     * @return app\core\entities\Shop\Characteristic the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Attribute::findOne($id)) !== null) {
+        if (($model = Characteristic::findOne($id)) !== null) {
             return $model;
         }
 

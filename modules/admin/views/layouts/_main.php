@@ -54,7 +54,7 @@ AdminAsset::register($this);
                 ['label' => 'Страны', 'url' => ['/admin/country/index']],
                 ['label' => 'Управление товарами', 'items' => [
                     ['label' => 'Товары', 'url' => ['/admin/goods/index']],
-                    ['label' => 'Атрибуты', 'url' => ['/admin/attributes/index']],
+                    ['label' => 'Атрибуты', 'url' => ['/admin/characteristics/index']],
                     ['label' => 'Значения атрибута', 'url' => ['/admin/attribute-values/index']],
                     ['label' => 'Единицы измерения', 'url' => ['/admin/units/index']],
                     ['label' => 'Изображения', 'url' => ['/admin/images/index']],

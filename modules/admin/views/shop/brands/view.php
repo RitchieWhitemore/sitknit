@@ -5,7 +5,7 @@ use yii\widgets\DetailView;
 use yii\helpers\ArrayHelper;
 
 /* @var $this yii\web\View */
-/* @var $model \core\entities\Shop\Brand */
+/* @var $model app\core\entities\Shop\Brand */
 
 $this->title = $model->name;
 $this->params['breadcrumbs'][] = ['label' => 'Брэнды', 'url' => ['index']];

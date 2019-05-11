@@ -2,10 +2,10 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-use app\models\Unit;
+use app\core\entities\Shop\Unit;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\Attribute */
+/* @var $model app\core\entities\Shop\Characteristic */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 

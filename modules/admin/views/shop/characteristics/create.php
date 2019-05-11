@@ -3,10 +3,10 @@
 use yii\helpers\Html;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\Attribute */
+/* @var $model app\core\entities\Shop\Characteristic */
 
 $this->title = 'Создать атрибут';
-$this->params['breadcrumbs'][] = ['label' => 'Атрибуты', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Характеристики', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="attribute-create">
