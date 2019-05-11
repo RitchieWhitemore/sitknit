@@ -42,7 +42,7 @@
                             ['label' => 'Товары', 'url' => ['/admin/shop/goods/index']],
                             ['label' => 'Атрибуты', 'url' => ['/admin/attributes/index']],
                             ['label' => 'Значения атрибута', 'url' => ['/admin/attribute-values/index']],
-                            ['label' => 'Единицы измерения', 'url' => ['/admin/units/index']],
+                            ['label' => 'Единицы измерения', 'url' => ['/admin/shop/units/index']],
                         ]],
                         ['label' => 'Управление ценами', 'items' => [
                             ['label' => 'Цены', 'url' => ['/trade/prices/index']],

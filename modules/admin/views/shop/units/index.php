@@ -1,5 +1,6 @@
 <?php
 
+use app\core\entities\Shop\Unit;
 use yii\helpers\Html;
 use yii\grid\GridView;
 
@@ -11,8 +12,6 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="unit-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
-
     <p>
         <?= Html::a('Создать Единицу измерения', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
@@ -21,7 +20,13 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => $dataProvider,
         'columns' => [
              'id',
-            'name',
+             [
+                 'attribute' => 'name',
+                 'value' => function (Unit $model) {
+                     return Html::a(Html::encode($model->name), ['view', 'id' => $model->id]);
+                 },
+                 'format' => 'raw',
+             ],
             'full_name',
 
             ['class' => 'yii\grid\ActionColumn'],

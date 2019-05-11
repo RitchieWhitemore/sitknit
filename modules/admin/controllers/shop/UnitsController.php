@@ -1,9 +1,11 @@
 <?php
 
-namespace app\modules\admin\controllers;
+namespace app\modules\admin\controllers\shop;
 
+use app\core\forms\manage\Shop\UnitForm;
+use app\core\services\manage\Shop\UnitManageService;
 use Yii;
-use app\models\Unit;
+use app\core\entities\Shop\Unit;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -14,9 +16,14 @@ use yii\filters\VerbFilter;
  */
 class UnitsController extends Controller
 {
-    /**
-     * {@inheritdoc}
-     */
+    private $service;
+
+    public function __construct($id, $module, UnitManageService $service, $config = [])
+    {
+        $this->service = $service;
+        parent::__construct($id, $module, $config);
+    }
+
     public function behaviors()
     {
         return [
@@ -64,14 +71,20 @@ class UnitsController extends Controller
      */
     public function actionCreate()
     {
-        $model = new Unit();
+        $form = new UnitForm();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($form->load(Yii::$app->request->post()) && $form->validate()) {
+            try {
+                $unit = $this->service->create($form);
+                return $this->redirect(['view', 'id' => $unit->id]);
+            } catch (\DomainException $e) {
+                Yii::$app->errorHandler->logException($e);
+                Yii::$app->session->setFlash('error', $e->getMessage());
+            }
         }
 
         return $this->render('create', [
-            'model' => $model,
+            'model' => $form,
         ]);
     }
 
@@ -84,14 +97,22 @@ class UnitsController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
+        $unit = $this->findModel($id);
+        $form = new UnitForm($unit);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($form->load(Yii::$app->request->post()) && $form->validate()) {
+            try {
+                $this->service->edit($unit->id, $form);
+                return $this->redirect(['view', 'id' => $unit->id]);
+            } catch (\DomainException $e) {
+                Yii::$app->errorHandler->logException($e);
+                Yii::$app->session->setFlash('error', $e->getMessage());
+            }
         }
 
         return $this->render('update', [
-            'model' => $model,
+            'model' => $form,
+            'unit' => $unit,
         ]);
     }
 
@@ -104,7 +125,13 @@ class UnitsController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        try {
+            $this->service->remove($id);
+        } catch (\DomainException $e)
+        {
+            Yii::$app->errorHandler->logException($e);
+            Yii::$app->session->setFlash('error', $e->getMessage());
+        }
 
         return $this->redirect(['index']);
     }

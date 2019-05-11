@@ -3,16 +3,15 @@
 use yii\helpers\Html;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\Unit */
+/* @var $unit app\core\entities\Shop\Unit */
+/* @var $model app\core\forms\manage\Shop\UnitForm */
 
-$this->title = 'Редактировать единицу измерения: ' . $model->name;
+$this->title = 'Редактировать единицу измерения: ' . $unit->name;
 $this->params['breadcrumbs'][] = ['label' => 'Единица измерения', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->name, 'url' => ['view', 'id' => $model->id]];
+$this->params['breadcrumbs'][] = ['label' => $unit->name, 'url' => ['view', 'id' => $unit->id]];
 $this->params['breadcrumbs'][] = 'Редактировать';
 ?>
 <div class="unit-update">
-
-    <h1><?= Html::encode($this->title) ?></h1>
 
     <?= $this->render('_form', [
         'model' => $model,
