@@ -5,14 +5,14 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
-/* @var $model app\core\entities\Shop\Characteristic */
+/* @var $model app\core\entities\Shop\Material */
 
 $this->title = $model->name;
-$this->params['breadcrumbs'][] = ['label' => 'Характеристики', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Материалы', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 
 ?>
-<div class="characteristic-view">
+<div class="attribute-view">
 
     <p>
         <?= Html::a('Редактировать', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
@@ -30,11 +30,6 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             'id',
             'name',
-            [
-                    'attribute' => 'unit_id',
-                    'label' => 'Единица измерения',
-                    'value' => ArrayHelper::getValue($model, 'unit.name')
-            ]
         ],
     ]) ?>
 

@@ -1,17 +1,13 @@
 <?php
 
-use yii\helpers\Html;
-
 /* @var $this yii\web\View */
 /* @var $model app\core\entities\Shop\Characteristic */
 
-$this->title = 'Создать атрибут';
+$this->title = 'Создать характеристику';
 $this->params['breadcrumbs'][] = ['label' => 'Характеристики', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="attribute-create">
-
-    <h1><?= Html::encode($this->title) ?></h1>
+<div class="characteristic-create">
 
     <?= $this->render('_form', [
         'model' => $model,

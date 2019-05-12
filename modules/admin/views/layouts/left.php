@@ -36,7 +36,7 @@
                     ['label' => 'Справочники', 'items' => [
                         ['label' => 'Брэнды', 'url' => ['/admin/shop/brands/index']],
                         ['label' => 'Категории', 'url' => ['/admin/shop/categories/index']],
-                        ['label' => 'Составы (категории)', 'url' => ['/admin/compositions/index']],
+                        ['label' => 'Материалы', 'url' => ['/admin/shop/materials/index']],
                         ['label' => 'Страны', 'url' => ['/admin/shop/country/index']],
                         ['label' => 'Управление товарами', 'items' => [
                             ['label' => 'Товары', 'url' => ['/admin/shop/goods/index']],
