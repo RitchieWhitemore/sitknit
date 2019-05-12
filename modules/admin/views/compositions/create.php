@@ -3,7 +3,7 @@
 use yii\helpers\Html;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\Composition */
+/* @var $model \app\core\entities\Shop\Composition */
 
 $this->title = 'Создать состав (категорию)';
 $this->params['breadcrumbs'][] = ['label' => 'Составы (категории)', 'url' => ['index']];

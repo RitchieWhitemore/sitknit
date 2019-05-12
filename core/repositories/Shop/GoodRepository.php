@@ -12,7 +12,7 @@ class GoodRepository
     public function get($id): Good
     {
         if (!$good = Good::findOne($id)) {
-            throw new NotFoundException('Product is not found');
+            throw new NotFoundException('Good is not found');
         }
 
         return $good;

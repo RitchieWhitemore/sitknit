@@ -32,9 +32,9 @@ class GoodsController extends Controller
             'verbs' => [
                 'class'   => VerbFilter::className(),
                 'actions' => [
-                    'delete' => ['POST'],
-                    'delete-photo' => ['POST'],
-                    'move-photo-up' => ['POST'],
+                    'delete'          => ['POST'],
+                    'delete-photo'    => ['POST'],
+                    'move-photo-up'   => ['POST'],
                     'move-photo-down' => ['POST'],
                 ],
             ],
@@ -70,6 +70,10 @@ class GoodsController extends Controller
             'query' => $good->getPrices(),
         ]);
 
+        $compositionProvider = new ActiveDataProvider([
+            'query' => $good->getCompositions(),
+        ]);
+
         $imagesForm = new ImagesForm();
 
         if ($imagesForm->load(Yii::$app->request->post()) && $imagesForm->validate()) {
@@ -83,9 +87,10 @@ class GoodsController extends Controller
         }
 
         return $this->render('view', [
-            'good'           => $good,
-            'pricesProvider' => $pricesProvider,
-            'imagesForm'     => $imagesForm,
+            'good'                => $good,
+            'pricesProvider'      => $pricesProvider,
+            'imagesForm'          => $imagesForm,
+            'compositionProvider' => $compositionProvider,
         ]);
     }
 
@@ -110,7 +115,7 @@ class GoodsController extends Controller
         }
 
         return $this->render('create', [
-            'model'  => $form,
+            'model' => $form,
         ]);
     }
 
@@ -138,8 +143,8 @@ class GoodsController extends Controller
         }
 
         return $this->render('update', [
-            'model'          => $form,
-            'good'           => $good,
+            'model' => $form,
+            'good'  => $good,
         ]);
     }
 

@@ -8,6 +8,7 @@ use app\core\entities\Shop\Characteristic;
 use app\core\entities\Shop\Good\Good;
 use app\core\entities\Shop\Category;
 use app\core\forms\CompositeForm;
+use app\core\forms\manage\Shop\CompositionForm;
 
 /**
  * Class GoodForm
@@ -16,6 +17,7 @@ use app\core\forms\CompositeForm;
  * @property CategoriesForm $categories
  * @property ImagesForm $images
  * @property ValueForm[] $values
+ * @property CompositionForm[] $compositions
  */
 class GoodForm extends CompositeForm
 {
@@ -29,7 +31,6 @@ class GoodForm extends CompositeForm
     public $category_id;
     public $main_good_id;
     public $characteristic;
-    public $composition_id;
 
     private $_good;
 
@@ -47,6 +48,7 @@ class GoodForm extends CompositeForm
             $this->main_good_id = $good->main_good_id;
 
             $this->categories = new CategoriesForm($good);
+
             $this->values = array_map(function (Characteristic $characteristic) use ($good) {
                 return new ValueForm($characteristic, $good->getValue($characteristic->id));
             }, Characteristic::find()->orderBy('sort')->all());

@@ -11,6 +11,8 @@ use yii\grid\GridView;
 /* @var $this yii\web\View */
 /* @var $good app\core\entities\Shop\Good\Good */
 /* @var $imagesForm app\core\forms\manage\Shop\Good\ImagesForm */
+/* @var $compositionProvider yii\data\ActiveDataProvider */
+/* @var $pricesProvider yii\data\ActiveDataProvider */
 
 $this->title = $good->name;
 $this->params['breadcrumbs'][] = ['label' => 'Товары', 'url' => ['index']];
@@ -71,6 +73,49 @@ $this->params['breadcrumbs'][] = $this->title;
             ]) ?>
         </div>
     </div>
+
+    <p>
+        <?= Html::a('Добавить в состав', [
+            'shop/compositions/create',
+            'goodId' => $good->id
+        ], ['class' => 'btn btn-success']) ?>
+    </p>
+
+    <?= GridView::widget([
+        'dataProvider' => $compositionProvider,
+        'columns'      => [
+            ['class' => 'yii\grid\SerialColumn'],
+            [
+                'attribute' => 'material_id',
+                'label'     => 'Материал',
+                'value'     => function ($material) {
+                    return ArrayHelper::getValue($material, 'material.name');
+                }
+            ],
+            'value',
+            [
+                'class'      => 'yii\grid\ActionColumn',
+                'controller' => '/admin/shop/compositions',
+                'template'   => '{update}{delete}',
+                'buttons'    => [
+                    'update' => function ($url, $model, $key) {
+                        return Html::a('', [
+                            '/admin/shop/compositions/update',
+                            'goodId'     => $model->good_id,
+                            'materialId' => $model->material_id
+                        ], ['class' => 'glyphicon glyphicon-pencil']);
+                    },
+                    'delete' => function ($url, $model, $key) {
+                        return Html::a('', [
+                            '/admin/shop/compositions/delete',
+                            'goodId'     => $model->good_id,
+                            'materialId' => $model->material_id
+                        ], ['class' => 'glyphicon glyphicon-trash', 'data-method' => 'post']);
+                    }
+                ]
+            ],
+        ],
+    ]); ?>
 
     <?= GridView::widget([
         'dataProvider' => $pricesProvider,

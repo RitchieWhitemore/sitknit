@@ -6,7 +6,9 @@ namespace app\core\entities\Shop\Good;
 use app\core\entities\Shop\Characteristic;
 use app\core\entities\Shop\Brand;
 use app\core\entities\Shop\Category;
+use app\core\entities\Shop\Composition;
 use app\core\entities\Shop\Good\queries\GoodQuery;
+use app\core\entities\Shop\Material;
 use app\modules\trade\models\Price;
 use lhs\Yii2SaveRelationsBehavior\SaveRelationsBehavior;
 use yii\db\ActiveQuery;
@@ -37,6 +39,7 @@ use yii\web\UploadedFile;
  * @property Image[] $images
  * @property Image $mainImage
  * @property Value[] $values
+ * @property Composition[] $compositions
  */
 class Good extends ActiveRecord
 {
@@ -202,7 +205,6 @@ class Good extends ActiveRecord
     }
 
 
-
     public static function tableName()
     {
         return '{{%good}}';
@@ -296,6 +298,16 @@ class Good extends ActiveRecord
     public function getCharacteristics(): ActiveQuery
     {
         return $this->hasMany(Characteristic::className(), ['id' => 'characteristic_id'])->viaTable('value', ['good_id' => 'id']);
+    }
+
+    public function getCompositions(): ActiveQuery
+    {
+        return $this->hasMany(Composition::className(), ['good_id' => 'id']);
+    }
+
+    public function getMaterials(): ActiveQuery
+    {
+        return $this->hasMany(Material::className(), ['id' => 'Material_id'])->viaTable('composition', ['good_id' => 'id']);
     }
 
     public function getMainGood(): ActiveQuery

@@ -4,7 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\Composition */
+/* @var $model \app\core\entities\Shop\Composition */
 
 $this->title = $model->name;
 $this->params['breadcrumbs'][] = ['label' => 'Составы (категории)', 'url' => ['index']];
