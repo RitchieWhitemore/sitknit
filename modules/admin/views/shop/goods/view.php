@@ -1,5 +1,6 @@
 <?php
 
+use app\core\entities\Shop\Good\Value;
 use kartik\file\FileInput;
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
@@ -16,15 +17,6 @@ $this->params['breadcrumbs'][] = ['label' => 'Товары', 'url' => ['index']]
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="good-view">
-
-    <!--    <ul class="pager">
-        <li class="previous">
-            <? /*= Html::a('&larr; Предыдущий', ['update', 'id' => $prevId], ['class' => $disablePrev]) */ ?>
-        </li>
-        <li class="next">
-            <? /*= Html::a('Следующий &rarr;', ['update', 'id' => $nextId], ['class' => $disableNext]) */ ?>
-        </li>
-    </ul>-->
 
     <p>
         <?= Html::a('Редактировать', ['update', 'id' => $good->id], ['class' => 'btn btn-primary']) ?>
@@ -64,58 +56,21 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
     </div>
 
-    <p>
-        <?= Html::a('Добавить характеристику', [
-            'attribute-values/create',
-            'good_id' => $good->id
-        ], ['class' => 'btn btn-success']) ?>
-    </p>
+    <div class="box box-default">
+        <div class="box-header with-border">Характеристики</div>
+        <div class="box-body">
 
-    <?= GridView::widget([
-        'dataProvider' => $dataProvider,
-        'columns'      => [
-            ['class' => 'yii\grid\SerialColumn'],
-            [
-                'attribute' => 'attribute_id',
-                'value'     => 'fullName',
-                'label'     => 'Атрибут',
-            ],
-            [
-                'attribute' => 'attributeValues',
-                'value'     => function ($value) {
-                    return $value->attributeValues[0]->value;
-                },
-                'label'     => 'Значение',
-            ],
-            [
-                'class'      => 'yii\grid\ActionColumn',
-                'controller' => 'attribute-values',
-                'buttons'    => [
-                    'view'   => function ($url, $model, $key) {
-                        return Html::a('', [
-                            '/admin/attribute-values/view',
-                            'good_id'      => $model->attributeValues[0]->good_id,
-                            'attribute_id' => $model->attributeValues[0]->attribute_id
-                        ], ['class' => 'glyphicon glyphicon-eye-open']);
-                    },
-                    'update' => function ($url, $model, $key) {
-                        return Html::a('', [
-                            '/admin/attribute-values/update',
-                            'good_id'      => $model->attributeValues[0]->good_id,
-                            'attribute_id' => $model->attributeValues[0]->attribute_id
-                        ], ['class' => 'glyphicon glyphicon-pencil']);
-                    },
-                    'delete' => function ($url, $model, $key) {
-                        return Html::a('', [
-                            '/admin/attribute-values/delete',
-                            'good_id'      => $model->attributeValues[0]->good_id,
-                            'attribute_id' => $model->attributeValues[0]->attribute_id
-                        ], ['class' => 'glyphicon glyphicon-trash']);
-                    },
-                ],
-            ],
-        ],
-    ]); ?>
+            <?= DetailView::widget([
+                'model'      => $good,
+                'attributes' => array_map(function (Value $value) {
+                    return [
+                        'label' => $value->characteristic->name,
+                        'value' => $value->value,
+                    ];
+                }, $good->values),
+            ]) ?>
+        </div>
+    </div>
 
     <?= GridView::widget([
         'dataProvider' => $pricesProvider,
@@ -131,24 +86,36 @@ $this->params['breadcrumbs'][] = $this->title;
     ?>
 
     <div class="box" id="images">
-        <div class="box-header with-border">Images</div>
+        <div class="box-header with-border">Изображения</div>
         <div class="box-body">
 
             <div class="row">
                 <?php foreach ($good->images as $image): ?>
                     <div class="col-md-2 col-xs-3" style="text-align: center">
                         <div class="btn-group">
-                            <?= Html::a('<span class="glyphicon glyphicon-arrow-left"></span>', ['move-image-up', 'id' => $good->id, 'image_id' => $image->id], [
-                                'class' => 'btn btn-default',
+                            <?= Html::a('<span class="glyphicon glyphicon-arrow-left"></span>', [
+                                'move-image-up',
+                                'id'       => $good->id,
+                                'image_id' => $image->id
+                            ], [
+                                'class'       => 'btn btn-default',
                                 'data-method' => 'post',
                             ]); ?>
-                            <?= Html::a('<span class="glyphicon glyphicon-remove"></span>', ['delete-image', 'id' => $good->id, 'image_id' => $image->id], [
-                                'class' => 'btn btn-default',
-                                'data-method' => 'post',
+                            <?= Html::a('<span class="glyphicon glyphicon-remove"></span>', [
+                                'delete-image',
+                                'id'       => $good->id,
+                                'image_id' => $image->id
+                            ], [
+                                'class'        => 'btn btn-default',
+                                'data-method'  => 'post',
                                 'data-confirm' => 'Remove image?',
                             ]); ?>
-                            <?= Html::a('<span class="glyphicon glyphicon-arrow-right"></span>', ['move-image-down', 'id' => $good->id, 'image_id' => $image->id], [
-                                'class' => 'btn btn-default',
+                            <?= Html::a('<span class="glyphicon glyphicon-arrow-right"></span>', [
+                                'move-image-down',
+                                'id'       => $good->id,
+                                'image_id' => $image->id
+                            ], [
+                                'class'       => 'btn btn-default',
                                 'data-method' => 'post',
                             ]); ?>
                         </div>
@@ -164,12 +131,12 @@ $this->params['breadcrumbs'][] = $this->title;
             </div>
 
             <?php $form = ActiveForm::begin([
-                'options' => ['enctype'=>'multipart/form-data'],
+                'options' => ['enctype' => 'multipart/form-data'],
             ]); ?>
 
             <?= $form->field($imagesForm, 'files[]')->label(false)->widget(FileInput::class, [
                 'options' => [
-                    'accept' => 'image/*',
+                    'accept'   => 'image/*',
                     'multiple' => true,
                 ]
             ]) ?>

@@ -3,8 +3,7 @@
 namespace app\core\entities\Shop\Good;
 
 
-use app\models\Attribute;
-use app\models\AttributeValue;
+use app\core\entities\Shop\Characteristic;
 use app\core\entities\Shop\Brand;
 use app\core\entities\Shop\Category;
 use app\core\entities\Shop\Good\queries\GoodQuery;
@@ -37,6 +36,7 @@ use yii\web\UploadedFile;
  * @property CategoryAssignment[] $categoryAssignments
  * @property Image[] $images
  * @property Image $mainImage
+ * @property Value[] $values
  */
 class Good extends ActiveRecord
 {
@@ -174,6 +174,34 @@ class Good extends ActiveRecord
         $this->populateRelation('mainImage', reset($images));
     }
 
+    // Value
+
+    public function setValue($id, $value)
+    {
+        $values = $this->values;
+        foreach ($values as $val) {
+            if ($val->isForCharacteristic($id)) {
+                $val->change($value);
+                $this->values = $values;
+                return;
+            }
+        }
+        $values[] = Value::create($id, $value);
+        $this->values = $values;
+    }
+
+    public function getValue($id): Value
+    {
+        $values = $this->values;
+        foreach ($values as $val) {
+            if ($val->isForCharacteristic($id)) {
+                return $val;
+            }
+        }
+        return Value::blank($id);
+    }
+
+
 
     public static function tableName()
     {
@@ -185,7 +213,7 @@ class Good extends ActiveRecord
         return [
             [
                 'class' => SaveRelationsBehavior::className(),
-                'relations' => ['categoryAssignments', 'images'],
+                'relations' => ['categoryAssignments', 'images', 'values'],
             ],
         ];
     }
@@ -235,17 +263,11 @@ class Good extends ActiveRecord
         return ['images', 'priceRetail', 'priceWholesale'];
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
     public function getBrand(): ActiveQuery
     {
         return $this->hasOne(Brand::className(), ['id' => 'brand_id']);
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
     public function getCategory(): ActiveQuery
     {
         return $this->hasOne(Category::className(), ['id' => 'category_id']);
@@ -266,23 +288,17 @@ class Good extends ActiveRecord
         return $this->hasOne(Image::class, ['id' => 'main_image_id']);
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getAttributeValues()
+    public function getValues(): ActiveQuery
     {
-        return $this->hasMany(AttributeValue::className(), ['good_id' => 'id']);
+        return $this->hasMany(Value::className(), ['good_id' => 'id']);
     }
 
-    public function getGoodAttributes()
+    public function getCharacteristics(): ActiveQuery
     {
-        return $this->hasMany(Attribute::className(), ['id' => 'attribute_id'])->viaTable('attribute_value', ['good_id' => 'id']);
+        return $this->hasMany(Characteristic::className(), ['id' => 'characteristic_id'])->viaTable('value', ['good_id' => 'id']);
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getMainGood()
+    public function getMainGood(): ActiveQuery
     {
         return $this->hasOne(Good::className(), ['id' => 'main_good_id']);
     }
@@ -299,7 +315,8 @@ class Good extends ActiveRecord
 
     public function getNameAndColor(): string
     {
-        $color = $this->getAttributeValues()->where(['attribute_id' => 1])->one();
+        /* @var $color Value*/
+        $color = $this->getValues()->where(['characteristic_id' => 1])->one();
 
         if (isset($color)) {
             return $this->name . ' - ' . $color->value;
@@ -321,20 +338,6 @@ class Good extends ActiveRecord
     public function getPriceWholesale()
     {
         return $this->getPrices()->lastWholesale()->one();
-    }
-
-    public static function NextOrPrev($currentId, $categoryId)
-    {
-        $records = self::find()->where(['category_id' => $categoryId])->orderBy('id DESC')->all();
-
-        foreach ($records as $i => $record) {
-            if ($record->id == $currentId) {
-                $next = isset($records[$i - 1]->id) ? $records[$i - 1]->id : null;
-                $prev = isset($records[$i + 1]->id) ? $records[$i + 1]->id : null;
-                break;
-            }
-        }
-        return ['next' => $next, 'prev' => $prev];
     }
 
     public static function find()

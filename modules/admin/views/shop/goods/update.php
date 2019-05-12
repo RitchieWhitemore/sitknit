@@ -1,7 +1,5 @@
 <?php
 
-use yii\helpers\Html;
-
 /* @var $this yii\web\View */
 /* @var $good app\core\entities\Shop\Good\Good */
 
@@ -14,7 +12,6 @@ $this->params['breadcrumbs'][] = 'Редактировать';
 
     <?= $this->render('_form', [
         'model' => $model,
-        'values' => $values,
     ]) ?>
 
 </div>

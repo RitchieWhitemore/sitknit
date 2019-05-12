@@ -3,8 +3,7 @@
 namespace app\core\entities\Shop;
 
 use app\core\entities\Shop\Good\Good;
-use app\models\AttributeValue;
-use app\core\entities\Shop\Unit;
+use app\core\entities\Shop\Good\Value;
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 
@@ -16,7 +15,7 @@ use yii\db\ActiveRecord;
  * @property integer $unit_id
  * @property integer $sort
  *
- * @property AttributeValue[] $attributeValues
+ * @property Value[] $values
  * @property Good[] $goods
  * @property Unit $unit
  */
@@ -58,9 +57,9 @@ class Characteristic extends ActiveRecord
         ];
     }
 
-    public function getAttributeValues(): ActiveQuery
+    public function getValues(): ActiveQuery
     {
-        return $this->hasMany(AttributeValue::className(), ['attribute_id' => 'id']);
+        return $this->hasMany(Value::className(), ['attribute_id' => 'id']);
     }
 
     public function getGoods(): ActiveQuery

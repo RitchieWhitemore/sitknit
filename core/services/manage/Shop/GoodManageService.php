@@ -52,6 +52,10 @@ class GoodManageService
             $good->addImage($file);
         }
 
+        foreach ($form->values as $value) {
+            $good->setValue($value->id, $value->value);
+        }
+
         $this->goods->save($good);
         return $good;
     }
@@ -74,6 +78,10 @@ class GoodManageService
             foreach ($form->categories->others as $otherId) {
                 $category = $this->categories->get($otherId);
                 $good->assignCategory($category->id);
+            }
+
+            foreach ($form->values as $value) {
+                $good->setValue($value->id, $value->value);
             }
 
             $this->goods->save($good);

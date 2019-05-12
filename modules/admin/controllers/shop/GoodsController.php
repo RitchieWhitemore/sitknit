@@ -6,11 +6,8 @@ use app\core\entities\Shop\Good\Good;
 use app\core\forms\manage\Shop\Good\GoodForm;
 use app\core\forms\manage\Shop\Good\ImagesForm;
 use app\core\services\manage\Shop\GoodManageService;
-use app\models\Attribute;
-use app\models\AttributeValue;
 use Yii;
 use app\modules\admin\forms\GoodSearch;
-use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -69,20 +66,6 @@ class GoodsController extends Controller
     {
         $good = $this->findModel($id);
 
-        /* $index = Good::nextOrPrev($id, $model->category_id);
-         $nextId = $index['next'];
-         $disableNext = ($nextId === null) ? 'disabled' : null;
-         $prevId = $index['prev'];
-         $disablePrev = ($prevId === null) ? 'disabled' : null;*/
-
-        $dataProvider = new ActiveDataProvider([
-            'query' => $good->getGoodAttributes()->joinWith([
-                'attributeValues attr' => function ($query) use ($id) {
-                    $query->andWhere(['=', 'attr.good_id', $id]);
-                },
-            ])->orderBy(['name' => SORT_ASC]),
-        ]);
-
         $pricesProvider = new ActiveDataProvider([
             'query' => $good->getPrices(),
         ]);
@@ -101,13 +84,8 @@ class GoodsController extends Controller
 
         return $this->render('view', [
             'good'           => $good,
-            'dataProvider'   => $dataProvider,
             'pricesProvider' => $pricesProvider,
             'imagesForm'     => $imagesForm,
-            /* 'nextId'         => $nextId,
-             'prevId'         => $prevId,
-             'disableNext'    => $disableNext,
-             'disablePrev'    => $disablePrev,*/
         ]);
     }
 
@@ -118,15 +96,12 @@ class GoodsController extends Controller
      */
     public function actionCreate()
     {
-        $model = new Good();
         $form = new GoodForm();
-        $values = $this->initValues($model);
 
         $post = Yii::$app->request->post();
-        if ($form->load($post) && $form->validate() && Model::loadMultiple($values, $post)) {
+        if ($form->load($post) && $form->validate()) {
             try {
                 $category = $this->service->create($form);
-                $this->processValues($values, $category);
                 return $this->redirect(['view', 'id' => $category->id]);
             } catch (\DomainException $e) {
                 Yii::$app->errorHandler->logException($e);
@@ -136,7 +111,6 @@ class GoodsController extends Controller
 
         return $this->render('create', [
             'model'  => $form,
-            'values' => $values,
         ]);
     }
 
@@ -150,14 +124,12 @@ class GoodsController extends Controller
     public function actionUpdate($id)
     {
         $good = $this->findModel($id);
-        $values = $this->initValues($good);
 
         $form = new GoodForm($good);
         $post = Yii::$app->request->post();
-        if ($form->load($post) && $form->validate() && Model::loadMultiple($values, $post)) {
+        if ($form->load($post) && $form->validate()) {
             try {
                 $this->service->edit($good->id, $form);
-                $this->processValues($values, $good);
                 return $this->redirect(['view', 'id' => $good->id]);
             } catch (\DomainException $e) {
                 Yii::$app->errorHandler->logException($e);
@@ -168,7 +140,6 @@ class GoodsController extends Controller
         return $this->render('update', [
             'model'          => $form,
             'good'           => $good,
-            'values'         => $values,
         ]);
     }
 
@@ -245,7 +216,7 @@ class GoodsController extends Controller
      *
      * @param $id
      *
-     * @var $Good \app\models\Good
+     * @var $Good Good
      */
     public function actionToggleActive($id)
     {
@@ -260,41 +231,5 @@ class GoodsController extends Controller
         if ($Good->save()) {
             return $this->redirect('/admin/shop/goods');
         };
-    }
-
-    private function initValues(Good $model)
-    {
-        /** @var AttributeValue[] $values */
-        $values = $model->getAttributeValues()->with('goodAttribute')->indexBy('attribute_id')->all();
-        $attributes = Attribute::find()->indexBy('id')->all();
-
-        $arr = array_diff_key($attributes, $values);
-        foreach ($arr as $attribute) {
-            $values[$attribute->id] = new AttributeValue(['attribute_id' => $attribute->id]);
-        }
-
-        uasort($values, function ($a, $b) {
-            return $a->goodAttribute->name > $b->goodAttribute->name;
-        });
-
-        foreach ($values as $value) {
-            $value->setScenario(AttributeValue::SCENARIO_TABULAR);
-        }
-
-        return $values;
-    }
-
-    private function processValues($values, Good $model)
-    {
-        foreach ($values as $value) {
-            $value->good_id = $model->id;
-            if ($value->validate()) {
-                if (!empty($value->value)) {
-                    $value->save(false);
-                } else {
-                    $value->delete();
-                }
-            }
-        }
     }
 }

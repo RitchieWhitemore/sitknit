@@ -4,6 +4,7 @@
 namespace app\core\forms\manage\Shop\Good;
 
 use app\core\entities\Shop\Brand;
+use app\core\entities\Shop\Characteristic;
 use app\core\entities\Shop\Good\Good;
 use app\core\entities\Shop\Category;
 use app\core\forms\CompositeForm;
@@ -14,6 +15,7 @@ use app\core\forms\CompositeForm;
  *
  * @property CategoriesForm $categories
  * @property ImagesForm $images
+ * @property ValueForm[] $values
  */
 class GoodForm extends CompositeForm
 {
@@ -45,11 +47,17 @@ class GoodForm extends CompositeForm
             $this->main_good_id = $good->main_good_id;
 
             $this->categories = new CategoriesForm($good);
+            $this->values = array_map(function (Characteristic $characteristic) use ($good) {
+                return new ValueForm($characteristic, $good->getValue($characteristic->id));
+            }, Characteristic::find()->orderBy('sort')->all());
 
             $this->_good = $good;
         } else {
             $this->categories = new CategoriesForm();
             $this->images = new ImagesForm();
+            $this->values = array_map(function (Characteristic $characteristic) {
+                return new ValueForm($characteristic);
+            }, Characteristic::find()->orderBy('sort')->all());
         }
         parent::__construct($config);
     }
@@ -109,6 +117,6 @@ class GoodForm extends CompositeForm
 
     protected function internalForms(): array
     {
-        return ['categories', 'images'];
+        return ['categories', 'images', 'values'];
     }
 }

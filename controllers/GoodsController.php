@@ -8,14 +8,11 @@
 
 namespace app\controllers;
 
-use app\models\Attribute;
-use app\models\AttributeValue;
-use core\entities\Shop\Brand;
+use app\core\entities\Shop\Brand;
 use app\core\entities\Shop\Category;
-use app\models\Good;
+use app\core\entities\Shop\Good\Good;
 use yii\data\ActiveDataProvider;
 use yii\db\Query;
-use yii\helpers\ArrayHelper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 

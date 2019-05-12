@@ -6,8 +6,8 @@ use yii\helpers\Url;
 /**
  *
  * @var $model \app\models\Good
- * @var $values app\models\AttributeValue
- * @var $valuesMain app\models\AttributeValue
+ * @var $values \app\core\entities\Shop\Good\Value
+ * @var $valuesMain \app\core\entities\Shop\Good\Value
  */
 
 $balance = new Balance($model);
