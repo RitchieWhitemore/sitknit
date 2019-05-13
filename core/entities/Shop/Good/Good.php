@@ -371,9 +371,12 @@ class Good extends ActiveRecord
     public function afterSave($insert, $changedAttributes)
     {
         $related = $this->getRelatedRecords();
+
+        parent::afterSave($insert, $changedAttributes);
+
         if (array_key_exists('mainImage', $related)) {
             $this->updateAttributes(['main_image_id' => $related['mainImage'] ? $related['mainImage']->id : null]);
         }
-        parent::afterSave($insert, $changedAttributes);
+
     }
 }
