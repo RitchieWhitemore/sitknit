@@ -1,6 +1,6 @@
 <?php
 
-use app\components\Balance;
+use app\core\repositories\Shop\BalanceRepository;
 use yii\helpers\Url;
 
 /**
@@ -10,7 +10,7 @@ use yii\helpers\Url;
  * @var $valuesMain \app\core\entities\Shop\Good\Value
  */
 
-$balance = new Balance($model);
+$balance = new BalanceRepository($model);
 
 ?>
 

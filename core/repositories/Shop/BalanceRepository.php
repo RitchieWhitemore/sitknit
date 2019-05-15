@@ -1,7 +1,7 @@
 <?php
 
 
-namespace app\components;
+namespace app\core\repositories\Shop;
 
 use app\modules\trade\models\Order;
 use app\modules\trade\models\OrderItem;
@@ -9,7 +9,7 @@ use app\modules\trade\models\ReceiptItem;
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 
-class Balance
+class BalanceRepository
 {
     /**
      * @var ActiveRecord

@@ -2,8 +2,8 @@
 
 namespace app\modules\trade\models;
 
-use Yii;
-use app\models\Good;
+use app\core\entities\Shop\Good\Good;
+use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "receipt_item".
@@ -16,7 +16,7 @@ use app\models\Good;
  * @property Good $good
  * @property Receipt $receipt
  */
-class ReceiptItem extends \yii\db\ActiveRecord
+class ReceiptItem extends ActiveRecord
 {
     /**
      * {@inheritdoc}

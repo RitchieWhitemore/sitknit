@@ -31,31 +31,34 @@
                 'options' => ['class' => 'sidebar-menu tree', 'data-widget'=> 'tree'],
                 'items'           => array_filter([
 
-                    ['label' => 'Главная', 'url' => ['/main/default/index']],
-                    ['label' => 'Администрирование пользователей', 'url' => ['/admin/users/index']],
-                    ['label' => 'Справочники', 'items' => [
-                        ['label' => 'Брэнды', 'url' => ['/admin/shop/brands/index']],
-                        ['label' => 'Категории', 'url' => ['/admin/shop/categories/index']],
-                        ['label' => 'Материалы', 'url' => ['/admin/shop/materials/index']],
-                        ['label' => 'Страны', 'url' => ['/admin/shop/country/index']],
-                        ['label' => 'Управление товарами', 'items' => [
-                            ['label' => 'Товары', 'url' => ['/admin/shop/goods/index']],
-                            ['label' => 'Характеристики', 'url' => ['/admin/shop/characteristics/index']],
-                            ['label' => 'Значения атрибута', 'url' => ['/admin/attribute-values/index']],
-                            ['label' => 'Единицы измерения', 'url' => ['/admin/shop/units/index']],
+                    ['label' => 'Главная', 'icon' => 'file-o', 'url' => ['/main/default/index']],
+                    ['label' => 'Администрирование пользователей', 'icon' => 'file-o', 'url' => ['/admin/users/index']],
+                    ['label' => 'Справочники', 'icon' => 'folder', 'items' => [
+                        ['label' => 'Брэнды', 'icon' => 'file-o', 'url' => ['/admin/shop/brands/index']],
+                        ['label' => 'Категории', 'icon' => 'file-o', 'url' => ['/admin/shop/categories/index']],
+                        ['label' => 'Материалы', 'icon' => 'file-o', 'url' => ['/admin/shop/materials/index']],
+                        ['label' => 'Страны', 'icon' => 'file-o', 'url' => ['/admin/shop/country/index']],
+                        ['label' => 'Управление товарами', 'icon' => 'folder', 'items' => [
+                            ['label' => 'Товары', 'icon' => 'file-o', 'url' => ['/admin/shop/goods/index']],
+                            ['label' => 'Характеристики', 'icon' => 'file-o', 'url' => ['/admin/shop/characteristics/index']],
+                            ['label' => 'Значения атрибута', 'icon' => 'file-o', 'url' => ['/admin/attribute-values/index']],
+                            ['label' => 'Единицы измерения', 'icon' => 'file-o', 'url' => ['/admin/shop/units/index']],
                         ]],
-                        ['label' => 'Управление ценами', 'items' => [
-                            ['label' => 'Цены', 'url' => ['/trade/prices/index']],
-                            ['label' => 'Установить цены', 'url' => ['/trade/prices/set-prices']],
+                        ['label' => 'Управление ценами', 'icon' => 'folder', 'items' => [
+                            ['label' => 'Цены', 'icon' => 'file-o', 'url' => ['/trade/prices/index']],
+                            ['label' => 'Установить цены', 'icon' => 'file-o', 'url' => ['/trade/prices/set-prices']],
                         ]],
-                        ['label' => 'Контрагенты', 'url' => ['/trade/partners/index']],
+                        ['label' => 'Контрагенты', 'icon' => 'file-o', 'url' => ['/trade/partners/index']],
                     ]],
-                    ['label' => 'Документы', 'items' => [
-                        ['label' => 'Поступления товара', 'url' => ['/trade/receipts/index']],
-                        ['label' => 'Заказы покупателей', 'url' => ['/trade/orders/index']],
+                    ['label' => 'Документы', 'icon' => 'folder', 'items' => [
+                        ['label' => 'Поступления товара', 'icon' => 'file-o', 'url' => ['/trade/receipts/index']],
+                        ['label' => 'Заказы покупателей', 'icon' => 'file-o', 'url' => ['/trade/orders/index']],
                     ]],
-
-
+                    ['label' => 'Отчеты', 'icon' => 'folder', 'items' => [
+                        ['label' => 'Приход', 'icon' => 'file-o', 'url' => ['/admin/shop/reports/debit']],
+                        ['label' => 'Расход', 'icon' => 'file-o', 'url' => ['/admin/shop/reports/credit']],
+                        ['label' => 'Остатки', 'icon' => 'file-o', 'url' => ['/admin/shop/reports/remaining']],
+                    ]]
                 ]),
             ]
         ) ?>

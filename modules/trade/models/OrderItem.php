@@ -2,10 +2,8 @@
 
 namespace app\modules\trade\models;
 
-use Yii;
-
-use app\modules\trade\models\Order;
-use app\models\Good;
+use app\core\entities\Shop\Good\Good;
+use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "order_item".
@@ -18,7 +16,7 @@ use app\models\Good;
  * @property Good $good
  * @property Order $order
  */
-class OrderItem extends \yii\db\ActiveRecord
+class OrderItem extends ActiveRecord
 {
     /**
      * {@inheritdoc}
