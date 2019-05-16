@@ -22,7 +22,7 @@ class GoodReadRepository
 
     public function getAllByCategory(Category $category): DataProviderInterface
     {
-        $query = Good::find()->alias('g')->active('g')->with('mainPhoto', 'category');
+        $query = Good::find()->alias('g')->active('g')->with('mainImage', 'category');
         $ids = ArrayHelper::merge([$category->id], $category->getDescendants()->select('id')->column());
         $query->joinWith(['categoryAssignments ca'], false);
         $query->andWhere(['or', ['g.category_id' => $ids], ['ca.category_id' => $ids]]);

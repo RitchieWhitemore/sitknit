@@ -7,11 +7,13 @@ use app\core\entities\Shop\Category;
 
 /**
  *
- * @var $model \app\core\entities\Shop\Category
+ * @var $dataProvider yii\data\ActiveDataProvider
+ * @var $category Category
+ *
  */
 
-$this->title = $model->name;
-$this->params['breadcrumbs'][] = ['label' => 'Каталог', 'url' => ['catalog']];
+$this->title = $category->name;
+$this->params['breadcrumbs'][] = ['label' => 'Каталог', 'url' => ['/catalog']];
 $this->params['breadcrumbs'][] = $this->title;
 
 ?>
@@ -35,35 +37,8 @@ $this->params['breadcrumbs'][] = $this->title;
 </div>
 
 <div class="catalog">
-    <h1 class="catalog__title"><?= $model->name ?></h1>
-    <p class="catalog__descr"><?= $model->description ?></p>
-
-    <?php if ($model->parent == null) {
-        echo "<h2>$model->name по производителям:</h2>";
-        echo ListView::widget([
-            'dataProvider' => $brands,
-            'emptyText' => '',
-            'itemView' => 'block/_brandItem',
-            'itemOptions' => ['class' => 'brand__item'],
-            'options' => ['class' => 'brand__list'],
-            'summary' => ''
-        ]);
-    }
-    ?>
-    <?php
-    if ($subcategories->getCount() > 0) {
-        echo "<h2>$model->name по составу:</h2>";
-        echo ListView::widget([
-            'dataProvider' => $subcategories,
-            'emptyText' => '',
-            'itemView' => 'block/_categoryItem',
-            'itemOptions' => ['class' => 'catalog__item product'],
-            'options' => ['class' => 'catalog__list'],
-            'summary' => ''
-        ]);
-    }
-
-    ?>
+    <h1 class="catalog__title"><?= $category->name ?></h1>
+    <p class="catalog__descr"><?= $category->description ?></p>
     <?php echo ListView::widget([
         'dataProvider' => $dataProvider,
         'itemView' => 'block/_goodItem',

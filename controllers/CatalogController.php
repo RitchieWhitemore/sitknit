@@ -50,7 +50,9 @@ class CatalogController extends Controller
         if (!$category = $this->categories->find($id)) {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
+
         $dataProvider = $this->goods->getAllByCategory($category);
+
         return $this->render('category', [
             'category' => $category,
             'dataProvider' => $dataProvider,

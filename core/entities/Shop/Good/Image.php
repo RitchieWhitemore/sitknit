@@ -44,16 +44,17 @@ class Image extends ActiveRecord
     {
         return [
             [
-                'class' => ImageUploadBehavior::className(),
-                'attribute' => 'file_name',
+                'class'                 => ImageUploadBehavior::className(),
+                'attribute'             => 'file_name',
                 'createThumbsOnRequest' => true,
-                'filePath' => '@webroot/img/goods/[[attribute_good_id]]/[[id]].[[extension]]',
-                'fileUrl' => '@web/img/goods/[[attribute_good_id]]/[[id]].[[extension]]',
-                'thumbPath' => '@webroot/cache/goods/[[attribute_good_id]]/[[profile]]_[[id]].[[extension]]',
-                'thumbUrl' => '@web/cache/goods/[[attribute_good_id]]/[[profile]]_[[id]].[[extension]]',
-                'thumbs' => [
-                    'admin' => ['width' => 100, 'height' => 70],
-                    'thumb' => ['width' => 640, 'height' => 480],
+                'filePath'              => '@webroot/img/goods/[[attribute_good_id]]/[[id]].[[extension]]',
+                'fileUrl'               => '@web/img/goods/[[attribute_good_id]]/[[id]].[[extension]]',
+                'thumbPath'             => '@webroot/cache/goods/[[attribute_good_id]]/[[profile]]_[[id]].[[extension]]',
+                'thumbUrl'              => '@web/cache/goods/[[attribute_good_id]]/[[profile]]_[[id]].[[extension]]',
+                'thumbs'                => [
+                    'admin'        => ['width' => 100, 'height' => 70],
+                    'thumb'        => ['width' => 640, 'height' => 480],
+                    'catalog_list' => ['width' => 220, 'height' => 150],
                 ],
             ],
         ];
