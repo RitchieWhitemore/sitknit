@@ -83,11 +83,22 @@ class CatalogController extends Controller
      */
     public function actionGood($id)
     {
-        if (!$product = $this->goods->find($id)) {
+        if (!$good = $this->goods->find($id)) {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
+
+        if (isset($good->mainGood)) {
+            $valuesMain = $good->mainGood->getValues()->with('characteristic.unit')->indexBy('characteristic.name')->all();
+            $values = $good->getValues()->with('characteristic.unit')->indexBy('characteristic.name')->all();
+        } else {
+            $values = $good->getValues()->with('characteristic.unit')->indexBy('characteristic.name')->all();
+            $valuesMain = $values;
+        }
+
         return $this->render('good', [
-            'good' => $product,
+            'good' => $good,
+            'values' => $values,
+            'valuesMain' => $valuesMain,
         ]);
     }
 }
