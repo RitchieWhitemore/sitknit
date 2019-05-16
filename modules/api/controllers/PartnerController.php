@@ -59,6 +59,9 @@ class PartnerController extends ActiveController
             'query' => $query,
             'pagination' => false,
             'sort' => [
+                'defaultOrder' => [
+                    'name' => SORT_ASC,
+                ],
                 'params' => $requestParams,
             ],
         ]);
