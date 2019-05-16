@@ -13,32 +13,35 @@ var del = require('del');
 var server = require("browser-sync");
 var run = require("run-sequence");
 
-gulp.task("style", function() {
-  gulp.src("src/less/style.less")
-      .pipe(plumber())
-      .pipe(sourcemaps.init())
-      .pipe(less())
-      .pipe(postcss([
-        autoprefixer({
-          browsers: [
-            "last 1 version",
-            "last 2 Chrome versions",
-            "last 2 Firefox versions",
-            "last 2 Opera versions",
-            "last 2 Edge versions"
-          ]
-        }),
-        mqpacker({
-          sort: true
-        })
-      ]))
+gulp.task("style", function () {
+    gulp.src("src/less/style.less")
+        .pipe(plumber())
+        .pipe(sourcemaps.init())
+        .pipe(less())
+        .pipe(postcss([
+            autoprefixer({
+                browsers: [
+                    "last 1 version",
+                    "last 2 Chrome versions",
+                    "last 2 Firefox versions",
+                    "last 2 Opera versions",
+                    "last 2 Edge versions"
+                ]
+            }),
+            mqpacker({
+                sort: true
+            })
+        ]))
 
-      .pipe(sourcemaps.write('./maps'))
-      .pipe(gulp.dest("src/css"))
-      .pipe(server.reload({stream: true}));
+        .pipe(sourcemaps.write('./maps'))
+        .pipe(gulp.dest("src/css"))
+        .pipe(cssmin())
+        .pipe(rename('style.min.css'))
+        .pipe(gulp.dest("web/css"))
+        .pipe(server.reload({stream: true}));
 });
 
-gulp.task("admin-style", function() {
+gulp.task("admin-style", function () {
     gulp.src("src/less/admin.less")
         .pipe(plumber())
         .pipe(sourcemaps.init())
@@ -63,7 +66,7 @@ gulp.task("admin-style", function() {
         .pipe(server.reload({stream: true}));
 });
 
-gulp.task("gliphicons-style", function() {
+gulp.task("gliphicons-style", function () {
     gulp.src("src/less/gliphicons.less")
         .pipe(plumber())
         .pipe(sourcemaps.init())
@@ -90,7 +93,7 @@ gulp.task("gliphicons-style", function() {
     //.pipe(server.reload({stream: true}));
 });
 
-gulp.task("build", function() {
+gulp.task("build", function () {
     gulp.src('web/css/*.css')
     //.pipe(gulp.dest('D:/OSPanel/domains/siju-vyaju-yii/frontend/web/css/'))
     //.pipe(cssmin())
@@ -99,27 +102,27 @@ gulp.task("build", function() {
 
 });
 
-gulp.task("polymer-build", function() {
+gulp.task("polymer-build", function () {
     del(['web/node_modules/**']);
-    runCmd("polymer build").exec('', function() {
+    runCmd("polymer build").exec('', function () {
         gulp.src('build/prod/node_modules/**/*.*')
             .pipe(gulp.dest('web/node_modules/'))
     });
 });
 
-gulp.task("serve", ["style"], function() {
-  server.init({
-    server: "./src"
-  });
-  gulp.watch("src/less/**/*.less", ["style"]);
-  gulp.watch("src/*.html")
-      .on("change", server.reload);
+gulp.task("serve", ["style"], function () {
+    server.init({
+        server: "./src"
+    });
+    gulp.watch("src/less/**/*.less", ["style"]);
+    gulp.watch("src/pages/**/*.html", ["html-build"])
+        .on("change", server.reload);
 });
 
-gulp.task("run", function(fn) {
-  run(
-      "style",
-      fn
-  );
+gulp.task("run", function (fn) {
+    run(
+        "style",
+        fn
+    );
 });
 
