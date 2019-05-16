@@ -8,19 +8,19 @@
 
 namespace app\core\entities\Shop\Good\queries;
 
-use core\entities\Shop\Good\Good;
+use app\core\entities\Shop\Good\Good;
 use yii\db\ActiveQuery;
 
 /**
  * This is the ActiveQuery class for [[Good]].
  *
- * @see \app\models\Good
+ * @see Good
  */
 class GoodQuery extends ActiveQuery
 {
-    public function active()
+    public function active($alias = null)
     {
-        return $this->andWhere(['active' => true]);
+        return $this->andWhere([($alias ? $alias . '.' : '') .'status' => true]);
     }
 
     /**

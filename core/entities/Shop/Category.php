@@ -23,6 +23,7 @@ use yiidreamteam\upload\ImageUploadBehavior;
  *
  * @property Good[] $goods
  * @property Category $parent
+ * @property Category[] $parents
  * @mixin NestedSetsBehavior
  */
 class Category extends ActiveRecord
@@ -72,19 +73,20 @@ class Category extends ActiveRecord
                 'thumbPath'             => '@webroot/img/cache/category/[[profile]]_[[id]].[[extension]]',
                 'thumbUrl'              => '@web/img/cache/category/[[profile]]_[[id]].[[extension]]',
                 'thumbs'                => [
-                    'admin' => ['width' => 100, 'height' => 70],
-                    'thumb' => ['width' => 640, 'height' => 480],
+                    'admin'        => ['width' => 100, 'height' => 70],
+                    'thumb'        => ['width' => 640, 'height' => 480],
+                    'catalog_list' => ['width' => 220, 'height' => 150],
                 ],
             ],
             'slug' => [
-                'class' => 'Zelenin\yii\behaviors\Slug',
-                'slugAttribute' => 'slug',
-                'attribute' => 'name',
+                'class'                => 'Zelenin\yii\behaviors\Slug',
+                'slugAttribute'        => 'slug',
+                'attribute'            => 'name',
                 // optional params
-                'ensureUnique' => true,
-                'replacement' => '-',
-                'lowercase' => true,
-                'immutable' => false,
+                'ensureUnique'         => true,
+                'replacement'          => '-',
+                'lowercase'            => true,
+                'immutable'            => false,
                 // If intl extension is enabled, see http://userguide.icu-project.org/transforms/general.
                 'transliterateOptions' => 'Russian-Latin/BGN; Any-Latin; Latin-ASCII; NFD; [:Nonspacing Mark:] Remove; NFC;'
             ]

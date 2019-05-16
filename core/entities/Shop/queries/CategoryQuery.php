@@ -10,6 +10,7 @@ namespace app\core\entities\Shop\queries;
 
 
 use app\core\entities\Shop\Category;
+use paulzi\nestedsets\NestedSetsQueryTrait;
 use yii\db\ActiveQuery;
 
 /**
@@ -19,6 +20,7 @@ use yii\db\ActiveQuery;
  */
 class CategoryQuery extends ActiveQuery
 {
+    use NestedSetsQueryTrait;
 
     public function active()
     {
