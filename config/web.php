@@ -25,21 +25,7 @@ $config = [
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
-        ],
-        'thumbnail' => [
-            'class' => 'sadovojav\image\Thumbnail',
-            'basePath' => '@app/web',
-            'cachePath' => '@webroot/img/thumbnails',
-            'options' => [
-                'placeholder' => [
-                    'type' => sadovojav\image\Thumbnail::PLACEHOLDER_TYPE_JS,
-                    'backgroundColor' => '#f5f5f5',
-                    'textColor' => '#cdcdcd',
-                    'textSize' => 30,
-                    'text' => 'No image'
-                ],
-            ]
-        ],
+        ]
     ],
     'modules' => [
         'admin' => [
