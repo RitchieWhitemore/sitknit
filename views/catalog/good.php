@@ -1,8 +1,10 @@
 <?php
 
+use app\assets\MagnificPopupAsset;
 use app\core\repositories\Shop\BalanceRepository;
 use yii\helpers\Html;
 use yii\helpers\Url;
+use yii\widgets\Breadcrumbs;
 
 /**
  *
@@ -11,14 +13,22 @@ use yii\helpers\Url;
  * @var $valuesMain app\core\entities\Shop\Good\Value
  */
 
+MagnificPopupAsset::register($this);
+
 $balance = new BalanceRepository($good);
 
+$this->title = $good->fullName;
+$this->params['breadcrumbs'][] = ['label' => 'Каталог', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => $good->category->name, 'url' => ['category', 'id' => $good->category_id]];
+$this->params['breadcrumbs'][] = $this->title;
 ?>
 
-<ul class="breadcrumb">
-    <li><a href="<?= Url::to(['/catalog/category', 'id' => $good->category_id])?>" class="link breadcrumb__link"><?= $good->category->name ?></a></li>
-    <li><?= $good->fullName ?></li>
-</ul>
+<?= Breadcrumbs::widget([
+    'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
+    'options' => [
+            'class' => 'breadcrumb'
+    ]
+]) ?>
 
 <div class="page-product">
     <div class="page-product__title-wrapper">
@@ -26,20 +36,16 @@ $balance = new BalanceRepository($good);
     </div>
     <div class="page-product__slider-image slider-image">
         <div class="slider-image__main-image-wrapper">
-            <a href="#" target="_blank"
+            <a href="<?= Html::encode($good->mainOriginImageUrl) ?>" target="_blank"
                class="slider-image__link slider-image__link--active">
-                <?php if (isset($good->mainImage)): ?>
-                    <img src="<?= Html::encode($good->mainImage->getThumbFileUrl('file_name', 'catalog_list')) ?>" alt=""/>
-                <?php else: ?>
-                    <img src="/img/no-image.svg" alt=""/>
-                <?php endif; ?>
+                    <img src="<?= Html::encode($good->mainThumbImageUrl) ?>" alt=""/>
             </a>
         </div>
         <div class="slider-image__small-image-wrapper">
             <ul class="slider-image__list">
-                <?php foreach ($good->images as $image) : ?>
-                    <li class="slider-image__item">
-                        <a href="#" class="slider-image__link">
+                <?php foreach ($good->images as $i => $image) : ?>
+                    <li class="slider-image__item <?= $i > 0 ? "slider-item": ""?>">
+                        <a href="<?= Html::encode($image->getUploadedFileUrl('file_name')) ?>" class="slider-image__link">
                             <img src="<?= Html::encode($image->getThumbFileUrl('file_name', 'catalog_list')) ?>" alt=""/>
                         </a>
                     </li>
@@ -124,3 +130,15 @@ $balance = new BalanceRepository($good);
         <p class="more-color__color">Зелено-малиновый (9040)</p>
     </div>
 </section>-->
+
+
+<?php $js = <<<EOD
+$('.slider-image__main-image-wrapper, .slider-item').magnificPopup({
+    type: 'image',
+    delegate: 'a',
+    gallery: {
+        enabled:true
+    }
+});
+EOD;
+$this->registerJs($js); ?>

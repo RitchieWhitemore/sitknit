@@ -177,6 +177,22 @@ class Good extends ActiveRecord
         $this->populateRelation('mainImage', reset($images));
     }
 
+    public function getMainThumbImageUrl()
+    {
+         if (isset($this->mainImage)) {
+             return $this->mainImage->getThumbFileUrl('file_name', 'main_image');
+         }
+         return '/img/no-image.svg';
+    }
+
+    public function getMainOriginImageUrl()
+    {
+        if (isset($this->mainImage)) {
+            return $this->mainImage->getUploadedFileUrl('file_name');
+        }
+        return '/img/no-image.svg';
+    }
+
     // Value
 
     public function setValue($id, $value)

@@ -55,6 +55,7 @@ class Image extends ActiveRecord
                     'admin'        => ['width' => 100, 'height' => 70],
                     'thumb'        => ['width' => 640, 'height' => 480],
                     'catalog_list' => ['width' => 220, 'height' => 150],
+                    'main_image'   => ['width' => 300, 'height' => 300],
                 ],
             ],
         ];
