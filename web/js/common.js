@@ -19,7 +19,7 @@ navToggle.addEventListener('click', function () {
     }
 });
 
-navSubMenuItem.addEventListener('click', function () {
+/*navSubMenuItem.addEventListener('click', function () {
     event.preventDefault();
     if (navSubMenuList.classList.contains('main-nav__list-sub--closed')) {
         navSubMenuList.classList.remove('main-nav__list-sub--closed');
@@ -28,7 +28,7 @@ navSubMenuItem.addEventListener('click', function () {
         navSubMenuList.classList.remove('main-nav__list-sub--opened');
         navSubMenuList.classList.add('main-nav__list-sub--closed');
     }
-});
+});*/
 
 filterButton.addEventListener('click', function () {
     if (filterButton.classList.contains('filter__button--closed')) {

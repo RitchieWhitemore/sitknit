@@ -3,6 +3,7 @@
     padding-top: 12px;
     padding-bottom: 10px;
     background-color: @bg-orange;
+    min-height: 25px;
 
     &::before,
     &::after {
@@ -145,7 +146,7 @@
     display: block;
 }
 
-.main-nav__item--active {
+.main-nav__item.active {
     background-color: @bg-brown;
 }
 
@@ -176,7 +177,7 @@
     color: #fff;
 }
 
-.main-nav__list-sub .main-nav__link--active {
+.main-nav__list-sub .main-nav__link.active {
     color: lighten(@bg-brown, 30%);
 }
 
@@ -252,7 +253,7 @@
         }
     }
 
-    .main-nav__item--active {
+    .main-nav__item.active {
         border-radius: 5px;
         border: 1px solid darken(@bg-brown, 5%);
     }
