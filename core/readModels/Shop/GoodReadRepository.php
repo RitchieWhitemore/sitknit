@@ -61,6 +61,9 @@ class GoodReadRepository
                     ],
                 ],
             ],
+            'pagination' => [
+                'pageSizeLimit' => [15, 100],
+            ]
         ]);
     }
 }

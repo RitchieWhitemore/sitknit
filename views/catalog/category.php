@@ -1,5 +1,6 @@
 <?php
 
+use yii\helpers\Url;
 use yii\widgets\ListView;
 use yii\widgets\Breadcrumbs;
 use yii\helpers\Html;
@@ -25,13 +26,14 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <div class="control">
     <label class="control__label"> Показать по
-        <select class="control__dropdown">
-            <option value="5">5</option>
-            <option value="10">10</option>
-            <option value="15" selected>15</option>
-            <option value="25">25</option>
-            <option value="50">50</option>
-            <option value="100">100</option>
+        <select id="input-limit" class="control__dropdown" onchange="location = this.value;">
+            <?php
+            $values = [15, 25, 50, 75, 100];
+            $current = $dataProvider->getPagination()->getPageSize();
+            ?>
+            <?php foreach ($values as $value): ?>
+                <option value="<?= Html::encode(Url::current(['per-page' => $value])) ?>" <?php if ($current == $value): ?>selected="selected"<?php endif; ?>><?= $value ?></option>
+            <?php endforeach; ?>
         </select>
     </label>
 </div>
