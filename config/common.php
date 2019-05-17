@@ -87,15 +87,15 @@ return [
 
                 ['class' => 'yii\rest\UrlRule', 'controller' => 'api/orderItem',],
 
-                ''                                                                               => 'goods/catalog',
+                ['class' => 'app\urls\CategoryUrlRule'],
+                'catalog/<id:\d+>' => 'catalog/good',
+
+                ''                                                                               => 'catalog',
                 'contact'                                                                        => 'main/contact/index',
                 '<_a:error>'                                                                     => 'main/default/<_a>',
                 '<_a:(login|logout|signup|confirm-email|request-password-reset|reset-password)>' => 'user/default/<_a>',
 
-                'goods/category/<id:\d+>'      => 'goods/category',
-                'goods/category/good/<id:\d+>' => 'goods/view',
 
-                'goods/brand/<id:\d+>' => 'goods/brand'
 
                 /*'<_m:[\w\-]+>/<_c:[\w\-]+>/<id:\d+>'              => '<_m>/<_c>/view',
                 '<_m:[\w\-]+>/<_c:[\w\-]+>/<id:\d+>/<_a:[\w\-]+>' => '<_m>/<_c>/<_a>',
