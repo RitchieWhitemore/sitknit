@@ -97,7 +97,7 @@ AppAsset::register($this);
             </div>
             <section class="main__content">
                 <aside class="main__left-column">
-                    <!--       --><?php /*echo \app\widgets\Categories::widget() */ ?>
+                    <?php echo \app\widgets\CategoriesWidget::widget(['context' => $this->context])  ?>
 
 
                     <div class="filter filter--closed">

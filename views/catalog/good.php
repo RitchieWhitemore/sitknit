@@ -59,7 +59,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <h2 class="page-product__feature-title">Характеристики:</h2>
         <ul class="page-product__feature-list">
             <li class="page-product__feature-item"><b>Производитель: </b><?= $good->brand->name ?>
-                (<?= $good->brand->country->name ?>)
+                (<?= isset($good->brand->country) ? $good->brand->country->name : ''?>)
             </li>
             <?php
             foreach ($valuesMain as $attr => $value) {

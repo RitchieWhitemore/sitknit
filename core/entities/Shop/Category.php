@@ -134,9 +134,9 @@ class Category extends ActiveRecord
 
     public function getCountGoods()
     {
-        $categories = self::find()->where(['parent_id' => $this->id])->active()->indexBy('id')->column();
+        $categories = $this->getDescendants()->active()->indexBy('id')->column();
 
-        return Good::find()->where(['IN', 'category_id', $categories])->active()->count();
+        return Good::find()->where(['IN', 'category_id', array_merge([$this->id, $categories])])->active()->count();
     }
 
     public function transactions(): array
