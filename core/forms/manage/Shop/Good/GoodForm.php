@@ -70,7 +70,7 @@ class GoodForm extends CompositeForm
     public function rules()
     {
         return [
-            [['name'], 'required'],
+            [['name', 'article', 'category_id', 'brand_id'], 'required'],
             [['category_id', 'brand_id', 'packaged', 'status'], 'integer'],
             [['article'], 'string', 'max' => 50],
             [['name', 'description'], 'string', 'max' => 255],

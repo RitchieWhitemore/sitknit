@@ -103,7 +103,7 @@ class Brand extends ActiveRecord
 
     public static function getBrandsArray()
     {
-        return self::find()->select(['name', 'id'])->indexBy('id')->column();
+        return self::find()->select(['name', 'id'])->orderBy('name')->indexBy('id')->column();
     }
 
     public static function getBrandsInCategory()
