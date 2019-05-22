@@ -2,6 +2,7 @@
 
 namespace app\modules\trade\models;
 
+use app\core\entities\Document\Receipt;
 use Yii;
 
 /**

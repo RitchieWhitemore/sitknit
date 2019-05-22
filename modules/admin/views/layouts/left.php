@@ -51,7 +51,7 @@
                         ['label' => 'Контрагенты', 'icon' => 'file-o', 'url' => ['/trade/partners/index']],
                     ]],
                     ['label' => 'Документы', 'icon' => 'folder', 'items' => [
-                        ['label' => 'Поступления товара', 'icon' => 'file-o', 'url' => ['/trade/receipts/index']],
+                        ['label' => 'Поступления товара', 'icon' => 'file-o', 'url' => ['/admin/documents/receipts/index']],
                         ['label' => 'Заказы покупателей', 'icon' => 'file-o', 'url' => ['/trade/orders/index']],
                     ]],
                     ['label' => 'Отчеты', 'icon' => 'folder', 'items' => [

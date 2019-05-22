@@ -26,6 +26,7 @@ class GoodController extends ActiveController
 
     public function prepareDataProvider()
     {
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         $requestParams = Yii::$app->getRequest()->getBodyParams();
         if (empty($requestParams)) {
             $requestParams = Yii::$app->getRequest()->getQueryParams();
@@ -48,13 +49,42 @@ class GoodController extends ActiveController
             $query->andWhere($requestParams);
         }
 
-        return Yii::createObject([
+        $result = Yii::createObject([
             'class' => ActiveDataProvider::className(),
             'query' => $query,
-            'pagination' => false,
+            'pagination' => [
+                'pageSize' => 10,
+            ],
             'sort' => [
                 'params' => $requestParams,
             ],
+        ]);
+
+        return $result;
+    }
+
+    public function actionList($q = null)
+    {
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+
+        $requestParams = Yii::$app->getRequest()->getBodyParams();
+        if (empty($requestParams)) {
+            $requestParams = Yii::$app->getRequest()->getQueryParams();
+        }
+
+        /* @var $modelClass yii\db\BaseActiveRecord */
+        $modelClass = new $this->modelClass;
+
+        $query = $modelClass::find()->joinWith('values', 'prices')->addSelect(['*']);
+        if (!empty($requestParams)) {
+            $query->andFilterWhere(['or', ['like', 'name', $q], ['like', 'value', $q]]);
+        }
+
+        $query->limit(100);
+
+        return Yii::createObject([
+            'class' => ActiveDataProvider::className(),
+            'query' => $query,
         ]);
     }
 

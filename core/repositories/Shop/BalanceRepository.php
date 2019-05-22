@@ -5,7 +5,7 @@ namespace app\core\repositories\Shop;
 
 use app\modules\trade\models\Order;
 use app\modules\trade\models\OrderItem;
-use app\modules\trade\models\ReceiptItem;
+use app\core\entities\Document\ReceiptItem;
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 

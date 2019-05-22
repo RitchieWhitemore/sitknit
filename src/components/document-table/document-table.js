@@ -148,7 +148,7 @@ class DocumentTable extends PolymerElement {
         if (this.documentType === 'receipt') {
             this.$.ajax.url = "/api/receipt-item";
             this.$.ajax.params = {
-                'receipt_id': this.documentId,
+                'document_id': this.documentId,
             }
         } else if (this.documentType === 'order') {
             this.$.ajax.url = "/api/order-item";

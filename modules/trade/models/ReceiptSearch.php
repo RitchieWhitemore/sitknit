@@ -4,12 +4,12 @@ namespace app\modules\trade\models;
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\modules\trade\models\Receipt;
+use app\core\entities\Document\Receipt;
 
 /**
- * ReceiptSearch represents the model behind the search form of `app\modules\trade\models\Receipt`.
+ * ReceiptSearch represents the model behind the search form of `app\core\entities\Document\Receipt`.
  */
-class ReceiptSearch extends Receipt
+class ReceiptSearch extends \app\core\entities\Document\Receipt
 {
     /**
      * {@inheritdoc}
@@ -41,7 +41,7 @@ class ReceiptSearch extends Receipt
      */
     public function search($params)
     {
-        $query = Receipt::find();
+        $query = \app\core\entities\Document\Receipt::find();
 
         // add conditions that should always apply here
 

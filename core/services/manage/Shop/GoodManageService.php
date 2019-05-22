@@ -53,7 +53,7 @@ class GoodManageService
         }
 
         foreach ($form->values as $value) {
-            $good->setValue($value->id, $value->value);
+            $good->setValueItem($value->id, $value->value);
         }
 
         $this->goods->save($good);
@@ -81,7 +81,7 @@ class GoodManageService
             }
 
             foreach ($form->values as $value) {
-                $good->setValue($value->id, $value->value);
+                $good->setValueItem($value->id, $value->value);
             }
 
             $this->goods->save($good);

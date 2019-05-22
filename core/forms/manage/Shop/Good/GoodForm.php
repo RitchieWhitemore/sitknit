@@ -50,7 +50,7 @@ class GoodForm extends CompositeForm
             $this->categories = new CategoriesForm($good);
 
             $this->values = array_map(function (Characteristic $characteristic) use ($good) {
-                return new ValueForm($characteristic, $good->getValue($characteristic->id));
+                return new ValueForm($characteristic, $good->getValueItem($characteristic->id));
             }, Characteristic::find()->orderBy('sort')->all());
 
             $this->_good = $good;

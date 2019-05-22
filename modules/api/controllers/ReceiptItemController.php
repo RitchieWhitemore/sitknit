@@ -8,7 +8,7 @@ use Yii;
 
 class ReceiptItemController extends ActiveController
 {
-    public $modelClass = 'app\modules\trade\models\ReceiptItem';
+    public $modelClass = 'app\core\entities\Document\ReceiptItem';
 
 
     public function actions()

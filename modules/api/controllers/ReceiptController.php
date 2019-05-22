@@ -3,14 +3,14 @@
 namespace app\modules\api\controllers;
 
 
-use app\modules\trade\models\Receipt;
+use app\core\entities\Document\Receipt;
 use app\services\DocumentRepository;
 use Yii;
 use yii\rest\ActiveController;
 
 class ReceiptController extends ActiveController
 {
-    public $modelClass = 'app\modules\trade\models\Receipt';
+    public $modelClass = 'app\core\entities\Document\Receipt';
 
     public function actionSave()
     {

@@ -6,7 +6,7 @@ namespace app\services;
 
 use app\modules\trade\models\DocumentInterface;
 use app\modules\trade\models\Order;
-use app\modules\trade\models\Receipt;
+use app\core\entities\Document\Receipt;
 use Yii;
 use yii\db\Exception;
 
@@ -14,7 +14,7 @@ use yii\db\Exception;
  * Class DocumentRepository
  * @package app\services
  *
- * @property Receipt|Order $document
+ * @property \app\core\entities\Document\Receipt|Order $document
  * @property DocumentInterface $documentTableInitial
  *
  */

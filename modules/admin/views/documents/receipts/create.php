@@ -3,7 +3,7 @@
 use yii\helpers\Html;
 
 /* @var $this yii\web\View */
-/* @var $model app\modules\trade\models\Receipt */
+/* @var $model \app\core\entities\Document\Receipt */
 
 $this->title = 'Создать поступление товара';
 $this->params['breadcrumbs'][] = ['label' => 'Поступления', 'url' => ['index']];

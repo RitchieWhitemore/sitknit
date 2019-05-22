@@ -6,7 +6,7 @@ namespace app\modules\admin\controllers\shop;
 
 use app\core\entities\ItemRemaining;
 use app\modules\trade\models\OrderItem;
-use app\modules\trade\models\ReceiptItem;
+use app\core\entities\Document\ReceiptItem;
 use yii\data\ActiveDataProvider;
 use yii\data\ArrayDataProvider;
 use yii\web\Controller;
@@ -23,7 +23,7 @@ class ReportsController extends Controller
         $remaining = [];
 
         foreach ($debits as $key => $debit) {
-            /* @var $debit ReceiptItem */
+            /* @var $debit \app\core\entities\Document\ReceiptItem */
 
             if (array_key_exists($key, $credits)) {
 

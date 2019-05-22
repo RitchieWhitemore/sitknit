@@ -179,10 +179,10 @@ class Good extends ActiveRecord
 
     public function getMainThumbImageUrl()
     {
-         if (isset($this->mainImage)) {
-             return $this->mainImage->getThumbFileUrl('file_name', 'main_image');
-         }
-         return '/img/no-image.svg';
+        if (isset($this->mainImage)) {
+            return $this->mainImage->getThumbFileUrl('file_name', 'main_image');
+        }
+        return '/img/no-image.svg';
     }
 
     public function getMainOriginImageUrl()
@@ -195,7 +195,7 @@ class Good extends ActiveRecord
 
     // Value
 
-    public function setValue($id, $value)
+    public function setValueItem($id, $value)
     {
         $values = $this->values;
         foreach ($values as $val) {
@@ -209,7 +209,7 @@ class Good extends ActiveRecord
         $this->values = $values;
     }
 
-    public function getValue($id): Value
+    public function getValueItem($id): Value
     {
         $values = $this->values;
         foreach ($values as $val) {
@@ -230,7 +230,7 @@ class Good extends ActiveRecord
     {
         return [
             [
-                'class' => SaveRelationsBehavior::className(),
+                'class'     => SaveRelationsBehavior::className(),
                 'relations' => ['categoryAssignments', 'images', 'values'],
             ],
         ];
@@ -260,6 +260,7 @@ class Good extends ActiveRecord
             'packaged'       => 'В упаковке',
             'active'         => 'Активен',
             'main_good_id'   => 'Основной товар',
+            'nameAndColor'   => 'Товар'
         ];
     }
 
@@ -343,7 +344,7 @@ class Good extends ActiveRecord
 
     public function getNameAndColor(): string
     {
-        /* @var $color Value*/
+        /* @var $color Value */
         $color = $this->getValues()->where(['characteristic_id' => 1])->one();
 
         if (isset($color)) {
