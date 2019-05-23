@@ -5,7 +5,7 @@ namespace app\modules\admin\controllers\shop;
 
 
 use app\core\entities\ItemRemaining;
-use app\modules\trade\models\OrderItem;
+use app\core\entities\Document\OrderItem;
 use app\core\entities\Document\ReceiptItem;
 use yii\data\ActiveDataProvider;
 use yii\data\ArrayDataProvider;

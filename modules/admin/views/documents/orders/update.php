@@ -3,7 +3,7 @@
 use yii\helpers\Html;
 
 /* @var $this yii\web\View */
-/* @var $model app\modules\trade\models\Order */
+/* @var $model \app\core\entities\Document\Order */
 
 $this->title = 'Редактировать заказ: №' . $model->id;
 $this->params['breadcrumbs'][] = ['label' => 'Заказы', 'url' => ['index']];

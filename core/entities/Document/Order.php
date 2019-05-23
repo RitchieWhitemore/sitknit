@@ -1,8 +1,11 @@
 <?php
 
-namespace app\modules\trade\models;
+namespace app\core\entities\Document;
 
-use Yii;
+use app\modules\trade\models\DocumentInterface;
+use app\modules\trade\models\Partner;
+use lhs\Yii2SaveRelationsBehavior\SaveRelationsBehavior;
+use yii\db\ActiveQuery;
 use yii\helpers\ArrayHelper;
 
 /**
@@ -16,7 +19,7 @@ use yii\helpers\ArrayHelper;
  * @property double $total
  *
  * @property Partner $partner
- * @property OrderItem[] $orderItems
+ * @property OrderItem[] $documentItems
  */
 class Order extends \yii\db\ActiveRecord implements DocumentInterface
 {
@@ -64,20 +67,51 @@ class Order extends \yii\db\ActiveRecord implements DocumentInterface
         ];
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getPartner()
+    public function moveItemUp($documentId, $goodId)
+    {
+        $items = $this->documentItems;
+        foreach ($items as $i => $item) {
+            if ($item->isIdEqualTo($documentId, $goodId)) {
+                if ($prev = $items[$i - 1] ?? null) {
+                    $items[$i - 1] = $item;
+                    $items[$i] = $prev;
+                    $this->updateItems($items);
+                }
+                return;
+            }
+        }
+        throw new \DomainException('Item is not found.');
+    }
+
+    public function moveItemDown($documentId, $goodId)
+    {
+        $items = $this->documentItems;
+        foreach ($items as $i => $item) {
+            if ($item->isIdEqualTo($documentId, $goodId)) {
+                if ($next = $items[$i + 1] ?? null) {
+                    $items[$i] = $next;
+                    $items[$i + 1] = $item;
+                    $this->updateItems($items);
+                }
+                return;
+            }
+        }
+        throw new \DomainException('Item is not found.');
+    }
+
+    public function calculateTotalSum()
+    {
+        return $this->getDocumentItems()->sum('sum');
+    }
+
+    public function getPartner(): ActiveQuery
     {
         return $this->hasOne(Partner::className(), ['id' => 'partner_id']);
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getDocumentItems()
+    public function getDocumentItems(): ActiveQuery
     {
-        return $this->hasMany(OrderItem::className(), ['order_id' => 'id']);
+        return $this->hasMany(OrderItem::className(), ['document_id' => 'id'])->orderBy('sort');
     }
 
     /**
@@ -89,7 +123,7 @@ class Order extends \yii\db\ActiveRecord implements DocumentInterface
     {
         $tableItem =  new OrderItem();
 
-        $tableItem->order_id = $documentId;
+        $tableItem->document_id = $documentId;
         $tableItem->good_id = $goodId;
 
         return $tableItem;
@@ -120,5 +154,31 @@ class Order extends \yii\db\ActiveRecord implements DocumentInterface
     public function getPaymentName()
     {
         return ArrayHelper::getValue(self::getPaymentsArray(), $this->payment);
+    }
+
+    public function behaviors(): array
+    {
+        return [
+            [
+                'class' => SaveRelationsBehavior::className(),
+                'relations' => ['documentItems'],
+            ],
+        ];
+    }
+
+    public function transactions()
+    {
+        return [
+            self::SCENARIO_DEFAULT => self::OP_ALL,
+        ];
+    }
+
+
+    private function updateItems(array $items)
+    {
+        foreach ($items as $i => $item) {
+            $item->setSort($i);
+        }
+        $this->documentItems = $items;
     }
 }

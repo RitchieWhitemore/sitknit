@@ -8,7 +8,7 @@ use Yii;
 
 class OrderItemController extends ActiveController
 {
-    public $modelClass = 'app\modules\trade\models\OrderItem';
+    public $modelClass = 'app\core\entities\Document\OrderItem';
 
 
     public function actions()

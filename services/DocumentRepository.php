@@ -5,7 +5,7 @@ namespace app\services;
 
 
 use app\modules\trade\models\DocumentInterface;
-use app\modules\trade\models\Order;
+use app\core\entities\Document\Order;
 use app\core\entities\Document\Receipt;
 use Yii;
 use yii\db\Exception;

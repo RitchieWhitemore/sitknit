@@ -52,7 +52,7 @@
                     ]],
                     ['label' => 'Документы', 'icon' => 'folder', 'items' => [
                         ['label' => 'Поступления товара', 'icon' => 'file-o', 'url' => ['/admin/documents/receipts/index']],
-                        ['label' => 'Заказы покупателей', 'icon' => 'file-o', 'url' => ['/trade/orders/index']],
+                        ['label' => 'Заказы покупателей', 'icon' => 'file-o', 'url' => ['/admin/documents/orders/index']],
                     ]],
                     ['label' => 'Отчеты', 'icon' => 'folder', 'items' => [
                         ['label' => 'Приход', 'icon' => 'file-o', 'url' => ['/admin/shop/reports/debit']],

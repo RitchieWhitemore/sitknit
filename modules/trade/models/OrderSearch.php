@@ -4,12 +4,12 @@ namespace app\modules\trade\models;
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\modules\trade\models\Order;
+use app\core\entities\Document\Order;
 
 /**
- * OrderSearch represents the model behind the search form of `app\modules\trade\models\Order`.
+ * OrderSearch represents the model behind the search form of `app\core\entities\Document\Order`.
  */
-class OrderSearch extends Order
+class OrderSearch extends \app\core\entities\Document\Order
 {
     /**
      * {@inheritdoc}
@@ -41,7 +41,7 @@ class OrderSearch extends Order
      */
     public function search($params)
     {
-        $query = Order::find();
+        $query = \app\core\entities\Document\Order::find();
 
         // add conditions that should always apply here
 

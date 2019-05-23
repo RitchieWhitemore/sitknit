@@ -2,7 +2,7 @@
 
 /* @var $this yii\web\View */
 
-use app\modules\trade\models\Order;
+use app\core\entities\Document\Order;
 use yii\bootstrap\Html;
 use yii\grid\GridView;
 use yii\web\View;

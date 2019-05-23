@@ -4,31 +4,34 @@
 namespace app\core\services\manage\Document;
 
 
+use app\core\entities\Document\OrderItem;
 use app\core\entities\Document\ReceiptItem;
+use app\core\forms\manage\Document\OrderItemForm;
 use app\core\forms\manage\Document\ReceiptItemForm;
-use app\core\repositories\Document\ReceiptItemRepository;
-use app\core\repositories\Document\ReceiptRepository;
+use app\core\repositories\Document\OrderItemRepository;
+use app\core\repositories\Document\OrderRepository;
 use app\core\repositories\Shop\GoodRepository;
 
-class ReceiptManageService
+class OrderManageService
 {
     private $documents;
     private $documentItems;
     private $goods;
 
-    public function __construct(ReceiptRepository $documents, ReceiptItemRepository $documentItems, GoodRepository $goods)
+    public function __construct(OrderRepository $documents, OrderItemRepository $documentItems, GoodRepository $goods)
     {
         $this->documents = $documents;
         $this->documentItems = $documentItems;
         $this->goods = $goods;
     }
 
-    public function addItem($document_id, ReceiptItemForm $form)
+    public function addItem($document_id, OrderItemForm $form)
     {
-        /* @var $documentItem ReceiptItem */
+
         $document = $this->documents->get($document_id);
 
-        $documentItem = ReceiptItem::create($document->id, $form->good_id, $form->qty, $form->price);
+        /* @var $documentItem OrderItem */
+        $documentItem = OrderItem::create($document->id, $form->good_id, $form->qty, $form->price);
         $sort = $document->getDocumentItems()->max('sort');
         $documentItem->sort = $sort + 1;
 
@@ -49,7 +52,7 @@ class ReceiptManageService
         $this->documents->save($document);
     }
 
-    public function editItem(ReceiptItem $documentItem, ReceiptItemForm $form)
+    public function editItem(OrderItem $documentItem, OrderItemForm $form)
     {
         $document = $documentItem->document;
 

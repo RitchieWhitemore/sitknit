@@ -2,29 +2,29 @@
 
 namespace app\modules\admin\controllers\documents;
 
-use app\core\forms\manage\Document\ReceiptItemForm;
-use app\core\repositories\Document\ReceiptItemRepository;
-use app\core\repositories\Document\ReceiptRepository;
-use app\core\services\manage\Document\ReceiptManageService;
-use app\core\entities\Document\ReceiptItem;
+use app\core\entities\Document\OrderItem;
+use app\core\forms\manage\Document\OrderItemForm;
+use app\core\repositories\Document\OrderItemRepository;
+use app\core\repositories\Document\OrderRepository;
+use app\core\services\manage\Document\OrderManageService;
 use Yii;
-use app\core\entities\Document\Receipt;
-use app\modules\trade\models\ReceiptSearch;
+use app\core\entities\Document\Order;
+use app\modules\trade\models\OrderSearch;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * ReceiptsController implements the CRUD actions for Receipt model.
+ * OrdersController implements the CRUD actions for Order model.
  */
-class ReceiptsController extends Controller
+class OrdersController extends Controller
 {
     private $service;
     private $documents;
     private $documentItems;
 
-    public function __construct($id, $module, ReceiptManageService $service, ReceiptRepository $documents, ReceiptItemRepository $documentItems, $config = [])
+    public function __construct($id, $module, OrderManageService $service, OrderRepository $documents, OrderItemRepository $documentItems, $config = [])
     {
         $this->service = $service;
         $this->documents = $documents;
@@ -32,9 +32,6 @@ class ReceiptsController extends Controller
         parent::__construct($id, $module, $config);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function behaviors()
     {
         return [
@@ -51,12 +48,12 @@ class ReceiptsController extends Controller
     }
 
     /**
-     * Lists all Receipt models.
+     * Lists all Order models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new ReceiptSearch();
+        $searchModel = new OrderSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -66,21 +63,21 @@ class ReceiptsController extends Controller
     }
 
     /**
-     * Displays a single Receipt model.
+     * Displays a single Order model.
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
     public function actionView($id)
     {
-        $receipt =  $this->documents->get($id);
+        $document =  $this->documents->get($id);
 
-        $documentTableForm = new ReceiptItemForm();
+        $documentTableForm = new OrderItemForm();
 
         if ($documentTableForm->load(Yii::$app->request->post()) && $documentTableForm->validate()) {
             try {
-                $this->service->addItem($receipt->id, $documentTableForm);
-                return $this->redirect(['view', 'id' => $receipt->id]);
+                $this->service->addItem($document->id, $documentTableForm);
+                return $this->redirect(['view', 'id' => $document->id]);
             } catch (\DomainException $e) {
                 Yii::$app->errorHandler->logException($e);
                 Yii::$app->session->setFlash('error', $e->getMessage());
@@ -88,7 +85,7 @@ class ReceiptsController extends Controller
         }
 
         $itemsDataProvider = new ActiveDataProvider([
-            'query' => ReceiptItem::find()->where(['document_id' => $id]),
+            'query' => OrderItem::find()->where(['document_id' => $id]),
             'pagination' => false,
             'sort' => [
                 'defaultOrder' => [
@@ -98,20 +95,20 @@ class ReceiptsController extends Controller
         ]);
 
         return $this->render('view', [
-            'receipt' => $receipt,
+            'document' => $document,
             'itemsDataProvider' => $itemsDataProvider,
             'documentTableForm' => $documentTableForm
         ]);
     }
 
     /**
-     * Creates a new Receipt model.
+     * Creates a new Order model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new Receipt();
+        $model = new Order();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -123,7 +120,7 @@ class ReceiptsController extends Controller
     }
 
     /**
-     * Updates an existing Receipt model.
+     * Updates an existing Order model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -143,7 +140,7 @@ class ReceiptsController extends Controller
     }
 
     /**
-     * Deletes an existing Receipt model.
+     * Deletes an existing Order model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -172,7 +169,7 @@ class ReceiptsController extends Controller
     {
         $documentItem  = $this->documentItems->get($documentId, $goodId);
 
-        $form = new ReceiptItemForm($documentItem);
+        $form = new OrderItemForm($documentItem);
 
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
@@ -203,15 +200,15 @@ class ReceiptsController extends Controller
     }
 
     /**
-     * Finds the Receipt model based on its primary key value.
+     * Finds the Order model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Receipt the loaded model
+     * @return \app\core\entities\Document\Order the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Receipt::findOne($id)) !== null) {
+        if (($model = Order::findOne($id)) !== null) {
             return $model;
         }
 

@@ -5,15 +5,15 @@ use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
 use yii\web\JsExpression;
 
-/* @var $receipt app\core\entities\Document\Receipt */
-/* @var $documentTableForm app\core\forms\manage\Document\ReceiptItemForm */
+/* @var $document app\core\entities\Document\Receipt */
+/* @var $documentTableForm app\core\forms\manage\Document\OrderItemForm */
 
 ?>
     <p><?= isset($documentItem) ? $documentItem->good->nameAndColor : ''?></p>
 <?php $form = ActiveForm::begin([]); ?>
     <div class="row">
         <div class="col-md-6">
-            <?= $form->field($documentTableForm, 'document_id', ['options' => ['style' => 'display:none']])->hiddenInput(['value' => $receipt->id]); ?>
+            <?= $form->field($documentTableForm, 'document_id', ['options' => ['style' => 'display:none']])->hiddenInput(['value' => $document->id]); ?>
             <?= $form->field($documentTableForm, 'good_id')->widget(Select2::classname(), [
                 'options' => ['placeholder' => 'Введите название товара'],
                 'pluginOptions' => [
@@ -23,7 +23,7 @@ use yii\web\JsExpression;
                         'errorLoading' => new JsExpression("function () { return 'Waiting for results...'; }"),
                     ],
                     'ajax' => [
-                        'url' => '/api/good/list?expand=priceWholesale',
+                        'url' => '/api/good/list?expand=priceRetail',
                         'dataType' => 'json',
                         'data' => new JsExpression('function(params) { return {q:params.term};}'),
                         'processResults' => new JsExpression('function (data) {
@@ -38,11 +38,11 @@ use yii\web\JsExpression;
                 ],
                 'pluginEvents' => [
                     "select2:select" => "function(evt) { 
-                        const qtyInput = document.querySelector('#receiptitemform-qty');
-                        const priceInput = document.querySelector('#receiptitemform-price');
+                        const qtyInput = document.querySelector('#orderitemform-qty');
+                        const priceInput = document.querySelector('#orderitemform-price');
                         qtyInput.value = '';
                         qtyInput.focus();
-                        priceInput.value = evt.params.data.priceWholesale.price;            
+                        priceInput.value = evt.params.data.priceRetail.price;            
                     }",
                 ]
             ]); ?>

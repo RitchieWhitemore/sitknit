@@ -2,7 +2,7 @@
 
 use app\components\grid\SetColumn;
 use app\models\Advert;
-use app\modules\trade\models\Order;
+use app\core\entities\Document\Order;
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
@@ -14,8 +14,6 @@ $this->title = 'Заказы';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="order-index">
-
-    <h1><?= Html::encode($this->title) ?></h1>
     <?php Pjax::begin(); ?>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 

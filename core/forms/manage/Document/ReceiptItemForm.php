@@ -10,7 +10,7 @@ use yii\base\Model;
 use yii\db\ActiveQuery;
 use yii\helpers\ArrayHelper;
 
-class DocumentTableItemForm extends Model
+class ReceiptItemForm extends Model
 {
     public $document_id;
     public $good_id;

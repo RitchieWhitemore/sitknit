@@ -14,7 +14,7 @@ $this->registerJsFile("$bundle->baseUrl/choice-form/group-good-for-choice-form.j
 $this->registerJsFile("$bundle->baseUrl/choice-form/item-element.js", ['type' => 'module']);
 
 /* @var $this yii\web\View */
-/* @var $model app\modules\trade\models\Order */
+/* @var $model \app\core\entities\Document\Order */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
