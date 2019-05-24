@@ -21,7 +21,7 @@ use yii\helpers\ArrayHelper;
  * @property Partner $partner
  * @property OrderItem[] $documentItems
  */
-class Order extends \yii\db\ActiveRecord implements DocumentInterface
+class Order extends Document implements DocumentInterface
 {
     const STATUS_NOT_RESERVE = 0;
     const STATUS_RESERVE = 1;
@@ -65,43 +65,6 @@ class Order extends \yii\db\ActiveRecord implements DocumentInterface
             'partner_id' => 'Контрагент',
             'total' => 'Сумма',
         ];
-    }
-
-    public function moveItemUp($documentId, $goodId)
-    {
-        $items = $this->documentItems;
-        foreach ($items as $i => $item) {
-            if ($item->isIdEqualTo($documentId, $goodId)) {
-                if ($prev = $items[$i - 1] ?? null) {
-                    $items[$i - 1] = $item;
-                    $items[$i] = $prev;
-                    $this->updateItems($items);
-                }
-                return;
-            }
-        }
-        throw new \DomainException('Item is not found.');
-    }
-
-    public function moveItemDown($documentId, $goodId)
-    {
-        $items = $this->documentItems;
-        foreach ($items as $i => $item) {
-            if ($item->isIdEqualTo($documentId, $goodId)) {
-                if ($next = $items[$i + 1] ?? null) {
-                    $items[$i] = $next;
-                    $items[$i + 1] = $item;
-                    $this->updateItems($items);
-                }
-                return;
-            }
-        }
-        throw new \DomainException('Item is not found.');
-    }
-
-    public function calculateTotalSum()
-    {
-        return $this->getDocumentItems()->sum('sum');
     }
 
     public function getPartner(): ActiveQuery
@@ -171,14 +134,5 @@ class Order extends \yii\db\ActiveRecord implements DocumentInterface
         return [
             self::SCENARIO_DEFAULT => self::OP_ALL,
         ];
-    }
-
-
-    private function updateItems(array $items)
-    {
-        foreach ($items as $i => $item) {
-            $item->setSort($i);
-        }
-        $this->documentItems = $items;
     }
 }
