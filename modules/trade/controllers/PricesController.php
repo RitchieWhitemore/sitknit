@@ -4,14 +4,12 @@ namespace app\modules\trade\controllers;
 
 use app\components\SetPrice;
 use app\modules\trade\models\SetPriceAjaxForm;
-use app\modules\trade\models\SetPriceForm;
 use Yii;
 use app\modules\trade\models\Price;
 use app\modules\trade\models\PriceSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use yii\web\UploadedFile;
 
 /**
  * PricesController implements the CRUD actions for Price model.

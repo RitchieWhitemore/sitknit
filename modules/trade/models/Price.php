@@ -2,9 +2,8 @@
 
 namespace app\modules\trade\models;
 
-use app\models\Good;
+use app\core\entities\Shop\Good\Good;
 use app\modules\trade\models\query\PriceQuery;
-use Yii;
 use yii\helpers\ArrayHelper;
 
 /**

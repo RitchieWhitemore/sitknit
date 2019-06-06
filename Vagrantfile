@@ -36,13 +36,13 @@ Vagrant.configure(2) do |config|
   # should we ask about box updates?
   config.vm.box_check_update = options['box_check_update']
 
-  config.vm.provider 'virtualbox' do |vb|
+  config.vm.provider 'hyperv' do |vb|
     # machine cpus count
     vb.cpus = options['cpus']
     # machine memory size
     vb.memory = options['memory']
     # machine name (for VirtualBox UI)
-    vb.name = options['machine_name']
+    #vb.name = options['machine_name']
   end
 
   # machine name (for vagrant console)
