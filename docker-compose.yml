@@ -1,9 +1,69 @@
-version: '2'
+# Версия docker-compose
+version: '3'
+# Список наших сервисов (контейнеров)
 services:
-  php:
-    image: yiisoftware/yii2-php:7.1-apache
-    volumes:
-      - ~/.composer-docker/cache:/root/.composer/cache:delegated
-      - ./:/app:delegated
-    ports:
-      - '8000:80'
+    nginx:
+        # используем последний стабильный образ nginx
+        image: nginx:latest
+        # маршрутизируем порты
+        ports:
+            - "80:80"
+            - "443:443"
+        # монтируем директории, слева директории на основной машине, справа - куда они монтируются в контейнере
+        volumes:
+            - ./:/var/www
+            - ./docker/containers/nginx:/etc/nginx/conf.d
+            - ./docker/containers/nginx/logs:/var/log/nginx
+        # nginx должен общаться с php контейнером
+        links:
+            - php
+        networks:
+            self:
+                ipv4_address: ${NETWORK_NGINX}
+    php:
+        # у нас свой образ для PHP, указываем путь к нему и говорим что его надо собрать
+        build: ./docker/build/php
+        # этот образ будет общаться с mysql
+        links:
+            - mysql
+        # монтируем директорию с проектами
+        volumes:
+            - ./:/var/www
+        networks:
+            self:
+                ipv4_address: ${NETWORK_PHP}
+    mysql:
+        image: mysql:5.7
+        ports:
+            - "3306:3306"
+        volumes:
+            - ./docker/containers/mysql:/var/lib/mysql
+        # задаем пароль для root пользователя
+        environment:
+            MYSQL_USER: sitknit
+            MYSQL_PASSWORD: sitknit
+            MYSQL_DATABASE: sitknit
+            MYSQL_ROOT_PASSWORD: root
+        networks:
+            self:
+              ipv4_address: ${NETWORK_MYSQL}
+    phpmyadmin:
+        image: phpmyadmin/phpmyadmin:latest
+        container_name: phpmyadmin
+        links:
+            - mysql:mysql
+        environment:
+            PMA_HOST: mysql
+        volumes:
+            - ./docker/containers/phpmyadmin/etc/phpmyadmin/config.user.inc.php:/etc/phpmyadmin/config.user.inc.php
+        depends_on:
+            - mysql
+        networks:
+            self:
+                ipv4_address: ${NETWORK_PHPMYADMIN}
+networks:
+    self:
+        driver: bridge
+        ipam:
+            config:
+                - subnet: ${NETWORK_SUBNET}
