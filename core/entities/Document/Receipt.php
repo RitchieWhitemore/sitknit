@@ -2,21 +2,21 @@
 
 namespace app\core\entities\Document;
 
+use app\core\behaviors\TagDependencyBehavior;
 use app\modules\trade\models\DocumentInterface;
 use app\modules\trade\models\Partner;
 use lhs\Yii2SaveRelationsBehavior\SaveRelationsBehavior;
 use yii\db\ActiveQuery;
-use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "receipt".
  *
- * @property int $id
- * @property string $date
- * @property int $partner_id
- * @property double $total
+ * @property int           $id
+ * @property string        $date
+ * @property int           $partner_id
+ * @property double        $total
  *
- * @property Partner $partner
+ * @property Partner       $partner
  * @property ReceiptItem[] $documentItems
  */
 class Receipt extends Document implements DocumentInterface
@@ -49,10 +49,10 @@ class Receipt extends Document implements DocumentInterface
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'date' => 'Дата',
+            'id'         => 'ID',
+            'date'       => 'Дата',
             'partner_id' => 'Контрагент',
-            'total' => 'Сумма',
+            'total'      => 'Сумма',
         ];
     }
 
@@ -85,8 +85,11 @@ class Receipt extends Document implements DocumentInterface
     {
         return [
             [
-                'class' => SaveRelationsBehavior::className(),
+                'class'     => SaveRelationsBehavior::className(),
                 'relations' => ['documentItems'],
+            ],
+            'TagDependencyBehavior' => [
+                'class' => TagDependencyBehavior::class,
             ],
         ];
     }

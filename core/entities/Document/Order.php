@@ -2,6 +2,7 @@
 
 namespace app\core\entities\Document;
 
+use app\core\behaviors\TagDependencyBehavior;
 use app\modules\trade\models\DocumentInterface;
 use app\modules\trade\models\Partner;
 use lhs\Yii2SaveRelationsBehavior\SaveRelationsBehavior;
@@ -11,14 +12,14 @@ use yii\helpers\ArrayHelper;
 /**
  * This is the model class for table "order".
  *
- * @property int $id
- * @property string $date
- * @property int $status
- * @property int $payment
- * @property int $partner_id
- * @property double $total
+ * @property int         $id
+ * @property string      $date
+ * @property int         $status
+ * @property int         $payment
+ * @property int         $partner_id
+ * @property double      $total
  *
- * @property Partner $partner
+ * @property Partner     $partner
  * @property OrderItem[] $documentItems
  */
 class Order extends Document implements DocumentInterface
@@ -58,12 +59,12 @@ class Order extends Document implements DocumentInterface
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'date' => 'Дата',
-            'status' => 'Статус',
-            'payment' => 'Оплата',
+            'id'         => 'ID',
+            'date'       => 'Дата',
+            'status'     => 'Статус',
+            'payment'    => 'Оплата',
             'partner_id' => 'Контрагент',
-            'total' => 'Сумма',
+            'total'      => 'Сумма',
         ];
     }
 
@@ -92,20 +93,20 @@ class Order extends Document implements DocumentInterface
         return $tableItem;
     }
 
-    public function getStatusesArray()
+    public static function getStatusesArray()
     {
         return [
             self::STATUS_NOT_RESERVE => 'Ожидает подтверждения',
-            self::STATUS_RESERVE => 'В резерве',
-            self::STATUS_SHIPPED => 'Отгружен',
+            self::STATUS_RESERVE     => 'В резерве',
+            self::STATUS_SHIPPED     => 'Отгружен',
         ];
     }
 
-    public function getPaymentsArray()
+    public static function getPaymentsArray()
     {
         return [
             self::PAYMENT_NOT_PAYMENT => 'Не оплачен',
-            self::PAYMENT_PAYMENT => 'Оплачен',
+            self::PAYMENT_PAYMENT     => 'Оплачен',
         ];
     }
 
@@ -123,8 +124,11 @@ class Order extends Document implements DocumentInterface
     {
         return [
             [
-                'class' => SaveRelationsBehavior::className(),
+                'class'     => SaveRelationsBehavior::className(),
                 'relations' => ['documentItems'],
+            ],
+            'TagDependencyBehavior' => [
+                'class' => TagDependencyBehavior::class,
             ],
         ];
     }

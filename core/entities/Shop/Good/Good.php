@@ -3,13 +3,13 @@
 namespace app\core\entities\Shop\Good;
 
 
-use app\core\entities\Shop\Characteristic;
 use app\core\entities\Shop\Brand;
 use app\core\entities\Shop\Category;
+use app\core\entities\Shop\Characteristic;
 use app\core\entities\Shop\Composition;
 use app\core\entities\Shop\Good\queries\GoodQuery;
 use app\core\entities\Shop\Material;
-use app\modules\trade\models\Price;
+use app\core\entities\Shop\Price;
 use lhs\Yii2SaveRelationsBehavior\SaveRelationsBehavior;
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
@@ -18,28 +18,30 @@ use yii\web\UploadedFile;
 /**
  * This is the model class for table "good".
  *
- * @property int $id
- * @property string $article
- * @property string $name
- * @property string $description
- * @property string $characteristic
- * @property string $nameAndColor
- * @property int $category_id
- * @property int $brand_id
- * @property int $packaged
- * @property int $status
- * @property int $main_good_id
- * @property integer $main_image_id
+ * @property int                  $id
+ * @property string               $article
+ * @property string               $name
+ * @property string               $description
+ * @property string               $characteristic
+ * @property string               $nameAndColor
+ * @property int                  $category_id
+ * @property int                  $brand_id
+ * @property int                  $packaged
+ * @property int                  $status
+ * @property int                  $main_good_id
+ * @property integer              $main_image_id
  *
  *
- * @property Brand $brand
- * @property Category $category
- * @property Price $priceRetail
+ * @property Brand                $brand
+ * @property Good                 $mainGood
+ * @property Category             $category
+ * @property Price                $retailPrice
+ * @property Price                $wholesalePrice
  * @property CategoryAssignment[] $categoryAssignments
- * @property Image[] $images
- * @property Image $mainImage
- * @property Value[] $values
- * @property Composition[] $compositions
+ * @property Image[]              $images
+ * @property Image                $mainImage
+ * @property Value[]              $values
+ * @property Composition[]        $compositions
  */
 class Good extends ActiveRecord
 {
@@ -279,7 +281,7 @@ class Good extends ActiveRecord
 
     public function extraFields()
     {
-        return ['images', 'priceRetail', 'priceWholesale'];
+        return ['images', 'retailPrice', 'wholesalePrice'];
     }
 
     public function getBrand(): ActiveQuery
@@ -359,12 +361,12 @@ class Good extends ActiveRecord
         return $this->hasMany(Price::className(), ['good_id' => 'id']);
     }
 
-    public function getPriceRetail()
+    public function getRetailPrice()
     {
         return $this->getPrices()->lastRetail()->one();
     }
 
-    public function getPriceWholesale()
+    public function getWholesalePrice()
     {
         return $this->getPrices()->lastWholesale()->one();
     }

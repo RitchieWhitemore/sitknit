@@ -6,10 +6,10 @@
  * Time: 13:30
  */
 
-namespace app\modules\trade\models\query;
+namespace app\core\entities\Shop\queries;
 
 
-use app\modules\trade\models\Price;
+use app\core\entities\Shop\Price;
 use yii\db\ActiveQuery;
 use yii\db\Query;
 

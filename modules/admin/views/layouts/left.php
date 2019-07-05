@@ -46,7 +46,16 @@
                         ]],
                         ['label' => 'Управление ценами', 'icon' => 'folder', 'items' => [
                             ['label' => 'Цены', 'icon' => 'file-o', 'url' => ['/trade/prices/index']],
-                            ['label' => 'Установить цены', 'icon' => 'file-o', 'url' => ['/trade/prices/set-prices']],
+                            [
+                                'label' => 'Загрузить цены',
+                                'icon'  => 'file-o',
+                                'url'   => ['/admin/shop/prices/set-prices']
+                            ],
+                            [
+                                'label' => 'Установить цены вручную',
+                                'icon'  => 'file-o',
+                                'url'   => ['/admin/shop/prices/index']
+                            ],
                         ]],
                         ['label' => 'Контрагенты', 'icon' => 'file-o', 'url' => ['/trade/partners/index']],
                     ]],

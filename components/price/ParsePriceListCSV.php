@@ -4,10 +4,10 @@
 namespace app\components\price;
 
 
-use app\core\entities\Shop\Good\Good;
 use app\core\entities\Shop\Brand;
 use app\core\entities\Shop\Category;
-use app\modules\trade\models\Price;
+use app\core\entities\Shop\Good\Good;
+use app\core\entities\Shop\Price;
 use app\modules\trade\models\SetPriceAjaxForm;
 use yii\db\Query;
 

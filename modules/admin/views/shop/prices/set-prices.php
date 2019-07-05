@@ -1,8 +1,8 @@
 <?php
 
+use kartik\date\DatePicker;
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
-use kartik\date\DatePicker;
 
 $bundle = \app\assets\WebComponentsAsset::register($this);
 

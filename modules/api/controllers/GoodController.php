@@ -53,7 +53,7 @@ class GoodController extends ActiveController
             'class' => ActiveDataProvider::className(),
             'query' => $query,
             'pagination' => [
-                'pageSize' => 10,
+                'pageSize' => 100,
             ],
             'sort' => [
                 'params' => $requestParams,
@@ -80,11 +80,17 @@ class GoodController extends ActiveController
             $query->andFilterWhere(['or', ['like', 'name', $q], ['like', 'value', $q]]);
         }
 
-        $query->limit(100);
+        $query->limit(200);
 
         return Yii::createObject([
-            'class' => ActiveDataProvider::className(),
-            'query' => $query,
+            'class'      => ActiveDataProvider::className(),
+            'query'      => $query,
+            'pagination' => false,
+            'sort'       => [
+                'defaultOrder' => [
+                    'name' => SORT_DESC,
+                ]
+            ]
         ]);
     }
 

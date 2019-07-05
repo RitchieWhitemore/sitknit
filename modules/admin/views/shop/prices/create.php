@@ -3,7 +3,7 @@
 use yii\helpers\Html;
 
 /* @var $this yii\web\View */
-/* @var $model app\modules\trade\models\Price */
+/* @var $model \app\core\entities\Shop\Price */
 
 $this->title = 'Создать цену';
 $this->params['breadcrumbs'][] = ['label' => 'Цены', 'url' => ['index']];

@@ -9,10 +9,9 @@
 namespace app\commands;
 
 use app\components\SetPrice;
-use core\entities\Shop\Brand;
 use app\core\entities\Shop\Category;
 use app\models\Good;
-use app\modules\trade\models\Price;
+use core\entities\Shop\Brand;
 use igogo5yo\uploadfromurl\UploadFromUrl;
 use yii\console\Controller;
 

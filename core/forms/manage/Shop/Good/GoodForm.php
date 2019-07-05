@@ -4,9 +4,9 @@
 namespace app\core\forms\manage\Shop\Good;
 
 use app\core\entities\Shop\Brand;
+use app\core\entities\Shop\Category;
 use app\core\entities\Shop\Characteristic;
 use app\core\entities\Shop\Good\Good;
-use app\core\entities\Shop\Category;
 use app\core\forms\CompositeForm;
 use app\core\forms\manage\Shop\CompositionForm;
 
@@ -31,6 +31,7 @@ class GoodForm extends CompositeForm
     public $category_id;
     public $main_good_id;
     public $characteristic;
+    public $mainGood;
 
     private $_good;
 
@@ -48,6 +49,7 @@ class GoodForm extends CompositeForm
             $this->main_good_id = $good->main_good_id;
 
             $this->categories = new CategoriesForm($good);
+            $this->mainGood = $good->mainGood;
 
             $this->values = array_map(function (Characteristic $characteristic) use ($good) {
                 return new ValueForm($characteristic, $good->getValueItem($characteristic->id));

@@ -16,6 +16,7 @@ class ReceiptItemForm extends Model
     public $good_id;
     public $qty;
     public $price;
+    public $good;
 
     private $_item;
 
@@ -26,6 +27,8 @@ class ReceiptItemForm extends Model
             $this->good_id = $item->good_id;
             $this->qty = $item->qty;
             $this->price = $item->price;
+
+            $this->good = $item->good;
 
             $this->_item = $item;
         }

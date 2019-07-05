@@ -2,7 +2,7 @@
 
 namespace app\core\entities\Document;
 
-use app\core\entities\Document\Order;
+use app\core\behaviors\TagDependencyBehavior;
 use app\core\entities\Shop\Good\Good;
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
@@ -22,6 +22,18 @@ use yii\db\ActiveRecord;
  */
 class OrderItem extends ActiveRecord
 {
+    /**
+     * @return array
+     */
+    public function behaviors()
+    {
+        return [
+            'TagDependencyBehavior' => [
+                'class' => TagDependencyBehavior::class,
+            ],
+        ];
+    }
+
     public static function create($documentId, $goodId, $qty, $price): self
     {
         $item = new static();

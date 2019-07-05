@@ -16,7 +16,7 @@ use yii\rest\ActiveController;
 
 class PriceController extends ActiveController
 {
-    public $modelClass = 'app\modules\trade\models\SetPriceAjaxForm';
+    public $modelClass = 'app\core\entities\Shop\Price';
 
     public function actionSetPrice()
     {

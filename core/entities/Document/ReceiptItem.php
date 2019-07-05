@@ -2,6 +2,7 @@
 
 namespace app\core\entities\Document;
 
+use app\core\behaviors\TagDependencyBehavior;
 use app\core\entities\Shop\Good\Good;
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
@@ -9,18 +10,25 @@ use yii\db\ActiveRecord;
 /**
  * This is the model class for table "receipt_item".
  *
- * @property int $document_id
- * @property int $good_id
- * @property int $qty
- * @property double $price
- * @property double $sum
+ * @property int     $document_id
+ * @property int     $good_id
+ * @property int     $qty
+ * @property double  $price
+ * @property double  $sum
  * @property integer $sort
  *
- * @property Good $good
+ * @property Good    $good
  * @property Receipt $document
  */
 class ReceiptItem extends ActiveRecord
 {
+    public function behaviors()
+    {
+        return [
+            'TagDependencyBehavior' => TagDependencyBehavior::class,
+        ];
+    }
+
     public static function create($documentId, $goodId, $qty, $price): self
     {
         $item = new static();

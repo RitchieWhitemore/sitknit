@@ -9,6 +9,7 @@
 namespace app\modules\trade\models;
 
 
+use app\core\entities\Shop\Price;
 use yii\base\Model;
 
 class SetPriceForm extends Model
@@ -36,10 +37,10 @@ class SetPriceForm extends Model
     public function attributeLabels()
     {
         return [
-            'category_id'    => 'Категория',
-            'file_price'     => 'Прайс-лист',
-            'type_price'     => 'Тип цены',
-            'percent_change' => 'Процент увеличения цены от оптовой',
+            'category_id'      => 'Категория',
+            'file_price'       => 'Прайс-лист',
+            'type_price'       => 'Тип цены',
+            'percent_change'   => 'Процент увеличения цены от оптовой',
             'file_input_price' => 'Прайс-лист'
         ];
     }

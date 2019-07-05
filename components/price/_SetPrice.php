@@ -9,12 +9,11 @@
 namespace app\components;
 
 
-use core\entities\Shop\Brand;
 use app\core\entities\Shop\Category;
+use app\core\entities\Shop\Price;
 use app\models\Good;
-use app\modules\trade\models\Price;
 use app\modules\trade\models\SetPriceAjaxForm;
-use app\modules\trade\models\SetPriceForm;
+use core\entities\Shop\Brand;
 use yii\db\Query;
 
 class SetPrice

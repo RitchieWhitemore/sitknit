@@ -1,24 +1,44 @@
 <?php
 
-namespace app\modules\trade\controllers;
+namespace app\modules\admin\controllers\shop;
 
 use app\components\SetPrice;
+use app\core\entities\Shop\Price;
+use app\core\forms\manage\Shop\PriceForm;
+use app\core\readModels\Shop\RemainingReadRepository;
+use app\core\repositories\Shop\PriceRepository;
+use app\core\services\manage\Shop\PriceManageService;
 use app\modules\trade\models\SetPriceAjaxForm;
 use Yii;
-use app\modules\trade\models\Price;
-use app\modules\trade\models\PriceSearch;
+use yii\data\ArrayDataProvider;
+use yii\filters\VerbFilter;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
+use yii\web\Response;
 
 /**
  * PricesController implements the CRUD actions for Price model.
  */
 class PricesController extends Controller
 {
-    /**
-     * {@inheritdoc}
-     */
+    private $remaining;
+    private $service;
+    private $repository;
+
+    public function __construct(
+        $id,
+        $module,
+        RemainingReadRepository $remaining,
+        PriceManageService $service,
+        PriceRepository $repository,
+        $config = []
+    ) {
+        $this->remaining = $remaining;
+        $this->service = $service;
+        $this->repository = $repository;
+        parent::__construct($id, $module, $config);
+    }
+
     public function behaviors()
     {
         return [
@@ -33,22 +53,27 @@ class PricesController extends Controller
 
     /**
      * Lists all Price models.
+     *
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new PriceSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $remaining = $this->remaining->getLastRemaining();
 
-        return $this->render('index', [
-            'searchModel'  => $searchModel,
-            'dataProvider' => $dataProvider,
+        $remainingActiveProvider = new ArrayDataProvider([
+            'allModels'  => $remaining,
+            'pagination' => false,
         ]);
+
+        return $this->render('index',
+            ['remainingActiveProvider' => $remainingActiveProvider]);
     }
 
     /**
      * Displays a single Price model.
+     *
      * @param integer $id
+     *
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
@@ -62,25 +87,68 @@ class PricesController extends Controller
     /**
      * Creates a new Price model.
      * If creation is successful, the browser will be redirected to the 'view' page.
+     *
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new Price();
+        $form = new PriceForm();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($form->load(Yii::$app->request->post()) && $form->validate()) {
+            try {
+                $price = $this->service->create($form);
+                return $this->redirect(['view', 'id' => $price->id]);
+            } catch (\DomainException $e) {
+                Yii::$app->errorHandler->logException($e);
+                Yii::$app->session->setFlash('error', $e->getMessage());
+            }
         }
 
         return $this->render('create', [
-            'model' => $model,
+            'model' => $form,
         ]);
+    }
+
+    public function actionCreateAjax()
+    {
+        $form = new PriceForm();
+
+        Yii::$app->response->format = Response::FORMAT_JSON;
+
+        if ($form->load(Yii::$app->request->post()) && $form->validate()) {
+            try {
+                if ($this->repository->existsPrice($form)) {
+                    return "Такая цена существует";
+                }
+
+                $oldPrice = $this->repository->findPriceOnDate($form);
+
+                if ($oldPrice != null) {
+                    $price = $this->service->editOldPriceOnDate($oldPrice,
+                        $form);
+                } else {
+                    $price = $this->service->create($form);
+                }
+
+                return 'Цена ' . $price->price . ' для '
+                    . $price->good->nameAndColor . ' установлена';
+
+            } catch (\DomainException $e) {
+                Yii::$app->errorHandler->logException($e);
+                Yii::$app->session->setFlash('error', $e->getMessage());
+            }
+        }
+
+        return 'неудача';
+
     }
 
     /**
      * Updates an existing Price model.
      * If update is successful, the browser will be redirected to the 'view' page.
+     *
      * @param integer $id
+     *
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
@@ -100,7 +168,9 @@ class PricesController extends Controller
     /**
      * Deletes an existing Price model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
+     *
      * @param integer $id
+     *
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
@@ -117,7 +187,7 @@ class PricesController extends Controller
 
         if (Yii::$app->request->isPost) {
             $model->attributes = Yii::$app->request->post('SetPriceForm');
-           // $model->file_price = UploadedFile::getInstance($model, 'file_input_price');
+            // $model->file_price = UploadedFile::getInstance($model, 'file_input_price');
 
             $setPrice = new SetPrice($model);
             $setPrice->run();
@@ -134,8 +204,10 @@ class PricesController extends Controller
     /**
      * Finds the Price model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
+     *
      * @param integer $id
-     * @return Price the loaded model
+     *
+     * @return \app\core\entities\Shop\Price the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)

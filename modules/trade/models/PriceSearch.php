@@ -2,12 +2,12 @@
 
 namespace app\modules\trade\models;
 
+use app\core\entities\Shop\Price;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\modules\trade\models\Price;
 
 /**
- * PriceSearch represents the model behind the search form of `app\modules\trade\models\Price`.
+ * PriceSearch represents the model behind the search form of `app\core\entities\Shop\Price`.
  */
 class PriceSearch extends Price
 {
@@ -59,11 +59,11 @@ class PriceSearch extends Price
 
         // grid filtering conditions
         $query->andFilterWhere([
-            'id' => $this->id,
-            'date' => $this->date,
+            'id'         => $this->id,
+            'date'       => $this->date,
             'type_price' => $this->type_price,
-            'price' => $this->price,
-            'good_id' => $this->good_id,
+            'price'      => $this->price,
+            'good_id'    => $this->good_id,
         ]);
 
         return $dataProvider;
