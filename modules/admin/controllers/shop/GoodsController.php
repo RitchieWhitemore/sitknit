@@ -6,12 +6,12 @@ use app\core\entities\Shop\Good\Good;
 use app\core\forms\manage\Shop\Good\GoodForm;
 use app\core\forms\manage\Shop\Good\ImagesForm;
 use app\core\services\manage\Shop\GoodManageService;
-use Yii;
 use app\modules\admin\forms\GoodSearch;
+use Yii;
 use yii\data\ActiveDataProvider;
+use yii\filters\VerbFilter;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
 
 /**
  * GoodsController implements the CRUD actions for Good model.
@@ -106,8 +106,8 @@ class GoodsController extends Controller
         $post = Yii::$app->request->post();
         if ($form->load($post) && $form->validate()) {
             try {
-                $category = $this->service->create($form);
-                return $this->redirect(['view', 'id' => $category->id]);
+                $good = $this->service->create($form);
+                return $this->redirect(['view', 'id' => $good->id]);
             } catch (\DomainException $e) {
                 Yii::$app->errorHandler->logException($e);
                 Yii::$app->session->setFlash('error', $e->getMessage());

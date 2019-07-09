@@ -62,7 +62,8 @@ use yii\widgets\ActiveForm;
                             <?= $form->field($model, 'main_good_id')
                                 ->widget(Select2::classname(), [
                                     'options'       => ['placeholder' => 'Введите название товара'],
-                                    'initValueText' => $model->mainGood->nameAndColor,
+                                    'initValueText' => isset($model->mainGood)
+                                        ? $model->mainGood->nameAndColor : '',
                                     'pluginOptions' => [
                                         'minimumInputLength' => 3,
                                         'language'           => [

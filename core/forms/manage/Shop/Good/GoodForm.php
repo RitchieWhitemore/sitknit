@@ -4,7 +4,6 @@
 namespace app\core\forms\manage\Shop\Good;
 
 use app\core\entities\Shop\Brand;
-use app\core\entities\Shop\Category;
 use app\core\entities\Shop\Characteristic;
 use app\core\entities\Shop\Good\Good;
 use app\core\forms\CompositeForm;
@@ -72,8 +71,8 @@ class GoodForm extends CompositeForm
     public function rules()
     {
         return [
-            [['name', 'article', 'category_id', 'brand_id'], 'required'],
-            [['category_id', 'brand_id', 'packaged', 'status'], 'integer'],
+            [['name', 'article', 'brand_id'], 'required'],
+            [['brand_id', 'packaged', 'status'], 'integer'],
             [['article'], 'string', 'max' => 50],
             [['name', 'description'], 'string', 'max' => 255],
             [
@@ -83,13 +82,13 @@ class GoodForm extends CompositeForm
                 'targetClass'     => Brand::className(),
                 'targetAttribute' => ['brand_id' => 'id']
             ],
-            [
+            /*[
                 ['category_id'],
                 'exist',
                 'skipOnError'     => true,
                 'targetClass'     => Category::className(),
                 'targetAttribute' => ['category_id' => 'id']
-            ],
+            ],*/
             [
                 ['main_good_id'],
                 'exist',

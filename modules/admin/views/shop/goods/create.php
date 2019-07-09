@@ -2,7 +2,9 @@
 
 use app\core\entities\Shop\Brand;
 use kartik\widgets\FileInput;
+use kartik\widgets\Select2;
 use yii\helpers\Html;
+use yii\web\JsExpression;
 use yii\widgets\ActiveForm;
 
 /**
@@ -20,16 +22,6 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 
 <div class="good-create">
-
-    <?php
-    $bundle = \app\assets\WebComponentsAsset::register($this);
-
-    $this->registerJsFile("$bundle->baseUrl/choice-form/base-choice-form.js", ['type' => 'module']);
-    $this->registerJsFile("$bundle->baseUrl/choice-form/parent-tree.js", ['type' => 'module']);
-    $this->registerJsFile("$bundle->baseUrl/choice-form/brands-for-choice-form.js", ['type' => 'module']);
-    $this->registerJsFile("$bundle->baseUrl/choice-form/group-good-for-choice-form.js", ['type' => 'module']);
-    $this->registerJsFile("$bundle->baseUrl/choice-form/item-element.js", ['type' => 'module']);
-    ?>
     <div class="good-form">
         <div class="box box-default">
             <div>
@@ -63,28 +55,40 @@ $this->params['breadcrumbs'][] = $this->title;
                     </div>
                     <div class="col-md-4">
                         <div class="box box-default">
-                            <div class="box-header with-border">Основной товар в группе</div>
                             <div class="box-body">
 
-                                <base-choice-form label=""
-                                                  item-id="<?= $model->main_good_id ?>"
-                                                  category-id="<?= $model->category_id ?>"
-                                                  placeholder="Выберите основной товар"
-                                                  url-api="/api/goods/"
-                                                  model="good">
-                                    <h2 slot="title-dialog">Выберите основной товар</h2>
-                                    <input type="text" name="GoodForm[main_good_id]" slot="input" hidden>
-                                    <parent-tree slot="parent-tree" url-api="/api/categories"
-                                                 item-id="<?= $model->category_id ?>"></parent-tree>
-                                    <brands-for-choice-form slot="brands" url-api="/api/brands"
-                                                            item-id="<?= $model->brand_id ?>"
-                                                            category-id="<?= $model->category_id ?>"></brands-for-choice-form>
-                                    <group-good-for-choice-form slot="group-good"
-                                                                url-api="/api/good/group-by-name"
-                                                                category-id="<?= $model->category_id ?>"
-                                                                brand-id="<?= $model->brand_id ?>"></group-good-for-choice-form>
-                                    <item-element slot="item-element" url-api="/api/goods"></item-element>
-                                </base-choice-form>
+                                <?= $form->field($model, 'main_good_id')
+                                    ->widget(Select2::classname(), [
+                                        'options'       => ['placeholder' => 'Введите название товара'],
+                                        'initValueText' => isset($model->mainGood)
+                                            ? $model->mainGood->nameAndColor
+                                            : '',
+                                        'pluginOptions' => [
+                                            'minimumInputLength' => 3,
+                                            'language'           => [
+                                                'errorLoading' => new JsExpression("function () { return 'Waiting for results...'; }"),
+                                            ],
+                                            'ajax'               => [
+                                                'url'            => '/api/good/list?expand=wholesalePrice',
+                                                'dataType'       => 'json',
+                                                'data'           => new JsExpression('function(params) { return {q:params.term};}'),
+                                                'processResults' => new JsExpression('function (data) {
+                                                                                                return {
+                                                                                                    results: data
+                                                                                                };
+                                                                                            }'),
+                                            ],
+                                            'escapeMarkup'       => new JsExpression('function (markup) { return markup; }'),
+                                            'templateResult'     => new JsExpression('function(good) { return good.nameAndColor; }'),
+                                            'templateSelection'  => new JsExpression('function (item) { 
+                                               if (item.nameAndColor) {
+                                               return item.nameAndColor;
+                                               }
+                                                return item.text;
+                                         }'),
+                                        ],
+                                        'pluginEvents'  => []
+                                    ]); ?>
                             </div>
                         </div>
                     </div>
