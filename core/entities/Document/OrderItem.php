@@ -83,6 +83,7 @@ class OrderItem extends ActiveRecord
             'good_id' => 'Товар',
             'qty' => 'Количество',
             'price' => 'Цена',
+            'sum' => 'Сумма'
         ];
     }
 

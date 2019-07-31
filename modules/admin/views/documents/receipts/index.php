@@ -1,8 +1,9 @@
 <?php
 
-use yii\helpers\Html;
 use yii\grid\GridView;
+use yii\helpers\Html;
 use yii\widgets\Pjax;
+
 /* @var $this yii\web\View */
 /* @var $searchModel app\modules\trade\models\ReceiptSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -12,7 +13,6 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="receipt-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
     <?php Pjax::begin(); ?>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 

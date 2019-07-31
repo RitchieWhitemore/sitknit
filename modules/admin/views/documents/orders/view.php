@@ -1,5 +1,6 @@
 <?php
 
+use app\core\entities\Document\Order;
 use app\core\entities\Document\OrderItem;
 use yii\helpers\Html;
 use yii\widgets\DetailView;
@@ -17,56 +18,69 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="order-view">
 
     <p>
-        <?= Html::a('Редактировать', ['update', 'id' => $document->id], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Редактировать', ['update', 'id' => $document->id],
+            ['class' => 'btn btn-primary']) ?>
         <?= Html::a('Удалить', ['delete', 'id' => $document->id], [
             'class' => 'btn btn-danger',
-            'data'  => [
+            'data' => [
                 'confirm' => 'Are you sure you want to delete this item?',
-                'method'  => 'post',
+                'method' => 'post',
             ],
         ]) ?>
     </p>
 
     <?= DetailView::widget([
-        'model'      => $document,
+        'model' => $document,
         'attributes' => [
             'id',
             'date',
-            'status',
-            'payment',
-            'partner_id',
+            [
+                'attribute' => 'status',
+                'value' => function (Order $model) {
+                    return $model->getStatusName();
+                }
+            ],
+            [
+                'attribute' => 'payment',
+                'value' => function (Order $model) {
+                    return $model->getPaymentName();
+                }
+            ],
+            'partner.name',
             'total',
         ],
     ]) ?>
 
     <?= $this->render('_form-item', [
-        'document'          => $document,
+        'document' => $document,
         'documentTableForm' => $documentTableForm
     ]) ?>
 
     <?= \yii\grid\GridView::widget([
         'dataProvider' => $itemsDataProvider,
-        'columns'      => [
+        'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
             [
-                'value'          => function (OrderItem $model) {
+                'value' => function (OrderItem $model) {
                     return
-                        Html::a('<span class="glyphicon glyphicon-arrow-up"></span>', [
-                            'move-item-up',
-                            'documentId' => $model->document_id,
-                            'goodId'     => $model->good_id,
-                        ], [
-                            'data-method' => 'post',
-                        ]) .
-                        Html::a('<span class="glyphicon glyphicon-arrow-down"></span>', [
-                            'move-item-down',
-                            'documentId' => $model->document_id,
-                            'goodId'     => $model->good_id,
-                        ], [
-                            'data-method' => 'post',
-                        ]);
+                        Html::a('<span class="glyphicon glyphicon-arrow-up"></span>',
+                            [
+                                'move-item-up',
+                                'documentId' => $model->document_id,
+                                'goodId' => $model->good_id,
+                            ], [
+                                'data-method' => 'post',
+                            ]) .
+                        Html::a('<span class="glyphicon glyphicon-arrow-down"></span>',
+                            [
+                                'move-item-down',
+                                'documentId' => $model->document_id,
+                                'goodId' => $model->good_id,
+                            ], [
+                                'data-method' => 'post',
+                            ]);
                 },
-                'format'         => 'raw',
+                'format' => 'raw',
                 'contentOptions' => ['style' => 'text-align: center'],
             ],
             'good.nameAndColor',
@@ -74,22 +88,25 @@ $this->params['breadcrumbs'][] = $this->title;
             'price',
             'sum',
             [
-                'class'    => 'yii\grid\ActionColumn',
+                'class' => 'yii\grid\ActionColumn',
                 'template' => '{update} {delete}',
-                'buttons'  => [
+                'buttons' => [
                     'update' => function ($url, $model, $key) {
                         return Html::a('', [
                             '/admin/documents/orders/item-update',
                             'documentId' => $model->document_id,
-                            'goodId'     => $model->good_id
+                            'goodId' => $model->good_id
                         ], ['class' => 'glyphicon glyphicon-pencil']);
                     },
                     'delete' => function ($url, $model, $key) {
                         return Html::a('', [
                             '/admin/documents/orders/item-delete',
                             'documentId' => $model->document_id,
-                            'goodId'     => $model->good_id,
-                        ], ['class' => 'glyphicon glyphicon-trash', 'data-method' => 'post']);
+                            'goodId' => $model->good_id,
+                        ], [
+                            'class' => 'glyphicon glyphicon-trash',
+                            'data-method' => 'post'
+                        ]);
                     }
                 ]
             ],

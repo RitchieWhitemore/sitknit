@@ -37,22 +37,14 @@ class PartnerController extends ActiveController
             $requestParams = Yii::$app->getRequest()->getQueryParams();
         }
 
-        if (isset($requestParams['expand'])) {
-            unset($requestParams['expand']);
-        }
-
-        if (isset($requestParams['q'])) {
-            unset($requestParams['q']);
-        }
-
-
         /* @var $modelClass \yii\db\BaseActiveRecord */
         $modelClass = new $this->modelClass;
 
-        $query = $modelClass::find();
-        if (!empty($requestParams)) {
-            $query->andWhere($requestParams);
-        }
+        $query = $modelClass::find()->andFilterWhere([
+            'like',
+            'name',
+            $requestParams['name']
+        ]);
 
         return Yii::createObject([
             'class' => ActiveDataProvider::className(),
