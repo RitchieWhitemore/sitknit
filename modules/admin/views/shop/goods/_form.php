@@ -3,21 +3,37 @@
 use app\core\entities\Shop\Brand;
 use kartik\widgets\Select2;
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\web\JsExpression;
 use yii\widgets\ActiveForm;
 
 /**
- * @var $this   yii\web\View
- * @var $model  app\core\entities\Shop\Good\Good
- * @var $form   yii\widgets\ActiveForm
+ * @var $this          yii\web\View
+ * @var $model         app\core\entities\Shop\Good\Good
+ * @var $siblingGoods  app\core\entities\Shop\Good\Good[]
+ * @var $form          yii\widgets\ActiveForm
  *
- * @var $values app\core\entities\Shop\Characteristic
+ * @var $values        app\core\entities\Shop\Characteristic
  *
  */
 
 ?>
-<div class="good-form">
-    <div class="box box-default">
+<div class="good-form box box-default">
+    <div class="box-body">
+        <div class="box box-default">
+            <div class="box-header">
+                <h2 class="box-title">Товары с похожим названием</h2>
+            </div>
+            <ul class="sibling-goods">
+                <?php foreach ($siblingGoods as $good): ?>
+                    <li><a href="<?= Url::to([
+                            'shop/goods/update',
+                            'id' => $good->id
+                        ]) ?>">(<?= $good->article ?>
+                            ) <?= $good->nameAndColor ?></a></li>
+                <?php endforeach; ?>
+            </ul>
+        </div>
         <div>
             <?php $form = ActiveForm::begin(); ?>
 
@@ -61,34 +77,34 @@ use yii\widgets\ActiveForm;
 
                             <?= $form->field($model, 'main_good_id')
                                 ->widget(Select2::classname(), [
-                                    'options'       => ['placeholder' => 'Введите название товара'],
+                                    'options' => ['placeholder' => 'Введите название товара'],
                                     'initValueText' => isset($model->mainGood)
                                         ? $model->mainGood->nameAndColor : '',
                                     'pluginOptions' => [
                                         'minimumInputLength' => 3,
-                                        'language'           => [
+                                        'language' => [
                                             'errorLoading' => new JsExpression("function () { return 'Waiting for results...'; }"),
                                         ],
-                                        'ajax'               => [
-                                            'url'            => '/api/good/list?expand=wholesalePrice',
-                                            'dataType'       => 'json',
-                                            'data'           => new JsExpression('function(params) { return {q:params.term};}'),
+                                        'ajax' => [
+                                            'url' => '/api/good/list?expand=wholesalePrice',
+                                            'dataType' => 'json',
+                                            'data' => new JsExpression('function(params) { return {q:params.term};}'),
                                             'processResults' => new JsExpression('function (data) {
                                                                                                 return {
                                                                                                     results: data
                                                                                                 };
                                                                                             }'),
                                         ],
-                                        'escapeMarkup'       => new JsExpression('function (markup) { return markup; }'),
-                                        'templateResult'     => new JsExpression('function(good) { return good.nameAndColor; }'),
-                                        'templateSelection'  => new JsExpression('function (item) { 
+                                        'escapeMarkup' => new JsExpression('function (markup) { return markup; }'),
+                                        'templateResult' => new JsExpression('function(good) { return good.nameAndColor; }'),
+                                        'templateSelection' => new JsExpression('function (item) { 
                                                if (item.nameAndColor) {
                                                return item.nameAndColor;
                                                }
                                                 return item.text;
                                          }'),
                                     ],
-                                    'pluginEvents'  => []
+                                    'pluginEvents' => []
                                 ]); ?>
                         </div>
                     </div>
@@ -123,10 +139,12 @@ use yii\widgets\ActiveForm;
             </div>
 
         </div>
-    </div>
-    <div class="form-group">
-        <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success']) ?>
+        <div class="form-group">
+            <?= Html::submitButton('Сохранить',
+                ['class' => 'btn btn-success']) ?>
+        </div>
+
+        <?php ActiveForm::end(); ?>
     </div>
 
-    <?php ActiveForm::end(); ?>
 </div>

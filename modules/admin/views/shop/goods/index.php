@@ -1,11 +1,10 @@
 <?php
 
 use app\core\entities\Shop\Brand;
-use app\core\entities\Shop\Good\Good;
-use app\core\entities\Shop\Good\Image;
-use yii\helpers\Html;
-use yii\grid\GridView;
 use app\core\entities\Shop\Category;
+use app\core\entities\Shop\Good\Good;
+use yii\grid\GridView;
+use yii\helpers\Html;
 use yii\widgets\Pjax;
 
 /* @var $this yii\web\View */
@@ -18,23 +17,27 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="good-index">
 
     <p>
-        <?= Html::a('Создать товар', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Создать товар', ['create'],
+            ['class' => 'btn btn-success']) ?>
     </p>
     <div class="box">
         <div class="box-body">
             <?php Pjax::begin([
-                'id'              => 'goods-list',
-                'timeout'         => 10000,
+                'id' => 'goods-list',
+                'timeout' => 10000,
                 'enablePushState' => false
             ]);
             echo GridView::widget([
                 'dataProvider' => $dataProvider,
-                'filterModel'  => $searchModel,
-                'columns'      => [
+                'filterModel' => $searchModel,
+                'columns' => [
                     'id',
                     [
+                        'attribute' => 'mainImage',
                         'value' => function (Good $model) {
-                            return $model->mainImage ? Html::img($model->mainImage->getThumbFileUrl('file_name', 'admin')) : null;
+                            return $model->mainImage
+                                ? Html::img($model->mainImage->getThumbFileUrl('file_name',
+                                    'admin')) : Html::img('/img/no-image.svg');
                         },
                         'format' => 'raw',
                         'contentOptions' => ['style' => 'width: 100px'],
@@ -42,35 +45,38 @@ $this->params['breadcrumbs'][] = $this->title;
                     'article',
                     [
                         'attribute' => 'category_id',
-                        'filter'    => Category::getCategoriesArray(),
-                        'value'     => 'category.name',
+                        'filter' => Category::getCategoriesArray(),
+                        'value' => 'category.name',
                     ],
                     [
 
                         'attribute' => 'brand_id',
-                        'filter'    => Brand::getBrandsArray(),
-                        'value'     => 'brand.name',
+                        'filter' => Brand::getBrandsArray(),
+                        'value' => 'brand.name',
                     ],
 
                     [
                         'attribute' => 'name',
-                        'label'     => 'Название',
+                        'label' => 'Название',
                         'value' => function (Good $model) {
-                            return Html::a(Html::encode($model->nameAndColor), ['view', 'id' => $model->id]);
+                            return Html::a(Html::encode($model->nameAndColor),
+                                ['view', 'id' => $model->id]);
                         },
                         'format' => 'raw',
                     ],
                     [
-                        'attribute'      => 'status',
-                        'label'          => 'Активен',
-                        'format'         => 'html',
-                        'filter'         => [0 => 'нет', 1 => 'да'],
+                        'attribute' => 'status',
+                        'label' => 'Активен',
+                        'format' => 'html',
+                        'filter' => [0 => 'нет', 1 => 'да'],
                         'contentOptions' => ['class' => 'text-center'],
-                        'value'          => function ($value) {
+                        'value' => function ($value) {
                             if ($value->status == 1) {
-                                $label = '<span class="glyphicon glyphicon-eye-open text-success"></span>';
+                                $label
+                                    = '<span class="glyphicon glyphicon-eye-open text-success"></span>';
                             } else {
-                                $label = '<span class="glyphicon glyphicon-eye-close text-success"></span>';
+                                $label
+                                    = '<span class="glyphicon glyphicon-eye-close text-success"></span>';
                             }
 
                             return Html::a($label, [

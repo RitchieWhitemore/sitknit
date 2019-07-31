@@ -2,17 +2,21 @@
 
 use app\core\entities\Shop\Good\Value;
 use kartik\file\FileInput;
-use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
-use yii\widgets\DetailView;
-use yii\helpers\ArrayHelper;
 use yii\grid\GridView;
+use yii\helpers\ArrayHelper;
+use yii\helpers\Html;
+use yii\helpers\Url;
+use yii\widgets\DetailView;
 
-/* @var $this yii\web\View */
-/* @var $good app\core\entities\Shop\Good\Good */
-/* @var $imagesForm app\core\forms\manage\Shop\Good\ImagesForm */
-/* @var $compositionProvider yii\data\ActiveDataProvider */
-/* @var $pricesProvider yii\data\ActiveDataProvider */
+/**
+ * @var $this                yii\web\View
+ * @var $good                app\core\entities\Shop\Good\Good
+ * @var $imagesForm          app\core\forms\manage\Shop\Good\ImagesForm
+ * @var $compositionProvider yii\data\ActiveDataProvider
+ * @var $pricesProvider      yii\data\ActiveDataProvider
+ * @var $siblingGoods        app\core\entities\Shop\Good\Good[]
+ */
 
 $this->title = $good->name;
 $this->params['breadcrumbs'][] = ['label' => 'Товары', 'url' => ['index']];
@@ -32,6 +36,22 @@ $this->params['breadcrumbs'][] = $this->title;
     </p>
     <div class="box">
         <div class="box-body">
+
+            <div class="box box-default">
+                <div class="box-header">
+                    <h2 class="box-title">Товары с похожим названием</h2>
+                </div>
+                <ul class="sibling-goods">
+                    <?php foreach ($siblingGoods as $good): ?>
+                        <li><a href="<?= Url::to([
+                                'shop/goods/update',
+                                'id' => $good->id
+                            ]) ?>">(<?= $good->article ?>
+                                ) <?= $good->nameAndColor ?></a></li>
+                    <?php endforeach; ?>
+                </ul>
+            </div>
+
             <?= DetailView::widget([
                 'model'      => $good,
                 'attributes' => [

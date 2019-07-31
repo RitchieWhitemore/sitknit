@@ -5,6 +5,7 @@ namespace app\modules\admin\controllers\shop;
 use app\core\entities\Shop\Good\Good;
 use app\core\forms\manage\Shop\Good\GoodForm;
 use app\core\forms\manage\Shop\Good\ImagesForm;
+use app\core\readModels\Shop\GoodReadRepository;
 use app\core\services\manage\Shop\GoodManageService;
 use app\modules\admin\forms\GoodSearch;
 use Yii;
@@ -19,10 +20,18 @@ use yii\web\NotFoundHttpException;
 class GoodsController extends Controller
 {
     private $service;
+    private $repository;
 
-    public function __construct($id, $module, GoodManageService $service, $config = [])
+    public function __construct(
+        $id,
+        $module,
+        GoodManageService $service,
+        GoodReadRepository $repository,
+        $config = []
+    )
     {
         $this->service = $service;
+        $this->repository = $repository;
         parent::__construct($id, $module, $config);
     }
 
@@ -86,11 +95,14 @@ class GoodsController extends Controller
             }
         }
 
+        $siblingGoods = $this->repository->getSiblingGoods($good);
+
         return $this->render('view', [
             'good'                => $good,
             'pricesProvider'      => $pricesProvider,
             'imagesForm'          => $imagesForm,
             'compositionProvider' => $compositionProvider,
+            'siblingGoods' => $siblingGoods
         ]);
     }
 
@@ -142,9 +154,12 @@ class GoodsController extends Controller
             }
         }
 
+        $siblingGoods = $this->repository->getSiblingGoods($good);
+
         return $this->render('update', [
             'model' => $form,
             'good'  => $good,
+            'siblingGoods' => $siblingGoods
         ]);
     }
 

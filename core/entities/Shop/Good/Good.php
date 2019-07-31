@@ -262,7 +262,8 @@ class Good extends ActiveRecord
             'packaged'       => 'В упаковке',
             'active'         => 'Активен',
             'main_good_id'   => 'Основной товар',
-            'nameAndColor'   => 'Товар'
+            'nameAndColor' => 'Товар',
+            'mainImage' => 'Фото',
         ];
     }
 

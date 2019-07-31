@@ -39,6 +39,12 @@ class GoodReadRepository
         return $this->getProvider($query);
     }
 
+    public function getSiblingGoods(Good $good)
+    {
+        return Good::find()->where(['like', 'name', $good->name])
+            ->andWhere(['!=', 'id', $good->id])->all();
+    }
+
     public function find($id)
     {
         return Good::find()->active()->andWhere(['id' => $id])->one();
