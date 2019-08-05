@@ -4,7 +4,6 @@ namespace app\modules\trade\models;
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\core\entities\Document\Order;
 
 /**
  * OrderSearch represents the model behind the search form of `app\core\entities\Document\Order`.
@@ -47,6 +46,11 @@ class OrderSearch extends \app\core\entities\Document\Order
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort' => [
+                'defaultOrder' => [
+                    'date' => SORT_DESC
+                ]
+            ]
         ]);
 
         $this->load($params);

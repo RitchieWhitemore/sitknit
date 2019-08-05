@@ -28,7 +28,7 @@
         "la-haute-societe/yii2-save-relations-behavior": "*",
         "bower-asset/owl.carousel": "^2.2",
       "bower-asset/magnific-popup": "^1.1",
-      "yii2-developer/yii2-extend": "~1.0.0"
+      "2amigos/yii2-chartjs-widget": "~2.0"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",
