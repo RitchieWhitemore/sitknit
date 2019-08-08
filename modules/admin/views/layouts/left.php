@@ -67,6 +67,11 @@
                         ['label' => 'Приход', 'icon' => 'file-o', 'url' => ['/admin/shop/reports/debit']],
                         ['label' => 'Расход', 'icon' => 'file-o', 'url' => ['/admin/shop/reports/credit']],
                         ['label' => 'Остатки', 'icon' => 'file-o', 'url' => ['/admin/shop/reports/remaining']],
+                        [
+                            'label' => 'Прибыль',
+                            'icon' => 'file-o',
+                            'url' => ['/admin/shop/reports/profit']
+                        ],
                     ]]
                 ]),
             ]

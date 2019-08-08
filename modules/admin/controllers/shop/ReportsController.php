@@ -9,6 +9,8 @@ use app\core\entities\Document\ReceiptItem;
 use app\core\readModels\Shop\RemainingReadRepository;
 use yii\data\ActiveDataProvider;
 use yii\data\ArrayDataProvider;
+use yii\db\Query;
+use yii\helpers\ArrayHelper;
 use yii\web\Controller;
 
 class ReportsController extends Controller
@@ -92,14 +94,14 @@ class ReportsController extends Controller
             ->asArray()->column();
 
         $quantities = OrderItem::find()
-            ->select(['qty', 'good_id'])
+            ->select(['SUM(qty)', 'good_id'])
             ->groupBy('good_id')
             ->orderBy(['qty' => SORT_DESC])
             ->limit(20)
             ->asArray()->column();
 
         $colors = [];
-        for ($i = 0; $i <= count($quantities); $i++) {
+        for ($i = 0; $i < count($quantities); $i++) {
             $colors[] = '#' . substr(md5(mt_rand()), 0, 6);
         }
 
@@ -110,4 +112,51 @@ class ReportsController extends Controller
             'colors' => $colors
         ]);
     }
+
+    public function actionProfit()
+    {
+        $queryDebit = (new Query())
+            ->from(['order'])
+            ->select([
+                'SUM(order.total) AS totalSumOrder',
+                'DATE_FORMAT(order.date, "%m.%Y") AS monthYear',
+            ])
+            ->groupBy(['monthYear'])
+            ->indexBy('monthYear')
+            ->all();
+
+        $queryCredit = (new Query())
+            ->from(['receipt'])
+            ->select([
+                'SUM(receipt.total) AS totalSumReceipt',
+                'DATE_FORMAT(receipt.date, "%m.%Y") AS monthYear',
+            ])
+            ->groupBy(['monthYear'])
+            ->indexBy('monthYear')
+            ->all();
+
+        $result = ArrayHelper::merge($queryDebit, $queryCredit);
+
+        $names = array_values(ArrayHelper::map($result, 'monthYear',
+            function ($item) {
+                return $item['monthYear'];
+            }));
+
+        $result = array_values(ArrayHelper::map($result, 'monthYear',
+            function ($item) {
+                return $item['totalSumOrder'] - $item['totalSumReceipt'];
+            }));
+
+        $colors = [];
+        for ($i = 0; $i < count($result); $i++) {
+            $colors[] = '#' . substr(md5(mt_rand()), 0, 6);
+        }
+
+        return $this->render('profit', [
+            'result' => $result,
+            'colors' => $colors,
+            'names' => $names
+        ]);
+    }
+
 }

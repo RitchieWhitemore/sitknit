@@ -10,6 +10,7 @@ use yii\data\ActiveDataProvider;
  */
 class OrderSearch extends \app\core\entities\Document\Order
 {
+    public $partner;
     /**
      * {@inheritdoc}
      */
@@ -17,7 +18,7 @@ class OrderSearch extends \app\core\entities\Document\Order
     {
         return [
             [['id', 'status', 'payment', 'partner_id'], 'integer'],
-            [['date'], 'safe'],
+            [['date', 'partner'], 'safe'],
             [['total'], 'number'],
         ];
     }
@@ -70,6 +71,8 @@ class OrderSearch extends \app\core\entities\Document\Order
             'partner_id' => $this->partner_id,
             'total' => $this->total,
         ]);
+
+        $query->andFilterWhere(['like', 'partner.name', $this->partner]);
 
         return $dataProvider;
     }

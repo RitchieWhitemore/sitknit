@@ -1,11 +1,12 @@
 <?php
 
 use app\components\grid\SetColumn;
-use app\models\Advert;
 use app\core\entities\Document\Order;
-use yii\helpers\Html;
+use app\modules\trade\models\Partner;
 use yii\grid\GridView;
+use yii\helpers\Html;
 use yii\widgets\Pjax;
+
 /* @var $this yii\web\View */
 /* @var $searchModel app\modules\trade\models\OrderSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -28,8 +29,11 @@ $this->params['breadcrumbs'][] = $this->title;
             'id',
             'date',
             [
-                    'attribute' => 'partner.name',
-                    'label' => 'Контрагент'
+                'attribute' => 'partner_id',
+                'filter' => Partner::find()->select(['name', 'id'])
+                    ->indexBy('id')->orderBy('name')->column(),
+                'label' => 'Контрагент',
+                'value' => 'partner.name'
             ],
             [
                 'class' => SetColumn::className(),
@@ -52,7 +56,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     Order::PAYMENT_PAYMENT => 'success',
                 ],
             ],
-            //'total',
+            'total',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],
