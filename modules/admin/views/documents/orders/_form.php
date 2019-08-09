@@ -52,7 +52,12 @@ use yii\widgets\ActiveForm;
                         ],
                         'escapeMarkup' => new JsExpression('function (markup) { return markup; }'),
                         'templateResult' => new JsExpression('function(item) { return item.name; }'),
-                        'templateSelection' => new JsExpression('function (item) { return item.name }'),
+                        'templateSelection' => new JsExpression('function (item) { 
+                                                if (item.name) {
+                                                    return item.name;
+                                                }
+                                                    return item.text; 
+                                                }'),
                     ],
                     'pluginEvents' => []
                 ]); ?>

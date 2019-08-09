@@ -44,14 +44,19 @@ use yii\widgets\ActiveForm;
                             'dataType' => 'json',
                             'data' => new JsExpression('function(params) { return {name:params.term};}'),
                             'processResults' => new JsExpression('function (data) {
-                            return {
-                                results: data
-                            };
+                                return {
+                                    results: data
+                                };
                         }'),
                         ],
                         'escapeMarkup' => new JsExpression('function (markup) { return markup; }'),
                         'templateResult' => new JsExpression('function(item) { return item.name; }'),
-                        'templateSelection' => new JsExpression('function (item) { return item.name }'),
+                        'templateSelection' => new JsExpression('function (item) {  
+                                                if (item.name) {
+                                                    return item.name;
+                                                }
+                                                    return item.text; 
+                                                }'),
                     ],
                     'pluginEvents' => []
                 ]); ?>

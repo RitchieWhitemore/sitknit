@@ -2,18 +2,19 @@
 
 namespace app\modules\admin\controllers\documents;
 
+use app\core\entities\Document\Receipt;
+use app\core\entities\Document\ReceiptItem;
 use app\core\forms\manage\Document\ReceiptItemForm;
 use app\core\repositories\Document\ReceiptItemRepository;
 use app\core\repositories\Document\ReceiptRepository;
 use app\core\services\manage\Document\ReceiptManageService;
-use app\core\entities\Document\ReceiptItem;
-use Yii;
-use app\core\entities\Document\Receipt;
+use app\core\services\manage\Shop\PriceManageService;
 use app\modules\trade\models\ReceiptSearch;
+use Yii;
 use yii\data\ActiveDataProvider;
+use yii\filters\VerbFilter;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
 
 /**
  * ReceiptsController implements the CRUD actions for Receipt model.
@@ -23,12 +24,21 @@ class ReceiptsController extends Controller
     private $service;
     private $documents;
     private $documentItems;
+    private $priceManageService;
 
-    public function __construct($id, $module, ReceiptManageService $service, ReceiptRepository $documents, ReceiptItemRepository $documentItems, $config = [])
-    {
+    public function __construct(
+        $id,
+        $module,
+        ReceiptManageService $service,
+        ReceiptRepository $documents,
+        ReceiptItemRepository $documentItems,
+        PriceManageService $priceManageService,
+        $config = []
+    ) {
         $this->service = $service;
         $this->documents = $documents;
         $this->documentItems = $documentItems;
+        $this->priceManageService = $priceManageService;
         parent::__construct($id, $module, $config);
     }
 
@@ -134,6 +144,7 @@ class ReceiptsController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            $this->priceManageService->setPricesByDocument($model);
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
@@ -177,6 +188,7 @@ class ReceiptsController extends Controller
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
                 $this->service->editItem($documentItem, $form);
+                $this->priceManageService->setPriceByItemDocument($documentItem);
                 return $this->redirect(['view', 'id' => $documentItem->document_id]);
             } catch (\DomainException $e) {
                 Yii::$app->errorHandler->logException($e);

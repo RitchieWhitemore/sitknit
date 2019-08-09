@@ -3,6 +3,7 @@
 use app\core\entities\Document\Order;
 use app\core\entities\Document\OrderItem;
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
@@ -83,7 +84,15 @@ $this->params['breadcrumbs'][] = $this->title;
                 'format' => 'raw',
                 'contentOptions' => ['style' => 'text-align: center'],
             ],
-            'good.nameAndColor',
+            [
+                'attribute' => 'good_id',
+                'value' => function (OrderItem $model) {
+                    return Html::a($model->good->nameAndColor,
+                        Url::to(['/admin/shop/goods/view', 'id' => $model->good->id]),
+                        ['target' => '_blank']);
+                },
+                'format' => 'raw'
+            ],
             'qty',
             'price',
             'sum',
