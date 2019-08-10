@@ -4,7 +4,6 @@ namespace app\modules\trade\models;
 
 use app\core\entities\Document\Order;
 use app\core\entities\Document\Receipt;
-use Yii;
 
 /**
  * This is the model class for table "partner".
@@ -76,5 +75,11 @@ class Partner extends \yii\db\ActiveRecord
     public function getReceipts()
     {
         return $this->hasMany(Receipt::className(), ['partner_id' => 'id']);
+    }
+
+    public static function getPartnersList()
+    {
+        return Partner::find()->select(['name', 'id'])
+            ->indexBy('id')->orderBy('name')->column();
     }
 }

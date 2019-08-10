@@ -3,6 +3,7 @@
 use app\components\grid\SetColumn;
 use app\core\entities\Document\Order;
 use app\modules\trade\models\Partner;
+use kartik\widgets\Select2;
 use yii\grid\GridView;
 use yii\helpers\Html;
 use yii\widgets\Pjax;
@@ -36,8 +37,18 @@ $this->params['breadcrumbs'][] = $this->title;
             'date',
             [
                 'attribute' => 'partner_id',
-                'filter' => Partner::find()->select(['name', 'id'])
-                    ->indexBy('id')->orderBy('name')->column(),
+                'filter' => Select2::widget([
+                    'name' => 'OrderSearch[partner_id]',
+                    'data' => Partner::getPartnersList(),
+                    'value' => $searchModel->partner_id,
+                    'options' => [
+                        'placeholder' => 'Выберите контрагента...',
+                    ],
+                    'pluginOptions' => [
+                        'allowClear' => true,
+                        'selectOnClose' => true,
+                    ]
+                ]),
                 'label' => 'Контрагент',
                 'value' => 'partner.name'
             ],
