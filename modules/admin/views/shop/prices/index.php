@@ -39,9 +39,13 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="box-body">
             <?= GridView::widget([
                 'dataProvider' => $remainingActiveProvider,
+                'tableOptions' => [
+                    'class' => 'table table-strip'
+                ],
                 'options'      => [
                     'id'       => 'remaining-table',
-                    'data-url' => Url::to(['shop/prices/create-ajax'])
+                    'data-url' => Url::to(['shop/prices/create-ajax']),
+                    'class' => 'table-responsive'
                 ],
                 'columns'      => [
                     [

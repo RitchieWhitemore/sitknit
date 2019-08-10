@@ -59,6 +59,12 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= \yii\grid\GridView::widget([
         'dataProvider' => $itemsDataProvider,
+        'tableOptions' => [
+            'class' => 'table table-strip'
+        ],
+        'options' => [
+            'class' => 'table-responsive'
+        ],
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
             [
@@ -82,7 +88,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             ]);
                 },
                 'format' => 'raw',
-                'contentOptions' => ['style' => 'text-align: center'],
+                'contentOptions' => ['style' => 'text-align: center; white-space:pre-wrap'],
             ],
             [
                 'attribute' => 'good_id',
@@ -91,7 +97,10 @@ $this->params['breadcrumbs'][] = $this->title;
                         Url::to(['/admin/shop/goods/view', 'id' => $model->good->id]),
                         ['target' => '_blank']);
                 },
-                'format' => 'raw'
+                'format' => 'raw',
+                'contentOptions' => [
+                    'style' => 'white-space:pre-wrap'
+                ]
             ],
             'qty',
             'price',

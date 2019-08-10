@@ -81,7 +81,7 @@ class OrderItem extends ActiveRecord
         return [
             'document_id' => 'Заказ №',
             'good_id' => 'Товар',
-            'qty' => 'Количество',
+            'qty' => 'Кол-во',
             'price' => 'Цена',
             'sum' => 'Сумма'
         ];
