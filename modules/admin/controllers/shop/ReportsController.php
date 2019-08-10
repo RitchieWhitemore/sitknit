@@ -4,8 +4,10 @@
 namespace app\modules\admin\controllers\shop;
 
 
+use app\core\entities\Document\Order;
 use app\core\entities\Document\OrderItem;
 use app\core\entities\Document\ReceiptItem;
+use app\core\helpers\ColorHelper;
 use app\core\readModels\Shop\RemainingReadRepository;
 use yii\data\ActiveDataProvider;
 use yii\data\ArrayDataProvider;
@@ -115,17 +117,18 @@ class ReportsController extends Controller
 
     public function actionProfit()
     {
-        $queryDebit = (new Query())
+        $queryOrder = (new Query())
             ->from(['order'])
             ->select([
                 'SUM(order.total) AS totalSumOrder',
                 'DATE_FORMAT(order.date, "%m.%Y") AS monthYear',
             ])
+            ->where(['status' => Order::STATUS_SHIPPED])
             ->groupBy(['monthYear'])
             ->indexBy('monthYear')
             ->all();
 
-        $queryCredit = (new Query())
+        $queryReceipt = (new Query())
             ->from(['receipt'])
             ->select([
                 'SUM(receipt.total) AS totalSumReceipt',
@@ -135,27 +138,60 @@ class ReportsController extends Controller
             ->indexBy('monthYear')
             ->all();
 
-        $result = ArrayHelper::merge($queryDebit, $queryCredit);
+        $result = ArrayHelper::merge($queryReceipt, $queryOrder);
 
         $names = array_values(ArrayHelper::map($result, 'monthYear',
             function ($item) {
                 return $item['monthYear'];
             }));
 
-        $result = array_values(ArrayHelper::map($result, 'monthYear',
+        $colors = ColorHelper::getColors(count($result));
+
+        $dataReceipts = [];
+        foreach ($result as $key => $item) {
+            $dataReceipts[] = isset($item['totalSumReceipt']) ? $item['totalSumReceipt'] : 0;
+        }
+
+        $dataOrders = [];
+        foreach ($result as $key => $item) {
+            $dataOrders[] = isset($item['totalSumOrder']) ? $item['totalSumOrder'] : 0;
+        }
+
+        $resultProfit = array_values(ArrayHelper::map($result, 'monthYear',
             function ($item) {
-                return $item['totalSumOrder'] - $item['totalSumReceipt'];
+                $totalSumOrder = isset($item['totalSumOrder']) ? $item['totalSumOrder'] : 0;
+                $totalSumReceipt = isset($item['totalSumReceipt']) ? $item['totalSumReceipt'] : 0;
+                return $totalSumOrder - $totalSumReceipt;
             }));
 
-        $colors = [];
-        for ($i = 0; $i < count($result); $i++) {
-            $colors[] = '#' . substr(md5(mt_rand()), 0, 6);
+        foreach ($result as $key => $item) {
+            $datasets = [
+                [
+                    'label' => 'Закупка',
+                    'backgroundColor' => ColorHelper::getColor(),
+                    'stack' => 'Stack 0',
+                    'data' => $dataReceipts
+                ],
+                [
+                    'label' => 'Заказы',
+                    'backgroundColor' => ColorHelper::getColor(),
+                    'stack' => 'Stack 1',
+                    'data' => $dataOrders
+                ],
+                [
+                    'label' => 'Выручка',
+                    'backgroundColor' => ColorHelper::getColor(),
+                    'stack' => 'Stack 3',
+                    'data' => $resultProfit
+                ],
+            ];
         }
 
         return $this->render('profit', [
             'result' => $result,
             'colors' => $colors,
-            'names' => $names
+            'names' => $names,
+            'datasets' => $datasets
         ]);
     }
 

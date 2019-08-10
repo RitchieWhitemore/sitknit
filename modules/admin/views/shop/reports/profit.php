@@ -11,29 +11,15 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="box">
     <div class="box-body">
         <?= ChartJs::widget([
-            'type' => 'line',
-            'id' => 'structurePie',
+            'type' => 'bar',
+            'id' => 'bar',
             'options' => [
                 'height' => 400,
-                'width' => 400,
+                'width' => 100,
             ],
             'data' => [
-                'radius' => "90%",
                 'labels' => $names, // Your labels
-                'datasets' => [
-                    [
-                        'data' => $result, // Your dataset
-                        'label' => '',
-                        'backgroundColor' => $colors,
-                        'borderColor' => [
-                            '#fff',
-                            '#fff',
-                            '#fff'
-                        ],
-                        'borderWidth' => 1,
-                        'hoverBorderColor' => ["#999", "#999", "#999"],
-                    ]
-                ]
+                'datasets' => $datasets
             ],
             'clientOptions' => [
                 'legend' => [
@@ -52,7 +38,6 @@ $this->params['breadcrumbs'][] = $this->title;
                     'mode' => false
                 ],
                 'maintainAspectRatio' => false,
-
             ],
         ]);
         ?>
