@@ -39,7 +39,13 @@ class Receipt extends Document implements DocumentInterface
             [['date'], 'safe'],
             [['partner_id'], 'integer'],
             [['total'], 'number'],
-            [['partner_id'], 'exist', 'skipOnError' => true, 'targetClass' => Partner::className(), 'targetAttribute' => ['partner_id' => 'id']],
+            [
+                ['partner_id'],
+                'exist',
+                'skipOnError' => true,
+                'targetClass' => Partner::className(),
+                'targetAttribute' => ['partner_id' => 'id']
+            ],
         ];
     }
 
@@ -73,7 +79,7 @@ class Receipt extends Document implements DocumentInterface
      */
     public function createTableItem($documentId, $goodId)
     {
-        $tableItem =  new ReceiptItem();
+        $tableItem = new ReceiptItem();
 
         $tableItem->document_id = $documentId;
         $tableItem->good_id = $goodId;
@@ -85,7 +91,7 @@ class Receipt extends Document implements DocumentInterface
     {
         return [
             [
-                'class'     => SaveRelationsBehavior::className(),
+                'class' => SaveRelationsBehavior::className(),
                 'relations' => ['documentItems'],
             ],
             'TagDependencyBehavior' => [

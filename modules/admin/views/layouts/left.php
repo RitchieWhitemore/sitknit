@@ -60,6 +60,7 @@
                         ['label' => 'Контрагенты', 'icon' => 'file-o', 'url' => ['/trade/partners/index']],
                     ]],
                     ['label' => 'Документы', 'icon' => 'folder', 'items' => [
+                        ['label' => 'Закупки', 'icon' => 'file-o', 'url' => ['/admin/documents/purchases/index']],
                         ['label' => 'Поступления товара', 'icon' => 'file-o', 'url' => ['/admin/documents/receipts/index']],
                         ['label' => 'Заказы покупателей', 'icon' => 'file-o', 'url' => ['/admin/documents/orders/index']],
                     ]],

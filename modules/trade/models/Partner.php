@@ -51,7 +51,7 @@ class Partner extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'name' => 'Краткое наименование',
+            'name' => 'Контрагент',
             'full_name' => 'Полное наименование',
             'address' => 'Почтовый адрес',
             'phone' => 'Контактный телефон',

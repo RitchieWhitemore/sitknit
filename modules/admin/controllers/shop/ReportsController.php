@@ -6,13 +6,13 @@ namespace app\modules\admin\controllers\shop;
 
 use app\core\entities\Document\Order;
 use app\core\entities\Document\OrderItem;
+use app\core\entities\Document\Purchase;
 use app\core\entities\Document\ReceiptItem;
 use app\core\helpers\ColorHelper;
 use app\core\readModels\Shop\RemainingReadRepository;
 use yii\data\ActiveDataProvider;
 use yii\data\ArrayDataProvider;
 use yii\db\Query;
-use yii\helpers\ArrayHelper;
 use yii\web\Controller;
 
 class ReportsController extends Controller
@@ -117,54 +117,102 @@ class ReportsController extends Controller
 
     public function actionProfit()
     {
-        $queryOrder = (new Query())
-            ->from(['order'])
-            ->select([
-                'SUM(order.total) AS totalSumOrder',
-                'DATE_FORMAT(order.date, "%m.%Y") AS monthYear',
-            ])
-            ->where(['status' => Order::STATUS_SHIPPED])
-            ->groupBy(['monthYear'])
-            ->indexBy('monthYear')
-            ->all();
+        $purchasesDate = Purchase::find()->select(['date_start'])->orderBy(['date_start' => SORT_ASC])->column();
 
-        $queryReceipt = (new Query())
-            ->from(['receipt'])
-            ->select([
-                'SUM(receipt.total) AS totalSumReceipt',
-                'DATE_FORMAT(receipt.date, "%m.%Y") AS monthYear',
-            ])
-            ->groupBy(['monthYear'])
-            ->indexBy('monthYear')
-            ->all();
+        $calculation = [];
+        foreach ($purchasesDate as $key => $date) {
+            $dateStart = $date;
+            $dateEnd = isset($purchasesDate[$key + 1]) ? $purchasesDate[$key + 1] : null;
 
-        $result = ArrayHelper::merge($queryReceipt, $queryOrder);
+            $sumReceipts = (new Query())
+                ->from(['receipt'])
+                ->select([
+                    'SUM(receipt.total) AS totalSumReceipt',
+                ])
+                ->andWhere(['>', 'date', $dateStart])
+                ->andFilterWhere(['<', 'date', $dateEnd])
+                ->column();
 
-        $names = array_values(ArrayHelper::map($result, 'monthYear',
+            $sumOrders = (new Query())
+                ->from(['order'])
+                ->select([
+                    'SUM(order.total) AS totalSumOrder',
+                ])
+                ->where(['status' => Order::STATUS_SHIPPED])
+                ->andWhere(['>', 'date', $dateStart])
+                ->andFilterWhere(['<', 'date', $dateEnd])
+                ->column();
+
+
+            $calculation[$date]['totalSumReceipt'] = $sumReceipts[0];
+            $calculation[$date]['totalSumOrder'] = $sumOrders[0];
+            $calculation[$date]['profit'] = $calculation[$date]['totalSumOrder'] - $calculation[$date]['totalSumReceipt'];
+        }
+
+        /*  $queryReceipt = (new Query())
+              ->from(['receipt'])
+              ->select([
+                  'SUM(receipt.total) AS totalSumReceipt',
+                  'DATE_FORMAT(receipt.date, "%Y-%m-%d") AS date',
+                  'DATE_FORMAT(receipt.date, "%m.%Y") AS monthYear',
+              ])
+              ->groupBy(['date'])
+              ->all();*/
+
+        /*foreach ($queryReceipt as $key => $item) {
+            $dateStart = $item['date'];
+            $dateEnd = isset($queryReceipt[$key + 1]['date']) ? $queryReceipt[$key + 1]['date'] : null;
+
+            $sumOrders = (new Query())
+                ->from(['order'])
+                ->select([
+                    'SUM(order.total) AS totalSumOrder',
+                    'DATE_FORMAT(order.date, "%Y-%m-%d") AS date',
+                ])
+                ->where(['status' => Order::STATUS_SHIPPED])
+                ->andWhere(['>', 'date', $dateStart])
+                ->andFilterWhere(['<', 'date', $dateEnd])
+                ->column();
+
+
+            $queryReceipt[$key]['totalSumOrder'] = $sumOrders[0];
+            $queryReceipt[$key]['profit'] = $queryReceipt[$key]['totalSumOrder'] - $queryReceipt[$key]['totalSumReceipt'];
+        }*/
+
+        /*$names = array_values(ArrayHelper::map($queryReceipt, 'monthYear',
             function ($item) {
                 return $item['monthYear'];
-            }));
+            }));*/
 
-        $colors = ColorHelper::getColors(count($result));
+        $names = [];
+
+        foreach ($calculation as $key => $calculate) {
+            $names[] = \Yii::$app->formatter->asDate($key, 'php: m.Y');
+        }
 
         $dataReceipts = [];
-        foreach ($result as $key => $item) {
+        foreach ($calculation as $key => $item) {
             $dataReceipts[] = isset($item['totalSumReceipt']) ? $item['totalSumReceipt'] : 0;
         }
 
         $dataOrders = [];
-        foreach ($result as $key => $item) {
+        foreach ($calculation as $key => $item) {
             $dataOrders[] = isset($item['totalSumOrder']) ? $item['totalSumOrder'] : 0;
         }
 
-        $resultProfit = array_values(ArrayHelper::map($result, 'monthYear',
+        $dataProfit = [];
+        foreach ($calculation as $key => $item) {
+            $dataProfit[] = isset($item['profit']) ? $item['profit'] : 0;
+        }
+
+        /*$resultProfit = array_values(ArrayHelper::map($queryReceipt, 'monthYear',
             function ($item) {
                 $totalSumOrder = isset($item['totalSumOrder']) ? $item['totalSumOrder'] : 0;
                 $totalSumReceipt = isset($item['totalSumReceipt']) ? $item['totalSumReceipt'] : 0;
                 return $totalSumOrder - $totalSumReceipt;
-            }));
+            }));*/
 
-        foreach ($result as $key => $item) {
+        foreach ($calculation as $key => $item) {
             $datasets = [
                 [
                     'label' => 'Закупка',
@@ -182,14 +230,12 @@ class ReportsController extends Controller
                     'label' => 'Выручка',
                     'backgroundColor' => ColorHelper::getColor(),
                     'stack' => 'Stack 3',
-                    'data' => $resultProfit
+                    'data' => $dataProfit
                 ],
             ];
         }
 
         return $this->render('profit', [
-            'result' => $result,
-            'colors' => $colors,
             'names' => $names,
             'datasets' => $datasets
         ]);
