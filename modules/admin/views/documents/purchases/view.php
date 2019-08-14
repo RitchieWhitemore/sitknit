@@ -87,6 +87,13 @@ $this->params['breadcrumbs'][] = $this->title;
                 'options' => [
                     'class' => 'table-responsive'
                 ],
+                'rowOptions' => function (Order $model) {
+                    if ($model->type == Order::TYPE_NORMAL) {
+                        return ['class' => 'success'];
+                    } elseif ($model->type == Order::TYPE_FISHING) {
+                        return ['class' => 'info'];
+                    }
+                },
                 'columns' => [
                     'id',
                     [
