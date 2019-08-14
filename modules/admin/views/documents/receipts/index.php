@@ -31,7 +31,12 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
         'columns' => [
             'id',
-            'date',
+            [
+                'attribute' => 'date',
+                'value' => function ($model) {
+                    return Yii::$app->formatter->asDate($model->date, 'php:d-m-Y');
+                }
+            ],
             'partner.name',
             'total',
 

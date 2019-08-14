@@ -32,7 +32,12 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $receipt,
         'attributes' => [
             'id',
-            'date',
+            [
+                'attribute' => 'date',
+                'value' => function (\app\core\entities\Document\Receipt $model) {
+                    return Yii::$app->formatter->asDate($model->date);
+                }
+            ],
             'partner.name',
             'total',
         ],

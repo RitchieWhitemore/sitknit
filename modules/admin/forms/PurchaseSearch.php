@@ -46,6 +46,11 @@ class PurchaseSearch extends Purchase
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort' => [
+                'defaultOrder' => [
+                    'date_start' => SORT_DESC,
+                ]
+            ]
         ]);
 
         $this->load($params);

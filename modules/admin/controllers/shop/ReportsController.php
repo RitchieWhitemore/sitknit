@@ -29,9 +29,9 @@ class ReportsController extends Controller
         parent::__construct($id, $module, $config);
     }
 
-    public function actionRemaining()
+    public function actionRemaining($notNull = null)
     {
-        $remaining = $this->remaining->getLastRemaining();
+        $remaining = $this->remaining->getLastRemaining($notNull);
 
         $totalDebitActiveProvider = new ArrayDataProvider([
             'allModels'  => $remaining,
@@ -102,10 +102,7 @@ class ReportsController extends Controller
             ->limit(20)
             ->asArray()->column();
 
-        $colors = [];
-        for ($i = 0; $i < count($quantities); $i++) {
-            $colors[] = '#' . substr(md5(mt_rand()), 0, 6);
-        }
+        $colors = ColorHelper::getColors(count($quantities));
 
         return $this->render('credit', [
             'totalDebitActiveProvider' => $totalDebitActiveProvider,
@@ -149,41 +146,6 @@ class ReportsController extends Controller
             $calculation[$date]['profit'] = $calculation[$date]['totalSumOrder'] - $calculation[$date]['totalSumReceipt'];
         }
 
-        /*  $queryReceipt = (new Query())
-              ->from(['receipt'])
-              ->select([
-                  'SUM(receipt.total) AS totalSumReceipt',
-                  'DATE_FORMAT(receipt.date, "%Y-%m-%d") AS date',
-                  'DATE_FORMAT(receipt.date, "%m.%Y") AS monthYear',
-              ])
-              ->groupBy(['date'])
-              ->all();*/
-
-        /*foreach ($queryReceipt as $key => $item) {
-            $dateStart = $item['date'];
-            $dateEnd = isset($queryReceipt[$key + 1]['date']) ? $queryReceipt[$key + 1]['date'] : null;
-
-            $sumOrders = (new Query())
-                ->from(['order'])
-                ->select([
-                    'SUM(order.total) AS totalSumOrder',
-                    'DATE_FORMAT(order.date, "%Y-%m-%d") AS date',
-                ])
-                ->where(['status' => Order::STATUS_SHIPPED])
-                ->andWhere(['>', 'date', $dateStart])
-                ->andFilterWhere(['<', 'date', $dateEnd])
-                ->column();
-
-
-            $queryReceipt[$key]['totalSumOrder'] = $sumOrders[0];
-            $queryReceipt[$key]['profit'] = $queryReceipt[$key]['totalSumOrder'] - $queryReceipt[$key]['totalSumReceipt'];
-        }*/
-
-        /*$names = array_values(ArrayHelper::map($queryReceipt, 'monthYear',
-            function ($item) {
-                return $item['monthYear'];
-            }));*/
-
         $names = [];
 
         foreach ($calculation as $key => $calculate) {
@@ -205,30 +167,23 @@ class ReportsController extends Controller
             $dataProfit[] = isset($item['profit']) ? $item['profit'] : 0;
         }
 
-        /*$resultProfit = array_values(ArrayHelper::map($queryReceipt, 'monthYear',
-            function ($item) {
-                $totalSumOrder = isset($item['totalSumOrder']) ? $item['totalSumOrder'] : 0;
-                $totalSumReceipt = isset($item['totalSumReceipt']) ? $item['totalSumReceipt'] : 0;
-                return $totalSumOrder - $totalSumReceipt;
-            }));*/
-
         foreach ($calculation as $key => $item) {
             $datasets = [
                 [
                     'label' => 'Закупка',
-                    'backgroundColor' => ColorHelper::getColor(),
+                    'backgroundColor' => 'brown',
                     'stack' => 'Stack 0',
                     'data' => $dataReceipts
                 ],
                 [
                     'label' => 'Заказы',
-                    'backgroundColor' => ColorHelper::getColor(),
+                    'backgroundColor' => 'blue',
                     'stack' => 'Stack 1',
                     'data' => $dataOrders
                 ],
                 [
                     'label' => 'Выручка',
-                    'backgroundColor' => ColorHelper::getColor(),
+                    'backgroundColor' => 'green',
                     'stack' => 'Stack 3',
                     'data' => $dataProfit
                 ],

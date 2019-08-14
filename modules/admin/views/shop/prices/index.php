@@ -17,6 +17,13 @@ $this->title = 'Установить цены';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="price-index">
+    <?php if (Yii::$app->request->get('notNull') == true) {
+        echo Html::a('Показать все', Url::to(['shop/prices']), ['class' => 'btn btn-success']);
+    } else {
+        echo Html::a('Не показывать нулевые остатки', Url::to(['shop/prices', 'notNull' => true]),
+            ['class' => 'btn btn-primary']);
+    }
+    ?>
     <div class="box">
         <div class="box-header row">
             <div class="col-sm-6">

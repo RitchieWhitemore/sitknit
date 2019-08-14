@@ -56,9 +56,9 @@ class PricesController extends Controller
      *
      * @return mixed
      */
-    public function actionIndex()
+    public function actionIndex($notNull = null)
     {
-        $remaining = $this->remaining->getLastRemaining();
+        $remaining = $this->remaining->getLastRemaining($notNull);
 
         $remainingActiveProvider = new ArrayDataProvider([
             'allModels'  => $remaining,

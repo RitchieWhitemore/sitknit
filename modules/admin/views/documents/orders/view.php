@@ -34,7 +34,12 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $document,
         'attributes' => [
             'id',
-            'date',
+            [
+                'attribute' => 'date',
+                'value' => function (Order $model) {
+                    return Yii::$app->formatter->asDate($model->date);
+                }
+            ],
             [
                 'attribute' => 'status',
                 'value' => function (Order $model) {

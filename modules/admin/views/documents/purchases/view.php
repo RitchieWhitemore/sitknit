@@ -1,6 +1,8 @@
 <?php
 
+use app\components\grid\SetColumn;
 use app\core\entities\Document\Order;
+use app\core\entities\Document\Purchase;
 use app\core\entities\Document\Receipt;
 use yii\grid\GridView;
 use yii\helpers\Html;
@@ -32,7 +34,12 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'id',
-            'date_start',
+            [
+                'attribute' => 'date_start',
+                'value' => function (Purchase $model) {
+                    return Yii::$app->formatter->asDate($model->date_start);
+                }
+            ],
         ],
     ]) ?>
     <div class="box">
@@ -42,6 +49,12 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="box-body">
             <?= GridView::widget([
                 'dataProvider' => $receipts,
+                'tableOptions' => [
+                    'class' => 'table table-strip'
+                ],
+                'options' => [
+                    'class' => 'table-responsive'
+                ],
                 'columns' => [
                     'id',
                     [
@@ -68,6 +81,12 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="box-body">
             <?= GridView::widget([
                 'dataProvider' => $orders,
+                'tableOptions' => [
+                    'class' => 'table table-strip'
+                ],
+                'options' => [
+                    'class' => 'table-responsive'
+                ],
                 'columns' => [
                     'id',
                     [
@@ -82,16 +101,25 @@ $this->params['breadcrumbs'][] = $this->title;
                     ],
                     'partner.name',
                     [
+                        'class' => SetColumn::className(),
+                        'filter' => Order::getStatusesArray(),
                         'attribute' => 'status',
-                        'value' => function (Order $model) {
-                            return $model->getStatusName();
-                        }
+                        'name' => 'statusName',
+                        'cssCLasses' => [
+                            Order::STATUS_NOT_RESERVE => 'primary',
+                            Order::STATUS_RESERVE => 'warning',
+                            Order::STATUS_SHIPPED => 'success',
+                        ],
                     ],
                     [
+                        'class' => SetColumn::className(),
+                        'filter' => Order::getPaymentsArray(),
                         'attribute' => 'payment',
-                        'value' => function (Order $model) {
-                            return $model->getPaymentName();
-                        }
+                        'name' => 'paymentName',
+                        'cssCLasses' => [
+                            Order::PAYMENT_NOT_PAYMENT => 'primary',
+                            Order::PAYMENT_PAYMENT => 'success',
+                        ],
                     ],
                     'total'
                 ],

@@ -15,13 +15,17 @@ use yii\caching\TagDependency;
 
 class RemainingReadRepository
 {
-    public function getLastRemaining(): array
+    public function getLastRemaining($notNull = null): array
     {
         $key = [
             __CLASS__,
             __FILE__,
             __LINE__
         ];
+
+        if ($notNull == true) {
+            $key[] = $notNull;
+        }
 
         $dependency = new TagDependency([
             'tags' => [
@@ -33,7 +37,7 @@ class RemainingReadRepository
             ],
         ]);
 
-        $remaining = Yii::$app->cache->getOrSet($key, function () {
+        $remaining = Yii::$app->cache->getOrSet($key, function () use ($notNull) {
             /* @var $credits [] OrderItem */
 
             $debits = ReceiptItem::find()->with(['good'])->indexBy('good_id')
@@ -52,7 +56,9 @@ class RemainingReadRepository
 
                     $itemRemaining->qty = $debit->qty - $credits[$key]->qty;
 
-                    $remaining[] = $itemRemaining;
+                    if ($notNull == null && $itemRemaining->qty != 0) {
+                        $remaining[] = $itemRemaining;
+                    }
 
                     unset($credits[$key]);
                 } else {

@@ -9,6 +9,11 @@ $config = [
         'assetManager' => [
             'appendTimestamp' => true,
         ],
+        'formatter' => [
+            'dateFormat' => 'php:d-m-Y',
+            'datetimeFormat' => 'php:d-m-Y в H:i:s',
+            'timeFormat' => 'php:H:i:s',
+        ],
         'request' => [
             'baseUrl'=> '',
             'parsers' => [
