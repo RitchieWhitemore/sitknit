@@ -41,6 +41,12 @@ $this->params['breadcrumbs'][] = $this->title;
                 }
             ],
             [
+                'attribute' => 'type',
+                'value' => function (Order $model) {
+                    return $model->getTypeName();
+                }
+            ],
+            [
                 'attribute' => 'status',
                 'value' => function (Order $model) {
                     return $model->getStatusName();

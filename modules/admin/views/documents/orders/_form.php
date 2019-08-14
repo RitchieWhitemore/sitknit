@@ -66,6 +66,9 @@ use yii\widgets\ActiveForm;
 
     <div class="row" style="margin-bottom: 30px">
         <div class="col-md-6">
+            <?= $form->field($model, 'type')->dropDownList($model->getTypesArray()) ?>
+        </div>
+        <div class="col-md-6">
             <?= $form->field($model, 'status')->dropDownList($model->getStatusesArray()) ?>
         </div>
         <div class="col-md-6">

@@ -16,6 +16,7 @@ use yii\helpers\ArrayHelper;
  * @property string      $date
  * @property int         $status
  * @property int         $payment
+ * @property int $type
  * @property int         $partner_id
  * @property double      $total
  *
@@ -30,6 +31,9 @@ class Order extends Document implements DocumentInterface
 
     const PAYMENT_NOT_PAYMENT = 0;
     const PAYMENT_PAYMENT = 1;
+
+    const TYPE_NORMAL = 0;
+    const TYPE_FISHING = 1;
 
     /**
      * {@inheritdoc}
@@ -47,7 +51,7 @@ class Order extends Document implements DocumentInterface
         return [
             [['date', 'partner_id'], 'required'],
             [['date'], 'safe'],
-            [['status', 'partner_id', 'payment'], 'integer'],
+            [['status', 'partner_id', 'payment', 'type'], 'integer'],
             [['total'], 'number'],
             [['partner_id'], 'exist', 'skipOnError' => true, 'targetClass' => Partner::className(), 'targetAttribute' => ['partner_id' => 'id']],
         ];
@@ -65,6 +69,7 @@ class Order extends Document implements DocumentInterface
             'payment'    => 'Оплата',
             'partner_id' => 'Контрагент',
             'total'      => 'Сумма',
+            'type' => 'Тип заказа'
         ];
     }
 
@@ -93,6 +98,14 @@ class Order extends Document implements DocumentInterface
         return $tableItem;
     }
 
+    public static function getTypesArray()
+    {
+        return [
+            self::TYPE_NORMAL => 'Обычный заказ',
+            self::TYPE_FISHING => 'Рыбалка',
+        ];
+    }
+
     public static function getStatusesArray()
     {
         return [
@@ -108,6 +121,11 @@ class Order extends Document implements DocumentInterface
             self::PAYMENT_NOT_PAYMENT => 'Не оплачен',
             self::PAYMENT_PAYMENT     => 'Оплачен',
         ];
+    }
+
+    public function getTypeName()
+    {
+        return ArrayHelper::getValue(self::getTypesArray(), $this->type);
     }
 
     public function getStatusName()
