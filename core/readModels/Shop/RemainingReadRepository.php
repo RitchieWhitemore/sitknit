@@ -9,6 +9,7 @@ use app\core\entities\Document\OrderItem;
 use app\core\entities\Document\Receipt;
 use app\core\entities\Document\ReceiptItem;
 use app\core\entities\ItemRemaining;
+use app\core\entities\Shop\Good\Good;
 use app\core\entities\Shop\Price;
 use Yii;
 use yii\caching\TagDependency;
@@ -33,7 +34,8 @@ class RemainingReadRepository
                 ReceiptItem::class,
                 Order::class,
                 OrderItem::class,
-                Price::class
+                Price::class,
+                Good::class,
             ],
         ]);
 
@@ -56,7 +58,7 @@ class RemainingReadRepository
 
                     $itemRemaining->qty = $debit->qty - $credits[$key]->qty;
 
-                    if ($notNull == null && $itemRemaining->qty != 0) {
+                    if ($notNull == null && $itemRemaining->qty == 0) {
                         $remaining[] = $itemRemaining;
                     }
 

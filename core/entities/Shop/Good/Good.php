@@ -3,6 +3,7 @@
 namespace app\core\entities\Shop\Good;
 
 
+use app\core\behaviors\TagDependencyBehavior;
 use app\core\entities\Shop\Brand;
 use app\core\entities\Shop\Category;
 use app\core\entities\Shop\Characteristic;
@@ -13,6 +14,7 @@ use app\core\entities\Shop\Price;
 use lhs\Yii2SaveRelationsBehavior\SaveRelationsBehavior;
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
+use yii\helpers\Html;
 use yii\web\UploadedFile;
 
 /**
@@ -195,6 +197,13 @@ class Good extends ActiveRecord
         return '/img/no-image.svg';
     }
 
+    public function getMainImageImg($sizeTemplate = 'admin')
+    {
+        return $this->mainImage
+            ? Html::img($this->mainImage->getThumbFileUrl('file_name',
+                $sizeTemplate)) : Html::img('/img/no-image.svg');
+    }
+
     // Value
 
     public function setValueItem($id, $value)
@@ -234,6 +243,9 @@ class Good extends ActiveRecord
             [
                 'class'     => SaveRelationsBehavior::className(),
                 'relations' => ['categoryAssignments', 'images', 'values'],
+            ],
+            'TagDependencyBehavior' => [
+                'class' => TagDependencyBehavior::class,
             ],
         ];
     }

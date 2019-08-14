@@ -56,6 +56,14 @@ $this->params['breadcrumbs'][] = $this->title;
                 ],
                 'columns'      => [
                     [
+                        'attribute' => 'image',
+                        'value' => function (ItemRemaining $model) {
+                            return $model->image;
+                        },
+                        'format' => 'raw',
+                        'contentOptions' => ['style' => 'width: 50px'],
+                    ],
+                    [
                         'label'     => 'Товар',
                         'attribute' => 'good',
                         'value'     => function ($model) {
@@ -64,11 +72,14 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'id' => $model->id
                             ]), ['target' => '_blank']);
                         },
-                        'format'    => 'raw'
+                        'format' => 'raw',
+                        'contentOptions' => [
+                            'style' => 'white-space:pre-wrap'
+                        ]
                     ],
                     [
                         'attribute' => 'qty',
-                        'label'     => 'Количество'
+                        'label' => 'Кол-во'
                     ],
                     [
                         'attribute' => 'wholesalePrice',
@@ -85,7 +96,10 @@ $this->params['breadcrumbs'][] = $this->title;
                                     'data-type' => Price::TYPE_PRICE_WHOLESALE,
                                 ]);
                         },
-                        'format'    => 'raw'
+                        'format' => 'raw',
+                        'contentOptions' => [
+                            'style' => 'white-space:pre-wrap'
+                        ]
                     ],
                     [
                         'label'     => 'Розница',
@@ -102,7 +116,10 @@ $this->params['breadcrumbs'][] = $this->title;
                                     'data-type' => Price::TYPE_PRICE_RETAIL,
                                 ]);
                         },
-                        'format'    => 'raw'
+                        'format' => 'raw',
+                        'contentOptions' => [
+                            'style' => 'white-space:pre-wrap'
+                        ]
                     ],
                     [
                         'label'          => "Наценка (%)",

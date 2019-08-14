@@ -20,11 +20,13 @@ class ItemRemaining
     public $qty;
     public $wholesalePrice;
     public $retailPrice;
+    public $image;
 
     public function __construct($item)
     {
         $this->id = $item->good->id;
         $this->good = $item->good->nameAndColor;
+        $this->image = $item->good->getMainImageImg('set_prices');
         $this->wholesalePrice = isset($item->good->wholesalePrice)
             ? $item->good->wholesalePrice->price : 0;
         $this->retailPrice = isset($item->good->retailPrice)

@@ -35,9 +35,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     [
                         'attribute' => 'mainImage',
                         'value' => function (Good $model) {
-                            return $model->mainImage
-                                ? Html::img($model->mainImage->getThumbFileUrl('file_name',
-                                    'admin')) : Html::img('/img/no-image.svg');
+                            return $model->getMainImageImg();
                         },
                         'format' => 'raw',
                         'contentOptions' => ['style' => 'width: 100px'],
