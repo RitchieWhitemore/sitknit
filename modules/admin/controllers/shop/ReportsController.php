@@ -135,7 +135,7 @@ class ReportsController extends Controller
                 ->select([
                     'SUM(order.total) AS totalSumOrder',
                 ])
-                ->where(['status' => Order::STATUS_SHIPPED])
+                ->where(['payment' => Order::PAYMENT_PAYMENT])
                 ->andWhere(['>', 'date', $dateStart])
                 ->andFilterWhere(['<', 'date', $dateEnd])
                 ->column();
@@ -176,7 +176,7 @@ class ReportsController extends Controller
                     'data' => $dataReceipts
                 ],
                 [
-                    'label' => 'Заказы',
+                    'label' => 'Оплаченые заказы',
                     'backgroundColor' => 'blue',
                     'stack' => 'Stack 1',
                     'data' => $dataOrders
