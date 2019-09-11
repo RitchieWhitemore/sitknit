@@ -44,7 +44,10 @@ class RemainingReadRepository
 
             $debits = ReceiptItem::find()->with(['good'])->indexBy('good_id')
                 ->all();
-            $credits = OrderItem::find()->with(['good'])->indexBy('good_id')
+            $credits = OrderItem::find()->joinWith([
+                'good',
+                'document d'
+            ])->where(['d.status' => Order::STATUS_SHIPPED])->indexBy('good_id')
                 ->all();
 
             $remaining = [];
