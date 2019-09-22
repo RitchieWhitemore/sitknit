@@ -20,6 +20,9 @@ return [
             'class'             => 'yii\db\Connection',
             'charset'           => 'utf8',
             'enableSchemaCache' => true,
+            'on afterOpen' => function ($event) {
+                $event->sender->createCommand("SET sql_mode = 'STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION';")->execute();
+            },
         ],
         'urlManager' => [
             'class'           => 'yii\web\UrlManager',

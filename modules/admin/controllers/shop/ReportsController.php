@@ -29,16 +29,16 @@ class ReportsController extends Controller
         parent::__construct($id, $module, $config);
     }
 
-    public function actionRemaining($notNull = null)
+    public function actionRemaining($notNull = 0)
     {
         $remaining = $this->remaining->getLastRemaining($notNull);
 
-        $totalDebitActiveProvider = new ArrayDataProvider([
+        $remainingActiveProvider = new ArrayDataProvider([
             'allModels'  => $remaining,
             'pagination' => false,
         ]);
 
-        return $this->render('remaining', ['totalDebitActiveProvider' => $totalDebitActiveProvider]);
+        return $this->render('remaining', ['remainingActiveProvider' => $remainingActiveProvider]);
     }
 
     public function actionDebit()

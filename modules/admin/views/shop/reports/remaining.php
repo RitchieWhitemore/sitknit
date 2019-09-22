@@ -21,7 +21,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="box">
     <div class="box-body">
         <?= GridView::widget([
-            'dataProvider' => $totalDebitActiveProvider,
+            'dataProvider' => $remainingActiveProvider,
             'tableOptions' => [
                 'class' => 'table table-strip'
             ],

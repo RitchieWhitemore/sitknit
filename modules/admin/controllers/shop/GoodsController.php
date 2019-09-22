@@ -2,6 +2,8 @@
 
 namespace app\modules\admin\controllers\shop;
 
+use app\core\entities\Document\OrderItem;
+use app\core\entities\Document\ReceiptItem;
 use app\core\entities\Shop\Good\Good;
 use app\core\forms\manage\Shop\Good\GoodForm;
 use app\core\forms\manage\Shop\Good\ImagesForm;
@@ -28,8 +30,7 @@ class GoodsController extends Controller
         GoodManageService $service,
         GoodReadRepository $repository,
         $config = []
-    )
-    {
+    ) {
         $this->service = $service;
         $this->repository = $repository;
         parent::__construct($id, $module, $config);
@@ -83,6 +84,14 @@ class GoodsController extends Controller
             'query' => $good->getCompositions(),
         ]);
 
+        $receiptDocumentsProvider = new ActiveDataProvider([
+            'query' => ReceiptItem::find()->where(['good_id' => $id]),
+        ]);
+
+        $orderDocumentsProvider = new ActiveDataProvider([
+            'query' => OrderItem::find()->where(['good_id' => $id]),
+        ]);
+
         $imagesForm = new ImagesForm();
 
         if ($imagesForm->load(Yii::$app->request->post()) && $imagesForm->validate()) {
@@ -102,7 +111,9 @@ class GoodsController extends Controller
             'pricesProvider'      => $pricesProvider,
             'imagesForm'          => $imagesForm,
             'compositionProvider' => $compositionProvider,
-            'siblingGoods' => $siblingGoods
+            'siblingGoods' => $siblingGoods,
+            'receiptDocumentsProvider' => $receiptDocumentsProvider,
+            'orderDocumentsProvider' => $orderDocumentsProvider
         ]);
     }
 

@@ -16,7 +16,7 @@ use yii\caching\TagDependency;
 
 class RemainingReadRepository
 {
-    public function getLastRemaining($notNull = null): array
+    public function getLastRemaining($notNull = 0): array
     {
         $key = [
             __CLASS__,
@@ -42,12 +42,20 @@ class RemainingReadRepository
         $remaining = Yii::$app->cache->getOrSet($key, function () use ($notNull) {
             /* @var $credits [] OrderItem */
 
-            $debits = ReceiptItem::find()->with(['good'])->indexBy('good_id')
+            $debits = ReceiptItem::find()
+                ->select(['SUM(qty) as totalQty', 'good_id'])
+                //->andWhere(['good_id' => 9634])
+                ->groupBy(['good_id'])
+                ->indexBy('good_id')
                 ->all();
-            $credits = OrderItem::find()->joinWith([
-                'good',
-                'document d'
-            ])->where(['d.status' => Order::STATUS_SHIPPED])->indexBy('good_id')
+
+            $credits = OrderItem::find()
+                //->andWhere(['good_id' => 9634])
+                ->select(['SUM(qty) as totalQty', 'good_id'])
+                ->joinWith(['good', 'document d'])
+                ->andWhere(['d.status' => Order::STATUS_SHIPPED])
+                ->groupBy(['good_id'])
+                ->indexBy('good_id')
                 ->all();
 
             $remaining = [];
@@ -56,12 +64,12 @@ class RemainingReadRepository
                 /* @var $debit \app\core\entities\Document\ReceiptItem */
 
                 $itemRemaining = new ItemRemaining($debit);
-                $itemRemaining->setQty($debit->qty);
+                $itemRemaining->setQty($debit->totalQty);
                 if (array_key_exists($key, $credits)) {
 
-                    $itemRemaining->qty = $debit->qty - $credits[$key]->qty;
+                    $itemRemaining->qty = $debit->totalQty - $credits[$key]->totalQty;
 
-                    if ($notNull == null && $itemRemaining->qty == 0) {
+                    if ($notNull == 1 && $itemRemaining->isNotNull()) {
                         $remaining[] = $itemRemaining;
                     }
 

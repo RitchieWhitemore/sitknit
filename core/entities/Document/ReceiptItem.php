@@ -22,6 +22,11 @@ use yii\db\ActiveRecord;
  */
 class ReceiptItem extends ActiveRecord
 {
+    /**
+     * @var integer
+     */
+    public $totalQty;
+
     public function behaviors()
     {
         return [

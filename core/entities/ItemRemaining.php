@@ -37,4 +37,14 @@ class ItemRemaining
     {
         $this->qty = $qty;
     }
+
+    public function isNotNull()
+    {
+        return $this->qty != 0;
+    }
+
+    public function isNull()
+    {
+        return $this->qty == 0;
+    }
 }

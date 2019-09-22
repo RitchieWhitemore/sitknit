@@ -23,6 +23,11 @@ use yii\db\ActiveRecord;
 class OrderItem extends ActiveRecord
 {
     /**
+     * @var integer
+     */
+    public $totalQty;
+
+    /**
      * @return array
      */
     public function behaviors()

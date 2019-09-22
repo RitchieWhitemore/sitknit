@@ -1,5 +1,7 @@
 <?php
 
+use app\core\entities\Document\OrderItem;
+use app\core\entities\Document\ReceiptItem;
 use app\core\entities\Shop\Good\Value;
 use kartik\file\FileInput;
 use yii\bootstrap\ActiveForm;
@@ -28,9 +30,9 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::a('Редактировать', ['update', 'id' => $good->id], ['class' => 'btn btn-primary']) ?>
         <?= Html::a('Удалить', ['delete', 'id' => $good->id], [
             'class' => 'btn btn-danger',
-            'data'  => [
+            'data' => [
                 'confirm' => 'Вы уверены что хотите удалить эту позицию?',
-                'method'  => 'post',
+                'method' => 'post',
             ],
         ]) ?>
     </p>
@@ -53,24 +55,24 @@ $this->params['breadcrumbs'][] = $this->title;
             </div>
 
             <?= DetailView::widget([
-                'model'      => $good,
+                'model' => $good,
                 'attributes' => [
                     'id',
                     [
                         'attribute' => 'main_good_id',
-                        'value'     => ArrayHelper::getValue($good, 'mainGood.article'),
-                        'label'     => 'Артикул товара с которого берутся характеристики',
+                        'value' => ArrayHelper::getValue($good, 'mainGood.article'),
+                        'label' => 'Артикул товара с которого берутся характеристики',
                     ],
 
                     'article',
                     'name',
                     [
                         'attribute' => 'category_id',
-                        'value'     => ArrayHelper::getValue($good, 'category.name'),
+                        'value' => ArrayHelper::getValue($good, 'category.name'),
                     ],
                     [
                         'attribute' => 'brand_id',
-                        'value'     => ArrayHelper::getValue($good, 'brand.name'),
+                        'value' => ArrayHelper::getValue($good, 'brand.name'),
                     ],
                     'packaged',
                 ],
@@ -83,7 +85,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="box-body">
 
             <?= DetailView::widget([
-                'model'      => $good,
+                'model' => $good,
                 'attributes' => array_map(function (Value $value) {
                     return [
                         'label' => $value->characteristic->name,
@@ -103,32 +105,32 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= GridView::widget([
         'dataProvider' => $compositionProvider,
-        'columns'      => [
+        'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
             [
                 'attribute' => 'material_id',
-                'label'     => 'Материал',
-                'value'     => function ($material) {
+                'label' => 'Материал',
+                'value' => function ($material) {
                     return ArrayHelper::getValue($material, 'material.name');
                 }
             ],
             'value',
             [
-                'class'      => 'yii\grid\ActionColumn',
+                'class' => 'yii\grid\ActionColumn',
                 'controller' => '/admin/shop/compositions',
-                'template'   => '{update}{delete}',
-                'buttons'    => [
+                'template' => '{update}{delete}',
+                'buttons' => [
                     'update' => function ($url, $model, $key) {
                         return Html::a('', [
                             '/admin/shop/compositions/update',
-                            'goodId'     => $model->good_id,
+                            'goodId' => $model->good_id,
                             'materialId' => $model->material_id
                         ], ['class' => 'glyphicon glyphicon-pencil']);
                     },
                     'delete' => function ($url, $model, $key) {
                         return Html::a('', [
                             '/admin/shop/compositions/delete',
-                            'goodId'     => $model->good_id,
+                            'goodId' => $model->good_id,
                             'materialId' => $model->material_id
                         ], ['class' => 'glyphicon glyphicon-trash', 'data-method' => 'post']);
                     }
@@ -139,7 +141,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= GridView::widget([
         'dataProvider' => $pricesProvider,
-        'columns'      => [
+        'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
             'date',
             'typePrice',
@@ -160,27 +162,27 @@ $this->params['breadcrumbs'][] = $this->title;
                         <div class="btn-group">
                             <?= Html::a('<span class="glyphicon glyphicon-arrow-left"></span>', [
                                 'move-image-up',
-                                'id'       => $good->id,
+                                'id' => $good->id,
                                 'image_id' => $image->id
                             ], [
-                                'class'       => 'btn btn-default',
+                                'class' => 'btn btn-default',
                                 'data-method' => 'post',
                             ]); ?>
                             <?= Html::a('<span class="glyphicon glyphicon-remove"></span>', [
                                 'delete-image',
-                                'id'       => $good->id,
+                                'id' => $good->id,
                                 'image_id' => $image->id
                             ], [
-                                'class'        => 'btn btn-default',
-                                'data-method'  => 'post',
+                                'class' => 'btn btn-default',
+                                'data-method' => 'post',
                                 'data-confirm' => 'Remove image?',
                             ]); ?>
                             <?= Html::a('<span class="glyphicon glyphicon-arrow-right"></span>', [
                                 'move-image-down',
-                                'id'       => $good->id,
+                                'id' => $good->id,
                                 'image_id' => $image->id
                             ], [
-                                'class'       => 'btn btn-default',
+                                'class' => 'btn btn-default',
                                 'data-method' => 'post',
                             ]); ?>
                         </div>
@@ -201,7 +203,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
             <?= $form->field($imagesForm, 'files[]')->label(false)->widget(FileInput::class, [
                 'options' => [
-                    'accept'   => 'image/*',
+                    'accept' => 'image/*',
                     'multiple' => true,
                 ]
             ]) ?>
@@ -212,6 +214,42 @@ $this->params['breadcrumbs'][] = $this->title;
 
             <?php ActiveForm::end(); ?>
 
+        </div>
+    </div>
+
+    <div class="box">
+        <div class="box-header with-border">Документы</div>
+        <div class="box-body">
+            <?= GridView::widget([
+                'dataProvider' => $receiptDocumentsProvider,
+                'columns' => [
+                    [
+                        'attribute' => 'document_id',
+                        'label' => 'Документ',
+                        'value' => function (ReceiptItem $value) {
+                            return Html::a('Поступление №' . $value->document_id . ' от ' . $value->document->date,
+                                Url::to(['/admin/documents/receipts/view', 'id' => $value->document_id]));
+                        },
+                        'format' => 'raw'
+                    ],
+                    'qty',
+                ],
+            ]) ?>
+            <?= GridView::widget([
+                'dataProvider' => $orderDocumentsProvider,
+                'columns' => [
+                    [
+                        'attribute' => 'document_id',
+                        'label' => 'Документ',
+                        'value' => function (OrderItem $value) {
+                            return Html::a('Заказ №' . $value->document_id . ' от ' . $value->document->date,
+                                Url::to(['/admin/documents/orders/view', 'id' => $value->document_id]));
+                        },
+                        'format' => 'raw'
+                    ],
+                    'qty',
+                ],
+            ]) ?>
         </div>
     </div>
 

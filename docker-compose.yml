@@ -38,6 +38,7 @@ services:
             - "3306:3306"
         volumes:
             - ./docker/containers/mysql:/var/lib/mysql
+            - ./docker/config/mysql/my.cnf:/etc/mysql/conf.d/my.cnf
         # задаем пароль для root пользователя
         environment:
             MYSQL_USER: sitknit
