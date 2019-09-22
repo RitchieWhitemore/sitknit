@@ -44,13 +44,13 @@ class RemainingReadRepository
 
             $debits = ReceiptItem::find()
                 ->select(['SUM(qty) as totalQty', 'good_id'])
-                //->andWhere(['good_id' => 9634])
+                //->andWhere(['IN', 'good_id', [17699, 1005, 971]])
                 ->groupBy(['good_id'])
                 ->indexBy('good_id')
                 ->all();
 
             $credits = OrderItem::find()
-                //->andWhere(['good_id' => 9634])
+                //->andWhere(['IN', 'good_id', [17699, 1005, 971]])
                 ->select(['SUM(qty) as totalQty', 'good_id'])
                 ->joinWith(['good', 'document d'])
                 ->andWhere(['d.status' => Order::STATUS_SHIPPED])
@@ -69,7 +69,9 @@ class RemainingReadRepository
 
                     $itemRemaining->qty = $debit->totalQty - $credits[$key]->totalQty;
 
-                    if ($notNull == 1 && $itemRemaining->isNotNull()) {
+                    if ($notNull == 0) {
+                        $remaining[] = $itemRemaining;
+                    } elseif ($notNull == 1 && $itemRemaining->isNotNull()) {
                         $remaining[] = $itemRemaining;
                     }
 
