@@ -91,12 +91,13 @@ class ReportsController extends Controller
                 }
             ])
             ->groupBy('o.good_id')
+            //->andWhere(['IN', 'o.good_id', [17699, 1005, 971, 10164]])
             ->orderBy(['o.qty' => SORT_DESC])
             ->limit(20)
             ->asArray()->column();
 
         $quantities = OrderItem::find()
-            ->select(['SUM(qty)', 'good_id'])
+            //->select(['SUM(qty)', 'good_id'])->andWhere(['IN', 'good_id', [17699, 1005, 971, 10164]])
             ->groupBy('good_id')
             ->orderBy(['qty' => SORT_DESC])
             ->limit(20)

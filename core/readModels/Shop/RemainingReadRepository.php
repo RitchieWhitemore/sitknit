@@ -21,12 +21,9 @@ class RemainingReadRepository
         $key = [
             __CLASS__,
             __FILE__,
-            __LINE__
+            __LINE__,
+            $notNull
         ];
-
-        if ($notNull == true) {
-            $key[] = $notNull;
-        }
 
         $dependency = new TagDependency([
             'tags' => [
