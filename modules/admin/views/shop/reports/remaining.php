@@ -2,6 +2,7 @@
 
 /* @var $this yii\web\View */
 
+use app\core\entities\ItemRemaining;
 use yii\grid\GridView;
 use yii\helpers\Html;
 use yii\helpers\Url;
@@ -31,7 +32,11 @@ $this->params['breadcrumbs'][] = $this->title;
             'columns' => [
                 [
                     'attribute' => 'good',
-                    'label' => 'Товар'
+                    'label' => 'Товар',
+                    'value' => function (ItemRemaining $value) {
+                        return Html::a($value->good, Url::to(['/admin/shop/goods/view', 'id' => $value->id]));
+                    },
+                    'format' => 'raw'
                 ],
                 [
                     'attribute' => 'qty',

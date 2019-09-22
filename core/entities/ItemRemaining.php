@@ -3,13 +3,11 @@
 
 namespace app\core\entities;
 
-use app\core\entities\Shop\Good\Good;
-
 /**
  * Class ItemRemaining
  *
  * @property  integer $id
- * @property  Good    $good
+ * @property  string $good
  * @property  integer $qty
  */
 
