@@ -44,12 +44,12 @@ $this->params['breadcrumbs'][] = $this->title;
                     <h2 class="box-title">Товары с похожим названием</h2>
                 </div>
                 <ul class="sibling-goods">
-                    <?php foreach ($siblingGoods as $good): ?>
+                    <?php foreach ($siblingGoods as $siblingGood): ?>
                         <li><a href="<?= Url::to([
                                 'shop/goods/update',
-                                'id' => $good->id
-                            ]) ?>">(<?= $good->article ?>
-                                ) <?= $good->nameAndColor ?></a></li>
+                                'id' => $siblingGood->id
+                            ]) ?>">(<?= $siblingGood->article ?>
+                                ) <?= $siblingGood->nameAndColor ?></a></li>
                     <?php endforeach; ?>
                 </ul>
             </div>

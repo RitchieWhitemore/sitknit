@@ -74,6 +74,12 @@ class GoodForm extends CompositeForm
             [['name', 'article', 'brand_id'], 'required'],
             [['brand_id', 'packaged', 'status'], 'integer'],
             [['article'], 'string', 'max' => 50],
+            [
+                ['article'],
+                'unique',
+                'targetClass' => Good::class,
+                'filter' => $this->_good ? ['<>', 'id', $this->_good->id] : null
+            ],
             [['name', 'description'], 'string', 'max' => 255],
             [
                 ['brand_id'],
