@@ -45,9 +45,9 @@ class CatalogController extends Controller
      * @return mixed
      * @throws NotFoundHttpException
      */
-    public function actionCategory($id)
+    public function actionCategory($slug)
     {
-        if (!$category = $this->categories->find($id)) {
+        if (!$category = $this->categories->findBySlug($slug)) {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
 

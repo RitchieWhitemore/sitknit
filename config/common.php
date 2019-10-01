@@ -90,8 +90,7 @@ return [
 
                 ['class' => 'yii\rest\UrlRule', 'controller' => 'api/orderItem',],
 
-                ['class' => 'app\urls\CategoryUrlRule'],
-                'catalog/<id:\d+>' => 'catalog/good',
+                'catalog/<slug:\w+>' => 'catalog/category',
 
                 ''                                                                               => 'catalog',
                 'contact'                                                                        => 'main/contact/index',

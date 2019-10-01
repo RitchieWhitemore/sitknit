@@ -5,7 +5,6 @@ namespace app\widgets;
 use app\core\entities\Shop\Category;
 use app\core\readModels\Shop\CategoryReadRepository;
 use app\core\readModels\Shop\GoodReadRepository;
-use app\core\repositories\Shop\GoodRepository;
 use yii\base\Widget;
 
 class CategoriesWidget extends Widget
@@ -29,16 +28,16 @@ class CategoriesWidget extends Widget
 
         $categories = $this->categories->getCategoriesInRoot()->getModels();
 
-        if ($this->context->action->id == 'good') {
+        /*if ($this->context->action->id == 'good') {
             $good = $this->goods->find($this->context->actionParams['id']);
             $activeCategory = $good->category;
         } elseif ($this->context->action->id == 'category') {
             $activeCategory = $this->categories->find($this->context->actionParams['id']);
-        }
+        }*/
 
         return $this->render('categories', [
-            'categories' => $categories,
-            'activeCategory' => $activeCategory,
+            'categories' => $categories
+            //'activeCategory' => $activeCategory,
         ]);
     }
 }
