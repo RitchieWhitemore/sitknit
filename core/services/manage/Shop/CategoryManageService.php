@@ -24,7 +24,8 @@ class CategoryManageService
             $form->name,
             $form->slug,
             $form->title,
-            $form->description
+            $form->description,
+            $form->status
         );
 
         $category->image = $form->imageFile;
@@ -42,7 +43,8 @@ class CategoryManageService
             $form->name,
             $form->slug,
             $form->title,
-            $form->description
+            $form->description,
+            $form->status
         );
 
         $category->image = $form->imageFile;

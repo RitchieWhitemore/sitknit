@@ -38,6 +38,7 @@ class CategoryForm extends Model
             $this->description = $category->description;
             $this->parentId = $category->parent ? $category->parent->id : null;
             $this->image = $category->image;
+            $this->status = $category->status;
 
 
             $this->_category = $category;
@@ -50,7 +51,7 @@ class CategoryForm extends Model
     {
         return [
             [['name'], 'required'],
-            [['parentId'], 'integer'],
+            [['parentId', 'status'], 'integer'],
             [['name', 'slug', 'title'], 'string', 'max' => 255],
             [['description'], 'string'],
             ['slug', SlugValidator::class],

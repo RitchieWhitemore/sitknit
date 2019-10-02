@@ -2,8 +2,9 @@
 
 namespace app\core\entities\Shop;
 
-use app\core\entities\Shop\queries\CategoryQuery;
 use app\core\entities\Shop\Good\Good;
+use app\core\entities\Shop\queries\CategoryQuery;
+use app\core\traits\StatusTrait;
 use paulzi\nestedsets\NestedSetsBehavior;
 use yii\db\ActiveRecord;
 use yiidreamteam\upload\ImageUploadBehavior;
@@ -20,6 +21,7 @@ use yiidreamteam\upload\ImageUploadBehavior;
  * @property integer $lft
  * @property integer $rgt
  * @property integer $depth
+ * @property $status int
  *
  * @property Good[] $goods
  * @property Category $parent
@@ -28,28 +30,32 @@ use yiidreamteam\upload\ImageUploadBehavior;
  */
 class Category extends ActiveRecord
 {
+    use StatusTrait;
+
     const STATUS_INACTIVE = 0;
     const STATUS_ACTIVE = 1;
 
     public $goods_count;
 
-    public static function create($name, $slug, $title, $description): self
+    public static function create($name, $slug, $title, $description, $status): self
     {
         $category = new static();
         $category->name = $name;
         $category->slug = $slug;
         $category->title = $title;
         $category->description = $description;
+        $category->status = $status;
 
         return $category;
     }
 
-    public function edit($name, $slug, $title, $description)
+    public function edit($name, $slug, $title, $description, $status)
     {
         $this->name = $name;
         $this->slug = $slug;
         $this->title = $title;
         $this->description = $description;
+        $this->status = $status;
     }
 
     /**
@@ -102,7 +108,7 @@ class Category extends ActiveRecord
             'title'       => 'Заголовок',
             'description' => 'Краткое описание',
             'content'     => 'Полное описание',
-            'Status'      => 'Статус',
+            'status' => 'Статус',
             'imageFile'   => 'Изображение',
             'image'       => 'Загруженое изображение',
         ];
