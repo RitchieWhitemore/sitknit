@@ -11,6 +11,7 @@ use app\core\entities\Shop\Composition;
 use app\core\entities\Shop\Good\queries\GoodQuery;
 use app\core\entities\Shop\Material;
 use app\core\entities\Shop\Price;
+use app\core\traits\StatusTrait;
 use lhs\Yii2SaveRelationsBehavior\SaveRelationsBehavior;
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
@@ -47,6 +48,8 @@ use yii\web\UploadedFile;
  */
 class Good extends ActiveRecord
 {
+    use StatusTrait;
+
     const STATUS_ACTIVE = 1;
     const STATUS_INACTIVE = 0;
 

@@ -24,6 +24,16 @@ return [
                 $event->sender->createCommand("SET sql_mode = 'STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION';")->execute();
             },
         ],
+        'i18n' => [
+            'class' => 'yii\i18n\I18N',
+            'translations' => [
+                'system' => [
+                    'class' => 'yii\i18n\PhpMessageSource',
+                    'sourceLanguage' => 'en-US',
+                    'basePath' => '@app/messages',
+                ],
+            ],
+        ],
         'urlManager' => [
             'class'           => 'yii\web\UrlManager',
             'enablePrettyUrl' => true,
@@ -90,7 +100,7 @@ return [
 
                 ['class' => 'yii\rest\UrlRule', 'controller' => 'api/orderItem',],
 
-                'catalog/<slug:\w+>' => 'catalog/category',
+                'catalog/<slug:[\w_-]+>' => 'catalog/category',
 
                 ''                                                                               => 'catalog',
                 'contact'                                                                        => 'main/contact/index',

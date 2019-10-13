@@ -1,8 +1,8 @@
 <?php
 
+use app\core\entities\Shop\Category;
 use yii\helpers\Html;
 use yii\widgets\DetailView;
-use yii\helpers\ArrayHelper;
 
 /* @var $this yii\web\View */
 /* @var $category app\core\entities\Shop\Category */
@@ -17,23 +17,22 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::a('Редактировать', ['update', 'id' => $category->id], ['class' => 'btn btn-primary']) ?>
         <?= Html::a('Удалить', ['delete', 'id' => $category->id], [
             'class' => 'btn btn-danger',
-            'data'  => [
+            'data' => [
                 'confirm' => 'Вы действительно хотите удалить эту категорию?',
-                'method'  => 'post',
+                'method' => 'post',
             ],
         ]) ?>
     </p>
     <div class="box">
         <div class="box-body">
             <?= DetailView::widget([
-                'model'      => $category,
+                'model' => $category,
                 'attributes' => [
                     'id',
                     [
                         'attribute' => 'image',
-                        'format'    => 'raw',
-                        'value'     => function ($value) {
-                            /* @var app\core\entities\Shop\Category $value*/
+                        'format' => 'raw',
+                        'value' => function (Category $value) {
                             return Html::a(
                                 Html::img($value->getThumbFileUrl('image', 'admin')),
                                 $value->getUploadedFileUrl('image'),
@@ -41,8 +40,20 @@ $this->params['breadcrumbs'][] = $this->title;
                             );
                         },
                     ],
+                    [
+                        'label' => 'Родительская категория',
+                        'value' => function (Category $value) {
+                            return $value->parent->name;
+                        }
+                    ],
                     'name',
                     'slug',
+                    [
+                        'attribute' => 'status',
+                        'value' => function (Category $value) {
+                            return $value->getStatus();
+                        }
+                    ]
                 ],
             ]) ?>
         </div>

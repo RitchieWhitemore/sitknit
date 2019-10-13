@@ -4,9 +4,12 @@
 namespace app\controllers;
 
 
+use app\core\entities\Shop\Category;
+use app\core\entities\Shop\Good\search\GoodFilterSearch;
 use app\core\readModels\Shop\BrandReadRepository;
 use app\core\readModels\Shop\CategoryReadRepository;
 use app\core\readModels\Shop\GoodReadRepository;
+use app\widgets\pagination\LinkPager;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 
@@ -23,8 +26,7 @@ class CatalogController extends Controller
         CategoryReadRepository $categories,
         BrandReadRepository $brands,
         $config = []
-    )
-    {
+    ) {
         parent::__construct($id, $module, $config);
         $this->goods = $goods;
         $this->categories = $categories;
@@ -41,7 +43,7 @@ class CatalogController extends Controller
     }
 
     /**
-     * @param $id
+     * @param $slug
      * @return mixed
      * @throws NotFoundHttpException
      */
@@ -51,11 +53,35 @@ class CatalogController extends Controller
             throw new NotFoundHttpException('The requested page does not exist.');
         }
 
-        $dataProvider = $this->goods->getAllByCategory($category);
+        if ($category->isYarn()) {
+            $composition = Category::find()->isComposition()->one();
+            $categories = Category::find()->active()->all();
+            $compositions = [];
+            foreach ($categories as $item) {
+                if ($item->isChildOf($composition)) {
+                    $compositions[] = $item;
+                }
+            }
+            return $this->render('yarn', [
+                'compositions' => $compositions,
+                'category' => $category
+            ]);
+        }
+
+        $searchModel = new GoodFilterSearch([
+            'category_id' => $category->id,
+        ]);
+        $dataProvider = $searchModel->search(\Yii::$app->request->queryParams);
+
+        if (\Yii::$app->request->isAjax) {
+            return $this->asJson(LinkPager::getPageItems($dataProvider, $this));
+        }
 
         return $this->render('category', [
             'category' => $category,
             'dataProvider' => $dataProvider,
+            'list' => $dataProvider->getModels(),
+            'pagination' => $dataProvider->getPagination(),
         ]);
     }
 

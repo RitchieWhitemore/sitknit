@@ -1,8 +1,8 @@
 <?php
 
+use app\core\entities\Shop\Category;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-use app\core\entities\Shop\Category;
 
 /* @var $this yii\web\View */
 /* @var $model app\core\entities\Shop\Category */
@@ -23,10 +23,8 @@ use app\core\entities\Shop\Category;
 
             <?= $form->field($model, 'content')->textarea() ?>
 
-            <?= $form->field($model, 'status')->dropDownList([
-                0 => 'Нет',
-                1 => 'Да'
-            ], ['prompt' => 'активируйте категорию']) ?>
+            <?= $form->field($model, 'status')->dropDownList(Category::getStatusList(),
+                ['prompt' => 'активируйте категорию']) ?>
 
             <?php
             if (isset($category->image)) {

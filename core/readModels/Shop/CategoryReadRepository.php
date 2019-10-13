@@ -42,7 +42,7 @@ class CategoryReadRepository
 
     public function getCategoriesInRoot(): ActiveDataProvider
     {
-        $query = Category::find()->andWhere(['>', 'depth', 0])->active()->orderBy('lft');
+        $query = Category::find()->andWhere(['>', 'depth', 0])->notComposition()->active()->orderBy('lft');
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

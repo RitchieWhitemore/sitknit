@@ -8,7 +8,9 @@
 
 namespace app\core\entities\Shop\Good\queries;
 
+use app\core\entities\Shop\Brand;
 use app\core\entities\Shop\Good\Good;
+use app\core\entities\Shop\queries\BrandQuery;
 use yii\db\ActiveQuery;
 
 /**
@@ -31,6 +33,7 @@ class GoodQuery extends ActiveQuery
     {
         return parent::all($db);
     }
+
     /**
      * @inheritdoc
      * @return Good|array|null
@@ -38,5 +41,14 @@ class GoodQuery extends ActiveQuery
     public function one($db = null)
     {
         return parent::one($db);
+    }
+
+    public function activeBrand()
+    {
+        return $this->joinWith([
+            'brand' => function (BrandQuery $query) {
+                return $query->andWhere(['brand.status' => Brand::STATUS_ACTIVE]);
+            }
+        ]);
     }
 }

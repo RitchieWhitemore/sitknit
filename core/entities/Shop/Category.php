@@ -35,6 +35,9 @@ class Category extends ActiveRecord
     const STATUS_INACTIVE = 0;
     const STATUS_ACTIVE = 1;
 
+    const COMPOSITION_ID = 41;
+    const YARN_ID = 2;
+
     public $goods_count;
 
     public static function create($name, $slug, $title, $description, $status): self
@@ -143,6 +146,11 @@ class Category extends ActiveRecord
         $categories = $this->getDescendants()->active()->indexBy('id')->column();
 
         return Good::find()->where(['IN', 'category_id', array_merge([$this->id, $categories])])->active()->count();
+    }
+
+    public function isYarn()
+    {
+        return $this->id == self::YARN_ID;
     }
 
     public function transactions(): array

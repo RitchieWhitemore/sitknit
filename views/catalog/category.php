@@ -1,15 +1,15 @@
 <?php
 
-use yii\helpers\Url;
-use yii\widgets\ListView;
-use yii\widgets\Breadcrumbs;
-use yii\helpers\Html;
 use app\core\entities\Shop\Category;
+use yii\helpers\Html;
+use yii\helpers\Url;
+use yii\widgets\Breadcrumbs;
 
 /**
  *
  * @var $dataProvider yii\data\ActiveDataProvider
  * @var $category Category
+ * @var $list app\core\entities\Shop\Good\Good[]
  *
  */
 
@@ -32,7 +32,8 @@ $this->params['breadcrumbs'][] = $this->title;
             $current = $dataProvider->getPagination()->getPageSize();
             ?>
             <?php foreach ($values as $value): ?>
-                <option value="<?= Html::encode(Url::current(['per-page' => $value])) ?>" <?php if ($current == $value): ?>selected="selected"<?php endif; ?>><?= $value ?></option>
+                <option value="<?= Html::encode(Url::current(['per-page' => $value])) ?>"
+                        <?php if ($current == $value): ?>selected="selected"<?php endif; ?>><?= $value ?></option>
             <?php endforeach; ?>
         </select>
     </label>
@@ -41,22 +42,15 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="catalog">
     <h1 class="catalog__title"><?= $category->name ?></h1>
     <p class="catalog__descr"><?= $category->description ?></p>
-    <?php echo ListView::widget([
-        'dataProvider' => $dataProvider,
-        'itemView' => 'block/_goodItem',
-        'itemOptions' => ['class' => 'catalog__item product'],
-        'options' => ['class' => 'catalog__list'],
-        'layout' => "{items}\n<div class='pagination'>{pager}</div>",
-        'pager' => [
-            'class' => '\yii\widgets\LinkPager',
-            'options' => ['class' => 'pagination__list'],
-            'linkContainerOptions' => ['class' => 'pagination__item'],
-            'linkOptions' => ['class' => 'link pagination__link'],
-            'activePageCssClass' => 'pagination__item--active',
-            'nextPageLabel' => 'Вперед',
-            'prevPageLabel' => 'Назад',
-            'disabledPageCssClass' => 'pagination__item--disabled'
-        ]
-    ]);
-    ?>
+
+    <div class="catalog__list dynamic-pager-items">
+        <?php foreach ($list as $item): ?>
+            <?= $this->render('_item', ['model' => $item]) ?>
+        <?php endforeach; ?>
+    </div>
+    <div class='pagination dynamic-paginator'>
+        <?= \app\widgets\pagination\LinkPager::widget([
+            'pagination' => $pagination,
+        ]) ?>
+    </div>
 </div>
