@@ -4,7 +4,6 @@
 namespace app\controllers;
 
 
-use app\core\entities\Shop\Category;
 use app\core\entities\Shop\Good\search\GoodFilterSearch;
 use app\core\readModels\Shop\BrandReadRepository;
 use app\core\readModels\Shop\CategoryReadRepository;
@@ -53,20 +52,20 @@ class CatalogController extends Controller
             throw new NotFoundHttpException('The requested page does not exist.');
         }
 
-        if ($category->isYarn()) {
-            $composition = Category::find()->isComposition()->one();
-            $categories = Category::find()->active()->all();
-            $compositions = [];
-            foreach ($categories as $item) {
-                if ($item->isChildOf($composition)) {
-                    $compositions[] = $item;
-                }
-            }
-            return $this->render('yarn', [
-                'compositions' => $compositions,
-                'category' => $category
-            ]);
-        }
+        /*  if ($category->isYarn()) {
+              $composition = Category::find()->isComposition()->one();
+              $categories = Category::find()->active()->all();
+              $compositions = [];
+              foreach ($categories as $item) {
+                  if ($item->isChildOf($composition)) {
+                      $compositions[] = $item;
+                  }
+              }
+              return $this->render('yarn', [
+                  'compositions' => $compositions,
+                  'category' => $category
+              ]);
+          }*/
 
         $searchModel = new GoodFilterSearch([
             'category_id' => $category->id,

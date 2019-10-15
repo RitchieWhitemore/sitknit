@@ -2,6 +2,7 @@
 
 /**
  * @var \app\core\entities\Shop\Brand[] $brands
+ * @var \app\core\entities\Shop\Composition[] $compositions
  */
 \app\widgets\assets\FilterPublicAsset::register($this);
 ?>
@@ -12,21 +13,10 @@
         <a class="filter__selected">Показать <b>256</b> позиций</a>
         <fieldset class="filter__group">
             <legend class="filter__group-title">По составу</legend>
-            <label><input type="checkbox" name="filter-type" checked><span
-                        class="filter__item-span"></span>Пряжа классическая однотонной
-                окраски</label><br>
-            <label><input type="checkbox" name="filter-type"><span class="filter__item-span"></span>Пряжа
-                классическая фантазийной окраски</label><br>
-            <label><input type="checkbox" name="filter-type"><span class="filter__item-span"></span>Пряжа
-                фасонная однотонной окраски</label><br>
-            <label><input type="checkbox" name="filter-type"><span class="filter__item-span"></span>Пряжа
-                фасонная фантазийной окраски</label><br>
-            <label><input type="checkbox" name="filter-type"><span class="filter__item-span"></span>Пряжа
-                пушистая (мохеры, акрилы и пр.) однотонной окраски</label><br>
-            <label><input type="checkbox" name="filter-type"><span class="filter__item-span"></span>Пряжа
-                пушистая (мохеры, акрилы и пр.) фантазийная окраска</label><br>
-            <label><input type="checkbox" name="filter-type"><span class="filter__item-span"></span>Пряжа,
-                на основе хлопка, вискозы, бамбука</label>
+            <?php foreach ($compositions as $composition) : ?>
+                <label><input type="checkbox" name="GoodFilterSearch[compositionIds][]" value="<?= $composition->id ?>"><span
+                            class="filter__item-span"></span><?= $composition->name ?></label>
+            <?php endforeach; ?>
         </fieldset>
         <fieldset class="filter__group">
             <legend class="filter__group-title">Торговые марки</legend>
