@@ -60,6 +60,8 @@ class GoodFilterSearch extends Good
             ->andWhere(['OR', ['good.category_id' => $this->category_id], ['c.category_id' => $this->category_id]])
             ->andFilterWhere(['IN', 'brand_id', $this->brandIds]);
 
+        $query->andWhere('main_good_id = good.id OR main_good_id = null');
+
         return $dataProvider;
     }
 }

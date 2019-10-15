@@ -48,6 +48,11 @@ class CategoryQuery extends ActiveQuery
         return $this->andWhere(['id' => Category::COMPOSITION_ID]);
     }
 
+    public function isYarn()
+    {
+        return $this->andWhere(['id' => Category::YARN_ID]);
+    }
+
     public function notComposition()
     {
         $compositionCategory = Category::find()->andWhere(['id' => Category::COMPOSITION_ID])->one();

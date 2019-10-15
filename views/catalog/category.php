@@ -15,6 +15,15 @@ use yii\widgets\Breadcrumbs;
 
 $this->title = $category->name;
 $this->params['breadcrumbs'][] = ['label' => 'Каталог', 'url' => ['/catalog']];
+
+if ($category->isComposition()) {
+    $yarn = Category::find()->isYarn()->one();
+    $this->params['breadcrumbs'][] = [
+        'label' => 'Пряжа',
+        'url' => Url::to(['catalog/category', 'slug' => $yarn->slug])
+    ];
+}
+
 $this->params['breadcrumbs'][] = $this->title;
 
 ?>

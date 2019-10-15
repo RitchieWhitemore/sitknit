@@ -153,6 +153,11 @@ class Category extends ActiveRecord
         return $this->id == self::YARN_ID;
     }
 
+    public function isComposition()
+    {
+        return $this->parent->id == self::COMPOSITION_ID;
+    }
+
     public function transactions(): array
     {
         return [
