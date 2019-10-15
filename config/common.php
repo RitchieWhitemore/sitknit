@@ -101,6 +101,7 @@ return [
                 ['class' => 'yii\rest\UrlRule', 'controller' => 'api/orderItem',],
 
                 'catalog/<slug:[\w_-]+>' => 'catalog/category',
+                'catalog/good/<id:\d+>' => 'catalog/good',
 
                 ''                                                                               => 'catalog',
                 'contact'                                                                        => 'main/contact/index',

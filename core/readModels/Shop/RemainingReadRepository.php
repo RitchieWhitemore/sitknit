@@ -16,13 +16,14 @@ use yii\caching\TagDependency;
 
 class RemainingReadRepository
 {
-    public function getLastRemaining($notNull = 0): array
+    public function getLastRemaining($notNull = 0, $goodId = null)
     {
         $key = [
             __CLASS__,
             __FILE__,
             __LINE__,
-            $notNull
+            $notNull,
+            $goodId
         ];
 
         $dependency = new TagDependency([
@@ -36,19 +37,19 @@ class RemainingReadRepository
             ],
         ]);
 
-        $remaining = Yii::$app->cache->getOrSet($key, function () use ($notNull) {
+        $remaining = Yii::$app->cache->getOrSet($key, function () use ($notNull, $goodId) {
             /* @var $credits [] OrderItem */
 
             $debits = ReceiptItem::find()
                 ->select(['SUM(qty) as totalQty', 'good_id'])
-                //->andWhere(['IN', 'good_id', [17699, 1005, 971]])
+                ->andFilterWhere(['good_id' => $goodId])
                 ->groupBy(['good_id'])
                 ->indexBy('good_id')
                 ->all();
 
             $credits = OrderItem::find()
-                //->andWhere(['IN', 'good_id', [17699, 1005, 971]])
                 ->select(['SUM(qty) as totalQty', 'good_id'])
+                ->andFilterWhere(['good_id' => $goodId])
                 ->joinWith(['good', 'document d'])
                 ->andWhere(['d.status' => Order::STATUS_SHIPPED])
                 ->groupBy(['good_id'])
@@ -92,7 +93,10 @@ class RemainingReadRepository
                 return ($a->good < $b->good) ? -1 : 1;
             });
 
-            return $remaining;
+            if (is_null($goodId)) {
+                return $remaining;
+            }
+            return isset($remaining[0]) ? $remaining[0]->qty : 0;
         }, 10 * 24 * 60 * 60, $dependency);
 
         return $remaining;

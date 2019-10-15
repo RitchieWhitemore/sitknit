@@ -1,9 +1,7 @@
 <?php
 
 use app\assets\MagnificPopupAsset;
-use app\core\repositories\Shop\BalanceRepository;
 use yii\helpers\Html;
-use yii\helpers\Url;
 use yii\widgets\Breadcrumbs;
 
 /**
@@ -15,7 +13,7 @@ use yii\widgets\Breadcrumbs;
 
 MagnificPopupAsset::register($this);
 
-$balance = new BalanceRepository($good);
+$balance = (new \app\core\readModels\Shop\RemainingReadRepository())->getLastRemaining(0, $good->id);
 
 $this->title = $good->fullName;
 $this->params['breadcrumbs'][] = ['label' => 'Каталог', 'url' => ['index']];
@@ -75,7 +73,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ?>
             <li class="page-product__feature-item"><b>Товара в упаковке:</b> <?= $good->packaged ?> шт.</li>
         </ul>
-        <p class="page-product__existence"><span>в наличии</span> <?= $balance->getQty() ?> шт.</p>
+        <p class="page-product__existence"><span>в наличии</span> <?= $balance ?> шт.</p>
         <p class="page-product__price-text">цена за штуку: <span class="page-product__price"><?= isset($good->priceRetail->price) ? ($good->priceRetail->price . ' руб') : 'нет цены' ?></span>
 
         <form action="" class="page-product__qty-form">
