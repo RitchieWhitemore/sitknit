@@ -63,8 +63,13 @@ use yii\widgets\ActiveForm;
                             <?= $form->field($model->categories, 'main')
                                 ->dropDownList($model->categories->categoriesList(),
                                     ['prompt' => 'Выберите категорию']) ?>
-                            <?= $form->field($model->categories, 'others')
-                                ->checkboxList($model->categories->categoriesList()) ?>
+                            <?= $form->field($model->categories, 'others')->widget(Select2::className(), [
+                                'data' => $model->categories->categoriesList(),
+                                'options' => [
+                                    'placeholder' => 'Выберите категорию ...',
+                                    'multiple' => true
+                                ],
+                            ]); ?>
                         </div>
                     </div>
                 </div>
