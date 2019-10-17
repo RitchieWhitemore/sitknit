@@ -54,7 +54,7 @@ class Good extends ActiveRecord
     const STATUS_ACTIVE = 1;
     const STATUS_INACTIVE = 0;
 
-    public static function create($brandId, $categoryId, $article, $name, $description, $packaged, $mainGoodId = null, $status): self
+    public static function create($brandId, $article, $name, $description, $packaged, $mainGoodId = null, $status): self
     {
         $good = new static();
         $good->article = $article;
@@ -62,7 +62,6 @@ class Good extends ActiveRecord
         $good->description = $description;
         $good->packaged = $packaged;
         $good->brand_id = $brandId;
-        $good->category_id = $categoryId;
         $good->main_good_id = $mainGoodId;
         $good->status = $status;
 
@@ -301,6 +300,8 @@ class Good extends ActiveRecord
         return ['images', 'retailPrice', 'wholesalePrice', 'remaining'];
     }
 
+    /** Relation */
+
     public function getBrand(): ActiveQuery
     {
         return $this->hasOne(Brand::className(), ['id' => 'brand_id']);
@@ -351,6 +352,8 @@ class Good extends ActiveRecord
         return $this->hasOne(Good::className(), ['id' => 'main_good_id']);
     }
 
+    /** Methods */
+
     public static function getGoodArray()
     {
         return self::find()->select(['name', 'id'])->indexBy('id')->column();
@@ -392,6 +395,21 @@ class Good extends ActiveRecord
     {
         $remainingReadRepository = new RemainingReadRepository();
         return $remainingReadRepository->getLastRemaining(0, $this->id);
+    }
+
+    public function getCategoriesToString()
+    {
+        $name = '';
+        $count = count($this->categoryAssignments);
+        foreach ($this->categoryAssignments as $key => $category) {
+
+            $name .= $category->category->name;
+
+            if (($key + 1) < $count) {
+                $name .= ', ';
+            }
+        }
+        return $name;
     }
 
     public static function find()

@@ -20,6 +20,7 @@ class GoodSearch extends Model
     public $status;
     public $description;
     public $characteristic;
+
     /**
      * {@inheritdoc}
      */
@@ -49,14 +50,21 @@ class GoodSearch extends Model
      */
     public function search($params)
     {
-        $query = Good::find()->joinWith(['category']);
+        $query = Good::find()->joinWith(['category', 'categoryAssignments']);
 
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
             'sort' => [
-                'defaultOrder' => ['category_id' => SORT_ASC, 'name' => SORT_ASC, 'article' => SORT_ASC],
+                'defaultOrder' => [
+                    'category_id' => [
+                        'asc' => ['categoryAssignments.category.name' => SORT_ASC],
+                        'desc' => ['categoryAssignments.category.name' => SORT_DESC],
+                    ],
+                    'name' => SORT_ASC,
+                    'article' => SORT_ASC
+                ],
                 'attributes' => [
                     'article',
                     'name',
@@ -79,7 +87,7 @@ class GoodSearch extends Model
         // grid filtering conditions
         $query->andFilterWhere([
             'good.id' => $this->id,
-            'category_id' => $this->category_id,
+            'category_assignment.category_id' => $this->category_id,
             'brand_id' => $this->brand_id,
             'packaged' => $this->packaged,
             'good.status' => $this->status,

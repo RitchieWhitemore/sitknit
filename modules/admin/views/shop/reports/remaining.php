@@ -53,7 +53,10 @@ $this->params['breadcrumbs'][] = $this->title;
                 ],
                 [
                     'attribute' => 'reserve',
-                    'label' => 'Резерв'
+                    'label' => 'Резерв',
+                    'value' => function (ItemRemaining $value) {
+                        return is_null($value->reserve) ? '-' : $value->reserve;
+                    }
                 ],
             ]
         ]); ?>

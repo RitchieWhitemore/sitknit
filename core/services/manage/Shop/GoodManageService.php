@@ -31,11 +31,9 @@ class GoodManageService
     public function create(GoodForm $form): Good
     {
         $brand = $this->brands->get($form->brand_id);
-        $category = $this->categories->get($form->categories->main);
 
         $good = Good::create(
             $brand->id,
-            $category->id,
             $form->article,
             $form->name,
             $form->description,
@@ -64,11 +62,8 @@ class GoodManageService
     {
         $good = $this->goods->get($id);
         $brand = $this->brands->get($form->brand_id);
-        $category = $this->categories->get($form->categories->main);
 
         $good->edit($brand->id, $form->article, $form->name, $form->description, $form->packaged, $form->main_good_id, $form->status);
-
-        $good->changeMainCategory($category->id);
 
         $this->transaction->wrap(function () use ($good, $form) {
             $good->revokeCategories();

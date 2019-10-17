@@ -48,8 +48,13 @@ $this->params['breadcrumbs'][] = $this->title;
                         <div class="box box-default">
                             <div class="box-header with-border">Категории</div>
                             <div class="box-body">
-                                <?= $form->field($model->categories, 'main')->dropDownList($model->categories->categoriesList(), ['prompt' => 'Выберите категорию']) ?>
-                                <?= $form->field($model->categories, 'others')->checkboxList($model->categories->categoriesList()) ?>
+                                <?= $form->field($model->categories, 'others')->widget(Select2::className(), [
+                                    'data' => $model->categories->categoriesList(),
+                                    'options' => [
+                                        'placeholder' => 'Выберите категорию ...',
+                                        'multiple' => true
+                                    ],
+                                ]); ?>
                             </div>
                         </div>
                     </div>
@@ -69,7 +74,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                                 'errorLoading' => new JsExpression("function () { return 'Waiting for results...'; }"),
                                             ],
                                             'ajax'               => [
-                                                'url'            => '/api/good/list?expand=wholesalePrice',
+                                                'url' => '/api/good/list',
                                                 'dataType'       => 'json',
                                                 'data'           => new JsExpression('function(params) { return {q:params.term};}'),
                                                 'processResults' => new JsExpression('function (data) {

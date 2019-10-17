@@ -60,9 +60,6 @@ use yii\widgets\ActiveForm;
                     <div class="box box-default">
                         <div class="box-header with-border">Категории</div>
                         <div class="box-body">
-                            <?= $form->field($model->categories, 'main')
-                                ->dropDownList($model->categories->categoriesList(),
-                                    ['prompt' => 'Выберите категорию']) ?>
                             <?= $form->field($model->categories, 'others')->widget(Select2::className(), [
                                 'data' => $model->categories->categoriesList(),
                                 'options' => [

@@ -17,7 +17,6 @@ class CategoriesForm extends Model
     public function __construct(Good $good = null, $config = [])
     {
         if ($good) {
-            $this->main = $good->category_id;
             $this->others = ArrayHelper::getColumn($good->categoryAssignments, 'category_id');
         }
         parent::__construct($config);
@@ -26,10 +25,15 @@ class CategoriesForm extends Model
     public function rules(): array
     {
         return [
-            ['main', 'required'],
-            ['main', 'integer'],
+            [['others'], 'required'],
             ['others', 'each', 'rule' => ['integer']],
-            ['others', 'default', 'value' => []],
+        ];
+    }
+
+    public function attributeLabels()
+    {
+        return [
+            'others' => 'Категории',
         ];
     }
 

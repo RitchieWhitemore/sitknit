@@ -44,7 +44,9 @@ $this->params['breadcrumbs'][] = $this->title;
                     [
                         'attribute' => 'category_id',
                         'filter' => Category::getCategoriesArray(),
-                        'value' => 'category.name',
+                        'value' => function (Good $value) {
+                            return $value->getCategoriesToString();
+                        }
                     ],
                     [
 

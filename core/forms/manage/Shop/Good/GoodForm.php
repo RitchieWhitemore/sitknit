@@ -88,13 +88,6 @@ class GoodForm extends CompositeForm
                 'targetClass'     => Brand::className(),
                 'targetAttribute' => ['brand_id' => 'id']
             ],
-            /*[
-                ['category_id'],
-                'exist',
-                'skipOnError'     => true,
-                'targetClass'     => Category::className(),
-                'targetAttribute' => ['category_id' => 'id']
-            ],*/
             [
                 ['main_good_id'],
                 'exist',
