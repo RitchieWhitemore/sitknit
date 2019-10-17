@@ -51,7 +51,16 @@ class RemainingReadRepository
                 ->select(['SUM(qty) as totalQty', 'good_id'])
                 ->andFilterWhere(['good_id' => $goodId])
                 ->joinWith(['good', 'document d'])
-                ->andWhere(['d.status' => Order::STATUS_SHIPPED])
+                ->andWhere(['OR', ['d.status' => Order::STATUS_SHIPPED], ['d.status' => Order::STATUS_RESERVE]])
+                ->groupBy(['good_id'])
+                ->indexBy('good_id')
+                ->all();
+
+            $reserve = OrderItem::find()
+                ->select(['SUM(qty) as totalQty', 'good_id'])
+                ->andFilterWhere(['good_id' => $goodId])
+                ->joinWith(['good', 'document d'])
+                ->andWhere(['d.status' => Order::STATUS_RESERVE])
                 ->groupBy(['good_id'])
                 ->indexBy('good_id')
                 ->all();
@@ -61,7 +70,7 @@ class RemainingReadRepository
             foreach ($debits as $key => $debit) {
                 /* @var $debit \app\core\entities\Document\ReceiptItem */
 
-                $itemRemaining = new ItemRemaining($debit);
+                $itemRemaining = new ItemRemaining($debit, isset($reserve[$key]) ? $reserve[$key] : null);
                 $itemRemaining->setQty($debit->totalQty);
                 if (array_key_exists($key, $credits)) {
 
@@ -79,9 +88,9 @@ class RemainingReadRepository
                 }
             }
 
-            foreach ($credits as $credit) {
+            foreach ($credits as $key => $credit) {
                 /* @var $credit \app\core\entities\Document\OrderItem */
-                $itemRemaining = new ItemRemaining($credit);
+                $itemRemaining = new ItemRemaining($credit, isset($reserve[$key]) ? $reserve[$key] : null);
                 $itemRemaining->setQty(-$credit->qty);
                 $remaining[] = $itemRemaining;
             }
@@ -93,10 +102,11 @@ class RemainingReadRepository
                 return ($a->good < $b->good) ? -1 : 1;
             });
 
-            if (is_null($goodId)) {
+            /*if (is_null($goodId)) {
                 return $remaining;
             }
-            return isset($remaining[0]) ? $remaining[0]->qty : 0;
+            return isset($remaining[0]) ? $remaining[0]->qty : 0;*/
+            return $remaining;
         }, 10 * 24 * 60 * 60, $dependency);
 
         return $remaining;

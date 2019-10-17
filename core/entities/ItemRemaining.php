@@ -16,11 +16,12 @@ class ItemRemaining
     public $id;
     public $good;
     public $qty;
+    public $reserve;
     public $wholesalePrice;
     public $retailPrice;
     public $image;
 
-    public function __construct($item)
+    public function __construct($item, $reserve = null)
     {
         $this->id = $item->good->id;
         $this->good = $item->good->nameAndColor;
@@ -29,6 +30,7 @@ class ItemRemaining
             ? $item->good->wholesalePrice->price : 0;
         $this->retailPrice = isset($item->good->retailPrice)
             ? $item->good->retailPrice->price : 0;
+        $this->reserve = isset($reserve) ? $reserve->totalQty : null;
     }
 
     public function setQty($qty)

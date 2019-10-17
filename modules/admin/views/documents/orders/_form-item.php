@@ -25,7 +25,7 @@ use yii\web\JsExpression;
                         'errorLoading' => new JsExpression("function () { return 'Waiting for results...'; }"),
                     ],
                     'ajax'               => [
-                        'url'            => '/api/good/list?expand=retailPrice',
+                        'url' => '/api/good/list?expand=retailPrice,remaining',
                         'dataType'       => 'json',
                         'data'           => new JsExpression('function(params) { return {q:params.term};}'),
                         'processResults' => new JsExpression('function (data) {
@@ -44,11 +44,20 @@ use yii\web\JsExpression;
                 ],
                 'pluginEvents'  => [
                     "select2:select" => "function(evt) { 
+                    
+                        const data = evt.params.data;
+                        const remaining = data.remaining[0];            
+                        if (remaining && remaining.reserve) {
+                       
+                            alert('В свободном остатке: '+remaining.qty+' \\nВ резерве: ' + remaining.reserve); 
+    
+                        }                     
                         const qtyInput = document.querySelector('#orderitemform-qty');
                         const priceInput = document.querySelector('#orderitemform-price');
                         qtyInput.value = '';
                         qtyInput.focus();
-                        priceInput.value = evt.params.data.retailPrice.price;            
+                        priceInput.value = data.retailPrice.price;  
+                                
                     }",
                 ]
             ]); ?>

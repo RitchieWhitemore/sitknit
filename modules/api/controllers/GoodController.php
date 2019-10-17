@@ -2,9 +2,11 @@
 
 namespace app\modules\api\controllers;
 
+use app\core\entities\Shop\Characteristic;
 use app\core\entities\Shop\Good\Good;
 use Yii;
 use yii\data\ActiveDataProvider;
+use yii\db\ActiveQuery;
 use yii\rest\ActiveController;
 
 class GoodController extends ActiveController
@@ -65,22 +67,13 @@ class GoodController extends ActiveController
 
     public function actionList($q = null)
     {
-        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-
-        $requestParams = Yii::$app->getRequest()->getBodyParams();
-        if (empty($requestParams)) {
-            $requestParams = Yii::$app->getRequest()->getQueryParams();
-        }
-
-        /* @var $modelClass yii\db\BaseActiveRecord */
-        $modelClass = new $this->modelClass;
-
-        $query = $modelClass::find()->joinWith('values', 'prices')->addSelect(['*']);
-        if (!empty($requestParams)) {
-            $query->andFilterWhere(['or', ['like', 'name', $q], ['like', 'value', $q]]);
-        }
-
-        $query->limit(200);
+        $query = Good::find()->joinWith([
+            'values' => function (ActiveQuery $query) {
+                return $query->onCondition(['value.characteristic_id' => Characteristic::CHARACTERISTIC_COLOR_ID]);
+            }
+        ])
+            ->andFilterWhere(['or', ['like', 'name', $q], ['like', 'value', $q]])
+            ->limit(200);
 
         return Yii::createObject([
             'class'      => ActiveDataProvider::className(),

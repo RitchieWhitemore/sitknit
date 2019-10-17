@@ -1,6 +1,9 @@
 <?php
 
-/* @var $this yii\web\View */
+/**
+ * @var $this yii\web\View
+ * @var $remainingActiveProvider \yii\data\ActiveDataProvider
+ */
 
 use app\core\entities\ItemRemaining;
 use yii\grid\GridView;
@@ -47,6 +50,10 @@ $this->params['breadcrumbs'][] = $this->title;
                 [
                     'attribute' => 'qty',
                     'label' => 'Кол-во'
+                ],
+                [
+                    'attribute' => 'reserve',
+                    'label' => 'Резерв'
                 ],
             ]
         ]); ?>

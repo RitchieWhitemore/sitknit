@@ -11,6 +11,7 @@ use app\core\entities\Shop\Composition;
 use app\core\entities\Shop\Good\queries\GoodQuery;
 use app\core\entities\Shop\Material;
 use app\core\entities\Shop\Price;
+use app\core\readModels\Shop\RemainingReadRepository;
 use app\core\traits\StatusTrait;
 use lhs\Yii2SaveRelationsBehavior\SaveRelationsBehavior;
 use yii\db\ActiveQuery;
@@ -297,7 +298,7 @@ class Good extends ActiveRecord
 
     public function extraFields()
     {
-        return ['images', 'retailPrice', 'wholesalePrice'];
+        return ['images', 'retailPrice', 'wholesalePrice', 'remaining'];
     }
 
     public function getBrand(): ActiveQuery
@@ -385,6 +386,12 @@ class Good extends ActiveRecord
     public function getWholesalePrice()
     {
         return $this->getPrices()->lastWholesale()->one();
+    }
+
+    public function getRemaining()
+    {
+        $remainingReadRepository = new RemainingReadRepository();
+        return $remainingReadRepository->getLastRemaining(0, $this->id);
     }
 
     public static function find()

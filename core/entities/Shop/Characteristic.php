@@ -21,6 +21,7 @@ use yii\db\ActiveRecord;
  */
 class Characteristic extends ActiveRecord
 {
+    const CHARACTERISTIC_COLOR_ID = 1;
 
     public static function create($name, $unitId, $sort): Characteristic
     {
