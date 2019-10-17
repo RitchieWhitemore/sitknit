@@ -10,7 +10,7 @@ use yii\data\ActiveDataProvider;
 
 class GoodFilterSearch extends Good
 {
-    public $pageSize = 9;
+    public $pageSize = 15;
 
     public $brandIds;
     public $compositionIds;
@@ -58,13 +58,9 @@ class GoodFilterSearch extends Good
         }
 
         $query
-            ->andWhere(['OR', ['good.category_id' => $this->category_id], ['c.category_id' => $this->category_id]])
+            ->andWhere(['c.category_id' => $this->category_id])
             ->andFilterWhere(['IN', 'brand_id', $this->brandIds])
-            ->andFilterWhere([
-                'OR',
-                ['good.category_id' => $this->compositionIds],
-                ['c.category_id' => $this->compositionIds]
-            ]);
+            ->andFilterWhere(['c.category_id' => $this->compositionIds]);
 
         $query->andWhere('main_good_id = good.id OR main_good_id = null');
 

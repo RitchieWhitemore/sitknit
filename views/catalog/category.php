@@ -54,7 +54,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <div class="catalog__list dynamic-pager-items">
         <?php foreach ($list as $item): ?>
-            <?= $this->render('_item', ['model' => $item]) ?>
+            <?= $this->render('block/_mainGoodItem', ['model' => $item]) ?>
         <?php endforeach; ?>
     </div>
     <div class='pagination dynamic-paginator'>
