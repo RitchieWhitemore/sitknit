@@ -47,6 +47,12 @@ class GoodReadRepository
             ->andWhere(['!=', 'id', $good->id])->all();
     }
 
+    public function getOtherColors(Good $good)
+    {
+        return Good::find()->where(['name' => $good->name])
+            ->andWhere(['!=', 'id', $good->id])->all();
+    }
+
     public function find($id)
     {
         return Good::find()->active()->andWhere(['id' => $id])->one();

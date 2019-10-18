@@ -120,10 +120,13 @@ class CatalogController extends Controller
             $valuesMain = $values;
         }
 
+        $otherColors = $this->goods->getOtherColors($good);
+
         return $this->render('good', [
             'good' => $good,
             'values' => $values,
             'valuesMain' => $valuesMain,
+            'otherColors' => $otherColors,
         ]);
     }
 }

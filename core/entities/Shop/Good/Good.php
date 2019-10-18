@@ -28,6 +28,7 @@ use yii\web\UploadedFile;
  * @property string               $description
  * @property string               $characteristic
  * @property string               $nameAndColor
+ * @property string $color
  * @property int                  $category_id
  * @property int                  $brand_id
  * @property int                  $packaged
@@ -364,16 +365,17 @@ class Good extends ActiveRecord
         return $this->category->name . ' ' . $this->name;
     }
 
-    public function getNameAndColor(): string
+    public function getColor()
     {
         /* @var $color Value */
         $color = $this->getValues()->where(['characteristic_id' => 1])->one();
 
-        if (isset($color)) {
-            return $this->name . ' - ' . $color->value;
-        }
+        return isset($color->value) ? $color->value : '';
+    }
 
-        return $this->name;
+    public function getNameAndColor(): string
+    {
+        return $this->name . ' - ' . $this->color;
     }
 
     public function getPrices()
