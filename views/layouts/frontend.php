@@ -13,7 +13,6 @@ AppAsset::register($this);
     <!DOCTYPE html>
     <html lang="<?= Yii::$app->language ?>">
     <head>
-        <title>Сижу-Вяжу - Главная</title>
         <meta charset="<?= Yii::$app->charset ?>">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <?= Html::csrfMetaTags() ?>

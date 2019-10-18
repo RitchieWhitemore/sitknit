@@ -11,15 +11,16 @@ use yii\widgets\Breadcrumbs;
  * @var $otherColors \app\core\entities\Shop\Good\Good[]
  * @var $values app\core\entities\Shop\Good\Value
  * @var $valuesMain app\core\entities\Shop\Good\Value
+ * @var $category \app\core\entities\Shop\Category
  */
 
 MagnificPopupAsset::register($this);
 
 $balance = (new \app\core\readModels\Shop\RemainingReadRepository())->getLastRemaining(0, $good->id)[0];
 
-$this->title = $good->fullName;
+$this->title = $good->fullName . ' - ' . $good->color;
 $this->params['breadcrumbs'][] = ['label' => 'Каталог', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $good->category->name, 'url' => ['category', 'id' => $good->category_id]];
+$this->params['breadcrumbs'][] = ['label' => $category->name, 'url' => ['category', 'slug' => $category->slug]];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
@@ -86,7 +87,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     <button type="button" class="page-product__button-minus">-</button>
                     <button type="button" class="page-product__button-plus">+</button>
                 </div>
-                <span class="page-product__unit">шт. (1 упак)</span>
+                <span class="page-product__unit">шт.</span>
                 <button type="submit" class="page-product__cart">В корзину</button>
             </form>
         </div>

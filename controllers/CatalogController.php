@@ -127,6 +127,7 @@ class CatalogController extends Controller
             'values' => $values,
             'valuesMain' => $valuesMain,
             'otherColors' => $otherColors,
+            'category' => $good->categoryAssignments[0]->category
         ]);
     }
 }
