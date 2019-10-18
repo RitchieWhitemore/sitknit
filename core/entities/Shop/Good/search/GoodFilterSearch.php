@@ -58,9 +58,9 @@ class GoodFilterSearch extends Good
         }
 
         $query
-            ->andWhere(['c.category_id' => $this->category_id])
+            // ->andWhere(['c.category_id' => $this->category_id])
             ->andFilterWhere(['IN', 'brand_id', $this->brandIds])
-            ->andFilterWhere(['c.category_id' => $this->compositionIds]);
+            ->andFilterWhere(['IN', 'c.category_id', $this->compositionIds]);
 
         $query->andWhere('main_good_id = good.id OR main_good_id = null');
 

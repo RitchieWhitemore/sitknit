@@ -125,12 +125,12 @@ class LinkPager extends BaseWidget
      * @return mixed
      * @throws \Exception
      */
-    public static function getPageItems($dataProvider, $controller, $options = [])
+    public static function getPageItems($dataProvider, $controller, $options = [], $view = '_item')
     {
         $items = [];
         $models = $dataProvider->getModels();
         foreach ($models as $model) {
-            $items[] = $controller->renderPartial('_item', ['model' => $model]);
+            $items[] = $controller->renderPartial($view, ['model' => $model]);
         }
         $total = $dataProvider->totalCount;
         $count = $dataProvider->count;

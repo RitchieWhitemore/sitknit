@@ -73,7 +73,7 @@ class CatalogController extends Controller
         $dataProvider = $searchModel->search(\Yii::$app->request->queryParams);
 
         if (\Yii::$app->request->isAjax) {
-            return $this->asJson(LinkPager::getPageItems($dataProvider, $this));
+            return $this->asJson(LinkPager::getPageItems($dataProvider, $this, [], 'block/_mainGoodItem'));
         }
 
         return $this->render('category', [
