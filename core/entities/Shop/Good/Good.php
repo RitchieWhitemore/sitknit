@@ -375,7 +375,10 @@ class Good extends ActiveRecord
 
     public function getNameAndColor(): string
     {
-        return $this->name . ' - ' . $this->color;
+        if (!empty($this->color)) {
+            return $this->name . ' - ' . $this->color;
+        }
+        return $this->name;
     }
 
     public function getPrices()

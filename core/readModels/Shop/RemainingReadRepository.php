@@ -57,7 +57,7 @@ class RemainingReadRepository
                 ->indexBy('good_id')
                 ->all();
 
-            $reserve = OrderItem::find()
+            $reserves = OrderItem::find()
                 ->select(['SUM(qty) as totalQty', 'good_id'])
                 ->andFilterWhere(['good_id' => $goodId])
                 ->joinWith(['good', 'document d'])
@@ -71,7 +71,8 @@ class RemainingReadRepository
             foreach ($debits as $key => $debit) {
                 /* @var $debit \app\core\entities\Document\ReceiptItem */
 
-                $itemRemaining = new ItemRemaining($debit, isset($reserve[$key]) ? $reserve[$key] : null);
+                $itemRemaining = new ItemRemaining($debit, $this->getReserve($reserves, $key));
+
                 $itemRemaining->setQty($debit->totalQty);
                 if (array_key_exists($key, $credits)) {
 
@@ -91,9 +92,17 @@ class RemainingReadRepository
 
             foreach ($credits as $key => $credit) {
                 /* @var $credit \app\core\entities\Document\OrderItem */
-                $itemRemaining = new ItemRemaining($credit, isset($reserve[$key]) ? $reserve[$key] : null);
-                $itemRemaining->setQty(-$credit->qty);
+                $itemRemaining = new ItemRemaining($credit, $this->getReserve($reserves, $key));
+                $itemRemaining->setQty(-$credit->totalQty);
                 $remaining[] = $itemRemaining;
+            }
+
+            foreach ($reserves as $key => $reserve) {
+                if (!isset($remaining[$key])) {
+                    $itemRemaining = new ItemRemaining($reserve, $reserve);
+                    $itemRemaining->setQty(0);
+                    $remaining[] = $itemRemaining;
+                }
             }
 
             uasort($remaining, function ($a, $b) {
@@ -103,16 +112,26 @@ class RemainingReadRepository
                 return ($a->good < $b->good) ? -1 : 1;
             });
 
-            /*if (is_null($goodId)) {
-                return $remaining;
-            }
-            return isset($remaining[0]) ? $remaining[0]->qty : 0;*/
-            if (count($remaining) == 0) {
+            if (count($remaining) == 0 && count($reserves) == 0) {
                 $remaining[] = new ItemRemainingDummy();
             }
             return $remaining;
         }, 10 * 24 * 60 * 60, $dependency);
 
         return $remaining;
+    }
+
+    private function deleteItemArray(array $array, $key)
+    {
+        if (isset($array[$key])) {
+            unset($array[$key]);
+        }
+    }
+
+    private function getReserve(array $array, $key)
+    {
+        $returnItem = isset($array[$key]) ? $array[$key] : null;
+        $this->deleteItemArray($array, $key);
+        return $returnItem;
     }
 }

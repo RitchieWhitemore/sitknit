@@ -43,7 +43,8 @@ $this->params['breadcrumbs'][] = $this->title;
                     'attribute' => 'good',
                     'label' => 'Товар',
                     'value' => function (ItemRemaining $value) {
-                        return Html::a($value->good, Url::to(['/admin/shop/goods/view', 'id' => $value->id]));
+                        return Html::a($value->good, Url::to(['/admin/shop/goods/view', 'id' => $value->id]),
+                            ['target' => '_blank']);
                     },
                     'format' => 'raw'
                 ],
