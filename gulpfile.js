@@ -9,6 +9,7 @@ var cssmin = require('gulp-cssmin');
 var rename = require("gulp-rename");
 var runCmd = require('gulp-run');
 var del = require('del');
+var rigger = require('gulp-rigger');
 
 var server = require("browser-sync");
 var run = require("run-sequence");
@@ -39,6 +40,12 @@ gulp.task("style", function () {
         .pipe(rename('style.min.css'))
         .pipe(gulp.dest("web/css"))
         .pipe(server.reload({stream: true}));
+});
+
+gulp.task("html-build", function () {
+    gulp.src("src/pages/*.html")
+        .pipe(rigger())
+        .pipe(gulp.dest('src/'));
 });
 
 gulp.task("admin-style", function () {
