@@ -121,7 +121,8 @@ gulp.task("serve", ["style"], function () {
     server.init({
         server: "./src"
     });
-    gulp.watch("src/less/**/*.less", ["style"]);
+    gulp.watch("src/less/**/*.less", ["style"])
+        .on("change", server.reload);
     gulp.watch("src/pages/**/*.html", ["html-build"])
         .on("change", server.reload);
 });

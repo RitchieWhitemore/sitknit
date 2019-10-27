@@ -19,33 +19,61 @@
             <div class="breadcrumb">
                 <ul class="breadcrumb__list">
                     <li class="breadcrumb__item"><a href="" class="link breadcrumb__link">Главная</a></li>
-                    <li class="breadcrumb__item">Вход</li>
+                    <li class="breadcrumb__item">Кабинет</li>
                 </ul>
             </div>
 
             <div class="content">
                 <div class="content__title-wrapper">
-                    <h1 class="content__title">Вход</h1>
+                    <h1 class="content__title">Личный кабинет</h1>
                 </div>
 
-                <p class="content__descr">введите Ваш логин и пароль</p>
+                <div class="cabinet">
 
-                <form method="post" action="" class="content__form">
-                    <div class="content__fields">
-                        <input type="text" name="login" placeholder="Ваш логин">
-                        <input type="password" name="password" placeholder="Ваш пароль">
+                    <img class="cabinet__photo" src="img/no-photo.png" alt="">
+
+                    <div class="cabinet__content">
+                        <h2 class="cabinet__content-title">Иванова Наталья Викторовна</h2>
+                        <table>
+                            <tr>
+                                <td class="field">Всего сделано:</td>
+                                <td class="value">20 заказов</td>
+                            </tr>
+                            <tr>
+                                <td class="field">На сумму:</td>
+                                <td class="value">59 258 руб.</td>
+                            </tr>
+                        </table>
                     </div>
-                    <button type="submit" class="btn btn--auth">Войти</button>
-                </form>
-                <!--<p>или авторизуйтесь через соцсети</p>
-                <ul class="content__auth-social-list">
-                    <li class="content__auth-social-item"><a href="https://ok.ru/"><img src="/img/ok.svg" width="40"
-                                                                                        alt="Авторизоваться через Одноклассники"></a>
-                    </li>
-                    <li class="content__auth-social-item"><a href="https://vk.com"><img src="/img/vk.svg" width="40"
-                                                                                        alt="Авторизоваться через Вконтакте"></a>
-                    </li>
-                </ul>-->
+                    <div class="cabinet__orders">
+                        <div class="cabinet__orders-title-wrapper">
+                            <h2 class="cabinet__orders-title">Заказы</h2>
+                        </div>
+
+                        <table class="table-orders">
+                            <tr class="table-orders__header">
+                                <th>Заказ</th>
+                                <th>Статус</th>
+                                <th>Сумма</th>
+                            </tr>
+                            <tr>
+                                <td class="table-orders__order"><a href="">Заказ № 1265 от 01 февраля 2020 г.</a></td>
+                                <td class="table-orders__status">Отгружен</td>
+                                <td class="table-orders__sum">2000 Р</td>
+                            </tr>
+                            <tr>
+                                <td class="table-orders__order"><a href="">Заказ № 1265 от 01 февраля 2020 г.</a></td>
+                                <td class="table-orders__status">Отгружен</td>
+                                <td class="table-orders__sum">2000 Р</td>
+                            </tr>
+                            <tr>
+                                <td class="table-orders__order"><a href="">Заказ № 1265 от 01 февраля 2020 г.</a></td>
+                                <td class="table-orders__status">Отгружен</td>
+                                <td class="table-orders__sum">2000 Р</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
