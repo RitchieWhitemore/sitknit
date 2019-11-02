@@ -12,6 +12,8 @@ class Module extends \yii\base\Module
      */
     public $controllerNamespace = 'app\modules\user\controllers';
 
+    public $layout = '@app/views/layouts/common';
+
     /**
      * {@inheritdoc}
      */

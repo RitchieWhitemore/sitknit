@@ -4,15 +4,15 @@ namespace app\modules\user\controllers;
 
 use app\modules\user\models\EmailConfirmForm;
 use app\modules\user\models\LoginForm;
-use app\modules\user\models\PasswordResetRequestForm;
 use app\modules\user\models\PasswordResetForm;
+use app\modules\user\models\PasswordResetRequestForm;
 use app\modules\user\models\SignupForm;
+use Yii;
 use yii\base\InvalidParamException;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\web\BadRequestHttpException;
 use yii\web\Controller;
-use Yii;
 
 class DefaultController extends Controller
 {
@@ -21,24 +21,24 @@ class DefaultController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only'  => ['logout', 'signup'],
+                'only' => ['logout', 'signup'],
                 'rules' => [
                     [
                         'actions' => ['signup'],
-                        'allow'   => true,
-                        'roles'   => ['?'],
+                        'allow' => true,
+                        'roles' => ['?'],
                     ],
                     [
                         'actions' => ['logout'],
-                        'allow'   => true,
-                        'roles'   => ['@'],
+                        'allow' => true,
+                        'roles' => ['@'],
                     ],
                 ],
             ],
-            'verbs'  => [
-                'class'   => VerbFilter::className(),
+            'verbs' => [
+                'class' => VerbFilter::className(),
                 'actions' => [
-                    'logout' => ['post'],
+                    //'logout' => ['post'],
                 ],
             ],
         ];
@@ -48,7 +48,7 @@ class DefaultController extends Controller
     {
         return [
             'captcha' => [
-                'class'           => 'yii\captcha\CaptchaAction',
+                'class' => 'yii\captcha\CaptchaAction',
                 'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
             ],
         ];
@@ -69,11 +69,12 @@ class DefaultController extends Controller
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
             return $this->goBack();
         }
-        else {
-            return $this->render('login', [
-                'model' => $model,
-            ]);
+        if (isset($model->errors['password'])) {
+            Yii::$app->getSession()->setFlash('error', $model->errors['password']);
         }
+        return $this->render('login', [
+            'model' => $model,
+        ]);
     }
 
     public function actionLogout()
@@ -108,8 +109,7 @@ class DefaultController extends Controller
 
         if ($model->confirmEmail()) {
             Yii::$app->getSession()->setFlash('success', 'Спасибо! Ваш Email успешно подтверждён.');
-        }
-        else {
+        } else {
             Yii::$app->getSession()->setFlash('error', 'Ошибка подтверждения Email.');
         }
 
@@ -121,11 +121,11 @@ class DefaultController extends Controller
         $model = new PasswordResetRequestForm();
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             if ($model->sendEmail()) {
-                Yii::$app->getSession()->setFlash('success', 'Спасибо! На ваш Email было отправлено письмо со ссылкой на восстановление пароля.');
+                Yii::$app->getSession()->setFlash('success',
+                    'Спасибо! На ваш Email было отправлено письмо со ссылкой на восстановление пароля.');
 
                 return $this->goHome();
-            }
-            else {
+            } else {
                 Yii::$app->getSession()->setFlash('error', 'Извините. У нас возникли проблемы с отправкой.');
             }
         }

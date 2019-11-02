@@ -106,7 +106,7 @@ return [
                 ''                                                                               => 'catalog',
                 'contact'                                                                        => 'main/contact/index',
                 '<_a:error>'                                                                     => 'main/default/<_a>',
-                '<_a:(login|logout|signup|confirm-email|request-password-reset|reset-password)>' => 'user/default/<_a>',
+                '<_a:(login|logout|signup|confirm-email|password-reset-request|reset-password)>' => 'user/default/<_a>',
 
 
 

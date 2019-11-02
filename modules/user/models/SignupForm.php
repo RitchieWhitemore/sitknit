@@ -2,8 +2,8 @@
 
 namespace app\modules\user\models;
 
-use yii\base\Model;
 use Yii;
+use yii\base\Model;
 
 /**
  * Signup form
@@ -33,6 +33,16 @@ class SignupForm extends Model
             ['password', 'string', 'min' => 6],
 
             ['verifyCode', 'captcha', 'captchaAction' => '/user/default/captcha'],
+        ];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function attributeLabels()
+    {
+        return [
+            'verifyCode' => 'Код верификации',
         ];
     }
 

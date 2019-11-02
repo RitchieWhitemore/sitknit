@@ -4,6 +4,10 @@ use app\assets\AppAsset;
 use app\widgets\Alert;
 use yii\helpers\Html;
 
+/**
+ * @var $this \yii\web\View
+ */
+
 AppAsset::register($this);
 ?>
 
@@ -24,17 +28,11 @@ AppAsset::register($this);
     <?= $this->render('parts/header') ?>
     <main class="main__body">
         <div class="container">
-            <?= Alert::widget() ?>
-            <div class="filter__button-wrapper">
-                <button class="filter__button filter__button--closed">Фильтр <span class="filter__arrow"></span>
-                </button>
-            </div>
             <section class="main__content">
-                <aside class="main__left-column">
-                    <?= \app\widgets\CategoriesWidget::widget(['context' => $this->context]) ?>
-                    <?= \app\widgets\GoodFilterWidget::widget() ?>
-                </aside>
                 <div class="main__page-content">
+                    <div class="alert__wrapper">
+                        <?= Alert::widget() ?>
+                    </div>
                     <?= $content ?>
                 </div>
             </section>

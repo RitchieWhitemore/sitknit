@@ -1,7 +1,8 @@
 <?php
 
-use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
+use yii\helpers\Html;
+use yii\helpers\Url;
 
 /* @var $this yii\web\View */
 /* @var $form yii\bootstrap\ActiveForm */
@@ -10,24 +11,34 @@ use yii\bootstrap\ActiveForm;
 $this->title = 'Вход на сайт';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="user-default-login">
-    <h1><?= Html::encode($this->title) ?></h1>
 
-    <p>Пожалуйста, заполните поля что бы войти на сайт:</p>
+<div class="breadcrumb">
+    <ul class="breadcrumb__list">
+        <li class="breadcrumb__item"><a href="/" class="link breadcrumb__link">Главная</a></li>
+        <li class="breadcrumb__item">Вход</li>
+    </ul>
+</div>
 
-    <div class="row">
-        <div class="col-lg-5">
-            <?php $form = ActiveForm::begin(['id' => 'login-form']); ?>
-            <?= $form->field($model, 'username') ?>
-            <?= $form->field($model, 'password')->passwordInput() ?>
-            <?= $form->field($model, 'rememberMe')->checkbox() ?>
-            <div style="color:#999;margin:1em 0">
-                If you forgot your password you can <?= Html::a('reset it', ['password-reset-request']) ?>.
+<div class="content">
+    <div class="content__title-wrapper">
+        <h1 class="content__title">Вход</h1>
+    </div>
+
+    <p class="content__descr">введите Ваш логин и пароль</p>
+
+    <?php $form = ActiveForm::begin(['id' => 'login-form', 'options' => ['class' => 'content__form']]); ?>
+    <div class="content__fields">
+        <?= $form->field($model, 'email')->textInput(['placeholder' => 'Ваш email'])->label('') ?>
+        <?= $form->field($model, 'password')->passwordInput(['placeholder' => 'Ваш пароль'])->label('') ?>
+        <div class="content__form-footer">
+            <div class="checkbox">
+                <label class="checkbox__label"><?= Html::checkbox('LoginForm[rememberMe]') ?><span
+                            class="checkbox__box"></span>Запомнить меня</label>
             </div>
-            <div class="form-group">
-                <?= Html::submitButton('Login', ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
-            </div>
-            <?php ActiveForm::end(); ?>
+            <p>Если вы забыли пароль, вы можете <a href="<?= Url::to(['/password-reset-request']) ?>">восстановить</a>
+                его</p>
         </div>
     </div>
+    <?= Html::submitButton('Войти', ['class' => 'btn btn--auth', 'name' => 'login-button']) ?>
+    <?php ActiveForm::end(); ?>
 </div>
