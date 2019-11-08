@@ -9,7 +9,6 @@ use app\core\entities\Document\OrderItem;
 use app\core\entities\Document\Receipt;
 use app\core\entities\Document\ReceiptItem;
 use app\core\entities\ItemRemaining;
-use app\core\entities\ItemRemainingDummy;
 use app\core\entities\Shop\Good\Good;
 use app\core\entities\Shop\Price;
 use Yii;
@@ -19,6 +18,8 @@ class RemainingReadRepository
 {
     public function getLastRemaining($notNull = 0, $goodId = null)
     {
+        //$goodId=17699;
+
         $key = [
             __CLASS__,
             __FILE__,
@@ -43,10 +44,10 @@ class RemainingReadRepository
 
             $debits = ReceiptItem::find()
                 ->select(['SUM(qty) as totalQty', 'good_id'])
+                ->joinWith(['good'])
                 ->andFilterWhere(['good_id' => $goodId])
                 ->groupBy(['good_id'])
-                ->indexBy('good_id')
-                ->all();
+                ->indexBy('good_id');
 
             $credits = OrderItem::find()
                 ->select(['SUM(qty) as totalQty', 'good_id'])
@@ -54,8 +55,7 @@ class RemainingReadRepository
                 ->joinWith(['good', 'document d'])
                 ->andWhere(['OR', ['d.status' => Order::STATUS_SHIPPED], ['d.status' => Order::STATUS_RESERVE]])
                 ->groupBy(['good_id'])
-                ->indexBy('good_id')
-                ->all();
+                ->indexBy('good_id');
 
             $reserves = OrderItem::find()
                 ->select(['SUM(qty) as totalQty', 'good_id'])
@@ -63,45 +63,45 @@ class RemainingReadRepository
                 ->joinWith(['good', 'document d'])
                 ->andWhere(['d.status' => Order::STATUS_RESERVE])
                 ->groupBy(['good_id'])
-                ->indexBy('good_id')
-                ->all();
+                ->indexBy('good_id');
 
             $remaining = [];
 
-            foreach ($debits as $key => $debit) {
+            foreach ($debits->each() as $key => $debit) {
                 /* @var $debit \app\core\entities\Document\ReceiptItem */
 
-                $itemRemaining = new ItemRemaining($debit, $this->getReserve($reserves, $key));
+                $itemRemaining = new ItemRemaining($debit->good_id,
+                    $debit->good->nameAndColor/*, $this->getReserve($reserves, $key)*/);
 
                 $itemRemaining->setQty($debit->totalQty);
-                if (array_key_exists($key, $credits)) {
+                $remaining[$itemRemaining->id] = $itemRemaining;
+            }
 
-                    $itemRemaining->qty = $debit->totalQty - $credits[$key]->totalQty;
-
-                    if ($notNull == 0) {
-                        $remaining[] = $itemRemaining;
-                    } elseif ($notNull == 1 && $itemRemaining->isNotNull()) {
-                        $remaining[] = $itemRemaining;
-                    }
-
-                    unset($credits[$key]);
+            foreach ($credits->each() as $key => $credit) {
+                /* @var $credit \app\core\entities\Document\OrderItem */
+                if (isset($remaining[$key])) {
+                    $itemRemaining = $remaining[$key];
+                    $itemRemaining->countDifference($credit->totalQty);
                 } else {
-                    $remaining[] = $itemRemaining;
+                    $itemRemaining = new ItemRemaining($credit->good_id, $credit->good->nameAndColor);
+                    $itemRemaining->setQty(-$credit->totalQty);
+                    $remaining[$key] = $itemRemaining;
+                }
+                if ($notNull == 1 && $itemRemaining->isNull()) {
+                    unset($remaining[$key]);
                 }
             }
 
-            foreach ($credits as $key => $credit) {
-                /* @var $credit \app\core\entities\Document\OrderItem */
-                $itemRemaining = new ItemRemaining($credit, $this->getReserve($reserves, $key));
-                $itemRemaining->setQty(-$credit->totalQty);
-                $remaining[] = $itemRemaining;
-            }
-
-            foreach ($reserves as $key => $reserve) {
+            foreach ($reserves->each() as $key => $reserve) {
+                /* @var $reserve \app\core\entities\Document\OrderItem */
                 if (!isset($remaining[$key])) {
-                    $itemRemaining = new ItemRemaining($reserve, $reserve);
+                    $itemRemaining = new ItemRemaining($reserve->good_id, $reserve->good->nameAndColor);
                     $itemRemaining->setQty(0);
+                    $itemRemaining->setReserve($reserve->totalQty);
                     $remaining[] = $itemRemaining;
+                } else {
+                    $itemRemaining = $remaining[$key];
+                    $itemRemaining->setReserve($reserve->totalQty);
                 }
             }
 
@@ -112,9 +112,6 @@ class RemainingReadRepository
                 return ($a->good < $b->good) ? -1 : 1;
             });
 
-            if (count($remaining) == 0 && count($reserves) == 0) {
-                $remaining[] = new ItemRemainingDummy();
-            }
             return $remaining;
         }, 10 * 24 * 60 * 60, $dependency);
 
