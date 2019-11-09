@@ -2,5 +2,5 @@
 
 return [
     'adminEmail' => 'admin@example.com',
-    'supportEmail' => 'info@example.com',
+    'supportEmail' => 'info@sitknit.ru',
 ];

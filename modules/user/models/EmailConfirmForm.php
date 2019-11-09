@@ -4,7 +4,6 @@ namespace app\modules\user\models;
 
 use yii\base\InvalidParamException;
 use yii\base\Model;
-use Yii;
 
 class EmailConfirmForm extends Model
 {
@@ -44,5 +43,13 @@ class EmailConfirmForm extends Model
         $user->removeEmailConfirmToken();
 
         return $user->save();
+    }
+
+    /**
+     * @return User|null
+     */
+    public function getUser()
+    {
+        return $this->_user;
     }
 }

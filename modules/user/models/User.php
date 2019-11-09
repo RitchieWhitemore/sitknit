@@ -2,8 +2,10 @@
 
 namespace app\modules\user\models;
 
+use app\modules\trade\models\Partner;
 use Yii;
 use yii\behaviors\TimestampBehavior;
+use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 use yii\helpers\ArrayHelper;
 use yii\web\IdentityInterface;
@@ -15,6 +17,7 @@ use yii\web\IdentityInterface;
  * @property int $created_at
  * @property int $updated_at
  * @property string $username
+ * @property integer $partner_id
  * @property string $auth_key
  * @property string $email_confirm_token
  * @property string $password_hash
@@ -22,6 +25,8 @@ use yii\web\IdentityInterface;
  * @property string $email
  * @property int $status
  * @property int $role
+ *
+ * @property Partner $partner
  */
 class User extends ActiveRecord implements IdentityInterface
 {
@@ -53,19 +58,26 @@ class User extends ActiveRecord implements IdentityInterface
     public function rules()
     {
         return [
-            ['username', 'required'],
+            [['username', 'email'], 'required'],
+            [['status', 'partner_id'], 'integer'],
             //['username', 'match', 'pattern' => '#^[\w_-]+$#is'],
             // ['username', 'unique', 'targetClass' => self::className(), 'message' => 'Это имя уже занято.'],
             ['username', 'string', 'min' => 2, 'max' => 255],
 
-            ['email', 'required'],
             ['email', 'email'],
             ['email', 'unique', 'targetClass' => self::className(), 'message' => 'Этот email уже занят.'],
             ['email', 'string', 'max' => 255],
 
-            ['status', 'integer'],
             ['status', 'default', 'value' => self::STATUS_ACTIVE],
             ['status', 'in', 'range' => array_keys(self::getStatusesArray())],
+
+            [
+                ['partner_id'],
+                'exist',
+                'skipOnError' => true,
+                'targetClass' => Partner::className(),
+                'targetAttribute' => ['partner_id' => 'id']
+            ],
         ];
     }
 
@@ -79,10 +91,18 @@ class User extends ActiveRecord implements IdentityInterface
             'created_at' => 'Создан',
             'updated_at' => 'Обновлён',
             'username' => 'Имя пользователя',
+            'partner_id' => 'Контрагент',
             'email' => 'Email',
             'status' => 'Статус',
             'role' => 'Роль',
         ];
+    }
+
+    /** Relation */
+
+    public function getPartner(): ActiveQuery
+    {
+        return $this->hasOne(Partner::className(), ['id' => 'partner_id']);
     }
 
     public function getStatusName()

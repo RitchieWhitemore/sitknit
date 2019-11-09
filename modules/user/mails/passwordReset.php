@@ -13,3 +13,5 @@ $resetLink = Yii::$app->urlManager->createAbsoluteUrl(['user/default/password-re
     Пройдите по ссылке, чтобы сменить пароль:
 
 <?= Html::a(Html::encode($resetLink), $resetLink) ?>
+
+Это письмо сгенерировано автоматически и отвечать на него не нужно.

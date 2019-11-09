@@ -15,3 +15,5 @@ $confirmLink = Yii::$app->urlManager->createAbsoluteUrl(['user/default/email-con
 <?= Html::a(Html::encode($confirmLink), $confirmLink) ?>
 
 Если Вы не регистрировались у на нашем сайте, то просто удалите это письмо.
+
+Это письмо сгенерировано автоматически и отвечать на него не нужно.

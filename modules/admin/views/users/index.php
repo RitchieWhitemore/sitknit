@@ -1,12 +1,12 @@
 <?php
 
-use yii\helpers\Html;
-use yii\grid\GridView;
-use app\modules\admin\models\User;
 use app\components\grid\ActionColumn;
-use app\components\grid\SetColumn;
 use app\components\grid\LinkColumn;
+use app\components\grid\SetColumn;
+use app\modules\admin\models\User;
 use kartik\date\DatePicker;
+use yii\grid\GridView;
+use yii\helpers\Html;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\modules\admin\models\UserSearch */
@@ -16,9 +16,6 @@ $this->title = 'Администрирование пользователей';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="user-index">
-
-    <h1><?= Html::encode($this->title) ?></h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
         <?= Html::a('Создать пользователя', ['create'], ['class' => 'btn btn-success']) ?>
