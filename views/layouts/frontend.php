@@ -24,7 +24,9 @@ AppAsset::register($this);
     <?= $this->render('parts/header') ?>
     <main class="main__body">
         <div class="container">
-            <?= Alert::widget() ?>
+            <div class="alert__wrapper">
+                <?= Alert::widget() ?>
+            </div>
             <div class="filter__button-wrapper">
                 <button class="filter__button filter__button--closed">Фильтр <span class="filter__arrow"></span>
                 </button>

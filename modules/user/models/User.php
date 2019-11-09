@@ -21,12 +21,16 @@ use yii\web\IdentityInterface;
  * @property string $password_reset_token
  * @property string $email
  * @property int $status
+ * @property int $role
  */
 class User extends ActiveRecord implements IdentityInterface
 {
     const STATUS_BLOCKED = 0;
     const STATUS_ACTIVE = 1;
     const STATUS_WAIT = 2;
+
+    const ROLE_USER = 0;
+    const ROLE_ADMIN = 1;
 
     /**
      * {@inheritdoc}
@@ -50,8 +54,8 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return [
             ['username', 'required'],
-            ['username', 'match', 'pattern' => '#^[\w_-]+$#is'],
-            ['username', 'unique', 'targetClass' => self::className(), 'message' => 'Это имя уже занято.'],
+            //['username', 'match', 'pattern' => '#^[\w_-]+$#is'],
+            // ['username', 'unique', 'targetClass' => self::className(), 'message' => 'Это имя уже занято.'],
             ['username', 'string', 'min' => 2, 'max' => 255],
 
             ['email', 'required'],
@@ -77,6 +81,7 @@ class User extends ActiveRecord implements IdentityInterface
             'username' => 'Имя пользователя',
             'email' => 'Email',
             'status' => 'Статус',
+            'role' => 'Роль',
         ];
     }
 

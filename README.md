@@ -26,3 +26,7 @@ npm install --save @polymer/paper-spinner
 запускаем polymer build
 
 копируем npm_modules из /build/prod/ в /web
+
+-----------------------------------------
+
+docker-compose exec php bash
