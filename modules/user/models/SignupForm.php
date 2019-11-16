@@ -10,7 +10,9 @@ use yii\base\Model;
  */
 class SignupForm extends Model
 {
-    public $username;
+    public $firstName;
+    public $lastName;
+    public $middleName;
     public $email;
     public $password;
     public $verifyCode;
@@ -18,11 +20,11 @@ class SignupForm extends Model
     public function rules()
     {
         return [
-            ['username', 'filter', 'filter' => 'trim'],
-            ['username', 'required'],
+            [['firstName', 'lastName', 'middleName'], 'filter', 'filter' => 'trim'],
+            [['firstName', 'lastName'], 'required', 'message' => 'Пожалуйста, заполните поле'],
             //['username', 'match', 'pattern' => '#^[\w_- ]+$#i'],
             // ['username', 'unique', 'targetClass' => User::className(), 'message' => 'This username has already been taken.'],
-            ['username', 'string', 'min' => 2, 'max' => 255],
+            [['firstName', 'lastName', 'middleName'], 'string', 'min' => 2, 'max' => 255],
 
             ['email', 'filter', 'filter' => 'trim'],
             ['email', 'required'],
@@ -55,7 +57,9 @@ class SignupForm extends Model
     {
         if ($this->validate()) {
             $user = new User();
-            $user->username = $this->username;
+            $user->first_name = $this->firstName;
+            $user->last_name = $this->lastName;
+            $user->middle_name = $this->middleName;
             $user->email = $this->email;
             $user->setPassword($this->password);
             $user->status = User::STATUS_WAIT;
@@ -73,6 +77,11 @@ class SignupForm extends Model
             }
         }
 
+        if ($this->hasErrors()) {
+            foreach ($this->errors as $key => $error) {
+                Yii::$app->getSession()->addFlash('error', $error[0]);
+            }
+        }
         return null;
     }
 }

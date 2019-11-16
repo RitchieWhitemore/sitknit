@@ -16,7 +16,9 @@ use yii\web\IdentityInterface;
  * @property int $id
  * @property int $created_at
  * @property int $updated_at
- * @property string $username
+ * @property string $first_name
+ * @property string $last_name
+ * @property string $middle_name
  * @property integer $partner_id
  * @property string $auth_key
  * @property string $email_confirm_token
@@ -58,11 +60,11 @@ class User extends ActiveRecord implements IdentityInterface
     public function rules()
     {
         return [
-            [['username', 'email'], 'required'],
+            [['first_name', 'email'], 'required'],
             [['status', 'partner_id'], 'integer'],
             //['username', 'match', 'pattern' => '#^[\w_-]+$#is'],
             // ['username', 'unique', 'targetClass' => self::className(), 'message' => 'Это имя уже занято.'],
-            ['username', 'string', 'min' => 2, 'max' => 255],
+            ['first_name', 'string', 'min' => 2, 'max' => 255],
 
             ['email', 'email'],
             ['email', 'unique', 'targetClass' => self::className(), 'message' => 'Этот email уже занят.'],
@@ -90,7 +92,9 @@ class User extends ActiveRecord implements IdentityInterface
             'id' => 'ID',
             'created_at' => 'Создан',
             'updated_at' => 'Обновлён',
-            'username' => 'Имя пользователя',
+            'first_name' => 'Имя',
+            'last_name' => 'Фамилия',
+            'middle_name' => 'Отчество',
             'partner_id' => 'Контрагент',
             'email' => 'Email',
             'status' => 'Статус',
@@ -277,5 +281,30 @@ class User extends ActiveRecord implements IdentityInterface
     public function removeEmailConfirmToken()
     {
         $this->email_confirm_token = null;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFullName()
+    {
+        return $this->last_name . ' ' . $this->first_name . ' ' . $this->middle_name;
+    }
+
+    public function createPartnerByUser()
+    {
+        if (!$partner = Partner::findOne(['email' => $this->email])) {
+            $partner = new Partner([
+                'name' => $this->getFullName(),
+                'email' => $this->email,
+                'full_name' => $this->getFullName(),
+            ]);
+
+            $partner->save();
+        }
+
+        $this->partner_id = $partner->id;
+
+        $this->save();
     }
 }

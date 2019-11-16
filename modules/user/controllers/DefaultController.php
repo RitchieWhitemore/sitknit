@@ -111,10 +111,15 @@ class DefaultController extends Controller
             Yii::$app->getSession()->setFlash('success', 'Спасибо! Ваш Email успешно подтверждён.');
 
             $user = $model->getUser();
+
+            $user::getDb()->transaction(function ($db) use ($user) {
+                $user->createPartnerByUser();
+            });
+
             Yii::$app->mailer->compose('@app/modules/user/mails/newUser', ['user' => $user])
                 ->setFrom([Yii::$app->params['supportEmail'] => Yii::$app->name])
                 ->setTo(Yii::$app->params['adminEmail'])
-                ->setSubject('Зарегистрирован новый пользователь ' . $user->username)
+                ->setSubject('Зарегистрирован новый пользователь ' . $user->getFullName())
                 ->send();
         } else {
             Yii::$app->getSession()->setFlash('error', 'Ошибка подтверждения Email.');

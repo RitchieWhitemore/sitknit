@@ -27,7 +27,9 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?php $form = ActiveForm::begin(['id' => 'form-signup', 'options' => ['class' => 'content__form']]); ?>
     <div class="content__fields">
-        <?= $form->field($model, 'username')->textInput(['placeholder' => 'Ваше имя'])->label('') ?>
+        <?= $form->field($model, 'lastName')->textInput(['placeholder' => 'Ваша фамилия'])->label('') ?>
+        <?= $form->field($model, 'firstName')->textInput(['placeholder' => 'Ваше имя'])->label('') ?>
+        <?= $form->field($model, 'middleName')->textInput(['placeholder' => 'Ваше отчество'])->label('') ?>
         <?= $form->field($model, 'email')->textInput(['placeholder' => 'Ваш email'])->label('') ?>
         <?= $form->field($model, 'password')->passwordInput(['placeholder' => 'Ваш пароль'])->label('') ?>
         <?= $form->field($model, 'verifyCode')->widget(Captcha::className(), [
@@ -38,26 +40,3 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= Html::submitButton('Зарегистрироваться', ['class' => 'btn btn--auth', 'name' => 'signup-button']) ?>
     <?php ActiveForm::end(); ?>
 </div>
-
-<!--<div class="user-default-signup">
-    <h1><? /*= Html::encode($this->title) */ ?></h1>
-
-    <p>Пожалуйста, заполните все поля что бы зарегистрироваться:</p>
-
-    <div class="row">
-        <div class="col-lg-5">
-            <?php /*$form = ActiveForm::begin(['id' => 'form-signup']); */ ?>
-            <? /*= $form->field($model, 'username') */ ?>
-            <? /*= $form->field($model, 'email') */ ?>
-            <? /*= $form->field($model, 'password')->passwordInput() */ ?>
-            <? /*= $form->field($model, 'verifyCode')->widget(Captcha::className(), [
-                'captchaAction' => '/user/default/captcha',
-                'template' => '<div class="row"><div class="col-lg-5">{image}</div><div class="col-lg-6">{input}</div></div>',
-            ]) */ ?>
-            <div class="form-group">
-                <? /*= Html::submitButton('Signup', ['class' => 'btn btn-primary', 'name' => 'signup-button']) */ ?>
-            </div>
-            <?php /*ActiveForm::end(); */ ?>
-        </div>
-    </div>
-</div>-->

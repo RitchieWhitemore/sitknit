@@ -42,7 +42,9 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             [
                 'class' => LinkColumn::className(),
-                'attribute' => 'username',
+                'value' => function ($model) {
+                    return $model->getFullName();
+                },
             ],
             'email:email',
             [

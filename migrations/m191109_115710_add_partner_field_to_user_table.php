@@ -12,7 +12,13 @@ class m191109_115710_add_partner_field_to_user_table extends Migration
      */
     public function safeUp()
     {
-        $this->addColumn('user', 'partner_id', $this->integer()->defaultValue(null)->after('username'));
+        $this->renameColumn('user', 'username', 'last_name');
+
+        $this->addColumn('user', 'first_name', $this->string()->notNull()->after('last_name'));
+
+        $this->addColumn('user', 'middle_name', $this->string()->notNull()->after('first_name'));
+
+        $this->addColumn('user', 'partner_id', $this->integer()->defaultValue(null)->after('middle_name'));
     }
 
     /**
@@ -20,6 +26,9 @@ class m191109_115710_add_partner_field_to_user_table extends Migration
      */
     public function safeDown()
     {
+        $this->renameColumn('user', 'last_name', 'username');
+        $this->dropColumn('user', 'first_name');
+        $this->dropColumn('user', 'middle_name');
         $this->dropColumn('user', 'partner_id');
     }
 

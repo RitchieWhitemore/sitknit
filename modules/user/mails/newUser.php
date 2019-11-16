@@ -7,7 +7,7 @@ use yii\helpers\Html;
 $userLink = Yii::$app->urlManager->createAbsoluteUrl(['admin/users/view', 'id' => $user->id]);
 ?>
 
-Зарегистрирован новый пользователь, <?= Html::encode($user->username) ?>!
+Зарегистрирован новый пользователь, <?= Html::encode($user->getFullName()) ?>!
 
 Для необходимости, привяжите к нему контрагента:
 

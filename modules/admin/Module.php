@@ -2,6 +2,7 @@
 
 namespace app\modules\admin;
 
+use app\modules\user\models\User;
 use yii\filters\AccessControl;
 
 /**
@@ -25,6 +26,10 @@ class Module extends \yii\base\Module
                     [
                         'allow' => true,
                         'roles' => ['@'],
+                        'matchCallback' => function ($rule, $action) {
+                            $user = \Yii::$app->user->identity;
+                            return $user->role == User::ROLE_ADMIN;
+                        }
                     ],
                 ],
             ],
