@@ -13,6 +13,8 @@ use yii\helpers\Url;
     <div class="page-header__user-menu">
         <ul class="page-header__user-list">
             <?php if (Yii::$app->user->identity) : ?>
+                <li><a class="link page-header__user-item" href="<?= Url::to(['/user/profile']) ?>">Личный кабинет</a> |
+                </li>
                 <li><a class="link page-header__user-item" href="<?= Url::to(['/logout']) ?>">Выйти</a></li>
             <?php else : ?>
                 <li><a class="link page-header__user-item" href="<?= Url::to(['/login']) ?>">Войти</a> |</li>

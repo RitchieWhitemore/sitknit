@@ -19,6 +19,8 @@ class m191109_115710_add_partner_field_to_user_table extends Migration
         $this->addColumn('user', 'middle_name', $this->string()->notNull()->after('first_name'));
 
         $this->addColumn('user', 'partner_id', $this->integer()->defaultValue(null)->after('middle_name'));
+
+        $this->addColumn('user', 'photo', $this->string()->defaultValue(null)->after('partner_id'));
     }
 
     /**
@@ -30,6 +32,7 @@ class m191109_115710_add_partner_field_to_user_table extends Migration
         $this->dropColumn('user', 'first_name');
         $this->dropColumn('user', 'middle_name');
         $this->dropColumn('user', 'partner_id');
+        $this->dropColumn('user', 'photo');
     }
 
     /*

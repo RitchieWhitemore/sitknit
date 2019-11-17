@@ -3,12 +3,14 @@
 namespace app\modules\user\models;
 
 use app\modules\trade\models\Partner;
+use lhs\Yii2SaveRelationsBehavior\SaveRelationsBehavior;
 use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 use yii\helpers\ArrayHelper;
 use yii\web\IdentityInterface;
+use yiidreamteam\upload\ImageUploadBehavior;
 
 /**
  * This is the model class for table "user".
@@ -27,6 +29,7 @@ use yii\web\IdentityInterface;
  * @property string $email
  * @property int $status
  * @property int $role
+ * @property string $photo
  *
  * @property Partner $partner
  */
@@ -47,10 +50,34 @@ class User extends ActiveRecord implements IdentityInterface
         return 'user';
     }
 
+    public function transactions()
+    {
+        return [
+            self::SCENARIO_DEFAULT => self::OP_ALL,
+        ];
+    }
+
     public function behaviors()
     {
         return [
             TimestampBehavior::className(),
+            [
+                'class' => ImageUploadBehavior::className(),
+                'attribute' => 'photo',
+                'createThumbsOnRequest' => true,
+                'filePath' => '@webroot/img/user/[[id]].[[extension]]',
+                'fileUrl' => '@web/img/user/[[id]].[[extension]]',
+                'thumbPath' => '@webroot/img/cache/user/[[profile]]_[[id]].[[extension]]',
+                'thumbUrl' => '@web/img/cache/user/[[profile]]_[[id]].[[extension]]',
+                'thumbs' => [
+                    'admin' => ['width' => 100, 'height' => 70],
+                    'thumb' => ['width' => 640, 'height' => 480],
+                ],
+            ],
+            [
+                'class' => SaveRelationsBehavior::className(),
+                'relations' => ['partner'],
+            ],
         ];
     }
 
@@ -80,6 +107,7 @@ class User extends ActiveRecord implements IdentityInterface
                 'targetClass' => Partner::className(),
                 'targetAttribute' => ['partner_id' => 'id']
             ],
+            [['photo'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg'],
         ];
     }
 

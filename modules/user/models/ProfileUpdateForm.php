@@ -3,12 +3,15 @@
 namespace app\modules\user\models;
 
 use yii\base\Model;
-use yii\db\ActiveQuery;
-use Yii;
 
 class ProfileUpdateForm extends Model
 {
     public $email;
+    public $firstName;
+    public $lastName;
+    public $middleName;
+    public $address;
+    public $photo;
 
     /**
      * @var User
@@ -18,14 +21,19 @@ class ProfileUpdateForm extends Model
     public function __construct(User $user, $config = [])
     {
         $this->_user = $user;
-        $this->email = $user->email;
+        //$this->email = $user->email;
+        $this->firstName = $user->first_name;
+        $this->lastName = $user->last_name;
+        $this->middleName = $user->middle_name;
+        $this->address = $user->partner->address;
+        $this->photo = $user->photo;
         parent::__construct($config);
     }
 
     public function rules()
     {
         return [
-            ['email', 'required'],
+            /*['email', 'required'],
             ['email', 'email'],
             [
                 'email',
@@ -34,7 +42,22 @@ class ProfileUpdateForm extends Model
                 'message'     => 'Такой e-mail существует',
                 'filter'      => ['<>', 'id', $this->_user->id],
             ],
-            ['email', 'string', 'max' => 255],
+            ['email', 'string', 'max' => 255],*/
+            [['firstName', 'lastName', 'middleName', 'address'], 'filter', 'filter' => 'trim'],
+            [['firstName', 'lastName', 'address'], 'required', 'message' => 'Пожалуйста, заполните поле'],
+            [['firstName', 'lastName', 'middleName', 'address'], 'string', 'min' => 2, 'max' => 255],
+            [['photo'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg'],
+        ];
+    }
+
+    public function attributeLabels()
+    {
+        return [
+            'firstName' => 'Имя',
+            'lastName' => 'Фамилия',
+            'middleName' => 'Отчество',
+            'address' => 'Адрес',
+            'photo' => 'Фото',
         ];
     }
 
@@ -42,7 +65,17 @@ class ProfileUpdateForm extends Model
     {
         if ($this->validate()) {
             $user = $this->_user;
-            $user->email = $this->email;
+
+            $partner = $user->partner;
+            $partner->address = $this->address;
+            $partner->full_name = $this->lastName . ' ' . $this->firstName . ' ' . $this->middleName;
+            $user->partner = $partner;
+
+            //$user->email = $this->email;
+            $user->first_name = $this->firstName;
+            $user->last_name = $this->lastName;
+            $user->middle_name = $this->middleName;
+            $user->photo = $this->photo;
             return $user->save();
         }
         else {
