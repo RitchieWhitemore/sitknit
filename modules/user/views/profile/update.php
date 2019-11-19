@@ -20,36 +20,31 @@ $this->params['breadcrumbs'][] = $this->title;
             'enableClientValidation' => false,
             'options' => [
                 'enctype' => 'multipart/form-data',
+                'class' => 'form'
             ],
         ]); ?>
+        <div class="row">
+            <div class="col-md-4 col-lg-6">
+                <div class="text-center">
+                    <?= Html::img($user->getThumbFileUrl('photo', 'avatar_profile', '/img/no-photo.png'),
+                        ['width' => 200, 'class' => 'img-circle center-block', 'style' => 'margin-bottom: 25px']); ?>
+                </div>
+                <?= $form->field($model, 'photo')->fileInput(['accept' => '.jpg, .jpeg, .png']) ?>
+            </div>
+            <div class="col-md-6 col-lg-6">
+                <?= $form->field($model, 'lastName')->textInput(['maxlength' => true]) ?>
 
-        <?= $form->field($model, 'lastName')->textInput(['maxlength' => true]) ?>
+                <?= $form->field($model, 'firstName')->textInput(['maxlength' => true]) ?>
 
-        <?= $form->field($model, 'firstName')->textInput(['maxlength' => true]) ?>
+                <?= $form->field($model, 'middleName')->textInput(['maxlength' => true]) ?>
 
-        <?= $form->field($model, 'middleName')->textInput(['maxlength' => true]) ?>
-
-        <?= $form->field($model, 'address')->textInput(['maxlength' => true]) ?>
-
-        <? /*= $form->field($model, 'email')->textInput(['maxlength' => true]) */ ?>
-
-        <?php
-        if (isset($user->photo)) {
-            echo Html::a(
-                Html::img($user->getThumbFileUrl('photo', 'admin')),
-                $user->getUploadedFileUrl('photo'),
-                ['class' => 'thumbnail', 'target' => '_blank']
-            );
-        } else {
-            echo Html::img('/img/no-photo.png', ['width' => 200, 'style' => 'margin-bottom: 25px']);
-        }
-        ?>
-
-        <?= $form->field($model, 'photo')->fileInput(['accept' => '.jpg, .jpeg, .png']) ?>
+                <?= $form->field($model, 'address')->textInput(['maxlength' => true]) ?>
+            </div>
 
 
-        <div class="form-group">
-            <?= Html::submitButton('Сохранить', ['class' => 'btn btn-primary']) ?>
+        </div>
+        <div class="row">
+            <?= Html::submitButton('Сохранить', ['class' => 'btn btn-primary center-block']) ?>
         </div>
 
         <?php ActiveForm::end(); ?>

@@ -72,6 +72,7 @@ class User extends ActiveRecord implements IdentityInterface
                 'thumbs' => [
                     'admin' => ['width' => 100, 'height' => 70],
                     'thumb' => ['width' => 640, 'height' => 480],
+                    'avatar_profile' => ['width' => 225, 'height' => 225],
                 ],
             ],
             [

@@ -9,6 +9,7 @@ use app\core\entities\Document\OrderItem;
 use app\core\entities\Document\Receipt;
 use app\core\entities\Document\ReceiptItem;
 use app\core\entities\ItemRemaining;
+use app\core\entities\ItemRemainingDummy;
 use app\core\entities\Shop\Good\Good;
 use app\core\entities\Shop\Price;
 use Yii;
@@ -112,6 +113,9 @@ class RemainingReadRepository
                 return ($a->good < $b->good) ? -1 : 1;
             });
 
+            if (count($remaining) == 0) {
+                $remaining[] = new ItemRemainingDummy();
+            }
             return $remaining;
         }, 10 * 24 * 60 * 60, $dependency);
 

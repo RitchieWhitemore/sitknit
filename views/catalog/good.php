@@ -18,6 +18,8 @@ MagnificPopupAsset::register($this);
 
 $balance = (new \app\core\readModels\Shop\RemainingReadRepository())->getLastRemaining(0, $good->id)[0];
 
+
+
 $this->title = $good->fullName . ' - ' . $good->color;
 $this->params['breadcrumbs'][] = ['label' => 'Каталог', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $category->name, 'url' => ['category', 'slug' => $category->slug]];

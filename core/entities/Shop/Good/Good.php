@@ -55,6 +55,71 @@ class Good extends ActiveRecord
     const STATUS_ACTIVE = 1;
     const STATUS_INACTIVE = 0;
 
+    public static function tableName()
+    {
+        return '{{%good}}';
+    }
+
+    public function behaviors(): array
+    {
+        return [
+            [
+                'class' => SaveRelationsBehavior::className(),
+                'relations' => ['categoryAssignments', 'images', 'values'],
+            ],
+            'TagDependencyBehavior' => [
+                'class' => TagDependencyBehavior::class,
+            ],
+        ];
+    }
+
+    public function transactions()
+    {
+        return [
+            self::SCENARIO_DEFAULT => self::OP_ALL,
+        ];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function attributeLabels()
+    {
+        return [
+            'id' => 'ID',
+            'article' => 'Артикул',
+            'name' => 'Наименование',
+            'description' => 'Описание',
+            'characteristic' => 'Дополнительная характеристика',
+            'category_id' => 'Категория',
+            'composition_id' => 'Состав (категория)',
+            'brand_id' => 'Брэнд',
+            'packaged' => 'В упаковке',
+            'active' => 'Активен',
+            'main_good_id' => 'Основной товар',
+            'nameAndColor' => 'Товар',
+            'mainImage' => 'Фото',
+        ];
+    }
+
+    public function fields()
+    {
+        return [
+            'id',
+            'article',
+            'brand',
+            'name',
+            'category',
+            'nameAndColor',
+        ];
+
+    }
+
+    public function extraFields()
+    {
+        return ['images', 'retailPrice', 'wholesalePrice', 'remaining'];
+    }
+
     public static function create($brandId, $article, $name, $description, $packaged, $mainGoodId = null, $status): self
     {
         $good = new static();
@@ -233,72 +298,6 @@ class Good extends ActiveRecord
             }
         }
         return Value::blank($id);
-    }
-
-
-    public static function tableName()
-    {
-        return '{{%good}}';
-    }
-
-    public function behaviors(): array
-    {
-        return [
-            [
-                'class'     => SaveRelationsBehavior::className(),
-                'relations' => ['categoryAssignments', 'images', 'values'],
-            ],
-            'TagDependencyBehavior' => [
-                'class' => TagDependencyBehavior::class,
-            ],
-        ];
-    }
-
-    public function transactions()
-    {
-        return [
-            self::SCENARIO_DEFAULT => self::OP_ALL,
-        ];
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function attributeLabels()
-    {
-        return [
-            'id'             => 'ID',
-            'article'        => 'Артикул',
-            'name'           => 'Наименование',
-            'description'    => 'Описание',
-            'characteristic' => 'Дополнительная характеристика',
-            'category_id'    => 'Категория',
-            'composition_id' => 'Состав (категория)',
-            'brand_id'       => 'Брэнд',
-            'packaged'       => 'В упаковке',
-            'active'         => 'Активен',
-            'main_good_id'   => 'Основной товар',
-            'nameAndColor' => 'Товар',
-            'mainImage' => 'Фото',
-        ];
-    }
-
-    public function fields()
-    {
-        return [
-            'id',
-            'article',
-            'brand',
-            'name',
-            'category',
-            'nameAndColor',
-        ];
-
-    }
-
-    public function extraFields()
-    {
-        return ['images', 'retailPrice', 'wholesalePrice', 'remaining'];
     }
 
     /** Relation */

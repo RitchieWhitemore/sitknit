@@ -6,6 +6,7 @@ use app\modules\user\models\PasswordChangeForm;
 use app\modules\user\models\ProfileUpdateForm;
 use app\modules\user\models\User;
 use Yii;
+use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\UploadedFile;
@@ -29,8 +30,16 @@ class ProfileController extends Controller
 
     public function actionIndex()
     {
+        $user = User::find()->andWhere(['id' => Yii::$app->user->identity->getId()])->with(['partner.orders'])->one();
+
+        $orderDataProvider = new ActiveDataProvider([
+            'query' => $user->partner->getOrders(),
+        ]);
+        $orders = $orderDataProvider->getModels();
         return $this->render('index', [
-            'model' => $this->findModel(),
+            'model' => $user,
+            'orders' => $orders,
+            'pagination' => $orderDataProvider->pagination,
         ]);
     }
 

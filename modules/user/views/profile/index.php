@@ -28,7 +28,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <div class="cabinet">
 
-        <img class="cabinet__photo" src="<?= $model->getUploadedFileUrl('photo') ?>" alt="">
+        <img class="cabinet__photo" src="<?= $model->getThumbFileUrl('photo', 'avatar_profile', '/img/no-photo.png') ?>"
+             alt="">
 
         <div class="cabinet__content">
             <h2 class="cabinet__content-title"><?= $model->getFullName() ?></h2>
@@ -39,17 +40,17 @@ $this->params['breadcrumbs'][] = $this->title;
                 <table>
                     <tr>
                         <td class="field">Всего сделано:</td>
-                        <td class="value">20 заказов</td>
+                        <td class="value"><?= $model->partner->getCountOrders() ?> заказов</td>
                     </tr>
                     <tr>
                         <td class="field">На сумму:</td>
-                        <td class="value">59 258 руб.</td>
+                        <td class="value"><?= $model->partner->getTotalSumOrders() ?> руб.</td>
                     </tr>
                 </table>
             <?php endif; ?>
         </div>
 
-        <?php if (!empty($model->partner->orders)): ?>
+        <?php if (!empty($orders)): ?>
             <div class="cabinet__orders">
                 <div class="cabinet__orders-title-wrapper">
                     <h2 class="cabinet__orders-title">Заказы</h2>
@@ -61,22 +62,20 @@ $this->params['breadcrumbs'][] = $this->title;
                         <th>Статус</th>
                         <th>Сумма</th>
                     </tr>
-                    <tr>
-                        <td class="table-orders__order"><a href="">Заказ № 1265 от 01 февраля 2020 г.</a></td>
-                        <td class="table-orders__status">Отгружен</td>
-                        <td class="table-orders__sum">2000 Р</td>
-                    </tr>
-                    <tr>
-                        <td class="table-orders__order"><a href="">Заказ № 1265 от 01 февраля 2020 г.</a></td>
-                        <td class="table-orders__status">Отгружен</td>
-                        <td class="table-orders__sum">2000 Р</td>
-                    </tr>
-                    <tr>
-                        <td class="table-orders__order"><a href="">Заказ № 1265 от 01 февраля 2020 г.</a></td>
-                        <td class="table-orders__status">Отгружен</td>
-                        <td class="table-orders__sum">2000 Р</td>
-                    </tr>
+                    <div class="dynamic-pager-items">
+                        <?php foreach ($orders as $order) : ?>
+                            <?= $this->render('_item', ['model' => $order]) ?>
+
+                        <?php endforeach; ?>
+                    </div>
+
                 </table>
+
+                <div class='pagination dynamic-paginator'>
+                    <?= \app\widgets\pagination\LinkPager::widget([
+                        'pagination' => $pagination,
+                    ]) ?>
+                </div>
             </div>
         <?php endif; ?>
     </div>

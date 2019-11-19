@@ -1,5 +1,35 @@
+.form {
+  margin-bottom: 25px;
+}
+
+.form input {
+  padding: 15px 25px;
+  font-size: 14px;
+  border: 1px solid @bg-brown;
+  border-radius: 22px;
+  width: 100%;
+  box-sizing: border-box;
+
+
+  &:hover {
+    border-color: lighten(@bg-blue, 10%);
+  }
+
+  &:focus {
+    outline: none;
+    border-color: @bg-blue;
+  }
+}
+
 .form-group {
   margin-bottom: 25px;
+}
+
+.control-label {
+  position: relative;
+  top: -10px;
+  left: 23px;
+  font-size: 15px;
 }
 
 p.help-block-error {

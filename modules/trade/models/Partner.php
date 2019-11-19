@@ -82,4 +82,14 @@ class Partner extends \yii\db\ActiveRecord
         return Partner::find()->select(['name', 'id'])
             ->indexBy('id')->orderBy('name')->column();
     }
+
+    public function getCountOrders()
+    {
+        return $this->getOrders()->count();
+    }
+
+    public function getTotalSumOrders()
+    {
+        return $this->getOrders()->select(['total'])->sum('total');
+    }
 }
