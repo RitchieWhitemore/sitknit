@@ -10,9 +10,19 @@ $this->title = 'Обновление профиля пользователя';
 $this->params['breadcrumbs'][] = ['label' => 'Профиль', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="user-profile-update">
+<div class="breadcrumb">
+    <ul class="breadcrumb__list">
+        <li class="breadcrumb__item"><a href="/" class="link breadcrumb__link">Главная</a></li>
+        <li class="breadcrumb__item"><a href="<?= \yii\helpers\Url::to(['index']) ?>" class="link breadcrumb__link">Кабинет</a>
+        </li>
+        <li class="breadcrumb__item">Редактирование профиля</li>
+    </ul>
+</div>
+<div class="user-profile-update content">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <div class="content__title-wrapper">
+        <h1 class="content__title"><?= Html::encode($this->title) ?></h1>
+    </div>
 
     <div class="user-form">
 

@@ -56,20 +56,20 @@ $this->params['breadcrumbs'][] = $this->title;
                     <h2 class="cabinet__orders-title">Заказы</h2>
                 </div>
 
-                <table class="table-orders">
-                    <tr class="table-orders__header">
-                        <th>Заказ</th>
-                        <th>Статус</th>
-                        <th>Сумма</th>
-                    </tr>
-                    <div class="dynamic-pager-items">
+                <div class="table-orders">
+                    <div class="table-orders__header">
+                        <div class="table-orders__cell">Заказ</div>
+                        <div class="table-orders__cell">Статус</div>
+                        <div class="table-orders__cell">Сумма</div>
+                    </div>
+                    <div class="table-orders__wrapper dynamic-pager-items">
                         <?php foreach ($orders as $order) : ?>
                             <?= $this->render('_item', ['model' => $order]) ?>
 
                         <?php endforeach; ?>
                     </div>
 
-                </table>
+                </div>
 
                 <div class='pagination dynamic-paginator'>
                     <?= \app\widgets\pagination\LinkPager::widget([

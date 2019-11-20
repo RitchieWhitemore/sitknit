@@ -1,10 +1,15 @@
 .table-orders {
   padding: 20px 15px;
+  padding-top: 0;
   margin-bottom: 25px;
   background-color: @bg-light-brown;
   border: 1px dashed @bg-border-light-brown;
   border-radius: 10px;
   color: @font-brown;;
+}
+
+.table-orders__wrapper {
+  display: contents;
 }
 
 .table-orders__header {
@@ -15,33 +20,39 @@
   width: 44%;
 }
 
-.table-orders td {
+.table-orders {
+  display: table;
+}
+
+.table-orders__row {
+  display: table-row;
+
+  &:hover {
+    font-weight: bold;
+    cursor: pointer;
+  }
+
+  &:nth-child(2) .table-orders__cell {
+    padding-top: 0;
+  }
+
+  &:last-child .table-orders__cell {
+    padding-bottom: 0;
+    border: none;
+  }
+}
+
+.table-orders__cell {
+  display: table-cell;
   padding: 20px 0;
   padding-right: 10px;
+  text-align: left;
   vertical-align: top;
   border-bottom: 1px dashed @bg-border-light-brown;
 
   &:last-child {
     padding-right: 0;
   }
-}
-
-.table-orders tr td {
-  text-align: left;
-}
-
-.table-orders tr:hover {
-  font-weight: bold;
-  cursor: pointer;
-}
-
-.table-orders tr:nth-child(2) td {
-  padding-top: 0;
-}
-
-.table-orders tr:last-child td {
-  padding-bottom: 0;
-  border: none;
 }
 
 .table-orders a {
@@ -63,7 +74,7 @@
     font-size: 24px;
     text-align: left;
 
-    & th {
+    & .table-orders__cell {
       padding-bottom: 25px;
     }
   }
@@ -72,9 +83,9 @@
     width: auto;
   }
 
-  .table-orders tr:nth-child(2) td {
+  .table-orders .table-orders__row:nth-child(2) .table-orders__cell {
     padding-top: 25px;
-    border-top: 1px dashed @bg-border-light-brown;
+    //border-top: 1px dashed @bg-border-light-brown;
   }
 }
 
