@@ -40,7 +40,7 @@
 }
 
 .cabinet__orders-title-wrapper {
-  margin-bottom: 10px;
+  margin-bottom: 30px;
   display: flex;
   align-items: center;
 
@@ -54,17 +54,20 @@
   }
 }
 
-.cabinet__orders-title-wrapper {
-  margin-bottom: 30px;
-}
-
 .cabinet__orders-title {
-  margin: 0px;
+  margin: 0;
   margin-right: 20px;
   font-family: 'Caveat', sans-serif;
   font-size: 30px;
   letter-spacing: 2px;
   text-transform: uppercase;
+  flex-shrink: 0;
+}
+
+.cabinet__orders-title--ptsans {
+  font-family: 'PT Sans', sans-serif;
+  text-transform: none;
+  font-weight: normal;
 }
 
 @media @tablet-widths {

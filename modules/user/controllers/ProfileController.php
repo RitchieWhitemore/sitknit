@@ -2,6 +2,7 @@
 
 namespace app\modules\user\controllers;
 
+use app\core\entities\Document\Order;
 use app\modules\user\models\PasswordChangeForm;
 use app\modules\user\models\ProfileUpdateForm;
 use app\modules\user\models\User;
@@ -9,6 +10,7 @@ use Yii;
 use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
 use yii\web\Controller;
+use yii\web\NotFoundHttpException;
 use yii\web\UploadedFile;
 
 class ProfileController extends Controller
@@ -34,6 +36,11 @@ class ProfileController extends Controller
 
         $orderDataProvider = new ActiveDataProvider([
             'query' => $user->partner->getOrders(),
+            'sort' => [
+                'defaultOrder' => [
+                    'date' => SORT_DESC
+                ]
+            ]
         ]);
         $orders = $orderDataProvider->getModels();
         return $this->render('index', [
@@ -61,10 +68,10 @@ class ProfileController extends Controller
             }
 
         }
-            return $this->render('update', [
-                'model' => $form,
-                'user' => $user,
-            ]);
+        return $this->render('update', [
+            'model' => $form,
+            'user' => $user,
+        ]);
 
     }
 
@@ -80,6 +87,15 @@ class ProfileController extends Controller
                 'model' => $model,
             ]);
         }
+    }
+
+    public function actionOrder($id)
+    {
+        if (!$order = Order::find()->with(['documentItems.good.values'])->byClient()->andWhere(['id' => $id])->one()) {
+            throw new NotFoundHttpException('Заказ не найден!');
+        };
+
+        return $this->render('order', compact('order'));
     }
 
     /**

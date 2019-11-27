@@ -367,7 +367,11 @@ class Good extends ActiveRecord
     public function getColor()
     {
         /* @var $color Value */
-        $color = $this->getValues()->where(['characteristic_id' => 1])->one();
+        $color = $this->getValues()->joinWith([
+            'values' => function (ActiveQuery $query) {
+                return $query->andWhere(['characteristic_id' => Characteristic::CHARACTERISTIC_COLOR_ID]);
+            }
+        ])->one();
 
         return isset($color->value) ? $color->value : '';
     }

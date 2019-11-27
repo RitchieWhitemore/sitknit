@@ -1,6 +1,6 @@
 .table-orders {
-  padding: 20px 15px;
-  padding-top: 0;
+  display: table;
+  padding-bottom: 20px;
   margin-bottom: 25px;
   background-color: @bg-light-brown;
   border: 1px dashed @bg-border-light-brown;
@@ -20,17 +20,8 @@
   width: 44%;
 }
 
-.table-orders {
-  display: table;
-}
-
 .table-orders__row {
   display: table-row;
-
-  &:hover {
-    font-weight: bold;
-    cursor: pointer;
-  }
 
   &:nth-child(2) .table-orders__cell {
     padding-top: 0;
@@ -42,10 +33,15 @@
   }
 }
 
+a.table-orders__row:hover {
+  font-weight: bold;
+  cursor: pointer;
+}
+
 .table-orders__cell {
   display: table-cell;
   padding: 20px 0;
-  padding-right: 10px;
+  padding-left: 25px;
   text-align: left;
   vertical-align: top;
   border-bottom: 1px dashed @bg-border-light-brown;

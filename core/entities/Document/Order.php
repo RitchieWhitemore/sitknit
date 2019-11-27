@@ -3,6 +3,7 @@
 namespace app\core\entities\Document;
 
 use app\core\behaviors\TagDependencyBehavior;
+use app\core\entities\Document\queries\OrderQuery;
 use app\modules\trade\models\DocumentInterface;
 use app\modules\trade\models\Partner;
 use lhs\Yii2SaveRelationsBehavior\SaveRelationsBehavior;
@@ -41,6 +42,26 @@ class Order extends Document implements DocumentInterface
     public static function tableName()
     {
         return 'order';
+    }
+
+    public function behaviors(): array
+    {
+        return [
+            [
+                'class' => SaveRelationsBehavior::className(),
+                'relations' => ['documentItems'],
+            ],
+            'TagDependencyBehavior' => [
+                'class' => TagDependencyBehavior::class,
+            ],
+        ];
+    }
+
+    public function transactions()
+    {
+        return [
+            self::SCENARIO_DEFAULT => self::OP_ALL,
+        ];
     }
 
     /**
@@ -138,23 +159,11 @@ class Order extends Document implements DocumentInterface
         return ArrayHelper::getValue(self::getPaymentsArray(), $this->payment);
     }
 
-    public function behaviors(): array
+    /**
+     * @return OrderQuery|ActiveQuery
+     */
+    public static function find()
     {
-        return [
-            [
-                'class'     => SaveRelationsBehavior::className(),
-                'relations' => ['documentItems'],
-            ],
-            'TagDependencyBehavior' => [
-                'class' => TagDependencyBehavior::class,
-            ],
-        ];
-    }
-
-    public function transactions()
-    {
-        return [
-            self::SCENARIO_DEFAULT => self::OP_ALL,
-        ];
+        return new OrderQuery(get_called_class());
     }
 }

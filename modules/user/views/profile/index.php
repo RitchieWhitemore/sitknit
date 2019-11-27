@@ -2,8 +2,11 @@
 
 use yii\helpers\Html;
 
-/* @var $this yii\web\View */
-/* @var $model app\modules\user\models\User */
+/**
+ * @var $this yii\web\View
+ * @var $model app\modules\user\models\User
+ * @var $pagination \yii\data\Pagination
+ */
 
 $this->title = 'Личный кабинет';
 $this->params['breadcrumbs'][] = $this->title;
@@ -58,7 +61,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
                 <div class="table-orders">
                     <div class="table-orders__header">
-                        <div class="table-orders__cell">Заказ</div>
+                        <div class="table-orders__cell table-orders__order">Заказ</div>
                         <div class="table-orders__cell">Статус</div>
                         <div class="table-orders__cell">Сумма</div>
                     </div>
