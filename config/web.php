@@ -4,7 +4,7 @@ $config = [
     'id' => 'app',
     'layout' => 'frontend',
     'language' => 'ru-RU',
-    'defaultRoute' => 'main/default/index',
+    //'defaultRoute' => 'main/default/index',
     'components' => [
         'assetManager' => [
             'appendTimestamp' => true,
@@ -39,9 +39,9 @@ $config = [
         'api' => [
             'class' => 'app\modules\api\Module',
         ],
-        'main' => [
+        /*'main' => [
             'class' => 'app\modules\main\Module',
-        ],
+        ],*/
         'trade' => [
             'class' => 'app\modules\trade\Module',
             'layout' => '@app/modules/admin/views/layouts/main',

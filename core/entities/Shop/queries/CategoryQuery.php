@@ -24,7 +24,7 @@ class CategoryQuery extends ActiveQuery
 
     public function active()
     {
-        return $this->andWhere(['status' => true]);
+        return $this->andWhere([Category::tableName() . '.[[status]]' => true]);
     }
     /**
      * @inheritdoc

@@ -26,7 +26,7 @@ class CategoriesWidget extends Widget
         /** @var Category|null */
         $activeCategory = null;
 
-        $categories = $this->categories->getCategoriesInRoot()->getModels();
+        $categories = Category::getCategoriesInRoot();
 
         /*if ($this->context->action->id == 'good') {
             $good = $this->goods->find($this->context->actionParams['id']);

@@ -2,10 +2,13 @@
 
 namespace app\core\entities\Shop;
 
+use app\core\behaviors\TagDependencyBehavior;
 use app\core\entities\Shop\Good\Good;
 use app\core\entities\Shop\queries\CategoryQuery;
 use app\core\traits\StatusTrait;
 use paulzi\nestedsets\NestedSetsBehavior;
+use Yii;
+use yii\caching\TagDependency;
 use yii\db\ActiveRecord;
 use yiidreamteam\upload\ImageUploadBehavior;
 
@@ -69,6 +72,13 @@ class Category extends ActiveRecord
         return 'category';
     }
 
+    public function transactions(): array
+    {
+        return [
+            self::SCENARIO_DEFAULT => self::OP_ALL,
+        ];
+    }
+
     public function behaviors(): array
     {
         return [
@@ -98,7 +108,8 @@ class Category extends ActiveRecord
                 'immutable'            => false,
                 // If intl extension is enabled, see http://userguide.icu-project.org/transforms/general.
                 'transliterateOptions' => 'Russian-Latin/BGN; Any-Latin; Latin-ASCII; NFD; [:Nonspacing Mark:] Remove; NFC;'
-            ]
+            ],
+            TagDependencyBehavior::class
         ];
     }
 
@@ -158,10 +169,28 @@ class Category extends ActiveRecord
         return $this->parent->id == self::COMPOSITION_ID;
     }
 
-    public function transactions(): array
+    public static function getCategoriesInRoot()
     {
-        return [
-            self::SCENARIO_DEFAULT => self::OP_ALL,
+        $key = [
+            __CLASS__,
+            __FILE__,
+            __LINE__,
         ];
+
+        $dependency = new TagDependency([
+            'tags' => [
+                self::class,
+            ],
+        ]);
+
+        $categories = Yii::$app->cache->getOrSet($key, function () {
+            return self::find()
+                ->andWhere(['>', 'depth', 0])
+                ->notComposition()
+                ->active()
+                ->orderBy('lft')->all();
+        }, 10 * 24 * 60 * 60, $dependency);
+
+        return $categories;
     }
 }
