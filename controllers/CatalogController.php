@@ -112,20 +112,10 @@ class CatalogController extends Controller
             throw new NotFoundHttpException('The requested page does not exist.');
         }
 
-        if (isset($good->mainGood)) {
-            $valuesMain = $good->mainGood->getValues()->with('characteristic.unit')->indexBy('characteristic.name')->all();
-            $values = $good->getValues()->with('characteristic.unit')->indexBy('characteristic.name')->all();
-        } else {
-            $values = $good->getValues()->with('characteristic.unit')->indexBy('characteristic.name')->all();
-            $valuesMain = $values;
-        }
-
         $otherColors = $this->goods->getOtherColors($good);
 
         return $this->render('good', [
             'good' => $good,
-            'values' => $values,
-            'valuesMain' => $valuesMain,
             'otherColors' => $otherColors,
             'category' => $good->categoryAssignments[0]->category
         ]);

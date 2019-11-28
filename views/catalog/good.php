@@ -19,7 +19,6 @@ MagnificPopupAsset::register($this);
 $balance = (new \app\core\readModels\Shop\RemainingReadRepository())->getLastRemaining(0, $good->id)[0];
 
 
-
 $this->title = $good->fullName . ' - ' . $good->color;
 $this->params['breadcrumbs'][] = ['label' => 'Каталог', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $category->name, 'url' => ['category', 'slug' => $category->slug]];
@@ -66,17 +65,10 @@ $this->params['breadcrumbs'][] = $this->title;
                 <li class="page-product__feature-item"><b>Производитель: </b><?= $good->brand->name ?>
                     (<?= isset($good->brand->country) ? $good->brand->country->name : '' ?>)
                 </li>
-                <?php
-                foreach ($valuesMain as $attr => $value) {
-                    $unit = isset($value->goodAttribute->unit) ? $value->goodAttribute->unit->name : '';
-                    if ($attr == 'Цвет') {
-                        echo '<li class="page-product__feature-item"><b>' . $attr . ':</b> ' . $values[$attr]->value . ' ' . $unit . '</li>';
-                    } else {
-                        echo '<li class="page-product__feature-item"><b>' . $attr . ':</b> ' . $value->value . ' ' . $unit . '</li>';
-                    }
-
-                }
-                ?>
+                <?php foreach ($good->values as $value) : ?>
+                    <li class="page-product__feature-item"><b><?= $value->characteristic->name ?>
+                            :</b> <?= $value->value ?> <?= $value->characteristic->getUnitName() ?> </li>
+                <?php endforeach; ?>
                 <li class="page-product__feature-item"><b>Товара в упаковке:</b> <?= $good->packaged ?> шт.</li>
             </ul>
             <p class="page-product__existence"><span>в наличии</span> <?= $balance->qty ?> шт.</p>
@@ -93,16 +85,18 @@ $this->params['breadcrumbs'][] = $this->title;
                 <button type="submit" class="page-product__cart">В корзину</button>
             </form>
         </div>
-        <div class="page-product__descr">
-            <h2>Описание:</h2>
-            <p><?php
-                if (!empty($good->description) || !isset($good->mainGood)) {
-                    echo $good->description;
-                } else {
-                    echo $good->mainGood->description;
-                }
-                ?></p>
-        </div>
+        <?php if (!empty($good->description) && !empty($good->mainGood->description)) : ?>
+            <div class="page-product__descr">
+                <h2>Описание:</h2>
+                <p><?php
+                    if (!empty($good->description) || !isset($good->mainGood)) {
+                        echo $good->description;
+                    } else {
+                        echo $good->mainGood->description;
+                    }
+                    ?></p>
+            </div>
+        <?php endif; ?>
     </div>
     <section class="more-color">
         <h2>Другие цвета пряжи <?= $good->fullName ?></h2>

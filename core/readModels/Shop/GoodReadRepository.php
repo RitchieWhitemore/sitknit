@@ -51,13 +51,23 @@ class GoodReadRepository
 
     public function getOtherColors(Good $good)
     {
-        return Good::find()->where(['name' => $good->name])
-            ->andWhere(['!=', 'id', $good->id])->all();
+        return Good::find()
+            ->where(['name' => $good->name])
+            ->andWhere(['!=', 'id', $good->id])
+            ->with([
+                'mainImage',
+                'valueColorRelation'
+            ])
+            ->all();
     }
 
     public function find($id)
     {
-        return Good::find()->active()->andWhere(['id' => $id])->one();
+        return Good::find()
+            ->with(['brand.country', 'values.characteristic.unit', 'prices', 'mainGood', 'images'])
+            ->active()
+            ->andWhere(['id' => $id])
+            ->one();
     }
 
     private function getProvider(ActiveQuery $query): ActiveDataProvider

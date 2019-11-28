@@ -78,4 +78,9 @@ class Characteristic extends ActiveRecord
         $unit = $this->unit ? ' (' . $this->unit->name . ')' : '';
         return $this->name . $unit;
     }
+
+    public function getUnitName()
+    {
+        return isset($this->unit) ? $this->unit->name : '';
+    }
 }
