@@ -14,6 +14,8 @@ use app\core\entities\Shop\Price;
 use app\core\readModels\Shop\RemainingReadRepository;
 use app\core\traits\StatusTrait;
 use lhs\Yii2SaveRelationsBehavior\SaveRelationsBehavior;
+use Yii;
+use yii\caching\TagDependency;
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 use yii\helpers\Html;
@@ -22,31 +24,33 @@ use yii\web\UploadedFile;
 /**
  * This is the model class for table "good".
  *
- * @property int                  $id
- * @property string               $article
- * @property string               $name
- * @property string               $description
- * @property string               $characteristic
- * @property string               $nameAndColor
+ * @property int $id
+ * @property string $article
+ * @property string $name
+ * @property string $description
+ * @property string $characteristic
+ * @property string $nameAndColor
  * @property string $color
- * @property int                  $category_id
- * @property int                  $brand_id
- * @property int                  $packaged
- * @property int                  $status
- * @property int                  $main_good_id
- * @property integer              $main_image_id
+ * @property int $category_id
+ * @property int $brand_id
+ * @property int $packaged
+ * @property int $status
+ * @property int $main_good_id
+ * @property integer $main_image_id
  *
  *
- * @property Brand                $brand
- * @property Good                 $mainGood
- * @property Category             $category
- * @property Price                $retailPrice
- * @property Price                $wholesalePrice
+ * @property Brand $brand
+ * @property Good $mainGood
+ * @property Category $category
+ * @property Price $retailPrice
+ * @property Price $wholesalePrice
  * @property CategoryAssignment[] $categoryAssignments
- * @property Image[]              $images
- * @property Image                $mainImage
- * @property Value[]              $values
- * @property Composition[]        $compositions
+ * @property Image[] $images
+ * @property Image $mainImage
+ * @property Value[] $values
+ * @property Composition[] $compositions
+ * @property Value $valueColorRelation
+ * @property Value[] $valuesYarnRelation
  */
 class Good extends ActiveRecord
 {
@@ -332,9 +336,26 @@ class Good extends ActiveRecord
         return $this->hasMany(Value::className(), ['good_id' => 'id']);
     }
 
+    public function getValueColorRelation(): ActiveQuery
+    {
+        return $this->hasOne(Value::className(), ['good_id' => 'id'])
+            ->andWhere(['characteristic_id' => Characteristic::CHARACTERISTIC_COLOR_ID]);
+    }
+
+    public function getValuesYarnRelation(): ActiveQuery
+    {
+        return $this->hasMany(Value::className(), ['good_id' => 'id'])
+            ->andWhere([
+                'OR',
+                ['characteristic_id' => 2],
+                ['characteristic_id' => 4],
+            ]);
+    }
+
     public function getCharacteristics(): ActiveQuery
     {
-        return $this->hasMany(Characteristic::className(), ['id' => 'characteristic_id'])->viaTable('value', ['good_id' => 'id']);
+        return $this->hasMany(Characteristic::className(), ['id' => 'characteristic_id'])->viaTable('value',
+            ['good_id' => 'id']);
     }
 
     public function getCompositions(): ActiveQuery
@@ -344,7 +365,8 @@ class Good extends ActiveRecord
 
     public function getMaterials(): ActiveQuery
     {
-        return $this->hasMany(Material::className(), ['id' => 'Material_id'])->viaTable('composition', ['good_id' => 'id']);
+        return $this->hasMany(Material::className(), ['id' => 'Material_id'])->viaTable('composition',
+            ['good_id' => 'id']);
     }
 
     public function getMainGood(): ActiveQuery
@@ -367,11 +389,7 @@ class Good extends ActiveRecord
     public function getColor()
     {
         /* @var $color Value */
-        $color = $this->getValues()->joinWith([
-            'values' => function (ActiveQuery $query) {
-                return $query->andWhere(['characteristic_id' => Characteristic::CHARACTERISTIC_COLOR_ID]);
-            }
-        ])->one();
+        $color = $this->valueColorRelation;
 
         return isset($color->value) ? $color->value : '';
     }
@@ -391,7 +409,24 @@ class Good extends ActiveRecord
 
     public function getRetailPrice()
     {
-        return $this->getPrices()->lastRetail()->one();
+        $key = [
+            __CLASS__,
+            __FILE__,
+            __LINE__,
+            $this->id
+        ];
+
+        $dependency = new TagDependency([
+            'tags' => [
+                Price::class,
+            ],
+        ]);
+
+        $price = Yii::$app->cache->getOrSet($key, function () {
+            return $this->getPrices()->lastRetail()->one();
+        }, 10 * 24 * 60 * 60, $dependency);
+
+        return $price;
     }
 
     public function getWholesalePrice()

@@ -42,7 +42,15 @@ class GoodFilterSearch extends Good
      */
     public function search($params)
     {
-        $query = Good::find()->from('good')->active('good')->activeBrand()->joinWith(['categoryAssignments c']);
+        $query = Good::find()->from('good')->active('good')->activeBrand()
+            ->joinWith([
+                'categoryAssignments c',
+                'category',
+                'brand',
+                'mainImage',
+                'prices',
+                'valuesYarnRelation.characteristic.unit'
+            ]);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

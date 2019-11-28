@@ -38,11 +38,11 @@ $this->params['breadcrumbs'][] = $this->title;
         <select id="input-limit" class="control__dropdown" onchange="location = this.value;">
             <?php
             $values = [15, 25, 50, 75, 100];
-            $current = $dataProvider->getPagination()->getPageSize();
+            $current = $dataProvider->pagination->pageSize
             ?>
             <?php foreach ($values as $value): ?>
                 <option value="<?= Html::encode(Url::current(['per-page' => $value])) ?>"
-                        <?php if ($current == $value): ?>selected="selected"<?php endif; ?>><?= $value ?></option>
+                    <?= $current == $value ? 'selected' : '' ?>><?= $value ?></option>
             <?php endforeach; ?>
         </select>
     </label>

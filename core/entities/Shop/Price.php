@@ -10,13 +10,13 @@ use yii\helpers\ArrayHelper;
 /**
  * This is the model class for table "price".
  *
- * @property int    $id
+ * @property int $id
  * @property string $date
- * @property int    $type_price
+ * @property int $type_price
  * @property double $price
- * @property int    $good_id
+ * @property int $good_id
  *
- * @property Good   $good
+ * @property Good $good
  */
 class Price extends \yii\db\ActiveRecord
 {
@@ -29,9 +29,7 @@ class Price extends \yii\db\ActiveRecord
     public function behaviors()
     {
         return [
-            'TagDependencyBehavior' => [
-                'class' => TagDependencyBehavior::class,
-            ],
+            TagDependencyBehavior::class,
         ];
     }
 
@@ -69,11 +67,11 @@ class Price extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id'         => 'ID',
-            'date'       => 'Дата',
+            'id' => 'ID',
+            'date' => 'Дата',
             'type_price' => 'Тип цены',
-            'price'      => 'Цена',
-            'good_id'    => 'Товар',
+            'price' => 'Цена',
+            'good_id' => 'Товар',
         ];
     }
 
@@ -93,7 +91,7 @@ class Price extends \yii\db\ActiveRecord
     public static function getTypesPriceArray()
     {
         return [
-            self::TYPE_PRICE_RETAIL    => 'Розничная',
+            self::TYPE_PRICE_RETAIL => 'Розничная',
             self::TYPE_PRICE_WHOLESALE => 'Оптовая',
         ];
     }

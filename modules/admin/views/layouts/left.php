@@ -45,7 +45,7 @@
                             ['label' => 'Единицы измерения', 'icon' => 'file-o', 'url' => ['/admin/shop/units/index']],
                         ]],
                         ['label' => 'Управление ценами', 'icon' => 'folder', 'items' => [
-                            ['label' => 'Цены', 'icon' => 'file-o', 'url' => ['/trade/prices/index']],
+                            ['label' => 'Цены', 'icon' => 'file-o', 'url' => ['/admin/shop/prices/index']],
                             [
                                 'label' => 'Загрузить цены',
                                 'icon'  => 'file-o',

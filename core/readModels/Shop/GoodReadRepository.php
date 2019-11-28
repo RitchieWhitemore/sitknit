@@ -44,7 +44,9 @@ class GoodReadRepository
     public function getSiblingGoods(Good $good)
     {
         return Good::find()->where(['like', 'name', $good->name])
-            ->andWhere(['!=', 'id', $good->id])->all();
+            ->andWhere(['!=', 'id', $good->id])
+            ->with(['valueColorRelation'])
+            ->all();
     }
 
     public function getOtherColors(Good $good)

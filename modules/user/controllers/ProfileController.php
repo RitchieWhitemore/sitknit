@@ -91,7 +91,7 @@ class ProfileController extends Controller
 
     public function actionOrder($id)
     {
-        if (!$order = Order::find()->with(['documentItems.good.values'])->byClient()->andWhere(['id' => $id])->one()) {
+        if (!$order = Order::find()->with(['documentItems.good.valueColorRelation'])->byClient()->andWhere(['id' => $id])->one()) {
             throw new NotFoundHttpException('Заказ не найден!');
         };
 
