@@ -1,8 +1,9 @@
 <?php
 
-use yii\helpers\Html;
 use yii\grid\GridView;
+use yii\helpers\Html;
 use yii\widgets\Pjax;
+
 /* @var $this yii\web\View */
 /* @var $searchModel app\modules\trade\models\PartnerSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -11,8 +12,6 @@ $this->title = 'Контрагенты';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="partner-index">
-
-    <h1><?= Html::encode($this->title) ?></h1>
     <?php Pjax::begin(); ?>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
@@ -29,7 +28,10 @@ $this->params['breadcrumbs'][] = $this->title;
             'id',
             'name',
             'full_name',
-            'address',
+            [
+                'attribute' => 'fullAddress',
+                'value' => 'fullAddress',
+            ],
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

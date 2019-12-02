@@ -4,13 +4,14 @@ namespace app\modules\trade\models;
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\modules\trade\models\Partner;
 
 /**
  * PartnerSearch represents the model behind the search form of `app\modules\trade\models\Partner`.
  */
 class PartnerSearch extends Partner
 {
+    public $fullAddress;
+
     /**
      * {@inheritdoc}
      */
@@ -18,7 +19,8 @@ class PartnerSearch extends Partner
     {
         return [
             [['id'], 'integer'],
-            [['name', 'full_name', 'address'], 'safe'],
+            [['name', 'full_name', 'fullAddress'], 'string'],
+            [['name', 'full_name', 'fullAddress'], 'safe'],
         ];
     }
 
@@ -63,7 +65,11 @@ class PartnerSearch extends Partner
 
         $query->andFilterWhere(['like', 'name', $this->name])
             ->andFilterWhere(['like', 'full_name', $this->full_name])
-            ->andFilterWhere(['like', 'address', $this->address]);
+            ->andFilterWhere([
+                'OR',
+                ['like', 'post_index', $this->fullAddress],
+                ['like', 'address', $this->fullAddress]
+            ]);
 
         return $dataProvider;
     }

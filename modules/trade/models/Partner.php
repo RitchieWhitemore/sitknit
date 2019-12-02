@@ -58,6 +58,7 @@ class Partner extends \yii\db\ActiveRecord
             'email' => 'Email',
             'profile' => 'Профиль в соцсетях',
             'post_index' => 'Почтовый индекс',
+            'fullAddress' => 'Полный адрес',
         ];
     }
 
@@ -91,5 +92,15 @@ class Partner extends \yii\db\ActiveRecord
     public function getTotalSumOrders()
     {
         return $this->getOrders()->select(['total'])->sum('total');
+    }
+
+    public function getFullAddress()
+    {
+        $fullAddress = '';
+
+        if (!empty($this->post_index)) {
+            $fullAddress .= $this->post_index . ', ';
+        }
+        return $fullAddress . $this->address;
     }
 }
