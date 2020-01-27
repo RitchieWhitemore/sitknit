@@ -33,6 +33,7 @@ class PriceController extends ActiveController
                 $setPrice = new ParsePriceListCSV($form);
                 $setPrice->parse();
             } else {
+                $session->remove('countCsv');
                 return ['count' => 'Прайс загружен'];
             }
         }

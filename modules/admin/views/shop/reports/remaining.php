@@ -40,6 +40,11 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             'columns' => [
                 [
+                    'attribute' => 'image',
+                    'label' => 'Изображение',
+                    'format' => 'raw'
+                ],
+                [
                     'attribute' => 'good',
                     'label' => 'Товар',
                     'value' => function (ItemRemaining $value) {

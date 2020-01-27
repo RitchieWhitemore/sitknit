@@ -274,7 +274,7 @@ class Good extends ActiveRecord
     {
         return $this->mainImage
             ? Html::img($this->mainImage->getThumbFileUrl('file_name',
-                $sizeTemplate)) : Html::img('/img/no-image.svg');
+                $sizeTemplate)) : Html::img('/img/no-image.svg', ['width' => 100, 'height' => 100]);
     }
 
     // Value

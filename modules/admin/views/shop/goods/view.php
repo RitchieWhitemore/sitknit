@@ -60,8 +60,10 @@ $this->params['breadcrumbs'][] = $this->title;
                     'id',
                     [
                         'attribute' => 'main_good_id',
-                        'value' => ArrayHelper::getValue($good, 'mainGood.article'),
+                        'value' => Html::a(ArrayHelper::getValue($good, 'mainGood.article'),
+                            Url::to(['/admin/shop/goods/update', 'id' => $good->main_good_id])),
                         'label' => 'Артикул товара с которого берутся характеристики',
+                        'format' => 'raw',
                     ],
 
                     'article',
@@ -175,7 +177,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             ], [
                                 'class' => 'btn btn-default',
                                 'data-method' => 'post',
-                                'data-confirm' => 'Remove image?',
+                                'data-confirm' => 'Удалить излюражение?',
                             ]); ?>
                             <?= Html::a('<span class="glyphicon glyphicon-arrow-right"></span>', [
                                 'move-image-down',
@@ -209,7 +211,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ]) ?>
 
             <div class="form-group">
-                <?= Html::submitButton('Upload', ['class' => 'btn btn-success']) ?>
+                <?= Html::submitButton('Загрузить изображения', ['class' => 'btn btn-success']) ?>
             </div>
 
             <?php ActiveForm::end(); ?>

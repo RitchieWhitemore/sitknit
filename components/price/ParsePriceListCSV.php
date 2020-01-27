@@ -141,7 +141,8 @@ class ParsePriceListCSV implements ParsePriceListInterface
     private function setSessionCurrentStep()
     {
         $session = \Yii::$app->session;
-        $nextNumber = (int)$this->currentStringCSV->number + 1;
+
+        $nextNumber = (int)$session->get('countCsv') + 1;
         $session->set('countCsv', $nextNumber);
     }
 

@@ -4,10 +4,7 @@ use kartik\date\DatePicker;
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
 
-$bundle = \app\assets\WebComponentsAsset::register($this);
-
-$this->registerJsFile("$bundle->baseUrl/parser-excel/parser-excel.js", ['type' => 'module']);
-$this->registerJsFile("/js/papaparse.min.js");
+\app\modules\admin\assets\SetPricesCSVAsset::register($this);
 ?>
 
 <?php if(Yii::$app->session->hasFlash('priceImported')) : ?>
@@ -15,8 +12,12 @@ $this->registerJsFile("/js/papaparse.min.js");
         <?= Yii::$app->session->getFlash('priceImported') ?>
     </div>
 <?php endif; ?>
-<parser-excel session-step="<?= Yii::$app->session->get('countCsv');?>">
-    <?php $form = ActiveForm::begin(); ?>
+<div>
+    <?php $form = ActiveForm::begin([
+        'options' => [
+            'data-session-step' => Yii::$app->session->get('countCsv', 0)
+        ]
+    ]); ?>
 
     <div class="row">
         <div class="col-md-6">
@@ -39,11 +40,31 @@ $this->registerJsFile("/js/papaparse.min.js");
 
     <?= $form->field($model, 'file_input_price')->fileInput(['accept' => '.csv', 'class' => 'coll-md-6']) ?>
 
+    <div id="messages" class="messages">
+        <div id="spinner" class="windows8">
+            <div class="wBall" id="wBall_1">
+                <div class="wInnerBall"></div>
+            </div>
+            <div class="wBall" id="wBall_2">
+                <div class="wInnerBall"></div>
+            </div>
+            <div class="wBall" id="wBall_3">
+                <div class="wInnerBall"></div>
+            </div>
+            <div class="wBall" id="wBall_4">
+                <div class="wInnerBall"></div>
+            </div>
+            <div class="wBall" id="wBall_5">
+                <div class="wInnerBall"></div>
+            </div>
+        </div>
+    </div>
+
     <div class="form-group">
-        <?= Html::submitButton('Установить', ['class' => 'btn btn-success', 'id' => 'buttonSuccess']) ?>
+        <?= Html::submitButton('Установить', ['class' => 'btn btn-success', 'id' => 'buttonSubmit']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>
 
-</parser-excel>
+</div>
 
