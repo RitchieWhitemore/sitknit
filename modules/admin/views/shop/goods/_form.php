@@ -50,7 +50,8 @@ use yii\widgets\ActiveForm;
 
             <div class="row">
                 <div class="col-md-3">
-
+                    <?= $form->field($model, 'percent')
+                        ->textInput(['maxlength' => true]) ?>
                 </div>
 
             </div>
@@ -58,7 +59,6 @@ use yii\widgets\ActiveForm;
             <div class="row">
                 <div class="col-md-8">
                     <div class="box box-default">
-                        <div class="box-header with-border">Категории</div>
                         <div class="box-body">
                             <?= $form->field($model->categories, 'others')->widget(Select2::className(), [
                                 'data' => $model->categories->categoriesList(),
@@ -72,9 +72,6 @@ use yii\widgets\ActiveForm;
                 </div>
                 <div class="col-md-4">
                     <div class="box box-default">
-                        <div class="box-header with-border">Основной товар в
-                            группе
-                        </div>
                         <div class="box-body">
 
                             <?= $form->field($model, 'main_good_id')

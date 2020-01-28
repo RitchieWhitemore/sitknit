@@ -40,9 +40,8 @@ class ParsePriceListCSV implements ParsePriceListInterface
 
             $this->good = $this->findOrCreateGood();
 
-            if ($this->setWholesalePrice()) {
-                $this->setRetailPrice();
-            };
+            $this->setWholesalePrice();
+            $this->setRetailPrice();
 
             $this->setSessionCurrentStep();
         }
@@ -75,7 +74,9 @@ class ParsePriceListCSV implements ParsePriceListInterface
     {
         $Price = $this->getPriceToLastDate(Price::TYPE_PRICE_RETAIL);
 
-        $priceRetail = (int)($this->currentStringCSV->price * ($this->form->percent_change / 100 + 1));
+        $percent = isset($this->good->mainGood) && $this->good->mainGood->percent > 0 ? $this->good->mainGood->percent : $this->form->percent_change;
+
+        $priceRetail = (int)($this->currentStringCSV->price * ($percent / 100 + 1));
 
         if (!isset($Price) || $Price->price != $priceRetail) {
             $Price = new Price();
@@ -96,8 +97,15 @@ class ParsePriceListCSV implements ParsePriceListInterface
 
     private function getPriceToLastDate($type_price)
     {
-        $subQuery = (new Query())->select('MAX(date)')->from('price')->where(['good_id' => $this->good->id, 'type_price' => $type_price]);
-        return Price::find()->where(['date' => $subQuery, 'good_id' => $this->good->id, 'type_price' => $type_price])->one();
+        $subQuery = (new Query())->select('MAX(date)')->from('price')->where([
+            'good_id' => $this->good->id,
+            'type_price' => $type_price
+        ]);
+        return Price::find()->where([
+            'date' => $subQuery,
+            'good_id' => $this->good->id,
+            'type_price' => $type_price
+        ])->one();
 
     }
 
@@ -121,15 +129,13 @@ class ParsePriceListCSV implements ParsePriceListInterface
 
         if ($category = Category::findOne(['name' => $this->currentStringCSV->category])) {
             $Good->category_id = $category->id;
-        }
-        else {
+        } else {
             $Good->category_id = 1;
         }
 
         if ($brand = Brand::findOne(['name' => $this->currentStringCSV->brand])) {
             $Good->brand_id = $brand->id;
-        }
-        else {
+        } else {
             $Good->brand_id = 1;
         }
 

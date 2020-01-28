@@ -7,7 +7,7 @@ use yii\helpers\Html;
 \app\modules\admin\assets\SetPricesCSVAsset::register($this);
 ?>
 
-<?php if(Yii::$app->session->hasFlash('priceImported')) : ?>
+<?php if (Yii::$app->session->hasFlash('priceImported')) : ?>
     <div class="alert alert-success">
         <?= Yii::$app->session->getFlash('priceImported') ?>
     </div>
@@ -31,37 +31,47 @@ use yii\helpers\Html;
                     'format' => 'yyyy-mm-dd',
                     'todayHighlight' => true
                 ]
-            ])?>
+            ]) ?>
         </div>
         <div class="col-md-6">
-            <?= $form->field($model, 'percent_change')->input('number', ['required' => 'required'])?>
+            <?= $form->field($model, 'percent_change')->input('number', ['required' => 'required']) ?>
         </div>
     </div>
 
-    <?= $form->field($model, 'file_input_price')->fileInput(['accept' => '.csv', 'class' => 'coll-md-6']) ?>
+    <div class="row">
+        <div class="col-md-6">
+            <?= $form->field($model, 'file_input_price')->fileInput(['accept' => '.csv', 'class' => 'coll-md-6']) ?>
+        </div>
+        <div class="col-md-6">
+            <?= $form->field($model, 'qtyPack')->input('number', ['required' => 'required', 'id' => 'qtyPack']) ?>
+        </div>
+    </div>
 
-    <div id="messages" class="messages">
-        <div id="spinner" class="windows8">
-            <div class="wBall" id="wBall_1">
-                <div class="wInnerBall"></div>
-            </div>
-            <div class="wBall" id="wBall_2">
-                <div class="wInnerBall"></div>
-            </div>
-            <div class="wBall" id="wBall_3">
-                <div class="wInnerBall"></div>
-            </div>
-            <div class="wBall" id="wBall_4">
-                <div class="wInnerBall"></div>
-            </div>
-            <div class="wBall" id="wBall_5">
-                <div class="wInnerBall"></div>
+    <div class="row messages-wrapper">
+        <div id="messages" class="messages">
+            <div id="spinner" class="windows8">
+                <div class="wBall" id="wBall_1">
+                    <div class="wInnerBall"></div>
+                </div>
+                <div class="wBall" id="wBall_2">
+                    <div class="wInnerBall"></div>
+                </div>
+                <div class="wBall" id="wBall_3">
+                    <div class="wInnerBall"></div>
+                </div>
+                <div class="wBall" id="wBall_4">
+                    <div class="wInnerBall"></div>
+                </div>
+                <div class="wBall" id="wBall_5">
+                    <div class="wInnerBall"></div>
+                </div>
             </div>
         </div>
     </div>
 
     <div class="form-group">
         <?= Html::submitButton('Установить', ['class' => 'btn btn-success', 'id' => 'buttonSubmit']) ?>
+        <?= Html::button('Остановить', ['class' => 'btn btn-danger', 'id' => 'buttonStop']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

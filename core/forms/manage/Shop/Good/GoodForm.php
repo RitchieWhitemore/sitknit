@@ -31,6 +31,7 @@ class GoodForm extends CompositeForm
     public $main_good_id;
     public $characteristic;
     public $mainGood;
+    public $percent;
 
     private $_good;
 
@@ -46,6 +47,7 @@ class GoodForm extends CompositeForm
             $this->characteristic = $good->characteristic;
             $this->status = $good->status;
             $this->main_good_id = $good->main_good_id;
+            $this->percent = $good->percent;
 
             $this->categories = new CategoriesForm($good);
             $this->mainGood = $good->mainGood;
@@ -72,7 +74,7 @@ class GoodForm extends CompositeForm
     {
         return [
             [['name', 'article', 'brand_id'], 'required'],
-            [['brand_id', 'packaged', 'status'], 'integer'],
+            [['brand_id', 'packaged', 'status', 'percent'], 'integer'],
             [['article'], 'string', 'max' => 50],
             [
                 ['article'],
@@ -84,36 +86,39 @@ class GoodForm extends CompositeForm
             [
                 ['brand_id'],
                 'exist',
-                'skipOnError'     => true,
-                'targetClass'     => Brand::className(),
+                'skipOnError' => true,
+                'targetClass' => Brand::className(),
                 'targetAttribute' => ['brand_id' => 'id']
             ],
             [
                 ['main_good_id'],
                 'exist',
-                'skipOnError'     => true,
-                'targetClass'     => Good::className(),
+                'skipOnError' => true,
+                'targetClass' => Good::className(),
                 'targetAttribute' => ['main_good_id' => 'id']
             ],
+            ['percent', 'default', 'value' => 0]
         ];
     }
 
     public function attributeLabels()
     {
         return [
-            'id'             => 'ID',
-            'article'        => 'Артикул',
-            'name'           => 'Наименование',
-            'description'    => 'Описание',
+            'id' => 'ID',
+            'article' => 'Артикул',
+            'name' => 'Наименование',
+            'description' => 'Описание',
             'characteristic' => 'Дополнительная характеристика',
-            'category_id'    => 'Категория',
+            'category_id' => 'Категория',
             'composition_id' => 'Состав (категория)',
-            'brand_id'       => 'Брэнд',
-            'packaged'       => 'В упаковке',
-            'active'         => 'Активен',
-            'main_good_id'   => 'Основной товар',
-            'main'           => 'Основная',
-            'others'         => 'Другие',
+            'brand_id' => 'Брэнд',
+            'packaged' => 'В упаковке',
+            'active' => 'Активен',
+            'main_good_id' => 'Основной товар',
+            'main' => 'Основная',
+            'others' => 'Другие',
+            'percent' => 'Наценка (%)',
+            'status' => 'Статус'
         ];
     }
 

@@ -25,8 +25,7 @@ class PriceController extends ActiveController
 
         $session = Yii::$app->session;
 
-        if (Yii::$app->request->isPost) {
-            $form->attributes = Yii::$app->request->post('SetPriceAjaxForm');
+        if ($form->load(Yii::$app->request->post())) {
 
             if ($form->stringPackCsv) {
                 $session->set('countCsv', $form->beginStep);

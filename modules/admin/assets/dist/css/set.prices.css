@@ -1,10 +1,13 @@
+.messages-wrapper {
+    position: relative;
+}
+
 .messages {
     margin-bottom: 25px;
     padding: 10px;
     height: 100px;
     border: 1px solid grey;
     overflow: scroll;
-    position: relative;
 }
 
 .windows8 {

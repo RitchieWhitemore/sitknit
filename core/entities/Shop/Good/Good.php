@@ -37,6 +37,7 @@ use yii\web\UploadedFile;
  * @property int $status
  * @property int $main_good_id
  * @property integer $main_image_id
+ * @property integer $percent
  *
  *
  * @property Brand $brand
@@ -103,6 +104,7 @@ class Good extends ActiveRecord
             'main_good_id' => 'Основной товар',
             'nameAndColor' => 'Товар',
             'mainImage' => 'Фото',
+            'percent' => 'Наценка (%)'
         ];
     }
 
@@ -124,7 +126,16 @@ class Good extends ActiveRecord
         return ['images', 'retailPrice', 'wholesalePrice', 'remaining'];
     }
 
-    public static function create($brandId, $article, $name, $description, $packaged, $mainGoodId = null, $status): self
+    public static function create(
+        $brandId,
+        $article,
+        $name,
+        $description,
+        $packaged,
+        $mainGoodId = null,
+        $status,
+        $percent
+    ): self
     {
         $good = new static();
         $good->article = $article;
@@ -134,11 +145,12 @@ class Good extends ActiveRecord
         $good->brand_id = $brandId;
         $good->main_good_id = $mainGoodId;
         $good->status = $status;
+        $good->percent = $percent;
 
         return $good;
     }
 
-    public function edit($brandId, $article, $name, $description, $packaged, $mainGoodId = null, $status)
+    public function edit($brandId, $article, $name, $description, $packaged, $mainGoodId = null, $status, $percent)
     {
         $this->article = $article;
         $this->name = $name;
@@ -147,6 +159,7 @@ class Good extends ActiveRecord
         $this->brand_id = $brandId;
         $this->main_good_id = $mainGoodId;
         $this->status = $status;
+        $this->percent = $percent;
     }
 
     // Category

@@ -77,6 +77,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         'value' => ArrayHelper::getValue($good, 'brand.name'),
                     ],
                     'packaged',
+                    'percent',
                 ],
             ]) ?>
         </div>
@@ -177,7 +178,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             ], [
                                 'class' => 'btn btn-default',
                                 'data-method' => 'post',
-                                'data-confirm' => 'Удалить излюражение?',
+                                'data-confirm' => 'Удалить изображение?',
                             ]); ?>
                             <?= Html::a('<span class="glyphicon glyphicon-arrow-right"></span>', [
                                 'move-image-down',

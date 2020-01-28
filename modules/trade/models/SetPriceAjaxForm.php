@@ -20,6 +20,7 @@ class SetPriceAjaxForm extends Model
     public $stringPackCsv;
     public $beginStep;
     public $file_input_price;
+    public $qtyPack = 1000;
 
     public function rules()
     {
@@ -34,6 +35,7 @@ class SetPriceAjaxForm extends Model
         return [
             'type_price'     => 'Тип цены',
             'percent_change' => 'Процент увеличения цены от оптовой',
+            'qtyPack' => 'Количество загружаемых записей'
         ];
     }
 }

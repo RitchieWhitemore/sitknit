@@ -6,8 +6,12 @@
     var $form = $('#w0');
     var $messages = $('#messages');
     var csv;
-    var formData = new FormData($form[0]);
+    var stop = false;
+
+    localStorage.removeItem('sessionStep');
+
     var sessionStep = $form.data('session-step');
+    var $qtyPack = $('#qtyPack');
 
     $inputFile.on('change', function () {
         var fileInput = $inputFile[0].files[0];
@@ -29,8 +33,13 @@
 
     var buildingString = function () {
         var $form = $('#w0');
-        var sessionStep = $form.data('session-step');
-        const endStep = +sessionStep + 1000;
+        var formData = new FormData($form[0]);
+        var sessionStep = ('localStorage' in window) ? (localStorage.getItem('sessionStep') || $form.data('session-step')) : $form.data('session-step');
+        var endStep;
+
+        endStep = +sessionStep + parseInt($qtyPack.val());
+
+
 
         var pack = [];
         var data = csv.data;
@@ -58,9 +67,15 @@
             contentType: false,
             success: function (data) {
                 if (data.count != 'Прайс загружен') {
-                    sessionStep = +data.count;
-                    buildingString();
-                    $messages.append('<p>Загружено ' + data.count + ' записей</p>');
+                    localStorage.setItem('sessionStep', +data.count);
+                    if (!stop) {
+                        buildingString();
+                        $messages.append('<p>Загружено ' + data.count + ' записей</p>');
+                    } else {
+                        $spinner.hide();
+                        $messages.append('<p>Загрузка остановлена</p>');
+                    }
+
                 } else {
                     $messages.append('<p>' + data.count + '</p>');
                     $spinner.hide();
@@ -87,10 +102,15 @@
         var fileInput = $inputFile[0].files[0];
 
         $spinner.show();
+        stop = false;
 
         buildingString();
 
         $messages.append('<p>Загрузка началась c ' + sessionStep + ' элемента</p>');
+    })
+
+    $('#buttonStop').on('click', function () {
+        stop = true;
     })
 
 

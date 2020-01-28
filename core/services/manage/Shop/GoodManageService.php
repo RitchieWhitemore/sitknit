@@ -39,7 +39,8 @@ class GoodManageService
             $form->description,
             $form->packaged,
             $form->main_good_id,
-            $form->status);
+            $form->status,
+            $form->percent);
 
         foreach ($form->categories->others as $otherId) {
             $category = $this->categories->get($otherId);
@@ -63,7 +64,8 @@ class GoodManageService
         $good = $this->goods->get($id);
         $brand = $this->brands->get($form->brand_id);
 
-        $good->edit($brand->id, $form->article, $form->name, $form->description, $form->packaged, $form->main_good_id, $form->status);
+        $good->edit($brand->id, $form->article, $form->name, $form->description, $form->packaged, $form->main_good_id,
+            $form->status, $form->percent);
 
         $this->transaction->wrap(function () use ($good, $form) {
             $good->revokeCategories();
