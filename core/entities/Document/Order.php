@@ -13,15 +13,18 @@ use yii\helpers\ArrayHelper;
 /**
  * This is the model class for table "order".
  *
- * @property int         $id
- * @property string      $date
- * @property int         $status
- * @property int         $payment
+ * @property int $id
+ * @property string $date
+ * @property int $status
+ * @property int $payment
  * @property int $type
- * @property int         $partner_id
- * @property double      $total
+ * @property int $partner_id
+ * @property double $total
+ * @property float $delivery_cost
+ * @property float $packaging_cost
+ * @property string $comment
  *
- * @property Partner     $partner
+ * @property Partner $partner
  * @property OrderItem[] $documentItems
  */
 class Order extends Document implements DocumentInterface
@@ -71,10 +74,17 @@ class Order extends Document implements DocumentInterface
     {
         return [
             [['date', 'partner_id'], 'required'],
+            [['comment'], 'string', 'max' => 255],
             [['date'], 'safe'],
             [['status', 'partner_id', 'payment', 'type'], 'integer'],
-            [['total'], 'number'],
-            [['partner_id'], 'exist', 'skipOnError' => true, 'targetClass' => Partner::className(), 'targetAttribute' => ['partner_id' => 'id']],
+            [['total', 'delivery_cost', 'packaging_cost',], 'number'],
+            [
+                ['partner_id'],
+                'exist',
+                'skipOnError' => true,
+                'targetClass' => Partner::className(),
+                'targetAttribute' => ['partner_id' => 'id']
+            ],
         ];
     }
 
@@ -84,13 +94,16 @@ class Order extends Document implements DocumentInterface
     public function attributeLabels()
     {
         return [
-            'id'         => 'ID',
-            'date'       => 'Дата',
-            'status'     => 'Статус',
-            'payment'    => 'Оплата',
+            'id' => 'ID',
+            'date' => 'Дата',
+            'status' => 'Статус',
+            'payment' => 'Оплата',
             'partner_id' => 'Контрагент',
-            'total'      => 'Сумма',
-            'type' => 'Тип заказа'
+            'total' => 'Сумма',
+            'type' => 'Тип заказа',
+            'delivery_cost' => 'Стоимость доставки',
+            'packaging_cost' => 'Стоимость упаковки',
+            'comment' => 'Комментарий',
         ];
     }
 
@@ -111,7 +124,7 @@ class Order extends Document implements DocumentInterface
      */
     public function createTableItem($documentId, $goodId)
     {
-        $tableItem =  new OrderItem();
+        $tableItem = new OrderItem();
 
         $tableItem->document_id = $documentId;
         $tableItem->good_id = $goodId;
@@ -131,8 +144,8 @@ class Order extends Document implements DocumentInterface
     {
         return [
             self::STATUS_NOT_RESERVE => 'Ожидает подтверждения',
-            self::STATUS_RESERVE     => 'В резерве',
-            self::STATUS_SHIPPED     => 'Отгружен',
+            self::STATUS_RESERVE => 'В резерве',
+            self::STATUS_SHIPPED => 'Отгружен',
         ];
     }
 
@@ -140,7 +153,7 @@ class Order extends Document implements DocumentInterface
     {
         return [
             self::PAYMENT_NOT_PAYMENT => 'Не оплачен',
-            self::PAYMENT_PAYMENT     => 'Оплачен',
+            self::PAYMENT_PAYMENT => 'Оплачен',
         ];
     }
 
@@ -165,5 +178,13 @@ class Order extends Document implements DocumentInterface
     public static function find()
     {
         return new OrderQuery(get_called_class());
+    }
+
+    public function beforeSave($insert)
+    {
+        $total = $this->getDocumentItems()->sum('sum');
+
+        $this->total = $total + $this->delivery_cost + $this->packaging_cost;
+        return parent::beforeSave($insert);
     }
 }

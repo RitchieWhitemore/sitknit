@@ -2,6 +2,7 @@
 
 use app\core\entities\Document\Order;
 use app\core\entities\Document\OrderItem;
+use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\DetailView;
@@ -10,6 +11,8 @@ use yii\widgets\DetailView;
 /* @var $document app\core\entities\Document\Order */
 /* @var $itemsDataProvider yii\data\ActiveDataProvider */
 /* @var $documentTableForm app\core\forms\manage\Document\OrderItemForm */
+
+/* @var $form yii\widgets\ActiveForm */
 
 $this->title = "Заказ покупателя №: $document->id";
 $this->params['breadcrumbs'][] = ['label' => 'Заказы', 'url' => ['index']];
@@ -59,7 +62,10 @@ $this->params['breadcrumbs'][] = $this->title;
                 }
             ],
             'partner.name',
+            'delivery_cost',
+            'packaging_cost',
             'total',
+            'comment',
         ],
     ]) ?>
 
@@ -74,7 +80,8 @@ $this->params['breadcrumbs'][] = $this->title;
             'class' => 'table table-strip'
         ],
         'options' => [
-            'class' => 'table-responsive'
+            'class' => 'table-responsive',
+            'style' => 'margin-bottom: 30px',
         ],
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
@@ -114,8 +121,25 @@ $this->params['breadcrumbs'][] = $this->title;
                 ]
             ],
             'qty',
+            [
+                'attribute' => 'wholesalePrice',
+                'label' => 'Цена закупки',
+                'value' => 'good.wholesalePrice.price',
+            ],
             'price',
             'sum',
+            [
+                'attribute' => 'percent',
+                'label' => 'Наценка',
+                'value' => function (OrderItem $item) {
+                    if ($item->good->getWholesalePriceString()) {
+                        $calculate = ($item->price - $item->good->getWholesalePriceString()) / $item->good->getWholesalePriceString() * 100;
+                        return round($calculate) . '%';
+                    }
+                    return '-';
+
+                },
+            ],
             [
                 'class' => 'yii\grid\ActionColumn',
                 'template' => '{update} {delete}',
@@ -142,5 +166,25 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
     ]);
     ?>
+
+    <?php $form = ActiveForm::begin() ?>
+    <div class="row">
+        <div class="col-md-6">
+            <?= $form->field($document, 'delivery_cost')->input('text') ?>
+        </div>
+        <div class="col-md-6">
+            <?= $form->field($document, 'packaging_cost')->input('text') ?>
+        </div>
+    </div>
+    <div class="row" style="margin-bottom: 30px">
+        <div class="col-md-12">
+            <?= $form->field($document, 'comment')->input('text') ?>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success']) ?>
+    </div>
+    <?php ActiveForm::end(); ?>
 
 </div>

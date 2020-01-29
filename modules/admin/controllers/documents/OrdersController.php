@@ -2,18 +2,18 @@
 
 namespace app\modules\admin\controllers\documents;
 
+use app\core\entities\Document\Order;
 use app\core\entities\Document\OrderItem;
 use app\core\forms\manage\Document\OrderItemForm;
 use app\core\repositories\Document\OrderItemRepository;
 use app\core\repositories\Document\OrderRepository;
 use app\core\services\manage\Document\OrderManageService;
-use Yii;
-use app\core\entities\Document\Order;
 use app\modules\trade\models\OrderSearch;
+use Yii;
 use yii\data\ActiveDataProvider;
+use yii\filters\VerbFilter;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
 
 /**
  * OrdersController implements the CRUD actions for Order model.
@@ -82,6 +82,10 @@ class OrdersController extends Controller
                 Yii::$app->errorHandler->logException($e);
                 Yii::$app->session->setFlash('error', $e->getMessage());
             }
+        }
+
+        if ($document->load(Yii::$app->request->post()) && $document->save()) {
+            return $this->redirect(['view', 'id' => $document->id]);
         }
 
         $itemsDataProvider = new ActiveDataProvider([

@@ -447,6 +447,9 @@ class Good extends ActiveRecord
         return isset($this->retailPrice) ? $this->retailPrice->price : 0;
     }
 
+    /**
+     * @return mixed
+     */
     public function getWholesalePrice()
     {
         $key = [

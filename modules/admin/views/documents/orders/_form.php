@@ -76,6 +76,20 @@ use yii\widgets\ActiveForm;
         </div>
     </div>
 
+    <div class="row" style="margin-bottom: 30px">
+        <div class="col-md-6">
+            <?= $form->field($model, 'delivery_cost')->input('text') ?>
+        </div>
+        <div class="col-md-6">
+            <?= $form->field($model, 'packaging_cost')->input('text') ?>
+        </div>
+    </div>
+    <div class="row" style="margin-bottom: 30px">
+        <div class="col-md-12">
+            <?= $form->field($model, 'comment')->input('text') ?>
+        </div>
+    </div>
+
     <div class="form-group">
         <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success', 'id' => 'buttonSave']) ?>
     </div>
