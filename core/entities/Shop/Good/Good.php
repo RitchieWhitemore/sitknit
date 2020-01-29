@@ -442,9 +442,19 @@ class Good extends ActiveRecord
         return $price;
     }
 
+    public function getRetailPriceString()
+    {
+        return isset($this->retailPrice) ? $this->retailPrice->price : 0;
+    }
+
     public function getWholesalePrice()
     {
         return $this->getPrices()->lastWholesale()->one();
+    }
+
+    public function getWholesalePriceString()
+    {
+        return isset($this->wholesalePrice) ? $this->wholesalePrice->price : 0;
     }
 
     public function getRemaining()

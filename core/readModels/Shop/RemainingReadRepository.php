@@ -72,7 +72,7 @@ class RemainingReadRepository
                 /* @var $debit \app\core\entities\Document\ReceiptItem */
 
                 $itemRemaining = new ItemRemaining($debit->good_id,
-                    $debit->good->nameAndColor, $debit->good->getMainImageImg('set_prices'));
+                    $debit->good);
 
                 $itemRemaining->setQty($debit->totalQty);
                 $remaining[$itemRemaining->id] = $itemRemaining;
@@ -84,8 +84,7 @@ class RemainingReadRepository
                     $itemRemaining = $remaining[$key];
                     $itemRemaining->countDifference($credit->totalQty);
                 } else {
-                    $itemRemaining = new ItemRemaining($credit->good_id, $credit->good->nameAndColor,
-                        $credit->good->getMainImageImg('set_prices'));
+                    $itemRemaining = new ItemRemaining($credit->good_id, $credit->good);
                     $itemRemaining->setQty(-$credit->totalQty);
                     $remaining[$key] = $itemRemaining;
                 }
@@ -97,8 +96,7 @@ class RemainingReadRepository
             foreach ($reserves->each() as $key => $reserve) {
                 /* @var $reserve \app\core\entities\Document\OrderItem */
                 if (!isset($remaining[$key])) {
-                    $itemRemaining = new ItemRemaining($reserve->good_id, $reserve->good->nameAndColor,
-                        $reserve->good->getMainImageImg('set_prices'));
+                    $itemRemaining = new ItemRemaining($reserve->good_id, $reserve->good);
                     $itemRemaining->setQty(0);
                     $itemRemaining->setReserve($reserve->totalQty);
                     $remaining[] = $itemRemaining;

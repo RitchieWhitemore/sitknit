@@ -3,6 +3,8 @@
 
 namespace app\core\entities;
 
+use app\core\entities\Shop\Good\Good;
+
 /**
  * Class ItemRemaining
  *
@@ -10,7 +12,6 @@ namespace app\core\entities;
  * @property  string $good
  * @property  integer $qty
  */
-
 class ItemRemaining
 {
     public $id;
@@ -21,17 +22,13 @@ class ItemRemaining
     public $retailPrice;
     public $image;
 
-    public function __construct($id, $goodName, $image)
+    public function __construct($id, Good $good)
     {
         $this->id = $id;
-        $this->good = $goodName;
-        $this->image = $image;
-        /*$this->image = $item->good->getMainImageImg('set_prices');
-        $this->wholesalePrice = isset($item->good->wholesalePrice)
-            ? $item->good->wholesalePrice->price : 0;
-        $this->retailPrice = isset($item->good->retailPrice)
-            ? $item->good->retailPrice->price : 0;
-        $this->reserve = isset($reserve) ? $reserve->totalQty : null;*/
+        $this->good = $good->nameAndColor;
+        $this->image = $good->getMainImageImg('set_prices');
+        $this->wholesalePrice = $good->getWholesalePriceString();
+        $this->retailPrice = $good->getRetailPriceString();
     }
 
     public function setQty($qty)
