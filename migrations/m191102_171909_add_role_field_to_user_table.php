@@ -1,6 +1,5 @@
 <?php
 
-use app\modules\user\models\User;
 use yii\db\Migration;
 
 /**
@@ -16,7 +15,7 @@ class m191102_171909_add_role_field_to_user_table extends Migration
         $this->addColumn('user', 'role', $this->smallInteger()->notNull()->defaultValue(0)->after('status'));
         $this->createIndex('idx-role', 'user', 'role');
 
-        $admins = User::find()->andWhere([
+        /*$admins = User::find()->andWhere([
             'OR',
             ['email' => 'richib@yandex.ru'],
             ['email' => 'alexis0505@mail.ru']
@@ -33,7 +32,7 @@ class m191102_171909_add_role_field_to_user_table extends Migration
             $admin->role = User::ROLE_ADMIN;
             $admin->status = User::STATUS_ACTIVE;
             $admin->save();
-        }
+        }*/
     }
 
     /**

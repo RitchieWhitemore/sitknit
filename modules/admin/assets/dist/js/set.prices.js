@@ -6,7 +6,7 @@
         target = $(target);
 
         if (target.data('name') === 'set-price-button') {
-            setPrice(target);
+            uploadPrice(target);
         }
     });
 
@@ -15,11 +15,11 @@
         if (e.keyCode === 13) {
             var target = e.target;
             target = $(target);
-            setPrice(target.next());
+            uploadPrice(target.next());
         }
     });
 
-    var setPrice = function (target) {
+    var uploadPrice = function (target) {
 
         var formData = {
             'PriceForm[type_price]': target.data('type'),
@@ -40,7 +40,7 @@
                 console.log(data);
             }
         });
-    }
+    };
 
     var updateDifference = function (target) {
         var id = target.data('id');
@@ -56,5 +56,11 @@
         }
 
         $('#difference-' + id).text(calculate);
-    }
+    };
+
+    $('input[name=wholesale], input[name=retail]').on('input keyup', function (e) {
+        var $target = $(e.target);
+
+        updateDifference($target);
+    });
 })(jQuery);

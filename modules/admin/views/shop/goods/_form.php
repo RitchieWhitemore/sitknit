@@ -9,7 +9,7 @@ use yii\widgets\ActiveForm;
 
 /**
  * @var $this          yii\web\View
- * @var $model         app\core\entities\Shop\Good\Good
+ * @var $model         \app\core\forms\manage\Shop\Good\GoodForm
  * @var $siblingGoods  app\core\entities\Shop\Good\Good[]
  * @var $form          yii\widgets\ActiveForm
  *
@@ -17,6 +17,7 @@ use yii\widgets\ActiveForm;
  *
  */
 
+\app\modules\admin\assets\GoodBackendAsset::register($this);
 ?>
 <div class="good-form box box-default">
     <div class="box-body">
@@ -51,9 +52,27 @@ use yii\widgets\ActiveForm;
             <div class="row">
                 <div class="col-md-3">
                     <?= $form->field($model, 'percent')
-                        ->textInput(['maxlength' => true]) ?>
+                        ->textInput(['maxlength' => true, 'id' => 'percentInput']) ?>
                 </div>
-
+                <div class="col-md-9">
+                    <div class="row">
+                        <div class="col-md-5">
+                            <p>Оптовая цена установлена на <?= $model->getModel()->getWholesalePriceDate() ?></p>
+                        </div>
+                        <div class="col-md-5">
+                            <p>Розничная цена с наценкой <span id="currentPercent"><?= $model->percent ?></span>% будет
+                            </p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-5">
+                            <p id="wholesalePrice"><?= $model->getModel()->getWholesalePriceString() ?></p>
+                        </div>
+                        <div class="col-md-5">
+                            <p id="retailPrice"><?= $model->getModel()->costRetailPrice() ?></p>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div class="row">

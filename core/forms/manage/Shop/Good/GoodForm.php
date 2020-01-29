@@ -126,4 +126,9 @@ class GoodForm extends CompositeForm
     {
         return ['categories', 'images', 'values'];
     }
+
+    public function getModel()
+    {
+        return isset($this->_good) ? $this->_good : '';
+    }
 }

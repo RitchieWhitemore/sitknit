@@ -449,12 +449,35 @@ class Good extends ActiveRecord
 
     public function getWholesalePrice()
     {
-        return $this->getPrices()->lastWholesale()->one();
+        $key = [
+            __CLASS__,
+            __FILE__,
+            __LINE__,
+            $this->id
+        ];
+
+        $dependency = new TagDependency([
+            'tags' => [
+                Price::class,
+            ],
+        ]);
+
+        $price = Yii::$app->cache->getOrSet($key, function () {
+            return $this->getPrices()->lastWholesale()->one();
+        }, 10 * 24 * 60 * 60, $dependency);
+
+        return $price;
     }
 
     public function getWholesalePriceString()
     {
         return isset($this->wholesalePrice) ? $this->wholesalePrice->price : 0;
+    }
+
+    public function getWholesalePriceDate()
+    {
+        return isset($this->wholesalePrice) ? Yii::$app->formatter->asDate($this->wholesalePrice->date,
+            'php:d-m-Y') : 0;
     }
 
     public function getRemaining()
@@ -476,6 +499,15 @@ class Good extends ActiveRecord
             }
         }
         return $name;
+    }
+
+    public function costRetailPrice($percent = null)
+    {
+        if (is_null($percent)) {
+            $percent = $this->percent;
+        }
+
+        return (int)($this->getWholesalePriceString() * ($percent / 100));
     }
 
     public static function find()

@@ -29,15 +29,15 @@ $this->params['breadcrumbs'][] = $this->title;
             <div class="col-sm-6">
                 <label class="control-label">Дата установки цены</label>
                 <?= DatePicker::widget([
-                    'name'          => 'PriceForm[date]',
-                    'value'         => date('Y-m-d', time()),
-                    'type'          => DatePicker::TYPE_COMPONENT_APPEND,
-                    'options'       => [
-                        'id'          => 'date-price',
+                    'name' => 'PriceForm[date]',
+                    'value' => date('Y-m-d', time()),
+                    'type' => DatePicker::TYPE_COMPONENT_APPEND,
+                    'options' => [
+                        'id' => 'date-price',
                         'placeholder' => 'Выберите дату'
                     ],
                     'pluginOptions' => [
-                        'format'         => 'yyyy-mm-dd',
+                        'format' => 'yyyy-mm-dd',
                         'todayHighlight' => true
                     ]
                 ]) ?>
@@ -49,12 +49,12 @@ $this->params['breadcrumbs'][] = $this->title;
                 'tableOptions' => [
                     'class' => 'table table-strip'
                 ],
-                'options'      => [
-                    'id'       => 'remaining-table',
+                'options' => [
+                    'id' => 'remaining-table',
                     'data-url' => Url::to(['shop/prices/create-ajax']),
                     'class' => 'table-responsive'
                 ],
-                'columns'      => [
+                'columns' => [
                     [
                         'attribute' => 'image',
                         'value' => function (ItemRemaining $model) {
@@ -64,9 +64,9 @@ $this->params['breadcrumbs'][] = $this->title;
                         'contentOptions' => ['style' => 'width: 50px'],
                     ],
                     [
-                        'label'     => 'Товар',
+                        'label' => 'Товар',
                         'attribute' => 'good',
-                        'value'     => function ($model) {
+                        'value' => function ($model) {
                             return Html::a($model->good, Url::to([
                                 '/admin/shop/goods/view',
                                 'id' => $model->id
@@ -83,15 +83,18 @@ $this->params['breadcrumbs'][] = $this->title;
                     ],
                     [
                         'attribute' => 'wholesalePrice',
-                        'label'     => 'Закупка',
-                        'value'     => function (ItemRemaining $model) {
-                            return Html::input('number', 'retail',
+                        'label' => 'Закупка',
+                        'value' => function (ItemRemaining $model) {
+                            return Html::input('number', 'wholesale',
                                     $model->wholesalePrice,
-                                    ['id' => 'wholesale-price-' . $model->id]
+                                    [
+                                        'id' => 'wholesale-price-' . $model->id,
+                                        'data-id' => $model->id,
+                                    ]
                                 )
                                 . Html::button('Установить', [
-                                    'id'        => 'set-price-' . $model->id,
-                                    'data-id'   => $model->id,
+                                    'id' => 'set-price-' . $model->id,
+                                    'data-id' => $model->id,
                                     'data-name' => 'set-price-button',
                                     'data-type' => Price::TYPE_PRICE_WHOLESALE,
                                 ]);
@@ -102,16 +105,19 @@ $this->params['breadcrumbs'][] = $this->title;
                         ]
                     ],
                     [
-                        'label'     => 'Розница',
+                        'label' => 'Розница',
                         'attribute' => 'retailPrice',
-                        'value'     => function (ItemRemaining $model) {
+                        'value' => function (ItemRemaining $model) {
                             return Html::input('number', 'retail',
                                     $model->retailPrice,
-                                    ['id' => 'retail-price-' . $model->id]
+                                    [
+                                        'id' => 'retail-price-' . $model->id,
+                                        'data-id' => $model->id,
+                                    ]
                                 )
                                 . Html::button('Установить', [
-                                    'id'        => 'set-price-' . $model->id,
-                                    'data-id'   => $model->id,
+                                    'id' => 'set-price-' . $model->id,
+                                    'data-id' => $model->id,
                                     'data-name' => 'set-price-button',
                                     'data-type' => Price::TYPE_PRICE_RETAIL,
                                 ]);
@@ -122,8 +128,8 @@ $this->params['breadcrumbs'][] = $this->title;
                         ]
                     ],
                     [
-                        'label'          => "Наценка (%)",
-                        'value'          => function (ItemRemaining $model) {
+                        'label' => "Наценка (%)",
+                        'value' => function (ItemRemaining $model) {
                             if (!$model->wholesalePrice
                                 || !$model->retailPrice
                             ) {

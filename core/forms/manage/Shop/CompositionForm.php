@@ -37,7 +37,7 @@ class CompositionForm extends Model
         return [
             [['good_id', 'material_id', 'value'], 'required'],
             [['good_id', 'material_id'], 'integer'],
-            [['value'], 'string', 'max' => 255],
+            [['value'], 'integer'],
             [
                 ['good_id', 'material_id'],
                 'unique',
