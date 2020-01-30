@@ -5,9 +5,10 @@ $(document).ready(function () {
         $wholesalePrice = $('#wholesalePrice');
 
     $percentInput.on('input keyup', function (e) {
-        var newRetailPrice = +$wholesalePrice.text() * $percentInput.val() / 100;
+        var newRetailPrice = (+$wholesalePrice.text() * $percentInput.val() / 100) + +$wholesalePrice.text();
         if ($currentPercent.text !== $percentInput.val()) {
-            $retailPrice.text(newRetailPrice);
+            $retailPrice.text(Math.round(newRetailPrice));
+            $currentPercent.text($percentInput.val());
         }
     })
 });

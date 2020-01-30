@@ -510,7 +510,7 @@ class Good extends ActiveRecord
             $percent = $this->percent;
         }
 
-        return (int)($this->getWholesalePriceString() * ($percent / 100));
+        return (int)($this->getWholesalePriceString() * ($percent / 100) + $this->getWholesalePriceString());
     }
 
     public static function find()

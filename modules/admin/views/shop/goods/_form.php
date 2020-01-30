@@ -74,7 +74,35 @@ use yii\widgets\ActiveForm;
                     </div>
                 </div>
             </div>
-
+            <?php if (isset($model->getModel()->mainGood) && $model->getModel()->mainGood->id != $model->getModel()->id): ?>
+                <div class="row">
+                    <div class="col-md-3">
+                        У <a href="<?= Url::to(['shop/goods/update', 'id' => $model->getModel()->mainGood->id]) ?>"
+                             target="_blank">основного товара</a> установлена наценка: <br>
+                        <?= $model->getModel()->mainGood->percent ?>%
+                    </div>
+                    <div class="col-md-9">
+                        <div class="row">
+                            <div class="col-md-5">
+                                <p>Оптовая цена установлена
+                                    на <?= $model->getModel()->mainGood->getWholesalePriceDate() ?></p>
+                            </div>
+                            <div class="col-md-5">
+                                <p>Розничная цена с наценкой <span><?= $model->mainGood->percent ?></span>% будет
+                                </p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-5">
+                                <p><?= $model->getModel()->mainGood->getWholesalePriceString() ?></p>
+                            </div>
+                            <div class="col-md-5">
+                                <p><?= $model->getModel()->mainGood->costRetailPrice() ?></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <?php endif; ?>
             <div class="row">
                 <div class="col-md-8">
                     <div class="box box-default">
