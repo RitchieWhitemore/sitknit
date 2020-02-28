@@ -329,6 +329,15 @@ class Good extends ActiveRecord
         return $this->hasOne(Category::className(), ['id' => 'category_id']);
     }
 
+    public function getCategoryName()
+    {
+        if (isset($this->category)) {
+            return $this->category->name;
+        }
+
+        return '';
+    }
+
     public function getCategoryAssignments(): ActiveQuery
     {
         return $this->hasMany(CategoryAssignment::class, ['good_id' => 'id']);
@@ -385,6 +394,11 @@ class Good extends ActiveRecord
     public function getMainGood(): ActiveQuery
     {
         return $this->hasOne(Good::className(), ['id' => 'main_good_id']);
+    }
+
+    public function getMainGoodId()
+    {
+        return $this->main_good_id ?? $this->id;
     }
 
     /** Methods */

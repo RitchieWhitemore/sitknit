@@ -11,8 +11,8 @@ $values = $model->valuesYarnRelation;
 
 ?>
 <div class="catalog__item product">
-    <a href="<?= Url::to(['good', 'id' => $model->id]) ?>" class="link">
-        <h2 class="product__title"><?= $model->category->name ?> <?= $model->name ?></h2>
+    <a href="<?= Url::to(['good', 'id' => $model->getMainGoodId()]) ?>" class="link">
+        <h2 class="product__title"><?= $model->getCategoryName() ?> <?= $model->name ?></h2>
         <span class="product__manufacturer"><?= $model->brand->name ?></span>
         <div class="product__image-wrapper">
             <img src="<?= $model->getMainThumbImageUrl() ?>"

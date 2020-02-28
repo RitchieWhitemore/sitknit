@@ -42,7 +42,11 @@ class GoodFilterSearch extends Good
      */
     public function search($params)
     {
-        $query = Good::find()->from('good')->active('good')->activeBrand()
+        $query = Good::find()
+            ->from('good')
+            ->active('good')
+            ->activeBrand()
+            ->groupBy('name')
             ->joinWith([
                 'categoryAssignments c',
                 'category',
@@ -57,6 +61,12 @@ class GoodFilterSearch extends Good
             'pagination' => [
                 'pageSize' => $this->pageSize,
             ],
+            'sort' => [
+                'defaultOrder' => [
+                    'name' => SORT_ASC,
+                    'id' => SORT_ASC
+                ]
+            ]
         ]);
 
         $this->load($params);
@@ -70,7 +80,7 @@ class GoodFilterSearch extends Good
             ->andFilterWhere(['IN', 'brand_id', $this->brandIds])
             ->andFilterWhere(['IN', 'c.category_id', $this->compositionIds]);
 
-        $query->andWhere('main_good_id = good.id OR main_good_id = null');
+        // $query->andWhere('main_good_id = good.id OR main_good_id = null');
 
         return $dataProvider;
     }

@@ -2,14 +2,15 @@
 
 namespace app\modules\admin\controllers\shop;
 
+use app\core\entities\Shop\Composition;
 use app\core\forms\manage\Shop\CompositionForm;
+use app\core\repositories\Shop\CompositionRepository;
 use app\core\repositories\Shop\GoodRepository;
 use app\core\services\manage\Shop\CompositionManageService;
 use Yii;
-use app\core\entities\Shop\Composition;
+use yii\filters\VerbFilter;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
 
 /**
  * CompositionsController implements the CRUD actions for Composition model.
@@ -18,11 +19,19 @@ class CompositionsController extends Controller
 {
     private $service;
     private $goods;
+    private $compositions;
 
-    public function __construct($id, $module, CompositionManageService $service, GoodRepository $goods, $config = [])
-    {
+    public function __construct(
+        $id,
+        $module,
+        CompositionManageService $service,
+        GoodRepository $goods,
+        CompositionRepository $compositions,
+        $config = []
+    ) {
         $this->service = $service;
         $this->goods = $goods;
+        $this->compositions = $compositions;
         parent::__construct($id, $module, $config);
     }
 
@@ -75,7 +84,7 @@ class CompositionsController extends Controller
      */
     public function actionUpdate($goodId, $materialId)
     {
-        $composition = $this->findModel($goodId, $materialId);
+        $composition = $this->compositions->get($goodId, $materialId);
         $form = new CompositionForm($composition);
         $good = $this->goods->get($goodId);
 
@@ -126,7 +135,7 @@ class CompositionsController extends Controller
      */
     protected function findModel($goodId, $materialId)
     {
-        if (($model = Composition::findOne([$goodId, $materialId])) !== null) {
+        if (($model = Composition::findOne(['good_id' => $goodId, 'material_id' => $materialId])) !== null) {
             return $model;
         }
 

@@ -11,7 +11,7 @@ class CompositionRepository
 {
     public function get($goodId, $materialId): Composition
     {
-        if (!$composition = Composition::findOne([$goodId, $materialId])) {
+        if (!$composition = Composition::findOne(['good_id' => $goodId, 'material_id' => $materialId])) {
             throw new NotFoundException('Composition is not found.');
         }
         return $composition;
