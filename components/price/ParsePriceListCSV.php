@@ -8,8 +8,9 @@ use app\core\entities\Shop\Brand;
 use app\core\entities\Shop\Category;
 use app\core\entities\Shop\Good\Good;
 use app\core\entities\Shop\Price;
+use app\core\repositories\Shop\PriceRepository;
 use app\modules\trade\models\SetPriceAjaxForm;
-use yii\db\Query;
+
 
 /**
  * Class ParsePriceListCSV
@@ -26,11 +27,13 @@ class ParsePriceListCSV implements ParsePriceListInterface
     private $arrayCSVStrings;
     private $currentStringCSV;
     private $good;
+    private $priceRepository;
 
-    public function __construct(SetPriceAjaxForm $form)
+    public function __construct(SetPriceAjaxForm $form, PriceRepository $priceRepository)
     {
         $this->form = $form;
         $this->arrayCSVStrings = explode(';', $this->form->stringPackCsv);
+        $this->priceRepository = $priceRepository;
     }
 
     public function parse()
@@ -51,61 +54,47 @@ class ParsePriceListCSV implements ParsePriceListInterface
 
     private function setWholesalePrice()
     {
-        $Price = $this->getPriceToLastDate(Price::TYPE_PRICE_WHOLESALE);
+        $price = $this->priceRepository->getPriceToLastDate(Price::TYPE_PRICE_WHOLESALE, $this->good->id);
 
-        if (!isset($Price) || $Price->price != $this->currentStringCSV->price) {
-            $Price = new Price();
-            $Price->date = $this->form->date_set_price;
-            $Price->type_price = Price::TYPE_PRICE_WHOLESALE;
-            $Price->good_id = $this->good->id;
-            $Price->price = $this->currentStringCSV->price;
-            $Price->save();
+        if (!isset($price) || $price->price != $this->currentStringCSV->price) {
+            $price = new Price();
+            $price->date = $this->form->date_set_price;
+            $price->type_price = Price::TYPE_PRICE_WHOLESALE;
+            $price->good_id = $this->good->id;
+            $price->price = $this->currentStringCSV->price;
+            $price->save();
 
-            unset($Price);
+            unset($price);
             return true;
         }
 
-        unset($Price);
+        unset($price);
         return false;
 
     }
 
     private function setRetailPrice()
     {
-        $Price = $this->getPriceToLastDate(Price::TYPE_PRICE_RETAIL);
+        $price = $this->priceRepository->getPriceToLastDate(Price::TYPE_PRICE_RETAIL, $this->good->id);
 
         $percent = isset($this->good->mainGood) && $this->good->mainGood->percent > 0 ? $this->good->mainGood->percent : $this->form->percent_change;
 
         $priceRetail = (int)($this->currentStringCSV->price * ($percent / 100 + 1));
 
-        if (!isset($Price) || $Price->price != $priceRetail) {
-            $Price = new Price();
-            $Price->date = $this->form->date_set_price;
-            $Price->type_price = Price::TYPE_PRICE_RETAIL;
-            $Price->good_id = $this->good->id;
-            $Price->price = $priceRetail;
-            $Price->save();
+        if (!isset($price) || $price->price != $priceRetail) {
+            $price = new Price();
+            $price->date = $this->form->date_set_price;
+            $price->type_price = Price::TYPE_PRICE_RETAIL;
+            $price->good_id = $this->good->id;
+            $price->price = $priceRetail;
+            $price->save();
 
-            unset($Price);
+            unset($price);
             return true;
         }
 
-        unset($Price);
+        unset($price);
         return false;
-
-    }
-
-    private function getPriceToLastDate($type_price)
-    {
-        $subQuery = (new Query())->select('MAX(date)')->from('price')->where([
-            'good_id' => $this->good->id,
-            'type_price' => $type_price
-        ]);
-        return Price::find()->where([
-            'date' => $subQuery,
-            'good_id' => $this->good->id,
-            'type_price' => $type_price
-        ])->one();
 
     }
 

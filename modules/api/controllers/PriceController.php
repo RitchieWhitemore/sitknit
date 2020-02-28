@@ -10,6 +10,7 @@ namespace app\modules\api\controllers;
 
 
 use app\components\price\ParsePriceListCSV;
+use app\core\repositories\Shop\PriceRepository;
 use app\modules\trade\models\SetPriceAjaxForm;
 use Yii;
 use yii\rest\ActiveController;
@@ -29,7 +30,7 @@ class PriceController extends ActiveController
 
             if ($form->stringPackCsv) {
                 $session->set('countCsv', $form->beginStep);
-                $setPrice = new ParsePriceListCSV($form);
+                $setPrice = new ParsePriceListCSV($form, new PriceRepository());
                 $setPrice->parse();
             } else {
                 $session->remove('countCsv');
