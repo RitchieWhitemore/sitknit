@@ -17,6 +17,8 @@ class SignupForm extends Model
     public $password;
     public $verifyCode;
 
+    public $reCaptcha;
+
     public function rules()
     {
         return [
@@ -34,7 +36,12 @@ class SignupForm extends Model
             ['password', 'required'],
             ['password', 'string', 'min' => 6],
 
-            ['verifyCode', 'captcha', 'captchaAction' => '/user/default/captcha'],
+            //['verifyCode', 'captcha', 'captchaAction' => '/user/default/captcha'],
+            [
+                ['reCaptcha'],
+                \himiklab\yii2\recaptcha\ReCaptchaValidator2::className(),
+                'uncheckedMessage' => 'Пожалуйста подтвердите, что вы не робот.'
+            ],
         ];
     }
 

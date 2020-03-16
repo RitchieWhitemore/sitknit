@@ -1,7 +1,6 @@
 <?php
 
 use yii\bootstrap\ActiveForm;
-use yii\captcha\Captcha;
 use yii\helpers\Html;
 
 /* @var $this yii\web\View */
@@ -32,10 +31,13 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= $form->field($model, 'middleName')->textInput(['placeholder' => 'Ваше отчество'])->label('') ?>
         <?= $form->field($model, 'email')->textInput(['placeholder' => 'Ваш email'])->label('') ?>
         <?= $form->field($model, 'password')->passwordInput(['placeholder' => 'Ваш пароль'])->label('') ?>
-        <?= $form->field($model, 'verifyCode')->widget(Captcha::className(), [
+        <? /*= $form->field($model, 'verifyCode')->widget(Captcha::className(), [
             'captchaAction' => '/user/default/captcha',
             'template' => '<div class="row"><div class="col-lg-5">{image}</div><div class="col-lg-6">{input}</div></div>',
-        ]) ?>
+        ]) */ ?>
+        <?= $form->field($model, 'reCaptcha')->widget(
+            \himiklab\yii2\recaptcha\ReCaptcha2::className()
+        )->label('') ?>
     </div>
     <?= Html::submitButton('Зарегистрироваться', ['class' => 'btn btn--auth', 'name' => 'signup-button']) ?>
     <?php ActiveForm::end(); ?>
