@@ -1,0 +1,240 @@
+.cart {
+  width: 100%;
+
+}
+
+.cart__list {
+  margin: 0;
+  margin-bottom: 40px;
+  padding: 0 8px;
+  list-style: none;
+
+  border: 1px dashed @bg-border-light-brown;
+  border-radius: 10px;
+}
+
+.cart__item {
+  position: relative;
+  padding: 20px 0;
+  border-bottom: 1px dashed @bg-border-light-brown;
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.cart__item-header {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.cart__img-wrapper {
+  margin-bottom: 30px;
+  display: flex;
+  width: 133px;
+  height: 100px;
+
+  border: 1px dashed @bg-border-light-brown;
+  border-left: none;
+
+  border-top-right-radius: 30px;
+  border-bottom-right-radius: 30px;
+  background-color: white;
+
+  position: relative;
+  left: -25px;
+
+  flex-shrink: 0;
+
+  & img {
+    margin: auto;
+  }
+}
+
+.cart__item-title {
+  margin: 0;
+  margin-top: 10px;
+  font-size: 14px;
+  color: @font-brown;
+}
+
+.cart__item-footer {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.cart__item-price {
+  text-align: left;
+}
+
+.cart__item-qty {
+  order: 4;
+}
+
+.cart__item-sum {
+  text-align: right;
+  order: 5;
+}
+
+.cart__item-price,
+.cart__item-sum {
+  font-size: 14px;
+  color: @font-brown;
+
+  & span {
+    display: block;
+    font-size: 12px;
+    line-height: 12px;
+    font-style: italic;
+    color: #6d5a3b;
+    text-transform: lowercase;
+  }
+}
+
+.cart__total {
+  font-size: 24px;
+  color: @font-brown;
+}
+
+.cart__item-trash {
+  position: absolute;
+  top: 4px;
+  right: -4px;
+
+  background: none;
+  outline: none;
+  border: none;
+
+  & i {
+    color: red;
+  }
+}
+
+.cart__list-header {
+  display: none;
+}
+
+@media @tablet-widths {
+  .cart__img-wrapper {
+    left: -35px;
+    width: 200px;
+    height: 140px;
+    border-top-right-radius: 70px;
+    border-bottom-right-radius: 70px;
+  }
+
+  .cart__item-title {
+    font-size: 16px;
+  }
+
+  .cart__item-price,
+  .cart__item-sum {
+    font-size: 16px;
+  }
+}
+
+@media @desktop-widths {
+  .cart__list-header {
+    padding-top: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 24px;
+    font-family: "Bad Script", sans-serif;
+
+    padding-left: 170px;
+
+    &-name {
+      width: auto;
+      flex-grow: 1;
+    }
+
+    &-qty,
+    &-price,
+    &-sum {
+      width: 93px;
+      font-size: 18px;
+      text-align: left;
+      flex-shrink: 1;
+
+      & span {
+        font-size: 16px;
+      }
+    }
+
+    &-qty {
+      width: 105px;
+    }
+
+    &-price {
+      width: 62px;
+    }
+  }
+
+  .cart__list {
+    padding: 0;
+  }
+
+  .cart__item {
+    margin-bottom: 50px;
+    display: flex;
+    align-items: center;
+    padding-left: 170px;
+    border-bottom: none;
+
+    &:hover {
+      background-color: #ffffff;
+    }
+  }
+
+  .cart__item-header {
+    justify-content: flex-start;
+    align-items: center;
+  }
+
+  .cart__img-wrapper {
+    position: absolute;
+    left: 0;
+    margin-right: 24px;
+    margin-bottom: 0;
+    width: 145px;
+    height: 100px;
+    border-top-right-radius: 30px;
+    border-bottom-right-radius: 30px;
+
+  }
+
+  .cart__item-title {
+    margin: 0;
+    width: auto;
+    text-align: left;
+    font-size: 16px;
+  }
+
+  .cart__item-footer {
+    align-items: center;
+    width: 450px;
+  }
+
+  .cart__item-price,
+  .cart__item-sum {
+
+    & span {
+      display: none;
+    }
+  }
+
+  .cart__item-qty {
+    order: 0;
+  }
+
+  .cart__item-sum {
+    order: 0;
+  }
+
+  .cart__item-trash {
+    position: static;
+  }
+}

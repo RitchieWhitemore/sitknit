@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <title>Сижу-Вяжу - Главная</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css?family=PT+Sans:400,700&amp;subset=cyrillic" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css"/>
+
+</head>
+<body>
+//= template/header.html
+<main class="main__body">
+    <div class="filter__button-wrapper">
+        <button class="filter__button filter__button--closed">Фильтр <span class="filter__arrow"></span></button>
+    </div>
+    <section class="main__content">
+        <div class="main__page-content">
+            <div class="breadcrumb">
+                <ul class="breadcrumb__list">
+                    <li class="breadcrumb__item"><a href="" class="link breadcrumb__link">Главная</a></li>
+                    <li class="breadcrumb__item">Корзина</li>
+                </ul>
+            </div>
+
+            <div class="cart">
+                <div class="content__title-wrapper">
+                    <h1 class="content__title">Корзина</h1>
+                </div>
+
+                <ul class="cart__list">
+                    <li class="cart__list-header">
+                        <div class="cart__list-header-name">
+                            Наименование
+                        </div>
+                        <div class="cart__list-header-qty">
+                            Кол-во <br><span>(шт)</span>
+                        </div>
+                        <div class="cart__list-header-price">
+                            Цена <br><span>(руб)</span>
+                        </div>
+                        <div class="cart__list-header-sum">
+                            Сумма
+                        </div>
+                    </li>
+                    //= parts/_cart-item.html
+                    //= parts/_cart-item.html
+                    //= parts/_cart-item.html
+                </ul>
+                <p class="cart__total">Итого к оплате: 4000 руб.</p>
+                <button class="btn btn--cart">Оформить заказ</button>
+            </div>
+        </div>
+    </section>
+</main>
+<footer class="page-footer">
+    <div class="container-fluid">
+
+        <section class="page-footer__menu">
+            <h2 class="page-footer__title">Меню</h2>
+            <ul class="page-footer__menu-list">
+                <li class="page-footer__menu-item"><a class="link page-footer__menu-link" href="#">Главная</a></li>
+                <li class="page-footer__menu-item"><a class="link page-footer__menu-link" href="#">Каталог</a></li>
+                <li class="page-footer__menu-item"><a class="link page-footer__menu-link" href="#">Доставка</a></li>
+                <li class="page-footer__menu-item"><a class="link page-footer__menu-link" href="#">Оплата</a></li>
+                <li class="page-footer__menu-item"><a class="link page-footer__menu-link" href="#">Контакты</a></li>
+            </ul>
+        </section>
+
+        <section class="page-footer__social">
+            <h2 class="page-footer__title">Мы в социальных сетях</h2>
+            <a class="link page-footer__social-item page-footer__social-item--ok" href="#">Однокласники</a>
+            <a class="link page-footer__social-item page-footer__social-item--vk" href="#">Вконтакте</a>
+        </section>
+
+        <section class="page-footer__contact">
+            <h2 class="page-footer__title">Контакты</h2>
+            <p>8-800-000-00-00</p>
+            <p>info@siju-vyaju.ru</p>
+        </section>
+    </div>
+
+    <div class="page-footer__bottom-row">
+
+        <p class="page-footer__copyright">© Сижу вяжу, 2016. Все права защищены.</p>
+
+        <div class="page-footer__logo-wrapper">
+            <img src="img/logo-footer.png"/>
+        </div>
+
+        <ul class="page-footer__card-payment-list">
+            <li><img src="img/mastercard.svg" width="40" height="27" alt="MasterCard"></li>
+            <li><img src="img/visa.svg" width="40" height="27" alt="Visa"></li>
+        </ul>
+    </div>
+
+</footer>
+<script type="text/javascript" src="js/common.js"></script>
+</body>
+</html>
