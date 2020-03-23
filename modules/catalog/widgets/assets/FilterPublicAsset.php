@@ -1,7 +1,7 @@
 <?php
 
 
-namespace app\widgets\assets;
+namespace app\modules\catalog\widgets\assets;
 
 
 use yii\web\AssetBundle;
@@ -9,7 +9,7 @@ use yii\web\JqueryAsset;
 
 class FilterPublicAsset extends AssetBundle
 {
-    public $sourcePath = '@app/widgets/assets/dist/';
+    public $sourcePath = '@app/modules/catalog/widgets/assets/dist/';
 
     public $js = [
         'js/public.filter.js'

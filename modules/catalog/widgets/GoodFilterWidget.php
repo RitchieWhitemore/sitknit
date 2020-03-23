@@ -1,7 +1,7 @@
 <?php
 
 
-namespace app\widgets;
+namespace app\modules\catalog\widgets;
 
 
 use app\core\entities\Shop\Brand;

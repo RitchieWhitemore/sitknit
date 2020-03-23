@@ -39,9 +39,12 @@ $config = [
         'api' => [
             'class' => 'app\modules\api\Module',
         ],
-        /*'main' => [
+        'catalog' => [
+            'class' => 'app\modules\catalog\Module',
+        ],
+        'main' => [
             'class' => 'app\modules\main\Module',
-        ],*/
+        ],
         'trade' => [
             'class' => 'app\modules\trade\Module',
             'layout' => '@app/modules/admin/views/layouts/main',

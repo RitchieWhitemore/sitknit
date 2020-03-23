@@ -1,6 +1,8 @@
 <?php
 
 use app\assets\AppAsset;
+use app\modules\catalog\widgets\CategoriesWidget;
+use app\modules\catalog\widgets\GoodFilterWidget;
 use app\widgets\Alert;
 use yii\helpers\Html;
 
@@ -33,8 +35,8 @@ AppAsset::register($this);
             </div>
             <section class="main__content">
                 <aside class="main__left-column">
-                    <?= \app\widgets\CategoriesWidget::widget(['context' => $this->context]) ?>
-                    <?= \app\widgets\GoodFilterWidget::widget() ?>
+                    <?= CategoriesWidget::widget(['context' => $this->context]) ?>
+                    <?= GoodFilterWidget::widget() ?>
                 </aside>
                 <div class="main__page-content">
                     <?= $content ?>

@@ -101,8 +101,10 @@ $this->params['breadcrumbs'][] = $this->title;
     <section class="more-color">
         <h2>Другие цвета пряжи <?= $good->fullName ?></h2>
         <?php foreach ($otherColors as $otherColor) : ?>
-            <a class="more-color__item" href="<?= Url::to(['catalog/good', 'id' => $otherColor->id]) ?>">
-                <img src="<?= $otherColor->getMainThumbImageUrl() ?>" width="144" height="74"/>
+            <a class="more-color__item" href="<?= Url::to(['/catalog/default/good', 'id' => $otherColor->id]) ?>">
+                <div class="more-color__image-wrapper">
+                    <img src="<?= $otherColor->getMainThumbImageUrl() ?>" alt="">
+                </div>
                 <p class="more-color__color"><?= $otherColor->color ?></p>
             </a>
         <?php endforeach; ?>

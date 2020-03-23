@@ -1,7 +1,7 @@
 <?php
 
 
-namespace app\controllers;
+namespace app\modules\catalog\controllers;
 
 
 use app\core\entities\Shop\Good\search\GoodFilterSearch;
@@ -12,7 +12,7 @@ use app\widgets\pagination\LinkPager;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 
-class CatalogController extends Controller
+class DefaultController extends Controller
 {
     private $goods;
     private $categories;

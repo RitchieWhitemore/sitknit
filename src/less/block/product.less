@@ -81,10 +81,17 @@
 }
 
 .product__image-wrapper {
+    margin: 0 auto;
     margin-bottom: 15px;
     display: flex;
-    min-height: 150px;
-    max-height: 150px;
+    height: 150px;
+    width: 150px;
+
+    & img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
 
     & a {
         margin: auto;

@@ -91,8 +91,8 @@ return [
                 ['class' => 'yii\rest\UrlRule', 'controller' => 'api/receiptItem',],
 
                 [
-                    'class'         => 'yii\rest\UrlRule',
-                    'controller'    => 'api/order',
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'api/order',
                     'extraPatterns' => [
                         'POST save' => 'save',
                     ],
@@ -100,14 +100,13 @@ return [
 
                 ['class' => 'yii\rest\UrlRule', 'controller' => 'api/orderItem',],
 
-                'catalog/<slug:[\w_-]+>' => 'catalog/category',
-                'catalog/good/<id:\d+>' => 'catalog/good',
+                'catalog/<slug:[\w_-]+>' => 'catalog/default/category',
+                'catalog/good/<id:\d+>' => 'catalog/default/good',
 
-                ''                                                                               => 'catalog',
-                'contact'                                                                        => 'main/contact/index',
-                '<_a:error>'                                                                     => 'main/default/<_a>',
+                '' => 'catalog',
+                'contact' => 'main/contact/index',
+                '<_a:error>' => 'main/default/<_a>',
                 '<_a:(login|logout|signup|confirm-email|password-reset-request|reset-password)>' => 'user/default/<_a>',
-
 
 
                 /*'<_m:[\w\-]+>/<_c:[\w\-]+>/<id:\d+>'              => '<_m>/<_c>/view',
