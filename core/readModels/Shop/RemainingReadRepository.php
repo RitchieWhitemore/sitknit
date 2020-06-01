@@ -99,7 +99,7 @@ class RemainingReadRepository
                     $itemRemaining = new ItemRemaining($reserve->good_id, $reserve->good);
                     $itemRemaining->setQty(0);
                     $itemRemaining->setReserve($reserve->totalQty);
-                    $remaining[] = $itemRemaining;
+                    $remaining[$goodId] = $itemRemaining;
                 } else {
                     $itemRemaining = $remaining[$key];
                     $itemRemaining->setReserve($reserve->totalQty);
@@ -114,12 +114,30 @@ class RemainingReadRepository
             });
 
             if (count($remaining) == 0) {
-                $remaining[] = new ItemRemainingDummy();
+                $remaining[$goodId] = new ItemRemainingDummy();
             }
             return $remaining;
         }, 10 * 24 * 60 * 60, $dependency);
 
         return $remaining;
+    }
+
+    /**
+     * @param $goodId
+     * @return ItemRemainingDummy|ItemRemaining
+     */
+    public function getBalanceOfGood($goodId)
+    {
+        $remaining = $this->getLastRemaining(0, $goodId);
+        if (!empty($remaining)) {
+            if (isset($remaining[$goodId])) {
+                return $remaining[$goodId];
+            } elseif (isset($remaining[0])) {
+                return $remaining[0];
+            }
+
+        }
+        return new ItemRemainingDummy();
     }
 
     private function deleteItemArray(array $array, $key)

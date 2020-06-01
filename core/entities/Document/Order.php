@@ -78,6 +78,7 @@ class Order extends Document implements DocumentInterface
             [['date'], 'safe'],
             [['status', 'partner_id', 'payment', 'type'], 'integer'],
             [['total', 'delivery_cost', 'packaging_cost',], 'number'],
+            [['delivery_cost', 'packaging_cost'], 'default', 'value' => 0],
             [
                 ['partner_id'],
                 'exist',

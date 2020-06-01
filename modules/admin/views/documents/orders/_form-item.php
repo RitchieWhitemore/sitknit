@@ -46,17 +46,23 @@ use yii\web\JsExpression;
                     "select2:select" => "function(evt) { 
                     
                         const data = evt.params.data;
-                        const remaining = data.remaining[0];            
+                        const remaining = data.remaining[data.id];     
+                        let message = '';       
+                        if (remaining && remaining.qty <= 0) {
+                            message = 'В свободном остатке: '+remaining.qty;                
+                        } 
                         if (remaining && remaining.reserve) {
-                       
-                            alert('В свободном остатке: '+remaining.qty+' \\nВ резерве: ' + remaining.reserve); 
-    
-                        }                     
+                            message = 'В свободном остатке: '+remaining.qty + ' \\nВ резерве: ' + remaining.reserve;
+                        }   
+                        if (message) {
+                            alert(message);
+                        }
+                                          
                         const qtyInput = document.querySelector('#orderitemform-qty');
                         const priceInput = document.querySelector('#orderitemform-price');
                         qtyInput.value = '';
                         qtyInput.focus();
-                        priceInput.value = data.retailPrice.price;  
+                        priceInput.value = data.retailPrice ? data.retailPrice.price : 0;  
                                 
                     }",
                 ]
