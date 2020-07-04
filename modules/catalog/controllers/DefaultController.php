@@ -108,6 +108,7 @@ class DefaultController extends Controller
      */
     public function actionGood($id)
     {
+        $this->layout = '@app/views/layouts/common';
         if (!$good = $this->goods->find($id)) {
             throw new NotFoundHttpException('The requested page does not exist.');
         }

@@ -2,7 +2,7 @@
 
 $config = [
     'id' => 'app',
-    'layout' => 'frontend',
+    'layout' => 'common',
     'language' => 'ru-RU',
     //'defaultRoute' => 'main/default/index',
     'components' => [
@@ -39,8 +39,12 @@ $config = [
         'api' => [
             'class' => 'app\modules\api\Module',
         ],
+        'cart' => [
+            'class' => 'app\modules\cart\Module',
+        ],
         'catalog' => [
             'class' => 'app\modules\catalog\Module',
+            'layout' => '@app/views/layouts/catalog',
         ],
         'main' => [
             'class' => 'app\modules\main\Module',

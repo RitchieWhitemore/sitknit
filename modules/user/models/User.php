@@ -95,7 +95,7 @@ class User extends ActiveRecord implements IdentityInterface
             ['first_name', 'string', 'min' => 2, 'max' => 255],
 
             ['email', 'email'],
-            ['email', 'unique', 'targetClass' => self::className(), 'message' => 'Этот email уже занят.'],
+            ['email', 'unique', 'targetClass' => self::class, 'message' => 'Этот email уже занят.'],
             ['email', 'string', 'max' => 255],
 
             ['status', 'default', 'value' => self::STATUS_ACTIVE],
@@ -265,7 +265,7 @@ class User extends ActiveRecord implements IdentityInterface
         if (empty($token)) {
             return false;
         }
-        $expire = Yii::$app->params['user.passwordResetTokenExpire'];
+        $expire = ArrayHelper::getValue(Yii::$app->params, 'user.passwordResetTokenExpire');
         $parts = explode('_', $token);
         $timestamp = (int) end($parts);
         return $timestamp + $expire >= time();

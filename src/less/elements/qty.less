@@ -6,7 +6,7 @@
 
 .qty__input {
   padding: 5px 10px;
-  width: 45px;
+  width: 60px;
   height: 30px;
   box-sizing: border-box;
 
@@ -17,6 +17,13 @@
   border-bottom-left-radius: 5px;
   border-right: none;
   outline: none;
+  -moz-appearance: textfield;
+
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
 }
 
 .qty__plus,

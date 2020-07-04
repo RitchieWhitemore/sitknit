@@ -28,8 +28,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?php $form = ActiveForm::begin(['id' => 'login-form', 'options' => ['class' => 'content__form']]); ?>
     <div class="content__fields">
-        <?= $form->field($model, 'email')->textInput(['placeholder' => 'Ваш email'])->label('') ?>
-        <?= $form->field($model, 'password')->passwordInput(['placeholder' => 'Ваш пароль'])->label('') ?>
+        <?= $form->field($model, 'email')->textInput(['placeholder' => 'Ваш email'])->label('email') ?>
+        <?= $form->field($model, 'password')->passwordInput(['placeholder' => 'Ваш пароль'])->label('пароль') ?>
         <div class="content__form-footer">
             <div class="checkbox">
                 <label class="checkbox__label"><?= Html::checkbox('LoginForm[rememberMe]') ?><span

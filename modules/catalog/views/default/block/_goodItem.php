@@ -17,7 +17,7 @@ if (isset($model->mainGood)) {
 
 ?>
 
-<a href="<?= Url::to(['good', 'id' => $model->id]) ?>" class="link">
+<a href="<?= Url::to(['good', 'id' => $model->id]) ?>" class="link product__wrapper">
     <h2 class="product__title"><?= $model->category->name ?> <?= $model->name ?></h2>
     <span class="product__manufacturer"><?= $model->brand->name ?></span>
     <div class="product__image-wrapper">

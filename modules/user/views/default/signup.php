@@ -26,11 +26,11 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?php $form = ActiveForm::begin(['id' => 'form-signup', 'options' => ['class' => 'content__form']]); ?>
     <div class="content__fields">
-        <?= $form->field($model, 'lastName')->textInput(['placeholder' => 'Ваша фамилия'])->label('') ?>
-        <?= $form->field($model, 'firstName')->textInput(['placeholder' => 'Ваше имя'])->label('') ?>
-        <?= $form->field($model, 'middleName')->textInput(['placeholder' => 'Ваше отчество'])->label('') ?>
-        <?= $form->field($model, 'email')->textInput(['placeholder' => 'Ваш email'])->label('') ?>
-        <?= $form->field($model, 'password')->passwordInput(['placeholder' => 'Ваш пароль'])->label('') ?>
+        <?= $form->field($model, 'lastName')->textInput(['placeholder' => 'Ваша фамилия'])->label('Фамилия') ?>
+        <?= $form->field($model, 'firstName')->textInput(['placeholder' => 'Ваше имя'])->label('Имя') ?>
+        <?= $form->field($model, 'middleName')->textInput(['placeholder' => 'Ваше отчество'])->label('Отчество') ?>
+        <?= $form->field($model, 'email')->textInput(['placeholder' => 'Ваш email'])->label('email') ?>
+        <?= $form->field($model, 'password')->passwordInput(['placeholder' => 'Ваш пароль'])->label('пароль') ?>
         <? /*= $form->field($model, 'verifyCode')->widget(Captcha::className(), [
             'captchaAction' => '/user/default/captcha',
             'template' => '<div class="row"><div class="col-lg-5">{image}</div><div class="col-lg-6">{input}</div></div>',

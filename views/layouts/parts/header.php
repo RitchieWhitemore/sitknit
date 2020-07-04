@@ -35,14 +35,7 @@ use yii\helpers\Url;
             <img class="page-header__logo" src="/img/logo-first.png" width="349" height="99">
             <span class="page-header__phone">8-800-000-00-00</span>
         </div>
-        <div class="page-header__cart-wrapper">
-            <img class="page-header__cart" src="/img/header-cart.svg" width="37">
-            <div class="page-header__cart-text-wrapper">
-                <span class="page-header__cart-quantity"><b>товаров: </b>3</span>
-                <span class="page-header__cart-summ"><b>на сумму: </b>524 руб.</span>
-            </div>
-            <a href="#" class="page-header__cart-btn btn">Оформить заказ</a>
-        </div>
+        <?= \app\modules\cart\widgets\CartInfoWidget::widget() ?>
     </div>
 
     <?php

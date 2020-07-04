@@ -42,6 +42,34 @@ gulp.task("style", function () {
         .pipe(server.reload({stream: true}));
 });
 
+gulp.task("style-min", function () {
+    gulp.src("src/less/style.less")
+        .pipe(plumber())
+        .pipe(sourcemaps.init())
+        .pipe(less())
+        .pipe(postcss([
+            autoprefixer({
+                browsers: [
+                    "last 1 version",
+                    "last 2 Chrome versions",
+                    "last 2 Firefox versions",
+                    "last 2 Opera versions",
+                    "last 2 Edge versions"
+                ]
+            }),
+            mqpacker({
+                sort: true
+            })
+        ]))
+
+        .pipe(sourcemaps.write('./maps'))
+        .pipe(gulp.dest("src/css"))
+        .pipe(cssmin())
+        .pipe(rename('style.min.css'))
+        .pipe(gulp.dest("web/css"))
+        .pipe(server.reload({stream: true}));
+});
+
 gulp.task("html-build", function () {
     gulp.src("src/pages/*.html")
         .pipe(rigger())

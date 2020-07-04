@@ -49,6 +49,9 @@
 
   & img {
     margin: auto;
+    width: 68%;
+    height: 100%;
+    object-fit: cover;
   }
 }
 
@@ -83,7 +86,7 @@
   font-size: 14px;
   color: @font-brown;
 
-  & span {
+  & .cart__name-column-mobile {
     display: block;
     font-size: 12px;
     line-height: 12px;
@@ -106,6 +109,7 @@
   background: none;
   outline: none;
   border: none;
+  cursor: pointer;
 
   & i {
     color: red;
@@ -138,6 +142,7 @@
 @media @desktop-widths {
   .cart__list-header {
     padding-top: 20px;
+    padding-bottom: 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -221,7 +226,7 @@
   .cart__item-price,
   .cart__item-sum {
 
-    & span {
+    & .cart__name-column-mobile {
       display: none;
     }
   }
@@ -236,5 +241,6 @@
 
   .cart__item-trash {
     position: static;
+    margin-right: 6px;
   }
 }
