@@ -3,6 +3,7 @@
 use app\components\grid\SetColumn;
 use app\core\entities\Document\Order;
 use app\modules\trade\models\Partner;
+use kartik\daterange\DateRangePicker;
 use kartik\widgets\Select2;
 use yii\grid\GridView;
 use yii\helpers\Html;
@@ -45,7 +46,17 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'date',
                 'value' => function ($model) {
                     return Yii::$app->formatter->asDate($model->date, 'php:d-m-Y');
-                }
+                },
+                'filter' => DateRangePicker::widget([
+                    'model' => $searchModel,
+                    'attribute' => 'date',
+                    'convertFormat' => true,
+                    'pluginOptions' => [
+                        'locale' => [
+                            'format' => 'Y-m-d'
+                        ],
+                    ],
+                ])
             ],
             [
                 'attribute' => 'partner_id',

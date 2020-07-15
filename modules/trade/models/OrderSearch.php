@@ -4,6 +4,7 @@ namespace app\modules\trade\models;
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
+use yii\db\Expression;
 
 /**
  * OrderSearch represents the model behind the search form of `app\core\entities\Document\Order`.
@@ -62,10 +63,17 @@ class OrderSearch extends \app\core\entities\Document\Order
             return $dataProvider;
         }
 
+        if ($this->date) {
+            list($startDate, $endDate) = explode(' - ', $this->date);
+            $query->andWhere(new Expression(
+                'UNIX_TIMESTAMP(date) >= UNIX_TIMESTAMP(\'' . $startDate . ' 00:00:00\') AND '
+                . 'UNIX_TIMESTAMP(date) <= UNIX_TIMESTAMP(\'' . $endDate . ' 23:59:59\')'
+            ));
+        }
+
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'date' => $this->date,
             'status' => $this->status,
             'payment' => $this->payment,
             'partner_id' => $this->partner_id,

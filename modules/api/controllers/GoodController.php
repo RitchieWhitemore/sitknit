@@ -52,7 +52,7 @@ class GoodController extends ActiveController
         }
 
         $result = Yii::createObject([
-            'class' => ActiveDataProvider::className(),
+            'class' => ActiveDataProvider::class,
             'query' => $query,
             'pagination' => [
                 'pageSize' => 100,
