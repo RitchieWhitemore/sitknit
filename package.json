@@ -6,7 +6,7 @@
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.12.1",
     "del": "^3.0.0",
-    "gulp": "^3.9.1",
+    "gulp": "^4.0.2",
     "gulp-copy": "^4.0.1",
     "gulp-less": "^3.3.2",
     "gulp-run": "^1.7.1",
